@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+
 import ButtonPrimary from "../components/common/ButtonPrimary";
 import Wrapper from "../components/common/Wrapper";
 import AvatarImg from "../assets/images/avatars/1.png";
