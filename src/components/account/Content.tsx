@@ -27,9 +27,6 @@ function Content() {
     }));
   };
 
-  useEffect(() => {
-    console.log(formAccount);
-  }, [formAccount]);
 
   const handleProfileCompletion = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react';
 
 interface IDropdownProps {
   options: string[];
+  idx:number;
 
   name?: string;
   value: { selectValue: string; inputValue: string };
   onChange: ( field: { selectValue: string; inputValue: string }) => void;
+  // selectedKeys: string[];
 }
 
-function Dropdown({ options, name, value, onChange }: IDropdownProps) {
+function Dropdown({ options,name, value, onChange,  }: IDropdownProps) {
   const [selectValue, setSelectValue] = useState(value.selectValue);
   const [inputValue, setInputValue] = useState(value.inputValue);
 
@@ -18,9 +20,7 @@ function Dropdown({ options, name, value, onChange }: IDropdownProps) {
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newValue = e.target.value;
-    console.log('n',newValue)
     setSelectValue(newValue);
-    
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,12 +28,17 @@ function Dropdown({ options, name, value, onChange }: IDropdownProps) {
     setInputValue(newValue);
   };
 
+  
+  // const filteredOptions = options.filter((option) => !selectedKeys.includes(option));
+
   return (
     <div className='flex'>
       <select
-        className='w-full rounded-lg border bg-gray-50 border-gray-70 p-3 text-base mt-2 h-11'
+        className='w-32 rounded-lg border bg-gray-50 border-gray-70 p-3 text-base mt-2 h-11'
         {...(name && { name })}
-        onChange={handleSelectChange}
+        disabled={true}
+        value={selectValue}
+        onChange={(e) => handleSelectChange(e)}
       >
         {options.map((option, index) => (
           <option key={index} value={option}>
@@ -42,11 +47,11 @@ function Dropdown({ options, name, value, onChange }: IDropdownProps) {
         ))}
       </select>
       <input
-        type='text'
+        type='url'
         {...(name && { name })}
         onChange={handleInputChange}
         placeholder={'링크를 입력해 주세요'}
-        className='w-full rounded-lg border bg-gray-50 border-gray-70 p-3 text-base placeholder:text-gray-100 mt-2 h-11'
+        className='w-full flex-grow rounded-lg border bg-gray-50 border-gray-70 p-3 text-base placeholder:text-gray-100 mt-2 ml-1 h-11'
       />
     </div>
   );
