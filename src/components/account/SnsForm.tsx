@@ -10,7 +10,8 @@ interface ISnsFormProps {
 function SnsForm({ onChange }: ISnsFormProps) {
   const [fields, setFields] = useState([]);
 
-  const handleAddField = () => {
+  const handleAddField = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     setFields([...fields, { selectValue: '', inputValue: '' }]);
   };
 
@@ -32,16 +33,16 @@ function SnsForm({ onChange }: ISnsFormProps) {
   return (
     <label className='block mt-6'>
       <span className='text-label text-gray-200'>SNS</span>
-      <div className='mt-2'>
+      <div>
         {fields.map((field, idx) => (
           <Dropdown
             key={idx}
             options={['github', 'instagram', 'facebook ']}
             value={field}
-            onChange={(selectValue, inputValue) => handleFieldChange(idx, { selectValue, inputValue })}
+            onChange={(idx, field) => handleFieldChange(idx, field)}
           />
         ))}
-        <ButtonSecondary onClick={handleAddField}>추가하기 +</ButtonSecondary>
+        <ButtonSecondary onClick={(e) => handleAddField(e)}>추가하기 +</ButtonSecondary>
       </div>
     </label>
   );

@@ -1,8 +1,8 @@
 interface IButtonPrimaryProps {
   children: React.ReactNode;
-  variant?: string;
+  variant?: 'default' | 'kakao' | 'success';
   isDisabled?: boolean;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 function ButtonPrimary({ children, variant = 'default', isDisabled = false, onClick }: IButtonPrimaryProps) {
   const bgClasses = {
