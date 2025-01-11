@@ -6,8 +6,14 @@ import GithubSvg from "../assets/icons/ic_github.svg?react";
 import FacebookSvg from "../assets/icons/ic_facebook.svg?react";
 import InstagramSvg from "../assets/icons/ic_instagram.svg?react";
 import SNS from "../components/profile/SNS";
+import toast from "react-hot-toast";
+import FlyingCircles from "../components/profile/FlyingCircles";
+import ProfileInput from "../components/profile/ProfileInput";
+import ProfileText from "../components/profile/ProfileText";
 
 function Profile() {
+    const notify = () => toast('Here is your toast.');
+    
   return (
     <div className="relative">
       <FlyingCircles />
@@ -44,82 +50,26 @@ function Profile() {
                   </SNS>
                 </ul>
                 <div className="flex flex-wrap items-center gap-1 rounded-xl border border-solid border-gray-70 bg-white p-5 w-full">
-                  <input
-                    type="text"
-                    placeholder="팀이름"
-                    className="text-body2 px-2 py-[.6rem] rounded-[.4rem] placeholder:text-gray-100 text-gray-500 bg-gray-30 border border-solid border-gray-100"
-                  />
-                  <span className="text-body2 text-gray-500">팀에서</span>
-                  <input
-                    type="text"
-                    placeholder="직군"
-                    className="text-body2 px-2 py-[.6rem] rounded-[.4rem] placeholder:text-gray-100 text-gray-500 bg-gray-30 border border-solid border-gray-100"
-                  />
-                  <span className="text-body2 text-gray-500">
-                    을 맡고 있습니다
-                  </span>
-                  <span className="text-body2 text-gray-500">
-                    이번 해커톤에서
-                  </span>
-                  <input
-                    type="text"
-                    placeholder="프로젝트 한 줄 소개"
-                    className="text-body2 px-2 py-[.6rem] rounded-[.4rem] placeholder:text-gray-100 text-gray-500 bg-gray-30 border border-solid border-gray-100"
-                  />
-                  <span className="text-body2 text-gray-500">
-                    를 만들었습니다
-                  </span>
+                  <ProfileInput placeholder={"팀 이름"}/>
+                  <ProfileText>팀에서</ProfileText>
+                  <ProfileInput placeholder={"직군"}/>
+                  <ProfileText>을 맡고 있습니다</ProfileText>
+                  <ProfileText>이번 해커톤에서</ProfileText>
+                  <ProfileInput placeholder={"프로젝트 한 줄 소개"}/>
+                  <ProfileText>를 만들었습니다</ProfileText>
                 </div>
               </div>
             </div>
             <div className="fixed bottom-8 left-4 right-4 max-w-full">
               <ButtonPrimary
                 children={<span>프로필을 완성했어요</span>}
-                onClick={() => {}}
+                onClick={notify}
                 variant="success"
               ></ButtonPrimary>
             </div>
           </main>
         </Wrapper>
       </div>
-    </div>
-  );
-}
-
-function FlyingCircles() {
-  const [circles, setCircles] = useState<
-    { id: number; size: number; opacity: number; delay: number }[]
-  >([]);
-
-  useEffect(() => {
-    const generateCircles = () => {
-      const newCircles = Array.from({ length: 50 }, (_, index) => ({
-        id: index,
-        size: Math.floor(Math.random() * 5) + 2,
-        opacity: Math.random(),
-        delay: Math.random() * 5,
-      }));
-      setCircles(newCircles);
-    };
-
-    generateCircles();
-  }, []);
-
-  return (
-    <div className="relative w-full h-screen overflow-hidden bg-black">
-      {circles.map((circle) => (
-        <div
-          key={circle.id}
-          className={`absolute bg-white rounded-full animate-fly left-[-4rem]`}
-          style={{
-            width: `${circle.size}px`,
-            height: `${circle.size}px`,
-            opacity: circle.opacity,
-            animationDelay: `${circle.delay}s`,
-            top: `${Math.random() * 100}%`, // Random vertical position
-          }}
-        ></div>
-      ))}
     </div>
   );
 }
