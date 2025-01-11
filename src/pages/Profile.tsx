@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ButtonPrimary from "../components/common/ButtonPrimary";
 import Wrapper from "../components/common/Wrapper";
-import BackgroundImg from "../assets/images/profile_background.png";
+import AvatarImg from "../assets/images/avatars/1.png";
 import GithubSvg from "../assets/icons/ic_github.svg?react";
 import FacebookSvg from "../assets/icons/ic_facebook.svg?react";
 import InstagramSvg from "../assets/icons/ic_instagram.svg?react";
@@ -12,22 +12,22 @@ function Profile() {
     <div className="relative">
       <FlyingCircles />
 
-      <div className="absolute top-0 w-full">
+      <div className="absolute top-0 w-full h-screen">
         <Wrapper>
-          <main>
-            <h1 className="text-title text-gray-100">
+          <main className="w-full h-full flex flex-col">
+            <h1 className="text-title text-gray-100 mt-[7.2rem] mb-12">
               <span className="text-gray-30">삐약톤 : 캠퍼스 대항전</span>에서
               사용할
               <br /> 프로필을 완성하세요
             </h1>
-            <div className="relative bg-white w-full h-screen rounded-3xl border border-solid border-white overflow-hidden">
-              <img
-                className="absolute inset-0 w-full h-full object-cover"
-                src={BackgroundImg}
-                alt="Background"
-              />
-              <div className="absolute w-full flex flex-col items-center px-5 pt-10 pb-5 ">
-                <div>프로필</div>
+            <div className="bg-[url('/profile_background.png')] bg-cover w-full rounded-3xl border border-solid border-white overflow-hidden">
+              <div className="w-full flex flex-col items-center px-5 pt-10 pb-5 ">
+                <img
+                  className="mb-3 w-28 h-28 object-cover border border-solid border-gray-500 rounded-full overflow-hidden"
+                  src={AvatarImg}
+                  alt="AvatarImg"
+                />
+
                 <h1 className="text-title text-gray-black mb-2">권나연</h1>
                 <div className="text-label text-gray-black py-[.6rem] px-2 mb-3 bg-gray-30 border border-solid border-gray-black rounded-[.4rem]">
                   010-1234-1234
@@ -43,9 +43,21 @@ function Profile() {
                     <InstagramSvg />
                   </SNS>
                 </ul>
-                <div className="rounded-xl border border-solid border-gray-70 bg-white p-5 w-full">
-                  <span className="text-body2 text-gray-500">나는</span>
-                  <input type="text" placeholder="팀이름" />
+                <div className="flex flex-wrap items-center gap-1 rounded-xl border border-solid border-gray-70 bg-white p-5 w-full">
+                  <input
+                    type="text"
+                    placeholder="팀이름"
+                    className="text-body2 px-2 py-[.6rem] rounded-[.4rem] text-gray-100 bg-gray-30 border border-solid border-gray-100"
+                  />
+                  <span className="text-body2 text-gray-500">팀에서</span>
+                  <input
+                    type="text"
+                    placeholder="직군"
+                    className="text-body2 px-2 py-[.6rem] rounded-[.4rem] text-gray-100 bg-gray-30 border border-solid border-gray-100"
+                  />
+                  <span className="text-body2 text-gray-500">
+                    을 맡고 있습니다
+                  </span>
                 </div>
               </div>
             </div>

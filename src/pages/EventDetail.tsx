@@ -105,6 +105,7 @@ function EventDetail() {
               <h2 className="text-gray-300 text-label mb-2">행사 소개</h2>
               <p className="text-body text-gray-500 mb-4">{event?.content}</p>
               <ButtonSecondary
+                onClick={() => {}}
                 children={
                   <div className="flex justify-center items-center gap-2">
                     <span>자세한 정보 보러가기</span>
