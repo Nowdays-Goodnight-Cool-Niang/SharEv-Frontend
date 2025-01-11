@@ -20,3 +20,15 @@ export interface IEventDetail {
   registration: boolean;
   totalRegistrations: number;
 }
+
+export interface IEventParticipant {
+  id: string;
+  name: string;
+  profileImageId: number;
+  connection: boolean
+}
+
+
+
+
+
