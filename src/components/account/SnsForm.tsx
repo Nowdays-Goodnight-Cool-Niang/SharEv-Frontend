@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useState } from 'react';
-import ButtonSecondary from '../common/ButtonSecondary';
+// import ButtonSecondary from '../common/ButtonSecondary';
 import Dropdown from './Dropdown';
 
 interface ISnsFormProps {
@@ -9,22 +9,24 @@ interface ISnsFormProps {
 }
 
 function SnsForm({ onChange }: ISnsFormProps) {
-  const [fields, setFields] = useState<{ selectValue: string; inputValue: string }[]>([]);
+  const [fields, setFields] = useState<{ selectValue: string; inputValue: string }[]>([ { selectValue: 'github', inputValue: '' }, { selectValue: 'instagram', inputValue: '' },{ selectValue: 'facebook', inputValue: '' }]);
 
-  const handleAddField = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    setFields((prevFields) => [...prevFields, { selectValue: '', inputValue: '' }]);
-  };
+  // const handleAddField = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  //   e.preventDefault();
+  //   setFields((prevFields) => [...prevFields, { selectValue: '', inputValue: '' }]);
+  // };
+
 
   const handleFieldChange = (field: { selectValue: string; inputValue: string }) => {
-    console.log("field",field)
+  
     const newFields = {}
     newFields[field.selectValue] = field.inputValue;
 
-    console.log(newFields)
-
     onChange(newFields);
   };
+
+  // const selectedKeys = fields.map(field => field.selectValue);
+
 
   return (
     <label className='block mt-6'>
@@ -33,12 +35,13 @@ function SnsForm({ onChange }: ISnsFormProps) {
         {fields.map((field, idx) => (
           <Dropdown
             key={idx}
-            options={['github', 'instagram', 'facebook ']}
+            options={['github', 'instagram', 'facebook']}
             value={field}
             onChange={(field) => handleFieldChange(field)}
+            // selectedKeys={selectedKeys}
           />
         ))}
-        <ButtonSecondary onClick={(e) => handleAddField(e)}>추가하기 +</ButtonSecondary>
+        {/* <ButtonSecondary onClick={(e) => handleAddField(e)}>추가하기 +</ButtonSecondary> */}
       </div>
     </label>
   );
