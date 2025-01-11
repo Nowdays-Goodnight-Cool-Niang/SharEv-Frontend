@@ -3,6 +3,7 @@ import { instance } from '.';
 
 export const accountInstance = axios.create({
   baseURL: `${instance.defaults.baseURL}/accounts`,
+  withCredentials: true,
 });
 
 export const accountAPI = {

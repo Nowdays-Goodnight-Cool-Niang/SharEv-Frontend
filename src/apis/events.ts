@@ -3,6 +3,7 @@ import { instance } from ".";
 
 export const eventInstance = axios.create({
   baseURL: `${instance.defaults.baseURL}/events`,
+  withCredentials: true,
 });
 
 export const eventAPI = {

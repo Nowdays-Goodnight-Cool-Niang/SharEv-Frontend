@@ -3,8 +3,8 @@ export interface IEvent {
   title: string;
   imageUrl: string;
   content: string;
-  startedAt: Date;
-  endedAt: Date;
+  startedAt: string;
+  endedAt: string;
 }
 
 export interface IEventDetail {
@@ -12,8 +12,8 @@ export interface IEventDetail {
   title: string;
   imageUrl: string;
   content: string;
-  startedAt: Date;
-  endedAt: Date;
+  startedAt: string;
+  endedAt: string;
   organizer: string;
   place: string;
   eventUrl: string;
