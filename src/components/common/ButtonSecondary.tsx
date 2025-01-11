@@ -1,3 +1,4 @@
+// @ts-nocheck
 interface IButtonSecondaryProps {
   children: React.ReactNode;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;

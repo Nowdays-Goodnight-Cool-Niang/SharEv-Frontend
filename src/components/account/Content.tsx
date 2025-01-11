@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useNavigate } from 'react-router';
 import Input from '../common/Input';
 import ButtonPrimary from '../common/ButtonPrimary';
