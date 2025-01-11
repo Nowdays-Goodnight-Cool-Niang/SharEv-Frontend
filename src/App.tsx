@@ -27,7 +27,7 @@ function App() {
       element: <EventDetail />,
     },
     {
-      path: "/event/:eventId/profile/:userId",
+      path: "/events/:eventId/profile",
       element: <Profile />,
     },
   ]);

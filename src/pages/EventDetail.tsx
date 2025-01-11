@@ -11,6 +11,7 @@ import { getEventStatus } from '../utils/event';
 import OpenInNewSvg from '../assets/icons/ic_open_in_new.svg?react';
 import { formatDate } from '../utils/date';
 import Tag from '../components/common/Tag';
+import EventParticipants from '../components/eventDetail/EventParticipants';
 
 enum TabType {
   info = 'info',
@@ -43,7 +44,7 @@ function EventDetail() {
   if (error) return <div>에러가 발생했어요: {error.message}</div>;
 
   return (
-    <main className='bg-gray-30'>
+    <main className='bg-gray-30 min-h-screen'>
       <Header></Header>
       <Wrapper>
         <div className='flex flex-col pb-10'>
@@ -107,32 +108,17 @@ function EventDetail() {
           ></ButtonSecondary>
          </div>}
          {searchParams.get("tab") === TabType.people && (
-            <div>
-              <ul className="gap-2 grid grid-cols-3">
-                <PeopleCard />
-                <PeopleCard />
-                <PeopleCard />
-                <PeopleCard />
-                <PeopleCard />
-              </ul>
-            </div>
+            <EventParticipants eventId={event.id}/>
           )}
           <div className='fixed bottom-8 left-4 right-4 max-w-full'>
-            <ButtonPrimary children={<span>이 행사에 참여해요</span>} onClick={() => {}}></ButtonPrimary>
+            <ButtonPrimary children={<span>이 행사에 참여해요</span>} onClick={() => {
+              navigate(`profile`)
+            }}></ButtonPrimary>
           </div>
         </div>
         
       </Wrapper>
     </main>
-  );
-}
-
-function PeopleCard() {
-  return (
-    <li className='flex flex-col py-5 items-center gap-2 bg-gray-50 border border-solid border-gray-70 rounded-xl '>
-      <div className='w-24 h-24 rounded-full bg-gray-30'></div>
-      <p className='tex-body-2 text-gray-300'>캠퍼</p>
-    </li>
   );
 }
 

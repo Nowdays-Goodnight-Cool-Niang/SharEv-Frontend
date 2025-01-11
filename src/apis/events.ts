@@ -18,7 +18,7 @@ export const eventAPI = {
     return response.data;
   },
 
-  getEventParticipants: async (eventId: number) => {
+  getEventParticipants: async (eventId: string) => {
     const response = await eventInstance.get(`/${eventId}/participants`);
     return response.data;
   },
