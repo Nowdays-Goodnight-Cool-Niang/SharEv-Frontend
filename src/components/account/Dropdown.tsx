@@ -1,27 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface IDropdownProps {
   options: string[];
 
   name?: string;
   value: { selectValue: string; inputValue: string };
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: ( field: { selectValue: string; inputValue: string }) => void;
 }
 
 function Dropdown({ options, name, value, onChange }: IDropdownProps) {
   const [selectValue, setSelectValue] = useState(value.selectValue);
   const [inputValue, setInputValue] = useState(value.inputValue);
 
+  useEffect(() => {
+    onChange({selectValue, inputValue});
+  }, [selectValue, inputValue]);
+
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newValue = e.target.value;
+    console.log('n',newValue)
     setSelectValue(newValue);
-    onChange(newValue, inputValue);
+    
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setInputValue(newValue);
-    onChange(selectValue, newValue);
   };
 
   return (

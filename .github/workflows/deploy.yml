@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: env 설정 로드
+        run: echo "${{ secrets.PROD_ENV }}" > ./.env
+
       - name: Install dependencies
         run: npm ci
 

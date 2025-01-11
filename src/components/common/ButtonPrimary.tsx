@@ -1,8 +1,8 @@
 interface IButtonPrimaryProps {
   children: React.ReactNode;
-  variant?: string;
+  variant?: 'default' | 'kakao' | 'success';
   isDisabled?: boolean;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 function ButtonPrimary({ children, variant = 'default', isDisabled = false, onClick }: IButtonPrimaryProps) {
   const bgClasses = {
@@ -13,7 +13,7 @@ function ButtonPrimary({ children, variant = 'default', isDisabled = false, onCl
 
   return (
     <button
-      className={`${bgClasses[variant]} w-full  text-subtitle text-base py-4 rounded-2xl`}
+      className={`${bgClasses[variant]} w-full  font-bold text-base py-4 rounded-2xl`}
       disabled={isDisabled}
       onClick={onClick}
     >

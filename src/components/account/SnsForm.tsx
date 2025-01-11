@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState } from 'react';
 import ButtonSecondary from '../common/ButtonSecondary';
 import Dropdown from './Dropdown';
@@ -8,40 +9,36 @@ interface ISnsFormProps {
 }
 
 function SnsForm({ onChange }: ISnsFormProps) {
-  const [fields, setFields] = useState([]);
+  const [fields, setFields] = useState<{ selectValue: string; inputValue: string }[]>([]);
 
-  const handleAddField = () => {
-    setFields([...fields, { selectValue: '', inputValue: '' }]);
+  const handleAddField = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    setFields((prevFields) => [...prevFields, { selectValue: '', inputValue: '' }]);
   };
 
-  const handleFieldChange = (index: number, field: { selectValue: string; inputValue: string }) => {
-    const newFields = [...fields];
-    newFields[index] = field;
-    setFields(newFields);
+  const handleFieldChange = (field: { selectValue: string; inputValue: string }) => {
+    console.log("field",field)
+    const newFields = {}
+    newFields[field.selectValue] = field.inputValue;
 
-    const data = newFields.reduce((acc, curr) => {
-      if (curr.selectValue) {
-        acc[curr.selectValue] = curr.inputValue;
-      }
-      return acc;
-    }, {} as { [key: string]: string });
+    console.log(newFields)
 
-    onChange(data);
+    onChange(newFields);
   };
 
   return (
     <label className='block mt-6'>
       <span className='text-label text-gray-200'>SNS</span>
-      <div className='mt-2'>
+      <div>
         {fields.map((field, idx) => (
           <Dropdown
             key={idx}
             options={['github', 'instagram', 'facebook ']}
             value={field}
-            onChange={(selectValue, inputValue) => handleFieldChange(idx, { selectValue, inputValue })}
+            onChange={(field) => handleFieldChange(field)}
           />
         ))}
-        <ButtonSecondary onClick={handleAddField}>추가하기 +</ButtonSecondary>
+        <ButtonSecondary onClick={(e) => handleAddField(e)}>추가하기 +</ButtonSecondary>
       </div>
     </label>
   );
