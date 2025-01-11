@@ -1,10 +1,22 @@
 interface IButtonPrimaryProps {
   children: React.ReactNode;
-  color?: string;
+  variant?: string;
+  isDisabled?: boolean;
+  onClick: () => void;
 }
-function ButtonPrimary({ children, color = 'bg-black' }: IButtonPrimaryProps) {
+function ButtonPrimary({ children, variant = 'default', isDisabled = false, onClick }: IButtonPrimaryProps) {
+  const bgClasses = {
+    default: 'bg-black hover:bg-gray-500 text-white',
+    kakao: 'bg-[#FFE70D] hover:bg-[#E6C90C] text-black',
+    success: 'bg-blue-500 hover:bg-blue-300 text-white',
+  };
+
   return (
-    <button className={`${color} w-full text-subtitle text-base text-white  py-4 rounded-2xl hover:bg-gray-500`}>
+    <button
+      className={`${bgClasses[variant]} w-full max-w-full text-subtitle text-base py-4 rounded-2xl`}
+      disabled={isDisabled}
+      onClick={onClick}
+    >
       {children}
     </button>
   );

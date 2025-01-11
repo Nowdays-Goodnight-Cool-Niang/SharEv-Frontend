@@ -136,6 +136,10 @@
 
   body {
     font-family: 'SUIT Variable', serif;
+    height: 100vh;
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+    background-color: black;
   }
 
   * {
