@@ -26,7 +26,7 @@ function EventDetail() {
   const updateSearchParams = (key: string, value: string) => {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set(key, value);
-    setSearchParams(newSearchParams);
+    setSearchParams(newSearchParams, {replace: true});
   };
 
   useEffect(() => {
@@ -83,7 +83,7 @@ function EventDetail() {
               <div className='flex flex-col gap-1'>
                 <div className='flex items-center gap-x-2 '>
                   <div className='text-blue-500 font-bold text-[.8rem] bg-blue-100 p-1 rounded-[.4rem]'>시작일자</div>
-                  <span className='text-label4 text-gray-500'>{formatDate(event.startAt)}</span>
+                  <span className='text-label4 text-gray-500'>{formatDate(event?.startedAt)}</span>
                 </div>
                 <div className='flex items-center gap-x-2 '>
                   <div className='text-blue-500 font-bold text-[.8rem] bg-blue-100 p-1 rounded-[.4rem]'>종료일자</div>
@@ -97,6 +97,7 @@ function EventDetail() {
             {event?.content}
           </p>
           <ButtonSecondary
+          onClick={() => {window.open(event?.eventUrl, "_blank");}}
             children={
               <div className='flex justify-center items-center gap-2'>
                 <span>자세한 정보 보러가기</span>
@@ -105,10 +106,6 @@ function EventDetail() {
             }
           ></ButtonSecondary>
          </div>}
-          <div className='fixed bottom-8 left-4 right-4 max-w-full'>
-            <ButtonPrimary children={<span>이 행사에 참여해요</span>} onClick={() => {}}></ButtonPrimary>
-          </div>
-        </div>
          {searchParams.get("tab") === TabType.people && (
             <div>
               <ul className="gap-2 grid grid-cols-3">
@@ -120,6 +117,11 @@ function EventDetail() {
               </ul>
             </div>
           )}
+          <div className='fixed bottom-8 left-4 right-4 max-w-full'>
+            <ButtonPrimary children={<span>이 행사에 참여해요</span>} onClick={() => {}}></ButtonPrimary>
+          </div>
+        </div>
+        
       </Wrapper>
     </main>
   );
