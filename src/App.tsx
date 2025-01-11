@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Form from "./pages/Form";
 import Event from "./pages/Event";
 import EventDetail from "./pages/EventDetail";
+import Profile from "./pages/Profile";
 
 function App() {
   const queryClient = new QueryClient();
@@ -24,6 +25,10 @@ function App() {
     {
       path: "/event/:eventId",
       element: <EventDetail />,
+    },
+    {
+      path: "/event/:eventId/profile/:userId",
+      element: <Profile />,
     },
   ]);
 
