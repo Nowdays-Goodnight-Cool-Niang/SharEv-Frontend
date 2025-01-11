@@ -137,9 +137,6 @@
   body {
     font-family: "SUIT Variable", serif;
     height: 100vh;
-    padding-left: 1.75rem;
-    padding-right: 1.75rem;
-    background-color: black;
   }
 
   * {
@@ -158,12 +155,18 @@
     @apply text-lg font-bold leading-[1.2rem];
   }
   .text-label {
-    @apply text-xs font-bold leading-4;
+    @apply text-xs font-bold leading-[100%];
   }
   .text-body2 {
-    @apply text-sm font-bold leading-4;
+    @apply text-sm font-bold leading-[100%];
   }
   .text-label2 {
-    @apply text-sm font-semibold leading-4;
+    @apply text-sm font-semibold leading-[100%];
+  }
+  .text-label3 {
+    @apply text-sm font-bold leading-[100%];
+  }
+  .text-label4 {
+    @apply text-xs font-semibold leading-[100%];
   }
 }
