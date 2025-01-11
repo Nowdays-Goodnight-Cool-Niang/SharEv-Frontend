@@ -6,11 +6,13 @@ import SnsForm from './SnsForm';
 import { useEffect, useState } from 'react';
 import ImgForm from './ImgForm';
 import { IFormAccount } from '../../types/formAccount';
+import { useQueryAccount } from '../../hooks/useQueryAccount';
 
 function Content() {
   const [formAccount, setFormAccount] = useState<IFormAccount>({});
 
   const navigate = useNavigate();
+  const mutation = useQueryAccount();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -31,7 +33,15 @@ function Content() {
   const handleProfileCompletion = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     // TODO: 프로필 데이터를 서버에 저장하는 API 호출
-    navigate('/events');
+    mutation.mutate(formAccount, {
+      onSuccess: () => {
+        navigate('/events');
+      },
+      onError: (error) => {
+        console.error('Error updating profile:', error);
+      },
+    });
+    
   };
   return (
     <form>
