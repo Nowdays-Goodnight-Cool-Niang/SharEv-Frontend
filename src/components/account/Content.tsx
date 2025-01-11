@@ -12,11 +12,13 @@ function Content() {
   };
   return (
     <form>
-      <Input labelName='이름' />
+      <Input labelName='이름' required={true} />
       <Input labelName='전화번호(‘-’없이 입력)' placeholder='01012341234' />
       <Input labelName='SNS' />
       <ButtonSecondary>추가하기 +</ButtonSecondary>
-      <ButtonPrimary onClick={handleProfileCompletion}>프로필을 완성했어요</ButtonPrimary>
+      <div className='fixed bottom-8 left-4 right-4 max-w-full'>
+        <ButtonPrimary onClick={handleProfileCompletion}>프로필을 완성했어요</ButtonPrimary>
+      </div>
     </form>
   );
 }

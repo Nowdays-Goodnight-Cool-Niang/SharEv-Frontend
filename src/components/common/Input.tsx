@@ -27,7 +27,11 @@ function Input({
 
   return (
     <label className='block mt-6'>
-      <span className='text-label text-gray-200'>{labelName}</span>
+      <div className='flex items-center'>
+        <span className='text-label text-gray-200'>{labelName}</span>
+        {required && <span className='text-pink ml-0.5'>*</span>}
+      </div>
+
       <input
         type={type}
         value={value}
