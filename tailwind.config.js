@@ -20,7 +20,7 @@ export default {
         },
         blue: {
           100: '#DCEFFF',
-          100: '#7FC3FF',
+          300: '#7FC3FF',
           500: '#217DFF',
         },
         pink: '#FF8BF5',
