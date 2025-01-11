@@ -38,12 +38,12 @@ function EventDetail() {
         <button className="rounded-lg text-blue-500 text-label-3 py-3 w-full bg-white">
           행사 정보
         </button>
-        <button className="rounded-lg text-gray-300 py-12 w-full">
+        <button className="rounded-lg text-gray-300 py-3 w-full">
           참여하는 사람들
         </button>
       </div>
 
-      <ul>
+      <ul className="gap-3 flex flex-col py-3 border-t border-b border-solid border-gray-70 mb-5">
         <li className="flex">
           <h2 className="text-gray-300 text-label min-w-12">장소</h2>
           <span className="text-label4 text-gray-500">
@@ -56,16 +56,28 @@ function EventDetail() {
         </li>
         <li className="flex">
           <h2 className="text-gray-300 text-label min-w-12">일시</h2>
-          <div className="flex items-center">
-            <div className="text-blue-500 font-bold text-[.8rem]">시작일자</div>
-            <span className="text-label4 text-gray-500">
-              2025.01.11 (토) 오전 11:00
-            </span>
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-x-2 ">
+              <div className="text-blue-500 font-bold text-[.8rem] bg-blue-100 p-1 rounded-[.4rem]">
+                시작일자
+              </div>
+              <span className="text-label4 text-gray-500">
+                2025.01.11 (토) 오전 11:00
+              </span>
+            </div>
+            <div className="flex items-center gap-x-2 ">
+              <div className="text-blue-500 font-bold text-[.8rem] bg-blue-100 p-1 rounded-[.4rem]">
+                시작일자
+              </div>
+              <span className="text-label4 text-gray-500">
+                2025.01.11 (토) 오전 11:00
+              </span>
+            </div>
           </div>
         </li>
       </ul>
-      <h2 className="text-gray-300 text-label">행사 소개</h2>
-      <p className="text-body text-gray-500">
+      <h2 className="text-gray-300 text-label mb-2">행사 소개</h2>
+      <p className="text-body text-gray-500 mb-4">
         친구들과 함께 머리를 맞대고 밤새 새로운 아이디어를 구현하며, 유쾌한
         협업을 경험할 수 있는 오프라인 해커톤! GDG Campus Korea 에서 캠퍼스
         대항전 🐣삐약톤🐣을 주최합니다. 🎉 대학교의 이름을 걸고 여러분의
@@ -75,16 +87,18 @@ function EventDetail() {
       </p>
       <ButtonSecondary
         children={
-          <div>
+          <div className="flex justify-center items-center gap-2">
             <span>자세한 정보 보러가기</span>
             <div>아이콘</div>
           </div>
         }
       ></ButtonSecondary>
-      <ButtonPrimary
-        children={<span>이 행사에 참여해요</span>}
-        onClick={() => {}}
-      ></ButtonPrimary>
+      <div className="fixed bottom-8 left-4 right-4 max-w-full">
+        <ButtonPrimary
+          children={<span>이 행사에 참여해요</span>}
+          onClick={() => {}}
+        ></ButtonPrimary>
+      </div>
     </main>
   );
 }
