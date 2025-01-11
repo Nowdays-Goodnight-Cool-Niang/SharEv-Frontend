@@ -1,10 +1,14 @@
 interface IButtonSecondaryProps {
   children: React.ReactNode;
+  onClick: () => void;
 }
 
-function ButtonSecondary({ children }: IButtonSecondaryProps) {
+function ButtonSecondary({ children, onClick }: IButtonSecondaryProps) {
   return (
-    <button className='bg-white text-label text-blue-500 w-full py-3 px-4 border border-blue-500 rounded-2xl hover:border-blue-400'>
+    <button
+      className='bg-white text-label text-blue-500 w-full py-3 px-4 border border-blue-500 rounded-lg hover:border-blue-400'
+      onClick={onClick}
+    >
       {children}
     </button>
   );
