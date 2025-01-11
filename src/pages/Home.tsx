@@ -2,16 +2,7 @@ import ButtonPrimary from '../components/common/ButtonPrimary';
 
 function Home() {
   const handleKakaoLogin = () => {
-    // 예: Kakao.Auth.login({
-    //   success: function(authObj) {
-    //     console.log(authObj);
-    //     // 로그인 성공 시 프로필 완성 페이지로 이동
-    //     navigate('/profile-completion');
-    //   },
-    //   fail: function(err) {
-    //     console.error(err);
-    //   },
-    // });
+    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/oauth2/authorization/kakao`;
   };
 
   return (
