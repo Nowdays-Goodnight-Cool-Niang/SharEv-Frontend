@@ -1,4 +1,4 @@
-import Button from '../components/common/ButtonPrimary';
+import ButtonPrimary from '../components/common/ButtonPrimary';
 
 function Home() {
   return (
@@ -6,7 +6,7 @@ function Home() {
       <h1>서비스명</h1>
       <figure></figure>
       <figcaption>서비스 한 줄 소개</figcaption>
-      <Button />
+      <ButtonPrimary>카카오 로그인</ButtonPrimary>
     </>
   );
 }
