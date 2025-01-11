@@ -142,3 +142,21 @@
     box-sizing: border-box;
   }
 }
+
+@layer utilities {
+  .text-title {
+    @apply text-xl font-bold leading-[1.4rem];
+  }
+  .text-body {
+    @apply text-sm font-medium leading-[1.65rem];
+  }
+  .text-subtitle {
+    @apply text-lg font-bold leading-[1.2rem];
+  }
+  .text-label {
+    @apply text-xs font-bold leading-[1rem];
+  }
+  .text-body2 {
+    @apply text-sm font-bold leading-[1rem];
+  }
+}
