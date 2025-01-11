@@ -13,7 +13,7 @@ function ButtonPrimary({ children, variant = 'default', isDisabled = false, onCl
 
   return (
     <button
-      className={`${bgClasses[variant]} w-full max-w-full text-subtitle text-base py-4 rounded-2xl`}
+      className={`${bgClasses[variant]} w-full  text-subtitle text-base py-4 rounded-2xl`}
       disabled={isDisabled}
       onClick={onClick}
     >
