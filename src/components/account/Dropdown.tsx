@@ -5,7 +5,7 @@ interface IDropdownProps {
 
   name?: string;
   value: { selectValue: string; inputValue: string };
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (idx: number, field: { selectValue: string; inputValue: string }) => void;
 }
 
 function Dropdown({ options, name, value, onChange }: IDropdownProps) {
