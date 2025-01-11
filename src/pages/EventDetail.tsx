@@ -26,6 +26,7 @@ function EventDetail() {
 
     if (!tab) {
       const newParams = new URLSearchParams(searchParams);
+      D;
       newParams.set("tab", TabType.info);
       navigate(`?${newParams.toString()}`, { replace: true });
     }
