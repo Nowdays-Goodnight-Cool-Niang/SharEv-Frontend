@@ -8,26 +8,21 @@ interface ISnsFormProps {
 }
 
 function SnsForm({ onChange }: ISnsFormProps) {
-  const [fields, setFields] = useState([]);
+  const [fields, setFields] = useState<{ selectValue: string; inputValue: string }[]>([]);
 
-  const handleAddField = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAddField = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    setFields([...fields, { selectValue: '', inputValue: '' }]);
+    setFields((prevFields) => [...prevFields, { selectValue: '', inputValue: '' }]);
   };
 
-  const handleFieldChange = (index: number, field: { selectValue: string; inputValue: string }) => {
-    const newFields = [...fields];
-    newFields[index] = field;
-    setFields(newFields);
+  const handleFieldChange = (field: { selectValue: string; inputValue: string }) => {
+    console.log("field",field)
+    const newFields = {}
+    newFields[field.selectValue] = field.inputValue;
 
-    const data = newFields.reduce((acc, curr) => {
-      if (curr.selectValue) {
-        acc[curr.selectValue] = curr.inputValue;
-      }
-      return acc;
-    }, {} as { [key: string]: string });
+    console.log(newFields)
 
-    onChange(data);
+    onChange(newFields);
   };
 
   return (
@@ -39,7 +34,7 @@ function SnsForm({ onChange }: ISnsFormProps) {
             key={idx}
             options={['github', 'instagram', 'facebook ']}
             value={field}
-            onChange={(idx, field) => handleFieldChange(idx, field)}
+            onChange={(field) => handleFieldChange(field)}
           />
         ))}
         <ButtonSecondary onClick={(e) => handleAddField(e)}>추가하기 +</ButtonSecondary>
