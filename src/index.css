@@ -120,7 +120,7 @@
   blockquote:after,
   q:before,
   q:after {
-    content: '';
+    content: "";
     content: none;
   }
   table {
@@ -129,13 +129,13 @@
   }
 
   @font-face {
-    font-family: 'SUIT Variable';
+    font-family: "SUIT Variable";
     font-weight: 100 900;
-    src: url('./assets/fonts/SUIT-Variable.woff2') format('woff2-variations');
+    src: url("./assets/fonts/SUIT-Variable.woff2") format("woff2-variations");
   }
 
   body {
-    font-family: 'SUIT Variable', serif;
+    font-family: "SUIT Variable", serif;
   }
 
   * {
@@ -154,9 +154,12 @@
     @apply text-lg font-bold leading-[1.2rem];
   }
   .text-label {
-    @apply text-xs font-bold leading-[1rem];
+    @apply text-xs font-bold leading-4;
   }
   .text-body2 {
-    @apply text-sm font-bold leading-[1rem];
+    @apply text-sm font-bold leading-4;
+  }
+  .text-label2 {
+    @apply text-sm font-semibold leading-4;
   }
 }

@@ -1,29 +1,28 @@
-import { createBrowserRouter, RouterProvider } from 'react-router';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import './App.css';
-import Home from './pages/Home';
-import Form from './pages/Form';
-import Event from './pages/Event';
-import EventDetail from './pages/EventDetail';
+import { createBrowserRouter, RouterProvider } from "react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Home from "./pages/Home";
+import Form from "./pages/Form";
+import Event from "./pages/Event";
+import EventDetail from "./pages/EventDetail";
 
 function App() {
   const queryClient = new QueryClient();
 
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
       element: <Home />,
     },
     {
-      path: '/account',
+      path: "/account",
       element: <Form />,
     },
     {
-      path: '/events',
+      path: "/events",
       element: <Event />,
     },
     {
-      path: '/event/:eventId',
+      path: "/event/:eventId",
       element: <EventDetail />,
     },
   ]);
