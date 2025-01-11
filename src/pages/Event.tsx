@@ -1,22 +1,21 @@
 import { Link } from "react-router";
 import Tag from "../components/common/Tag";
+import WarningText from "../components/common/WarningText";
 import Wrapper from "../components/common/Wrapper";
 import Header from "../components/event/Header";
 import { useQueryEvents } from "../hooks/useQueryEvents";
-import { IEvent } from "../types";
 import { formatDate } from "../utils/date";
 import { getEventStatus } from "../utils/event";
+import toast, { Toaster } from 'react-hot-toast';
 
 function Event() {
   const { events, isLoading, error } = useQueryEvents();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
-
+  if (isLoading) return <div>데이터를 받아오고 있습니다...</div>;
+  if (error) return <div>에러가 발생했어요: {error.message}</div>;
 
   return (
-    <main className="flex flex-col bg-gray-30 pb-10">
+    <main className="flex flex-col bg-gray-30 pb-10 min-h-screen">
       <Header></Header>
       <Wrapper>
         <div className="flex justify-between items-center mt-7 mb-8">
@@ -25,11 +24,12 @@ function Event() {
             <br />
             확인하세요
           </h1>
-          <button disabled className="text-label text-gray-500 bg-gray-70 py-2 px-4 rounded-lg">
+          <button onClick={() => toast("추후 개발할 예정입니다")} className="text-label text-gray-500 bg-gray-70 py-2 px-4 rounded-lg">
             행사 주최하기
           </button>
         </div>
         <ul className="flex flex-col gap-7">
+          {events?.length === 0 && <WarningText>아직 행사가 없습니다.</WarningText>}
           {events!.map((event) => (
            <Link to={`${event.id}`}>
             <li className="" key={event.id}>
@@ -52,7 +52,9 @@ function Event() {
            </Link>
           ))}
         </ul>
+        <Toaster/>
       </Wrapper>
+    
     </main>
   );
 }

@@ -9,6 +9,8 @@ import Tab from '../components/eventDetail/Tab';
 import { useQueryEvent } from '../hooks/useQueryEvent';
 import { getEventStatus } from '../utils/event';
 import OpenInNewSvg from '../assets/icons/ic_open_in_new.svg?react';
+import { formatDate } from '../utils/date';
+import Tag from '../components/common/Tag';
 
 enum TabType {
   info = 'info',
@@ -37,22 +39,22 @@ function EventDetail() {
     }
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (isLoading) return <div>데이터를 받아오고 있습니다...</div>;
+  if (error) return <div>에러가 발생했어요: {error.message}</div>;
 
   return (
     <main className='bg-gray-30'>
       <Header></Header>
       <Wrapper>
         <div className='flex flex-col pb-10'>
-          <div className='bg-slate-100 w-full h-52 rounded-xl mt-7 mb-5'></div>
+          <div className='bg-slate-100 w-full h-52 rounded-xl mt-7 mb-5 overflow-hidden'>
+          <img className="w-full img-cover" src={event.imageUrl} />
+          </div>
           <div className='mb-2 flex'>
-            <div className='text-label2 px-[.6rem] py-[.4rem] rounded-[.4rem] bg-green-light text-green-dark '>
-              진행 중
-            </div>
+            <Tag>{getEventStatus(event?.startedAt, event?.endedAt)}</Tag>
           </div>
 
-          <h1 className='mb-6 text-title text-gray-black'>삐약톤 : 캠퍼스 대항전</h1>
+          <h1 className='mb-6 text-title text-gray-black'>{event?.title}</h1>
           <div className='mb-6 p-1 bg-gray-50 rounded-xl flex justify-between items-center gap-x-1'>
             <Tab
               text='행사 정보'
@@ -65,49 +67,59 @@ function EventDetail() {
               isActive={searchParams.get('tab') === 'people'}
             />
           </div>
-
-          <ul className='gap-3 flex flex-col py-3 border-t border-b border-solid border-gray-70 mb-5'>
+          {searchParams.get("tab") === TabType.info &&
+         <div>
+         <ul className='gap-3 flex flex-col py-3 border-t border-b border-solid border-gray-70 mb-5'>
             <li className='flex'>
               <h2 className='text-gray-300 text-label min-w-12'>장소</h2>
-              <span className='text-label4 text-gray-500'>동국대학교 서울캠퍼스 혜화관 고순청 세미나실</span>
+              <span className='text-label4 text-gray-500'>{event?.place}</span>
             </li>
             <li className='flex'>
               <h2 className='text-gray-300 text-label min-w-12'>주최자</h2>
-              <span className='text-label4 text-gray-500'>GDG Campus Korea</span>
+              <span className='text-label4 text-gray-500'>{event?.organizer}</span>
             </li>
             <li className='flex'>
               <h2 className='text-gray-300 text-label min-w-12'>일시</h2>
               <div className='flex flex-col gap-1'>
                 <div className='flex items-center gap-x-2 '>
                   <div className='text-blue-500 font-bold text-[.8rem] bg-blue-100 p-1 rounded-[.4rem]'>시작일자</div>
-                  <span className='text-label4 text-gray-500'>2025.01.11 (토) 오전 11:00</span>
+                  <span className='text-label4 text-gray-500'>{formatDate(event.startAt)}</span>
                 </div>
                 <div className='flex items-center gap-x-2 '>
-                  <div className='text-blue-500 font-bold text-[.8rem] bg-blue-100 p-1 rounded-[.4rem]'>시작일자</div>
-                  <span className='text-label4 text-gray-500'>2025.01.11 (토) 오전 11:00</span>
+                  <div className='text-blue-500 font-bold text-[.8rem] bg-blue-100 p-1 rounded-[.4rem]'>종료일자</div>
+                  <span className='text-label4 text-gray-500'>{formatDate(event?.endedAt)}</span>
                 </div>
               </div>
             </li>
           </ul>
           <h2 className='text-gray-300 text-label mb-2'>행사 소개</h2>
           <p className='text-body text-gray-500 mb-4'>
-            친구들과 함께 머리를 맞대고 밤새 새로운 아이디어를 구현하며, 유쾌한 협업을 경험할 수 있는 오프라인 해커톤!
-            GDG Campus Korea 에서 캠퍼스 대항전 🐣삐약톤🐣을 주최합니다. 🎉 대학교의 이름을 걸고 여러분의 반짝이는
-            아이디어와 열정을 마음껏 펼칠 수 있는 이 자리에 함께 해주세요!함께 웃고 도전하며 성장할 수 있는 소중한
-            시간을 만들어드릴게요. 여러분의 꿈과 열정을 응원하는 삐약톤에서 만나요! 😊
+            {event?.content}
           </p>
           <ButtonSecondary
             children={
               <div className='flex justify-center items-center gap-2'>
                 <span>자세한 정보 보러가기</span>
-                <div>아이콘</div>
+                <OpenInNewSvg/>
               </div>
             }
           ></ButtonSecondary>
+         </div>}
           <div className='fixed bottom-8 left-4 right-4 max-w-full'>
             <ButtonPrimary children={<span>이 행사에 참여해요</span>} onClick={() => {}}></ButtonPrimary>
           </div>
         </div>
+         {searchParams.get("tab") === TabType.people && (
+            <div>
+              <ul className="gap-2 grid grid-cols-3">
+                <PeopleCard />
+                <PeopleCard />
+                <PeopleCard />
+                <PeopleCard />
+                <PeopleCard />
+              </ul>
+            </div>
+          )}
       </Wrapper>
     </main>
   );
