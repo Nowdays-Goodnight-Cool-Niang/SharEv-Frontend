@@ -35,8 +35,8 @@ function Content() {
   };
   return (
     <form>
-      <ImgForm />
-      <Input labelName='이름' name='name' required={true} onChange={handleChange} />
+      <ImgForm setFormAccount={setFormAccount} />
+      <Input labelName='이름' placeholder='삐약이' name='name' required={true} onChange={handleChange} />
       <Input labelName='전화번호(‘-’없이 입력)' placeholder='01012341234' name='phone' onChange={handleChange} />
       <SnsForm onChange={handleSnsChange} />
 

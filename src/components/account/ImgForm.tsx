@@ -1,7 +1,11 @@
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import ButtonTertiary from '../common/ButtonTertiary';
 
-function ImgForm() {
+interface IImgFormProps {
+  setFormAccount: React.Dispatch<React.SetStateAction<{ [key: string]: any }>>;
+}
+
+function ImgForm({ setFormAccount }: IImgFormProps) {
   const [randomNumber, setRandomNumber] = useState<number | null>(null);
 
   const getRandomNumber = () => {
@@ -19,6 +23,10 @@ function ImgForm() {
     handleAvatarRamdom();
   }, []);
 
+  useEffect(() => {
+    setFormAccount((prevData) => ({ ...prevData, profileImageId: randomNumber }));
+  }, [randomNumber]);
+
   return (
     <label className='block mt-6'>
       <span className='text-label text-gray-200'>이미지</span>
@@ -28,7 +36,14 @@ function ImgForm() {
           alt='randomAvatar'
           className='w-24 h-24 rounded-full border border-gray-300 mb-3'
         />
-        <ButtonTertiary onClick={handleAvatarRamdom}>랜덤으로 바꾸기</ButtonTertiary>
+        <ButtonTertiary
+          onClick={(e) => {
+            e.preventDefault();
+            handleAvatarRamdom();
+          }}
+        >
+          랜덤으로 바꾸기
+        </ButtonTertiary>
       </div>
     </label>
   );
