@@ -3,6 +3,7 @@ import { instance } from '.';
 
 export const participantInstance = axios.create({
   baseURL: `${instance.defaults.baseURL}/participants`,
+  withCredentials: true,
 });
 
 export const participantAPI = {

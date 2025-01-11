@@ -23,7 +23,7 @@ function App() {
       element: <Event />,
     },
     {
-      path: "/event/:eventId",
+      path: "/events/:eventId",
       element: <EventDetail />,
     },
     {
