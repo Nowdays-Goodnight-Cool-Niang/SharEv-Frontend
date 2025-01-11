@@ -47,16 +47,27 @@ function Profile() {
                   <input
                     type="text"
                     placeholder="팀이름"
-                    className="text-body2 px-2 py-[.6rem] rounded-[.4rem] text-gray-100 bg-gray-30 border border-solid border-gray-100"
+                    className="text-body2 px-2 py-[.6rem] rounded-[.4rem] placeholder:text-gray-100 text-gray-500 bg-gray-30 border border-solid border-gray-100"
                   />
                   <span className="text-body2 text-gray-500">팀에서</span>
                   <input
                     type="text"
                     placeholder="직군"
-                    className="text-body2 px-2 py-[.6rem] rounded-[.4rem] text-gray-100 bg-gray-30 border border-solid border-gray-100"
+                    className="text-body2 px-2 py-[.6rem] rounded-[.4rem] placeholder:text-gray-100 text-gray-500 bg-gray-30 border border-solid border-gray-100"
                   />
                   <span className="text-body2 text-gray-500">
                     을 맡고 있습니다
+                  </span>
+                  <span className="text-body2 text-gray-500">
+                    이번 해커톤에서
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="프로젝트 한 줄 소개"
+                    className="text-body2 px-2 py-[.6rem] rounded-[.4rem] placeholder:text-gray-100 text-gray-500 bg-gray-30 border border-solid border-gray-100"
+                  />
+                  <span className="text-body2 text-gray-500">
+                    를 만들었습니다
                   </span>
                 </div>
               </div>
