@@ -15,7 +15,7 @@ function ButtonPrimary({ children, variant = 'default', isDisabled = false, onCl
     <button
       className={`${bgClasses[variant]} w-full  font-bold text-base py-4 rounded-2xl`}
       disabled={isDisabled}
-      onClick={onClick}
+      onClick={isDisabled ? ()=> {} :  onClick}
     >
       {children}
     </button>

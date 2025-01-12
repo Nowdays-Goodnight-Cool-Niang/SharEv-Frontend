@@ -5,7 +5,7 @@ import ProfileCard from "../components/common/ProfileCard";
 import { useQueryAccount } from "../hooks/useQueryAccount";
 import { useQueryEventProfile } from "../hooks/useQueryEventProfile"; // Added import
 import { IEventProfile } from "../types";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useState } from "react";
 
 function Profile() {
@@ -18,7 +18,7 @@ function Profile() {
     projectInfo: "",
   });
 
-
+  const navigate = useNavigate();
 
   const { createEventProfile } = useQueryEventProfile();
 
@@ -34,10 +34,11 @@ function Profile() {
 
   const handleSaveProfile = () => {
     createEventProfile(eventProfileData);
+    navigate(`/events/${eventId}`);
   };
 
   console.log(eventProfileData)
-
+  const isFormComplete = Object.values(eventProfileData).every((value) => value.trim() !== "");
   return (
     <div className="relative">
       <FlyingCircles />
@@ -68,6 +69,7 @@ function Profile() {
               <ButtonPrimary
                 onClick={handleSaveProfile}
                 variant="success"
+                isDisabled={!isFormComplete}
               >
                 <span>프로필을 완성했어요</span>
               </ButtonPrimary>
