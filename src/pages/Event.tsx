@@ -38,7 +38,7 @@ function Event() {
               </div>
               <div className="flex gap-1 mb-3">
                 <Tag text={getEventStatus(event.startedAt, event.endedAt)}/>
-                <span className="text-label2 px-[.6rem] py-[.4rem] rounded-[.4rem] bg-blue-100 text-blue-500">
+                <span className="text-label2 px-[.6rem] py-[.4rem] rounded-[.4rem] bg-blue-100 text-blue-500 truncate max-w-full">
                   {formatDate(event.startedAt)} ~ {formatDate(event.endedAt)}
                 </span>
               </div>
