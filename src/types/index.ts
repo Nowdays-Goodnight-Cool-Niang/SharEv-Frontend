@@ -45,7 +45,19 @@ export interface IAccount {
   facebook: string;
 }
 
-
+export interface IParticipantInfo {
+  id: string
+  accountId: string
+  name:  string
+  phone?:  string
+  profileImageId: number
+  github?: string
+  instagram?: string
+  facebook?: string
+  jobGroup: string
+  teamName: string
+  projectInfo: string
+}
 
 
 

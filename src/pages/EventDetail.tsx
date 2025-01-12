@@ -12,6 +12,9 @@ import OpenInNewSvg from '../assets/icons/ic_open_in_new.svg?react';
 import { formatDate } from '../utils/date';
 import Tag from '../components/common/Tag';
 import EventParticipants from '../components/eventDetail/EventParticipants';
+import WarningText from '../components/common/WarningText';
+import ProfileCard from '../components/common/ProfileCard';
+import { useParticipantProfileStore } from '../stores/useParticipantProfileStore';
 
 enum TabType {
   info = 'info',
@@ -23,6 +26,13 @@ function EventDetail() {
   const { event, isLoading, error } = useQueryEvent(eventId!);
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  const {
+    isOpen: isProfileOpen,
+    setOpen: setProfileOpen,
+    participantProfile,
+    setParticipantProfile,
+  } = useParticipantProfileStore();
 
   const updateSearchParams = (key: string, value: string) => {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -107,18 +117,41 @@ function EventDetail() {
             }
           ></ButtonSecondary>
          </div>}
-         {searchParams.get("tab") === TabType.people && (
+         {searchParams.get("tab") === TabType.people && event?.registration && (
             <EventParticipants eventId={event.id}/>
           )}
-          <div className='fixed bottom-8 left-4 right-4 max-w-full'>
+          {searchParams.get("tab") === TabType.people && !event?.registration && (
+            <WarningText>행사에 참여하면 확인할 수 있습니다</WarningText>
+          )}
+       { !event.registration && <div className='fixed bottom-8 left-4 right-4 max-w-full'>
             <ButtonPrimary children={<span>이 행사에 참여해요</span>} onClick={() => {
               navigate(`profile`)
             }}></ButtonPrimary>
-          </div>
+          </div>}
         </div>
         
       </Wrapper>
+      {isProfileOpen && (
+        <div className='z-10 bg-gray-black/90'>
+          <ProfileCard
+            id={participantProfile?.id || 0}
+            name={participantProfile?.name || ""}
+            phone={participantProfile?.phone || ""}
+            profileImageId={participantProfile?.profileImageId || 1}
+            github={participantProfile?.github || ""}
+            instagram={participantProfile?.instagram || ""}
+            facebook={participantProfile?.facebook || ""}
+            jobGroup={participantProfile?.jobGroup || ""}
+            teamName={participantProfile?.teamName || ""}
+            projectInfo={participantProfile?.projectInfo || ""}
+            onInputChange={(key, value) => {
+              setParticipantProfile({ ...participantProfile, [key]: value });
+            }}
+          />
+        </div>
+      )}
     </main>
+
   );
 }
 
