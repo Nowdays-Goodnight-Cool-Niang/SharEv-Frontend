@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import ImgForm from './ImgForm';
 import { IFormAccount } from '../../types/formAccount';
 import { useQueryAccount } from '../../hooks/useQueryAccount';
+import { accountAPI } from '../../apis/accounts';
 
 function Content() {
   const [formAccount, setFormAccount] = useState<IFormAccount>({});
@@ -30,19 +31,22 @@ function Content() {
   };
 
 
-  const handleProfileCompletion = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleProfileCompletion = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // TODO: 프로필 데이터를 서버에 저장하는 API 호출
-    mutation.mutate(formAccount, {
-      onSuccess: () => {
-        navigate('/events');
-      },
-      onError: (error) => {
-        console.error('Error updating profile:', error);
-      },
-    });
+    try {
+      await accountAPI.patchParticipantInfo(formAccount);
+      navigate('/events')
+
+    } catch {
+      console.log('error');
+
+    }
+    
+    
+    
     
   };
+
   return (
     <form>
       <ImgForm setFormAccount={setFormAccount} />
