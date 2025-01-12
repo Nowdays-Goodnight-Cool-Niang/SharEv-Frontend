@@ -28,6 +28,24 @@ export interface IEventParticipant {
   connection: boolean
 }
 
+export interface IEventProfile {
+  eventId: string, 
+  jobGroup: string, 
+  teamName: string, 
+  projectInfo: string
+}
+
+export interface IAccount {
+  id: number;
+  name: string;
+  phone?: string;
+  profileImageId: number;
+  github: string;
+  instagram: string;
+  facebook: string;
+}
+
+
 
 
 
