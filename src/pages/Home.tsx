@@ -1,4 +1,5 @@
 import ButtonPrimary from '../components/common/ButtonPrimary';
+import {QRCodeSVG} from 'qrcode.react';
 
 function Home() {
   const handleKakaoLogin = () => {
@@ -9,6 +10,7 @@ function Home() {
 
   return (
     <div className='flex justify-center items-center bg-blue-500 w-screen h-screen'>
+      <QRCodeSVG value={"111111111"} />
      <div className='flex flex-col justify-center items-center'>
     <div className='w-80 h-80'>
     <img className='w-full' src='./phone.png'/>
