@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { instance } from '.';
+import { IEventProfile } from '../types';
 
 export const participantInstance = axios.create({
   baseURL: `${instance.defaults.baseURL}/participants`,
@@ -7,12 +8,12 @@ export const participantInstance = axios.create({
 });
 
 export const participantAPI = {
-  putParticipantInfo: async (eventId: number, jobGroup: string, teamName: string, projectInfo: string) => {
-    const response = await participantInstance.put('/info', { eventId, jobGroup, teamName, projectInfo });
+  putParticipantInfo: async (eventProfile :IEventProfile) => {
+    const response = await participantInstance.put('/info', eventProfile);
     return response.data;
   },
 
-  getParticipantInfo: async (participantId: number) => {
+  getParticipantInfo: async (participantId: string) => {
     const response = await participantInstance.get(`/info/${participantId}`);
     return response.data;
   },

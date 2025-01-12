@@ -12,7 +12,7 @@ function Tag({text}: TagProps) {
 
       const colors = colorMap[text] || { bg: "bg-gray-light", text: "text-gray-dark" };
 
-    return <span className={`text-label2 px-[.6rem] py-[.4rem] rounded-[.4rem] ${colors.bg} ${colors.text}`}>
+    return <span className={`whitespace-nowrap text-label2 px-[.6rem] py-[.4rem] rounded-[.4rem] ${colors.bg} ${colors.text}`}>
       {text}
     </span>;
   }
