@@ -9,6 +9,7 @@ export const accountInstance = axios.create({
 export const accountAPI = {
   getAccount: async () => {
     const response = await accountInstance.get('');
+    console.log(response.data)
     return response.data;
   },
 
