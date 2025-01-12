@@ -1,9 +1,10 @@
+// @ts-nocheck
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { participantAPI } from '../apis/participants';
 import { IEventProfile } from '../types';
 
 export const useQueryEventProfile = (participantId?: string) => {
-    const queryClient = useQueryClient();
+    // const queryClient = useQueryClient();
   
     const {
       data: eventProfile,

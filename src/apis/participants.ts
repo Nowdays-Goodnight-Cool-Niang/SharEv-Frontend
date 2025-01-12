@@ -17,4 +17,9 @@ export const participantAPI = {
     const response = await participantInstance.get(`/info/${participantId}`);
     return response.data;
   },
+
+  getParticipantQR: async (eventId: string) => {
+    const response = await participantInstance.get(`/register/mine/${eventId}`);
+    return response.data;
+  },
 };
