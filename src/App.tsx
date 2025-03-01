@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Home from './pages/Home';
-import Form from './pages/Form';
+import ProfileSetup from './pages/ProfileSetup';
 import Event from './pages/Event';
 import EventDetail from './pages/EventDetail';
 import Profile from './pages/Profile';
@@ -15,8 +15,8 @@ function App() {
       element: <Home />,
     },
     {
-      path: '/account',
-      element: <Form />,
+      path: '/profile-setup',
+      element: <ProfileSetup />,
     },
     {
       path: '/events',

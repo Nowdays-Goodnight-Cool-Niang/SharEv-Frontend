@@ -2,7 +2,7 @@ import AccountContent from '../components/account/Content';
 import AccountHeader from '../components/account/Header';
 import Wrapper from '../components/common/Wrapper';
 
-function Form() {
+function ProfileSetup() {
   return (
     <Wrapper>
       <AccountHeader />
@@ -11,4 +11,4 @@ function Form() {
   );
 }
 
-export default Form;
+export default ProfileSetup;

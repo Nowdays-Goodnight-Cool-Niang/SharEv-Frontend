@@ -3,7 +3,6 @@ import Input from '../common/Input';
 import ButtonPrimary from '../common/ButtonPrimary';
 import SnsForm from './SnsForm';
 import { useState } from 'react';
-import ImgForm from './ImgForm';
 import { IFormAccount } from '../../types/formAccount';
 import { accountAPI } from '../../apis/accounts';
 
@@ -39,7 +38,6 @@ function Content() {
 
   return (
     <form>
-      <ImgForm setFormAccount={setFormAccount} />
       <Input
         labelName="이름"
         placeholder="삐약이"
