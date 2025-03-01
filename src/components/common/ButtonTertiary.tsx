@@ -5,7 +5,10 @@ interface IButtonTertiaryProps {
 
 function ButtonTertiary({ children, onClick }: IButtonTertiaryProps) {
   return (
-    <button className='text-label text-blue-500 bg-blue-100 py-2 px-4 rounded-lg hover:bg-blue-200' onClick={onClick}>
+    <button
+      className="text-label rounded-lg bg-blue-100 px-4 py-2 text-blue-500 hover:bg-blue-200"
+      onClick={onClick}
+    >
       {children}
     </button>
   );

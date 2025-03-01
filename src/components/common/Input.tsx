@@ -26,10 +26,10 @@ function Input({
   const [value, setValue] = useState(initialValue);
 
   return (
-    <label className='block mt-6'>
-      <div className='flex items-center'>
-        <span className='text-label text-gray-200'>{labelName}</span>
-        {required && <span className='text-pink ml-0.5'>*</span>}
+    <label className="mt-6 block">
+      <div className="flex items-center">
+        <span className="text-label text-gray-200">{labelName}</span>
+        {required && <span className="ml-0.5 text-pink">*</span>}
       </div>
 
       <input
@@ -44,7 +44,7 @@ function Input({
           setValue(e.target.value);
         }}
         placeholder={placeholder}
-        className='w-full rounded-lg border bg-gray-50 border-gray-70 p-3 text-base placeholder:text-gray-100 mt-2 h-11'
+        className="mt-2 h-11 w-full rounded-lg border border-gray-70 bg-gray-50 p-3 text-base placeholder:text-gray-100"
       />
     </label>
   );

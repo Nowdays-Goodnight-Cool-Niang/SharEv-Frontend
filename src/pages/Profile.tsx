@@ -1,21 +1,21 @@
-import ButtonPrimary from "../components/common/ButtonPrimary";
-import Wrapper from "../components/common/Wrapper";
-import FlyingCircles from "../components/profile/FlyingCircles";
-import ProfileCard from "../components/common/ProfileCard";
-import { useQueryAccount } from "../hooks/useQueryAccount";
-import { useQueryEventProfile } from "../hooks/useQueryEventProfile"; // Added import
-import { IEventProfile } from "../types";
-import { useNavigate, useParams } from "react-router";
-import { useState } from "react";
+import ButtonPrimary from '../components/common/ButtonPrimary';
+import Wrapper from '../components/common/Wrapper';
+import FlyingCircles from '../components/profile/FlyingCircles';
+import ProfileCard from '../components/common/ProfileCard';
+import { useQueryAccount } from '../hooks/useQueryAccount';
+import { useQueryEventProfile } from '../hooks/useQueryEventProfile'; // Added import
+import { IEventProfile } from '../types';
+import { useNavigate, useParams } from 'react-router';
+import { useState } from 'react';
 
 function Profile() {
   const { eventId } = useParams<{ eventId: string }>();
   const { account, isLoading, error } = useQueryAccount();
   const [eventProfileData, setEventProfileData] = useState<IEventProfile>({
-    eventId: eventId!, 
-    jobGroup: "", 
-    teamName: "", 
-    projectInfo: "",
+    eventId: eventId!,
+    jobGroup: '',
+    teamName: '',
+    projectInfo: '',
   });
 
   const navigate = useNavigate();
@@ -37,18 +37,17 @@ function Profile() {
     navigate(`/events/${eventId}`);
   };
 
-  console.log(eventProfileData)
-  const isFormComplete = Object.values(eventProfileData).every((value) => value.trim() !== "");
+  console.log(eventProfileData);
+  const isFormComplete = Object.values(eventProfileData).every((value) => value.trim() !== '');
   return (
     <div className="relative">
       <FlyingCircles />
 
-      <div className="absolute top-0 w-full h-screen">
+      <div className="absolute top-0 h-screen w-full">
         <Wrapper>
-          <main className="w-full h-full flex flex-col">
-            <h1 className="text-title text-gray-100 mt-[7.2rem] mb-12">
-              <span className="text-gray-30">삐약톤 : 캠퍼스 대항전</span>에서
-              사용할
+          <main className="flex h-full w-full flex-col">
+            <h1 className="text-title mb-12 mt-[7.2rem] text-gray-100">
+              <span className="text-gray-30">삐약톤 : 캠퍼스 대항전</span>에서 사용할
               <br /> 프로필을 완성하세요
             </h1>
 

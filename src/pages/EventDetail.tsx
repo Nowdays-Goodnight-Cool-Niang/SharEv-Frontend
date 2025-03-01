@@ -37,7 +37,7 @@ function EventDetail() {
   const updateSearchParams = (key: string, value: string) => {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set(key, value);
-    setSearchParams(newSearchParams, {replace: true});
+    setSearchParams(newSearchParams, { replace: true });
   };
 
   useEffect(() => {
@@ -54,96 +54,109 @@ function EventDetail() {
   if (error) return <div>에러가 발생했어요: {error.message}</div>;
 
   return (
-    <main className='bg-gray-30 min-h-screen'>
+    <main className="min-h-screen bg-gray-30">
       <Header></Header>
       <Wrapper>
-        <div className='flex flex-col pb-10'>
-          <div className='bg-slate-100 w-full h-52 rounded-xl mt-7 mb-5 overflow-hidden'>
-          <img className="w-full img-cover" src={event.imageUrl} />
+        <div className="flex flex-col pb-10">
+          <div className="mb-5 mt-7 h-52 w-full overflow-hidden rounded-xl bg-slate-100">
+            <img className="img-cover w-full" src={event.imageUrl} />
           </div>
-          <div className='mb-2 flex'>
+          <div className="mb-2 flex">
             <Tag>{getEventStatus(event?.startedAt, event?.endedAt)}</Tag>
           </div>
 
-          <h1 className='mb-6 text-title text-gray-black'>{event?.title}</h1>
-          <div className='mb-6 p-1 bg-gray-50 rounded-xl flex justify-between items-center gap-x-1'>
+          <h1 className="text-title mb-6 text-gray-black">{event?.title}</h1>
+          <div className="mb-6 flex items-center justify-between gap-x-1 rounded-xl bg-gray-50 p-1">
             <Tab
-              text='행사 정보'
+              text="행사 정보"
               onClick={() => updateSearchParams('tab', 'info')}
               isActive={searchParams.get('tab') === 'info'}
             />
             <Tab
-              text='참여하는 사람들'
+              text="참여하는 사람들"
               onClick={() => updateSearchParams('tab', 'people')}
               isActive={searchParams.get('tab') === 'people'}
             />
           </div>
-          {searchParams.get("tab") === TabType.info &&
-         <div>
-         <ul className='gap-3 flex flex-col py-3 border-t border-b border-solid border-gray-70 mb-5'>
-            <li className='flex'>
-              <h2 className='text-gray-300 text-label min-w-12'>장소</h2>
-              <span className='text-label4 text-gray-500'>{event?.place}</span>
-            </li>
-            <li className='flex'>
-              <h2 className='text-gray-300 text-label min-w-12'>주최자</h2>
-              <span className='text-label4 text-gray-500'>{event?.organizer}</span>
-            </li>
-            <li className='flex'>
-              <h2 className='text-gray-300 text-label min-w-12'>일시</h2>
-              <div className='flex flex-col gap-1'>
-                <div className='flex items-center gap-x-2 '>
-                  <div className='text-blue-500 font-bold text-[.8rem] bg-blue-100 p-1 rounded-[.4rem]'>시작일자</div>
-                  <span className='text-label4 text-gray-500'>{formatDate(event?.startedAt)}</span>
-                </div>
-                <div className='flex items-center gap-x-2 '>
-                  <div className='text-blue-500 font-bold text-[.8rem] bg-blue-100 p-1 rounded-[.4rem]'>종료일자</div>
-                  <span className='text-label4 text-gray-500'>{formatDate(event?.endedAt)}</span>
-                </div>
-              </div>
-            </li>
-          </ul>
-          <h2 className='text-gray-300 text-label mb-2'>행사 소개</h2>
-          <p className='text-body text-gray-500 mb-4'>
-            {event?.content}
-          </p>
-          <ButtonSecondary
-          onClick={() => {window.open(event?.eventUrl, "_blank");}}
-            children={
-              <div className='flex justify-center items-center gap-2'>
-                <span>자세한 정보 보러가기</span>
-                <OpenInNewSvg/>
-              </div>
-            }
-          ></ButtonSecondary>
-         </div>}
-         {searchParams.get("tab") === TabType.people && event?.registration && (
-            <EventParticipants eventId={event.id}/>
+          {searchParams.get('tab') === TabType.info && (
+            <div>
+              <ul className="mb-5 flex flex-col gap-3 border-b border-t border-solid border-gray-70 py-3">
+                <li className="flex">
+                  <h2 className="text-label min-w-12 text-gray-300">장소</h2>
+                  <span className="text-label4 text-gray-500">{event?.place}</span>
+                </li>
+                <li className="flex">
+                  <h2 className="text-label min-w-12 text-gray-300">주최자</h2>
+                  <span className="text-label4 text-gray-500">{event?.organizer}</span>
+                </li>
+                <li className="flex">
+                  <h2 className="text-label min-w-12 text-gray-300">일시</h2>
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-x-2">
+                      <div className="rounded-[.4rem] bg-blue-100 p-1 text-[.8rem] font-bold text-blue-500">
+                        시작일자
+                      </div>
+                      <span className="text-label4 text-gray-500">
+                        {formatDate(event?.startedAt)}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-x-2">
+                      <div className="rounded-[.4rem] bg-blue-100 p-1 text-[.8rem] font-bold text-blue-500">
+                        종료일자
+                      </div>
+                      <span className="text-label4 text-gray-500">
+                        {formatDate(event?.endedAt)}
+                      </span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <h2 className="text-label mb-2 text-gray-300">행사 소개</h2>
+              <p className="text-body mb-4 text-gray-500">{event?.content}</p>
+              <ButtonSecondary
+                onClick={() => {
+                  window.open(event?.eventUrl, '_blank');
+                }}
+                children={
+                  <div className="flex items-center justify-center gap-2">
+                    <span>자세한 정보 보러가기</span>
+                    <OpenInNewSvg />
+                  </div>
+                }
+              ></ButtonSecondary>
+            </div>
           )}
-          {searchParams.get("tab") === TabType.people && !event?.registration && (
+          {searchParams.get('tab') === TabType.people && event?.registration && (
+            <EventParticipants eventId={event.id} />
+          )}
+          {searchParams.get('tab') === TabType.people && !event?.registration && (
             <WarningText>행사에 참여하면 확인할 수 있습니다</WarningText>
           )}
-       { !event.registration && <div className='fixed bottom-8 left-4 right-4 max-w-full'>
-            <ButtonPrimary children={<span>이 행사에 참여해요</span>} onClick={() => {
-              navigate(`profile`)
-            }}></ButtonPrimary>
-          </div>}
+          {!event.registration && (
+            <div className="fixed bottom-8 left-4 right-4 max-w-full">
+              <ButtonPrimary
+                children={<span>이 행사에 참여해요</span>}
+                onClick={() => {
+                  navigate(`profile`);
+                }}
+              ></ButtonPrimary>
+            </div>
+          )}
         </div>
-        
       </Wrapper>
       {isProfileOpen && (
-        <div className='z-10 bg-gray-black/90'>
+        <div className="z-10 bg-gray-black/90">
           <ProfileCard
             id={participantProfile?.id || 0}
-            name={participantProfile?.name || ""}
-            phone={participantProfile?.phone || ""}
+            name={participantProfile?.name || ''}
+            phone={participantProfile?.phone || ''}
             profileImageId={participantProfile?.profileImageId || 1}
-            github={participantProfile?.github || ""}
-            instagram={participantProfile?.instagram || ""}
-            facebook={participantProfile?.facebook || ""}
-            jobGroup={participantProfile?.jobGroup || ""}
-            teamName={participantProfile?.teamName || ""}
-            projectInfo={participantProfile?.projectInfo || ""}
+            github={participantProfile?.github || ''}
+            instagram={participantProfile?.instagram || ''}
+            facebook={participantProfile?.facebook || ''}
+            jobGroup={participantProfile?.jobGroup || ''}
+            teamName={participantProfile?.teamName || ''}
+            projectInfo={participantProfile?.projectInfo || ''}
             onInputChange={(key, value) => {
               setParticipantProfile({ ...participantProfile, [key]: value });
             }}
@@ -151,7 +164,6 @@ function EventDetail() {
         </div>
       )}
     </main>
-
   );
 }
 

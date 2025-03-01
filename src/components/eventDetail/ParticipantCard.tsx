@@ -1,28 +1,29 @@
 // @ts-nocheck
-interface ParticipantCardProps{
-    id: string;
-    name: string;
-    profileImageId: number;
-    connection: boolean;
-    onClick: () => void
+interface ParticipantCardProps {
+  id: string;
+  name: string;
+  profileImageId: number;
+  connection: boolean;
+  onClick: () => void;
 }
 
-
-
-function ParticipantCard({id, name, profileImageId, connection, onClick}: ParticipantCardProps) {
-    return (
-      <li onClick={connection ? onClick : () => {}} className='flex flex-col py-5 items-center gap-2 bg-gray-50 border border-solid border-gray-70 rounded-xl '>
-        <div className='w-24 h-24 rounded-full bg-gray-30 overflow-hidden'>
+function ParticipantCard({ id, name, profileImageId, connection, onClick }: ParticipantCardProps) {
+  return (
+    <li
+      onClick={connection ? onClick : () => {}}
+      className="flex flex-col items-center gap-2 rounded-xl border border-solid border-gray-70 bg-gray-50 py-5"
+    >
+      <div className="h-24 w-24 overflow-hidden rounded-full bg-gray-30">
         <img
           src={`../../../src/assets/images/avatars/${profileImageId}.png`}
-          alt='avatar'
-          className='w-full img-cover'
+          alt="avatar"
+          className="img-cover w-full"
         />
-        </div>
+      </div>
 
-        <p className='tex-body-2 text-gray-300'>{name}</p>
-      </li>
-    );
-  }
+      <p className="tex-body-2 text-gray-300">{name}</p>
+    </li>
+  );
+}
 
-export default ParticipantCard
+export default ParticipantCard;

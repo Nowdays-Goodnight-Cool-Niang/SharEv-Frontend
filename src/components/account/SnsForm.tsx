@@ -9,17 +9,19 @@ interface ISnsFormProps {
 }
 
 function SnsForm({ onChange }: ISnsFormProps) {
-  const [fields, setFields] = useState<{ selectValue: string; inputValue: string }[]>([ { selectValue: 'github', inputValue: '' }, { selectValue: 'instagram', inputValue: '' },{ selectValue: 'facebook', inputValue: '' }]);
+  const [fields, setFields] = useState<{ selectValue: string; inputValue: string }[]>([
+    { selectValue: 'github', inputValue: '' },
+    { selectValue: 'instagram', inputValue: '' },
+    { selectValue: 'facebook', inputValue: '' },
+  ]);
 
   // const handleAddField = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
   //   e.preventDefault();
   //   setFields((prevFields) => [...prevFields, { selectValue: '', inputValue: '' }]);
   // };
 
-
   const handleFieldChange = (field: { selectValue: string; inputValue: string }) => {
-  
-    const newFields = {}
+    const newFields = {};
     newFields[field.selectValue] = field.inputValue;
 
     onChange(newFields);
@@ -27,10 +29,9 @@ function SnsForm({ onChange }: ISnsFormProps) {
 
   // const selectedKeys = fields.map(field => field.selectValue);
 
-
   return (
-    <label className='block mt-6'>
-      <span className='text-label text-gray-200'>SNS</span>
+    <label className="mt-6 block">
+      <span className="text-label text-gray-200">SNS</span>
       <div>
         {fields.map((field, idx) => (
           <Dropdown

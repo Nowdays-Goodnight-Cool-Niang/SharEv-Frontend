@@ -7,7 +7,7 @@ interface IButtonSecondaryProps {
 function ButtonSecondary({ children, onClick }: IButtonSecondaryProps) {
   return (
     <button
-      className='bg-white text-label text-blue-500 w-full py-3 px-4 border border-blue-500 rounded-lg hover:border-blue-400 mt-2'
+      className="text-label mt-2 w-full rounded-lg border border-blue-500 bg-white px-4 py-3 text-blue-500 hover:border-blue-400"
       onClick={onClick}
     >
       {children}

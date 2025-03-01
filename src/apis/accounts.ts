@@ -10,12 +10,12 @@ export const accountInstance = axios.create({
 export const accountAPI = {
   getAccount: async () => {
     const response = await accountInstance.get('');
-    console.log(response.data)
+    console.log(response.data);
     return response.data;
   },
 
-  patchParticipantInfo: async (data:IFormAccount) => {
-    const response = await accountInstance.patch('', data,{  withCredentials: true,});
+  patchParticipantInfo: async (data: IFormAccount) => {
+    const response = await accountInstance.patch('', data, { withCredentials: true });
     return response.data;
   },
 };
