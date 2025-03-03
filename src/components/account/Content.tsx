@@ -1,10 +1,9 @@
 // @ts-nocheck
 import { useNavigate } from 'react-router';
 import Input from '../common/Input';
-import ButtonPrimary from '../common/ButtonPrimary';
+import ButtonPrimary from '../common/BaseButton';
 import SnsForm from './SnsForm';
 import { useEffect, useState } from 'react';
-import ImgForm from './ImgForm';
 import { IFormAccount } from '../../types/formAccount';
 import { useQueryAccount } from '../../hooks/useQueryAccount';
 import { accountAPI } from '../../apis/accounts';
@@ -49,7 +48,6 @@ function Content() {
 
   return (
     <form>
-      <ImgForm setFormAccount={setFormAccount} />
       <Input labelName='이름' placeholder='삐약이' name='name' required={true} onChange={handleChange} />
       <Input labelName='전화번호(‘-’없이 입력)' placeholder='01012341234' name='phone' onChange={handleChange} />
       <SnsForm onChange={handleSnsChange} />
