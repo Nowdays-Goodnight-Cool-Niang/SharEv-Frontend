@@ -3,140 +3,25 @@
 @tailwind utilities;
 
 @layer base {
-  html,
-  body,
-  div,
-  span,
-  applet,
-  object,
-  iframe,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  blockquote,
-  pre,
-  a,
-  abbr,
-  acronym,
-  address,
-  big,
-  cite,
-  code,
-  del,
-  dfn,
-  em,
-  img,
-  ins,
-  kbd,
-  q,
-  s,
-  samp,
-  small,
-  strike,
-  strong,
-  sub,
-  sup,
-  tt,
-  var,
-  b,
-  u,
-  i,
-  center,
-  dl,
-  dt,
-  dd,
-  ol,
-  ul,
-  li,
-  fieldset,
-  form,
-  label,
-  legend,
-  table,
-  caption,
-  tbody,
-  tfoot,
-  thead,
-  tr,
-  th,
-  td,
-  article,
-  aside,
-  canvas,
-  details,
-  embed,
-  figure,
-  figcaption,
-  footer,
-  header,
-  hgroup,
-  menu,
-  nav,
-  output,
-  ruby,
-  section,
-  summary,
-  time,
-  mark,
-  audio,
-  video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-  }
-  /* HTML5 display-role reset for older browsers */
-  article,
-  aside,
-  details,
-  figcaption,
-  figure,
-  footer,
-  header,
-  hgroup,
-  menu,
-  nav,
-  section {
-    display: block;
-  }
-  body {
-    line-height: 1;
-  }
-  ol,
-  ul {
-    list-style: none;
-  }
-  blockquote,
-  q {
-    quotes: none;
-  }
-  blockquote:before,
-  blockquote:after,
-  q:before,
-  q:after {
-    content: "";
-    content: none;
-  }
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
+  @font-face {
+    font-family: 'Pretendard Variable';
+    font-weight: 45 920;
+    font-style: normal;
+    font-display: swap;
+    src: url('./assets/fonts/PretendardVariable.woff2') format('woff2-variations');
   }
 
   @font-face {
-    font-family: "SUIT Variable";
-    font-weight: 100 900;
-    src: url("./assets/fonts/SUIT-Variable.woff2") format("woff2-variations");
+    font-family: 'MuseoModerno';
+    font-weight: 45 920;
+    font-style: normal;
+    font-display: swap;
+    src: url('./assets/fonts/MuseoModerno-VariableFont_wght.ttf');
   }
 
   body {
-    font-family: "SUIT Variable", serif;
-    height: 100vh;
+    font-family: "Pretendard Variable", serif;
+    @apply flex justify-center bg-black;
   }
 
   * {
@@ -145,28 +30,64 @@
 }
 
 @layer utilities {
-  .text-title {
-    @apply text-xl font-bold leading-[1.8rem];
+  .font-museo {
+    font-family: "MuseoModerno", serif;
+    @apply font-semibold
   }
-  .text-body {
-    @apply text-sm font-medium leading-[1.4rem];
+
+  .text-title-1 {
+    @apply text-xl font-bold leading-[140%];
   }
-  .text-subtitle {
-    @apply text-lg font-bold leading-[1.35rem];
+
+  .text-title-2 {
+    @apply text-xl font-bold leading-[100%];
   }
-  .text-label {
+
+  .text-body-1 {
+    @apply text-sm font-medium leading-[160%];
+  }
+
+  .text-body-2 {
+    @apply text-sm font-medium leading-[100%];
+  }
+
+  .text-body-3 {
+    @apply text-sm font-medium leading-[100%];
+  }
+
+  .text-body-4 {
+    @apply text-sm font-medium leading-[160%];
+  }
+
+  .text-label-1 {
+    @apply text-xs font-bold leading-[120%];
+  }
+
+  .text-label-2 {
+    @apply text-xs font-bold leading-[120%];
+  }
+
+  .text-button-1 {
+    @apply text-base font-bold leading-[100%];
+  }
+  
+  .text-button-2 {
+    @apply text-base font-semibold leading-[100%];
+  }
+
+  .text-button-3 {
+    @apply text-sm font-bold leading-[100%];
+  }
+
+  .text-button-4 {
+    @apply text-sm font-medium leading-[100%];
+  }
+
+  .text-button-5 {
     @apply text-xs font-bold leading-[100%];
   }
-  .text-body2 {
-    @apply text-sm font-bold leading-[100%];
-  }
-  .text-label2 {
-    @apply text-sm font-semibold leading-[100%];
-  }
-  .text-label3 {
-    @apply text-sm font-bold leading-[100%];
-  }
-  .text-label4 {
-    @apply text-xs font-semibold leading-[100%];
+
+  .background {
+    @apply h-screen w-[402px] bg-gray-900
   }
 }
