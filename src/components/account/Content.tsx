@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router';
-import Input from '../common/Input';
 import ButtonPrimary from '../common/ButtonPrimary';
-import SnsForm from './SnsForm';
-import { useState } from 'react';
+import FormSns from './FormSns';
+import FormDefault from './FormDefault';
+import { useState, useEffect } from 'react';
 import { IFormAccount } from '../../types/formAccount';
 import { accountAPI } from '../../apis/accounts';
 
@@ -19,13 +19,6 @@ function Content() {
     }));
   };
 
-  const handleSnsChange = (data: { [key: string]: string }) => {
-    setFormAccount((prevData) => ({
-      ...prevData,
-      ...data,
-    }));
-  };
-
   const handleProfileCompletion = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
@@ -36,22 +29,14 @@ function Content() {
     }
   };
 
+  useEffect(() => {
+    console.log(formAccount);
+  }, [formAccount]);
+
   return (
     <form>
-      <Input
-        labelName="이름"
-        placeholder="삐약이"
-        name="name"
-        required={true}
-        onChange={handleChange}
-      />
-      <Input
-        labelName="전화번호(‘-’없이 입력)"
-        placeholder="01012341234"
-        name="phone"
-        onChange={handleChange}
-      />
-      <SnsForm onChange={handleSnsChange} />
+      <FormDefault handleChange={handleChange} />
+      <FormSns handleChange={handleChange} />
 
       <div className="fixed bottom-8 left-4 right-4 max-w-full">
         <ButtonPrimary isDisabled={!formAccount.name} onClick={(e) => handleProfileCompletion(e)}>

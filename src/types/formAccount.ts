@@ -1,8 +1,7 @@
 export interface IFormAccount {
   name?: string;
-  phone?: string;
-  profileImageId?: number | null;
+  email?: string;
+  linkedIn?: string;
   github?: string;
   instagram?: string;
-  facebook?: string;
 }

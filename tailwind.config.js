@@ -34,7 +34,10 @@ export default {
           500: '#217DFF',
         },
         pink: '#FF8BF5',
-        orange: '#FF9852',
+        orange: {
+          500: '#FF6A29',
+          700: '#ED4700',
+        },
         black: '#1E272E',
         white: '#FFFFFF',
       },

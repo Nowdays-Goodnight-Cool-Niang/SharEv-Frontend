@@ -2,7 +2,7 @@ import { Link } from 'react-router';
 import Tag from '../components/common/Tag';
 import WarningText from '../components/common/WarningText';
 import Wrapper from '../components/common/Wrapper';
-import Header from '../components/event/Header';
+import Header from '../components/common/Header';
 import { useQueryEvents } from '../hooks/useQueryEvents';
 import { formatDate } from '../utils/date';
 import { getEventStatus } from '../utils/event';
