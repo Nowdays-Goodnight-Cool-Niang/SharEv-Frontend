@@ -2,44 +2,33 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    animation: {
+      'fade-in': 'fade-in 1s ease-out forwards',
+    },
+    keyframes: {
+      'fade-in': {
+        from: { opacity: 0, transform: 'translateY(20px)' },
+        to: { opacity: 1, transform: 'translateY(0)' },
+      },
+    },
     extend: {
-      animation: {
-        fly: 'fly 4s ease-in-out infinite',
-      },
-      keyframes: {
-        fly: {
-          '0%': { transform: 'translateX(-5rem)' },
-          '100%': { transform: 'translateX(calc(100vw + 5rem))' },
-        },
-      },
       colors: {
         gray: {
-          30: '#FBFCFE',
-          50: '#F4F8FA',
-          70: '#E9EEF1',
-          100: '#CDD9E4',
-          200: '#90A2B7',
-          300: '#768797',
-          400: '#56687A',
-          500: '#41505B',
-          black: '#1E272E',
+          50: '#FAFAFA',
+          100: '#F5F5F5',
+          200: '#EEEEEE',
+          300: '#DEDEDE',
+          400: '#BDBDBD',
+          500: '#7C7C7C',
+          600: '#4B4B4B',
+          700: '#282828',
+          800: '#1E1E1E',
+          900: '#0D0D0D',
         },
-        green: {
-          light: '#C1F57C',
-          dark: '#518E00',
-        },
-        blue: {
-          100: '#DCEFFF',
-          300: '#7FC3FF',
-          500: '#217DFF',
-        },
-        pink: '#FF8BF5',
         orange: {
           500: '#FF6A29',
           700: '#ED4700',
         },
-        black: '#1E272E',
-        white: '#FFFFFF',
       },
     },
   },

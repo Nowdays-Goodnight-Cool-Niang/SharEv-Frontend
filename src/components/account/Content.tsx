@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import ButtonPrimary from '../common/ButtonPrimary';
+import ButtonPrimary from '../common/BaseButton';
 import FormSns from './FormSns';
 import FormDefault from './FormDefault';
 import { useState, useEffect } from 'react';
