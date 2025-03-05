@@ -1,12 +1,12 @@
-import AccountContent from '../components/account/Content';
-import AccountHeader from '../components/account/Header';
+import FormContent from '../components/profile/FormContent';
+import FormHeader from '../components/profile/FormHeader';
 import Wrapper from '../components/common/Wrapper';
 
 function ProfileSetup() {
   return (
     <Wrapper>
-      <AccountHeader />
-      <AccountContent />
+      <FormHeader />
+      <FormContent />
     </Wrapper>
   );
 }
