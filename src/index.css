@@ -21,7 +21,7 @@
 
   body {
     font-family: 'Pretendard Variable', serif;
-    @apply flex justify-center bg-black;
+    @apply flex justify-center bg-gray-900;
   }
 
   #root {
