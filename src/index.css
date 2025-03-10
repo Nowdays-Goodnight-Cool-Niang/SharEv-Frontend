@@ -65,11 +65,11 @@
   }
 
   .text-label-1 {
-    @apply text-xs font-bold leading-[120%];
+    @apply text-xs font-semibold leading-[120%];
   }
 
   .text-label-2 {
-    @apply text-xs font-bold leading-[120%];
+    @apply text-xs font-medium leading-[120%];
   }
 
   .text-button-1 {
