@@ -46,7 +46,7 @@ function Input({
           setValue(e.target.value);
         }}
         placeholder={placeholder}
-        className="mt-2 h-11 w-full rounded bg-gray-700 p-3 text-base placeholder:text-gray-500"
+        className="text-body-2 mt-2 h-11 w-full rounded bg-gray-700 p-3 text-gray-100 placeholder:text-gray-500"
       />
       {validationMessage && (
         <span className="text-label-2 mt-2 text-orange-500">{validationMessage}</span>
