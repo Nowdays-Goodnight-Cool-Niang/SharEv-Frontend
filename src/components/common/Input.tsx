@@ -28,8 +28,8 @@ function Input({
   return (
     <label className="mt-6 block">
       <div className="flex items-center">
-        <span className="text-label text-gray-200">{labelName}</span>
-        {required && <span className="ml-0.5 text-pink">*</span>}
+        <span className="text-label text-gray-500">{labelName}</span>
+        {required && <span className="ml-0.5 text-orange-500">*</span>}
       </div>
 
       <input
@@ -44,7 +44,7 @@ function Input({
           setValue(e.target.value);
         }}
         placeholder={placeholder}
-        className="mt-2 h-11 w-full rounded-lg border border-gray-70 bg-gray-50 p-3 text-base placeholder:text-gray-100"
+        className="mt-2 h-11 w-full rounded bg-gray-700 p-3 text-base placeholder:text-gray-500"
       />
     </label>
   );
