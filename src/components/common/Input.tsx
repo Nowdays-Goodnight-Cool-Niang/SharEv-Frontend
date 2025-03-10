@@ -30,7 +30,7 @@ function Input({
   return (
     <label className="mt-6 block">
       <div className="flex items-center">
-        <span className="text-label text-gray-500">{labelName}</span>
+        <span className="text-label-1 text-gray-500">{labelName}</span>
         {required && <div className="ml-0.5 h-1 w-1 rounded-full bg-orange-500"></div>}
       </div>
 

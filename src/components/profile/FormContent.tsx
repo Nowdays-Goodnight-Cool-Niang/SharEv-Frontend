@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 import ButtonPrimary from '../common/BaseButton';
-import FormSns from './FormSns';
-import FormDefault from './FormDefault';
+
+import FormSection from './FormSection';
 import { useState, useEffect } from 'react';
 import { IFormAccount } from '../../types/formAccount';
 import { accountAPI } from '../../apis/accounts';
@@ -35,8 +35,8 @@ function Content() {
 
   return (
     <form>
-      <FormDefault handleChange={handleChange} />
-      <FormSns handleChange={handleChange} />
+      <FormSection type="default" handleChange={handleChange} />
+      <FormSection type="sns" handleChange={handleChange} />
 
       <div className="fixed bottom-8 left-4 right-4 max-w-full">
         <ButtonPrimary isDisabled={!formAccount.name} onClick={(e) => handleProfileCompletion(e)}>

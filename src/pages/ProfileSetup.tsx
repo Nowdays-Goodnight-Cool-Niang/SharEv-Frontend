@@ -8,9 +8,11 @@ function ProfileSetup() {
   return (
     <Wrapper>
       <Header />
-      <FormHeader />
-      <NoticeInfo />
-      <FormContent />
+      <main className="pt-11">
+        <FormHeader />
+        <NoticeInfo />
+        <FormContent />
+      </main>
     </Wrapper>
   );
 }
