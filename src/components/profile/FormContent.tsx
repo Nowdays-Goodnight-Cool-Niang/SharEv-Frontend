@@ -38,7 +38,7 @@ function Content() {
       <FormSection type="default" handleChange={handleChange} />
       <FormSection type="sns" handleChange={handleChange} />
 
-      <div className="fixed bottom-8 left-4 right-4 max-w-full">
+      <div className="fixed bottom-11 left-4 right-4 max-w-full">
         <ButtonPrimary isDisabled={!formAccount.name} onClick={(e) => handleProfileCompletion(e)}>
           프로필을 완성했어요
         </ButtonPrimary>
