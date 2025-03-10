@@ -1,5 +1,5 @@
 function Logo() {
-  return <h1 className="text-base font-bold text-gray-black">shareMe</h1>;
+  return <h1 className="font-museo text-base font-bold text-gray-50">SharEv</h1>;
 }
 
 export default Logo;
