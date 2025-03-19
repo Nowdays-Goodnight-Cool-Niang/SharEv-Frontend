@@ -9,6 +9,7 @@ interface InputProps {
   required?: boolean;
   maxLength?: number;
   minLength?: number;
+  validationMessage?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -21,15 +22,16 @@ function Input({
   name,
   maxLength,
   minLength,
+  validationMessage,
   onChange,
 }: InputProps) {
   const [value, setValue] = useState(initialValue);
 
   return (
-    <label className='block mt-6'>
-      <div className='flex items-center'>
-        <span className='text-label text-gray-200'>{labelName}</span>
-        {required && <span className='text-pink ml-0.5'>*</span>}
+    <label className="mt-6 block">
+      <div className="flex items-center">
+        <span className="text-label-1 text-gray-500">{labelName}</span>
+        {required && <div className="ml-0.5 h-1 w-1 rounded-full bg-orange-500"></div>}
       </div>
 
       <input
@@ -44,8 +46,11 @@ function Input({
           setValue(e.target.value);
         }}
         placeholder={placeholder}
-        className='w-full rounded-lg border bg-gray-50 border-gray-70 p-3 text-base placeholder:text-gray-100 mt-2 h-11'
+        className="text-body-2 mt-2 h-11 w-full rounded bg-gray-700 p-3 text-gray-100 placeholder:text-gray-500"
       />
+      {validationMessage && (
+        <span className="text-label-2 mt-2 text-orange-500">{validationMessage}</span>
+      )}
     </label>
   );
 }

@@ -20,8 +20,13 @@
   }
 
   body {
-    font-family: "Pretendard Variable", serif;
-    @apply flex justify-center bg-black;
+    font-family: 'Pretendard Variable', serif;
+    @apply flex justify-center bg-gray-900;
+  }
+
+  #root {
+    width: 100vw;
+    height: 100vh;
   }
 
   * {
@@ -31,8 +36,8 @@
 
 @layer utilities {
   .font-museo {
-    font-family: "MuseoModerno", serif;
-    @apply font-semibold
+    font-family: 'MuseoModerno', serif;
+    @apply font-semibold;
   }
 
   .text-title-1 {
@@ -60,17 +65,17 @@
   }
 
   .text-label-1 {
-    @apply text-xs font-bold leading-[120%];
+    @apply text-xs font-semibold leading-[120%];
   }
 
   .text-label-2 {
-    @apply text-xs font-bold leading-[120%];
+    @apply text-xs font-medium leading-[120%];
   }
 
   .text-button-1 {
     @apply text-base font-bold leading-[100%];
   }
-  
+
   .text-button-2 {
     @apply text-base font-semibold leading-[100%];
   }
@@ -88,6 +93,6 @@
   }
 
   .background {
-    @apply h-screen w-[402px] bg-gray-900
+    @apply h-screen w-[402px] bg-gray-900;
   }
 }

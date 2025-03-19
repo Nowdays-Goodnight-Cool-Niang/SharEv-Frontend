@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import { participantAPI } from "../apis/participants";
-import { IParticipantInfo } from "../types";
+import { useQuery } from '@tanstack/react-query';
+import { participantAPI } from '../apis/participants';
+import { IParticipantInfo } from '../types';
 
 export const useQueryParticipantInfo = (participantId: string) => {
   const {
@@ -8,7 +8,7 @@ export const useQueryParticipantInfo = (participantId: string) => {
     isLoading,
     error,
   } = useQuery<IParticipantInfo>({
-    queryKey: ["eventParticipant", participantId],
+    queryKey: ['eventParticipant', participantId],
     queryFn: () => participantAPI.getParticipantInfo(participantId),
   });
 

@@ -25,14 +25,14 @@ export interface IEventParticipant {
   id: string;
   name: string;
   profileImageId: number;
-  connection: boolean
+  connection: boolean;
 }
 
 export interface IEventProfile {
-  eventId: string, 
-  jobGroup: string, 
-  teamName: string, 
-  projectInfo: string
+  eventId: string;
+  jobGroup: string;
+  teamName: string;
+  projectInfo: string;
 }
 
 export interface IAccount {
@@ -46,19 +46,15 @@ export interface IAccount {
 }
 
 export interface IParticipantInfo {
-  id: string
-  accountId: string
-  name:  string
-  phone?:  string
-  profileImageId: number
-  github?: string
-  instagram?: string
-  facebook?: string
-  jobGroup: string
-  teamName: string
-  projectInfo: string
+  id: string;
+  accountId: string;
+  name: string;
+  phone?: string;
+  profileImageId: number;
+  github?: string;
+  instagram?: string;
+  facebook?: string;
+  jobGroup: string;
+  teamName: string;
+  projectInfo: string;
 }
-
-
-
-

@@ -1,7 +1,7 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren } from 'react';
 
 function Wrapper({ children }: PropsWithChildren) {
-  return <div className="px-6 h-full">{children}</div>;
+  return <div className="h-full px-6">{children}</div>;
 }
 
 export default Wrapper;

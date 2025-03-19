@@ -9,8 +9,8 @@ function Tab({ text, onClick, isActive }: TabProps) {
     <button
       onClick={onClick}
       className={`rounded-lg ${
-        isActive ? "text-blue-500 bg-white" : "text-gray-300"
-      }  text-label-3 py-3 w-full `}
+        isActive ? 'bg-white text-blue-500' : 'text-gray-300'
+      } text-label-3 w-full py-3`}
     >
       {text}
     </button>

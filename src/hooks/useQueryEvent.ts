@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import { eventAPI } from "../apis/events";
-import { IEventDetail } from "../types";
+import { useQuery } from '@tanstack/react-query';
+import { eventAPI } from '../apis/events';
+import { IEventDetail } from '../types';
 
 export const useQueryEvent = (eventId: string) => {
   const {
@@ -8,7 +8,7 @@ export const useQueryEvent = (eventId: string) => {
     isLoading,
     error,
   } = useQuery<IEventDetail>({
-    queryKey: ["event", eventId],
+    queryKey: ['event', eventId],
     queryFn: () => eventAPI.getEventById(eventId),
   });
 

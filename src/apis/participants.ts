@@ -8,7 +8,7 @@ export const participantInstance = axios.create({
 });
 
 export const participantAPI = {
-  putParticipantInfo: async (eventProfile :IEventProfile) => {
+  putParticipantInfo: async (eventProfile: IEventProfile) => {
     const response = await participantInstance.put('/info', eventProfile);
     return response.data;
   },

@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import { accountAPI } from "../apis/accounts";
-import { IAccount } from "../types";
+import { useQuery } from '@tanstack/react-query';
+import { accountAPI } from '../apis/accounts';
+import { IAccount } from '../types';
 
 export const useQueryAccount = () => {
   const {
@@ -8,7 +8,7 @@ export const useQueryAccount = () => {
     isLoading,
     error,
   } = useQuery<IAccount>({
-    queryKey: ["account"],
+    queryKey: ['account'],
     queryFn: accountAPI.getAccount,
   });
   return {
