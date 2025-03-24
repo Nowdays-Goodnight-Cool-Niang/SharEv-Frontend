@@ -45,7 +45,7 @@
   }
 
   .text-title-2 {
-    @apply text-xl font-bold leading-[100%];
+    @apply text-base font-bold leading-[100%];
   }
 
   .text-body-1 {
