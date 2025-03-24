@@ -1,10 +1,19 @@
+import { Link } from 'react-router';
 import Logo from './Logo';
+import PersonSvg from '../../assets/icons/ic_person.svg?react';
 
-function Header() {
+interface HeaderProps {
+  isLoggedIn: boolean;
+}
+
+function Header({ isLoggedIn }: HeaderProps) {
   return (
     <header className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-700 px-6 py-3.5">
-      <Logo></Logo>
-      {/* TODO: 로그인한 경우 프로필 아이콘 띄우기 */}
+      <Link to={'/'}>
+        <Logo></Logo>
+      </Link>
+
+      {isLoggedIn && <PersonSvg />}
     </header>
   );
 }
