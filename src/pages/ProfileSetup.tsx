@@ -5,7 +5,7 @@ import FormContent from '../components/profile/FormContent';
 function ProfileSetup() {
   return (
     <main className="pt-11">
-      <FormHeader />
+      <FormHeader content="프로필을 완성하세요" />
       <NoticeInfo />
       <FormContent />
     </main>
