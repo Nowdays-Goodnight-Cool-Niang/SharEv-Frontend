@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router';
 import ButtonPrimary from '../common/BaseButton';
 
 import FormSection from './FormSection';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { IFormAccount } from '../../types/formAccount';
 import { accountAPI } from '../../apis/accounts';
 
@@ -28,10 +28,6 @@ function Content() {
       console.log('error');
     }
   };
-
-  useEffect(() => {
-    console.log(formAccount);
-  }, [formAccount]);
 
   return (
     <form>
