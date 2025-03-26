@@ -8,7 +8,7 @@ function SNS({ children, onClick }: ISNS) {
   return (
     <button
       onClick={onClick}
-      className="flex h-6 w-6 items-center justify-center rounded-[.4rem] bg-gray-black"
+      className="bg-gray-black flex h-6 w-6 items-center justify-center rounded-[.4rem]"
     >
       {children}
     </button>

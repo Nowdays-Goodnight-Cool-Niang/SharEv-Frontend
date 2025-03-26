@@ -4,7 +4,12 @@ interface IButtonPrimaryProps {
   isDisabled?: boolean;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
-function ButtonPrimary({ children, variant = 'default', isDisabled = false, onClick }: IButtonPrimaryProps) {
+function ButtonPrimary({
+  children,
+  variant = 'default',
+  isDisabled = false,
+  onClick,
+}: IButtonPrimaryProps) {
   const bgClasses = {
     default: 'bg-orange-500 text-gray-50 hover:bg-gray-500',
     kakao: 'bg-[#FEE500] text-[#000000]/85 hover:bg-[#eecc0d]',
@@ -12,9 +17,9 @@ function ButtonPrimary({ children, variant = 'default', isDisabled = false, onCl
 
   return (
     <button
-      className={`${bgClasses[variant]} w-full text-button-1 p-4 rounded-lg transition-colors duration-400`}
+      className={`${bgClasses[variant]} text-button-1 duration-400 w-full rounded-lg p-4 transition-colors`}
       disabled={isDisabled}
-      onClick={isDisabled ? ()=> {} :  onClick}
+      onClick={onClick}
     >
       {children}
     </button>

@@ -1,19 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
-import { eventAPI } from '../apis/events';
-import { IEventParticipant } from '../types';
+import { participantAPI } from '../apis/participants';
+import { IProfile } from '../types';
 
-export const useQueryEventParticipants = (eventId: string) => {
+export const useQueryParticipants = () => {
   const {
-    data: eventParticipants,
+    data: participants,
     isLoading,
     error,
-  } = useQuery<IEventParticipant[]>({
-    queryKey: ['eventParticipants', eventId],
-    queryFn: () => eventAPI.getEventParticipants(eventId),
+  } = useQuery<IProfile[]>({
+    queryKey: ['participants'],
+    queryFn: () => participantAPI.getParticipants(),
   });
 
   return {
-    eventParticipants,
+    participants,
     isLoading,
     error,
   };
