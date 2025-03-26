@@ -42,10 +42,6 @@ function App() {
         },
       ],
     },
-    {
-      path: '/event',
-      element: <Event />,
-    },
   ]);
 
   return (
