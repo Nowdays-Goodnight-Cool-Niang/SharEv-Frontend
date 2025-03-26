@@ -7,7 +7,7 @@ function ProfileSetup() {
     <main className="pt-11">
       <FormHeader content="프로필을 완성하세요" />
       <NoticeInfo />
-      <FormContent variant={'setup'} />
+      <FormContent variant={'edit'} />
     </main>
   );
 }

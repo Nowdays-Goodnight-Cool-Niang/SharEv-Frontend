@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Event from './pages/Event';
 import LoginRedirect from './pages/LoginRedirect';
 import ProfileSetup from './pages/ProfileSetup';
+import ProfileEdit from './pages/ProfileEdit';
 import MyPage from './pages/MyPage';
 import LayoutWithHeader from './components/common/LayoutWithHeader';
 
@@ -35,7 +36,15 @@ function App() {
           path: '/user/:userId',
           element: <MyPage />,
         },
+        {
+          path: '/profile-edit',
+          element: <ProfileEdit />,
+        },
       ],
+    },
+    {
+      path: '/event',
+      element: <Event />,
     },
   ]);
 
