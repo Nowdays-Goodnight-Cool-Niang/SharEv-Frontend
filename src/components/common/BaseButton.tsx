@@ -4,12 +4,7 @@ interface IButtonPrimaryProps {
   isDisabled?: boolean;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
-function ButtonPrimary({
-  children,
-  variant = 'default',
-  isDisabled = false,
-  onClick,
-}: IButtonPrimaryProps) {
+
 function ButtonPrimary({
   children,
   variant = 'default',
@@ -25,7 +20,6 @@ function ButtonPrimary({
     <button
       className={`${bgClasses[variant]} text-button-1 duration-400 w-full rounded-lg p-4 transition-colors disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-25`}
       disabled={isDisabled}
-      onClick={onClick}
       onClick={onClick}
     >
       {children}
