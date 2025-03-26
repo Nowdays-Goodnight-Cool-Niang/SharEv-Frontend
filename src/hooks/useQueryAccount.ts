@@ -1,15 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { accountAPI } from '../apis/accounts';
-import { IAccount } from '../types';
+import { IProfile } from '../types';
 
 export const useQueryAccount = () => {
   const {
     data: account,
     isLoading,
     error,
-  } = useQuery<IAccount>({
+  } = useQuery<IProfile>({
     queryKey: ['account'],
-    queryFn: accountAPI.getAccount,
+    queryFn: accountAPI.getProfile,
   });
   return {
     account,

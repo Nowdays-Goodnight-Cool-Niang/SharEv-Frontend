@@ -3,7 +3,7 @@ import BaseButton from '../common/BaseButton';
 
 import FormSection from './FormSection';
 import { useState } from 'react';
-import { IFormAccount } from '../../types/formAccount';
+import { IProfile } from '../../types';
 import { accountAPI } from '../../apis/accounts';
 
 interface IContentProps {
@@ -11,7 +11,7 @@ interface IContentProps {
 }
 
 function Content({ variant }: IContentProps) {
-  const [formAccount, setFormAccount] = useState<IFormAccount>({});
+  const [formAccount, setFormAccount] = useState<IProfile>({});
 
   const navigate = useNavigate();
 
@@ -26,7 +26,7 @@ function Content({ variant }: IContentProps) {
   const handleProfileSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      await accountAPI.patchParticipantInfo(formAccount);
+      await accountAPI.patchProfileInfo(formAccount);
       if (variant === 'setup') navigate('/event');
       else navigate('/user/:userId');
       // TODO: userId 변수처리
