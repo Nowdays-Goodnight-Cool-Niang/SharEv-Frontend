@@ -1,6 +1,8 @@
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Home from './pages/Home';
+import Event from './pages/Event';
+import LoginRedirect from './pages/LoginRedirect';
 import ProfileSetup from './pages/ProfileSetup';
 import ProfileEdit from './pages/ProfileEdit';
 import MyPage from './pages/MyPage';
@@ -13,6 +15,10 @@ function App() {
     {
       path: '/',
       element: <Home />,
+    },
+    {
+      path: '/kakao',
+      element: <LoginRedirect />,
     },
     {
       path: '/',
@@ -31,6 +37,10 @@ function App() {
           element: <ProfileEdit />,
         },
       ],
+    },
+    {
+      path: '/event',
+      element: <Event />,
     },
   ]);
 

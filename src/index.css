@@ -19,6 +19,13 @@
     src: url('./assets/fonts/MuseoModerno-VariableFont_wght.ttf');
   }
 
+  @font-face {
+    font-family: 'Ydestreet';
+    font-style: normal;
+    font-display: swap;
+    src: url('./assets/fonts/YdestreetB.ttf');
+  }
+
   body {
     font-family: 'Pretendard Variable', serif;
     @apply flex justify-center bg-gray-900;
@@ -30,11 +37,19 @@
   }
 
   * {
-    box-sizing: border-box;
+    @apply box-border select-none;
+  }
+
+  input {
+    @apply border-none focus:outline-none;
   }
 }
 
 @layer utilities {
+  .font-ydestreet {
+    font-family: 'Ydestreet', serif;
+  }
+
   .font-museo {
     font-family: 'MuseoModerno', serif;
     @apply font-semibold;
@@ -93,6 +108,10 @@
   }
 
   .background {
-    @apply h-screen w-[402px] bg-gray-900;
+    @apply h-screen w-[402px];
+  }
+
+  .wrapper {
+    @apply px-6;
   }
 }

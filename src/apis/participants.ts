@@ -1,25 +1,13 @@
 import axios from 'axios';
-import { instance } from '.';
-import { IEventProfile } from '../types';
 
 export const participantInstance = axios.create({
-  baseURL: `${instance.defaults.baseURL}/participants`,
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}/social-dex`,
   withCredentials: true,
 });
 
 export const participantAPI = {
-  putParticipantInfo: async (eventProfile: IEventProfile) => {
-    const response = await participantInstance.put('/info', eventProfile);
-    return response.data;
-  },
-
-  getParticipantInfo: async (participantId: string) => {
-    const response = await participantInstance.get(`/info/${participantId}`);
-    return response.data;
-  },
-
-  getParticipantQR: async (eventId: string) => {
-    const response = await participantInstance.get(`/register/mine/${eventId}`);
+  getParticipants: async () => {
+    const response = await participantInstance.get('');
     return response.data;
   },
 };
