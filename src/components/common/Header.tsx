@@ -13,6 +13,7 @@ function Header({ isLoggedIn }: HeaderProps) {
   return (
     <header className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-700 px-6 py-3.5">
       <Link to={'/'}>
+        {/* TODO: 로고 클릭시 어디로 이동시킬지 논의 필요 (기존에는 행사 조회 페이지였으나, 0.0.1버전에는 포함X) - MVP버전은 홈이 로그인 화면 > 홈으로 이동시 로그아웃 or 행사 상세(event)를 띄우기  */}
         <Logo></Logo>
       </Link>
 
