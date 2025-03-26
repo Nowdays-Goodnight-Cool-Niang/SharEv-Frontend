@@ -24,7 +24,7 @@ function FlyingCircles() {
       {circles.map((circle) => (
         <div
           key={circle.id}
-          className={`absolute left-[-4rem] animate-fly rounded-full bg-white`}
+          className={`animate-fly absolute left-[-4rem] rounded-full bg-white`}
           style={{
             width: `${circle.size}px`,
             height: `${circle.size}px`,

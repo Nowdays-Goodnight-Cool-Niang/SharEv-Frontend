@@ -41,8 +41,8 @@ function ProfileCard({
           alt="AvatarImg"
         />
 
-        <h1 className="text-title mb-2 text-gray-black">{name}</h1>
-        <div className="text-label mb-3 rounded-[.4rem] border border-solid border-gray-black bg-gray-30 px-2 py-[.6rem] text-gray-black">
+        <h1 className="text-title text-gray-black mb-2">{name}</h1>
+        <div className="text-label border-gray-black bg-gray-30 text-gray-black mb-3 rounded-[.4rem] border border-solid px-2 py-[.6rem]">
           {phone || '전화번호를 작성하지 않았어요'}
         </div>
         <ul className="flex gap-2">
@@ -62,7 +62,7 @@ function ProfileCard({
             </SNS>
           )}
         </ul>
-        <div className="mt-10 flex w-full flex-wrap items-center gap-1 rounded-xl border border-solid border-gray-70 bg-white p-5">
+        <div className="border-gray-70 mt-10 flex w-full flex-wrap items-center gap-1 rounded-xl border border-solid bg-white p-5">
           <ProfileInput
             placeholder={'팀 이름'}
             value={teamName}
