@@ -1,19 +1,23 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { accountAPI } from '../apis/accounts';
 import { IProfile } from '../types';
 
 export const useQueryAccount = () => {
   const {
-    data: account,
+    data: profile,
     isLoading,
     error,
   } = useQuery<IProfile>({
     queryKey: ['account'],
     queryFn: accountAPI.getProfile,
   });
+
+  const mutation = useMutation({ mutationFn: accountAPI.patchProfileInfo });
+
   return {
-    account,
+    profile,
     isLoading,
     error,
+    patchProfileInfo: mutation.mutate,
   };
 };

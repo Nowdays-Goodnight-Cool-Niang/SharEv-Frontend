@@ -4,7 +4,7 @@ import BaseButton from '../common/BaseButton';
 import FormSection from './FormSection';
 import { useState } from 'react';
 import { IProfile } from '../../types';
-import { accountAPI } from '../../apis/accounts';
+import { useQueryAccount } from '../../hooks/useQueryAccount';
 
 interface IContentProps {
   variant: 'setup' | 'edit';
@@ -14,6 +14,7 @@ function Content({ variant }: IContentProps) {
   const [formAccount, setFormAccount] = useState<IProfile>({});
 
   const navigate = useNavigate();
+  const { patchProfileInfo } = useQueryAccount();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,10 +27,15 @@ function Content({ variant }: IContentProps) {
   const handleProfileSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      await accountAPI.patchProfileInfo(formAccount);
-      if (variant === 'setup') navigate('/event');
-      else navigate('/user/:userId');
-      // TODO: userId 변수처리
+      patchProfileInfo(formAccount, {
+        onSuccess: () => {
+          if (variant === 'setup') navigate('/event');
+          else navigate('/user/:userId'); // TODO: userId 변수처리
+        },
+        onError: () => {
+          console.log('Error occurred while updating profile');
+        },
+      });
     } catch {
       console.log('error');
     }
