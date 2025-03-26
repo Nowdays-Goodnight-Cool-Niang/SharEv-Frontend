@@ -8,9 +8,8 @@ function LayoutWithHeader() {
 
   return (
     <div className="h-full">
-      {/* TODO: 유진님이 wrapper 클래스로 변경하시면 적용하기 */}
       <Header isLoggedIn={isSetupProfile} />
-      <div className="px-6">
+      <div className="wrapper">
         <Outlet />
       </div>
     </div>
