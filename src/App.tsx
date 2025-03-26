@@ -28,14 +28,14 @@ function App() {
           element: <ProfileSetup />,
         },
         {
+          path: '/event',
+          element: <Event />,
+        },
+        {
           path: '/user/:userId',
           element: <MyPage />,
         },
       ],
-    },
-    {
-      path: '/event',
-      element: <Event />,
     },
   ]);
 
