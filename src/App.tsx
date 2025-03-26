@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Home from './pages/Home';
 import ProfileSetup from './pages/ProfileSetup';
+import ProfileEdit from './pages/ProfileEdit';
 import MyPage from './pages/MyPage';
 import LayoutWithHeader from './components/common/LayoutWithHeader';
 
@@ -24,6 +25,10 @@ function App() {
         {
           path: '/user/:userId',
           element: <MyPage />,
+        },
+        {
+          path: '/profile-edit',
+          element: <ProfileEdit />,
         },
       ],
     },
