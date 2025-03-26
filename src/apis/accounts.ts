@@ -1,16 +1,14 @@
 import axios from 'axios';
-import { instance } from '.';
 import { IFormAccount } from '../types/formAccount';
 
 export const accountInstance = axios.create({
-  baseURL: `${instance.defaults.baseURL}/accounts`,
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}/accounts`,
   withCredentials: true,
 });
 
 export const accountAPI = {
   getAccount: async () => {
     const response = await accountInstance.get('');
-    console.log(response.data);
     return response.data;
   },
 
