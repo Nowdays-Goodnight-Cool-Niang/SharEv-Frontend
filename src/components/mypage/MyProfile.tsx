@@ -4,17 +4,20 @@ import SnsIcon from '../common/SnsIcon';
 import GtihubSvg from '../../assets/icons/ic_github.svg?react';
 import LinkedinSvg from '../../assets/icons/ic_linkedin.svg?react';
 import InstagramSvg from '../../assets/icons/ic_instagram.svg?react';
+import { useQueryAccount } from '../../hooks/useQueryAccount';
 
 function MyProfile() {
   const navigate = useNavigate();
+  const { profile } = useQueryAccount();
 
-  const profileData = {
-    name: '권나연',
-    email: 'example@ex.com',
-    linkedinUrl: 'linkedin.com/in/ooo',
-    githubUrl: 'github.com/ooo',
-    instagramUrl: 'instagram.com/ooo',
-  };
+  // const profileData = {
+  //   name: '권나연',
+  //   email: 'example@ex.com',
+  //   linkedinUrl: 'linkedin.com/in/ooo',
+  //   githubUrl: 'github.com/ooo',
+  //   instagramUrl: 'instagram.com/ooo',
+  // };
+  // TODO: mock
 
   const moveProfileEdit = () => navigate('/profile-edit');
 
@@ -22,21 +25,21 @@ function MyProfile() {
     <article className="mt-6 flex justify-between rounded bg-gray-800 p-5 pb-6">
       <div>
         <div>
-          <h3 className="text-body-1 text-gray-200">{profileData.name}</h3>
-          <span className="text-body-4 text-gray-400">{profileData.email}</span>
+          <h3 className="text-body-1 text-gray-200">{profile?.name}</h3>
+          <span className="text-body-4 text-gray-400">{profile?.email}</span>
         </div>
         <ul className="mt-3 flex gap-1.5">
-          {profileData.linkedinUrl && (
+          {profile?.linkedinUrl && (
             <SnsIcon extraClasses="h-4 w-4">
               <LinkedinSvg />
             </SnsIcon>
           )}
-          {profileData.githubUrl && (
+          {profile?.githubUrl && (
             <SnsIcon extraClasses="h-4 w-4">
               <GtihubSvg />
             </SnsIcon>
           )}
-          {profileData.instagramUrl && (
+          {profile?.instagramUrl && (
             <SnsIcon extraClasses="h-4 w-4">
               <InstagramSvg />
             </SnsIcon>
