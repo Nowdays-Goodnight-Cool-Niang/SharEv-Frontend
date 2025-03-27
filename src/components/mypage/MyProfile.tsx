@@ -21,9 +21,11 @@ function MyProfile() {
   return (
     <article className="mt-6 flex justify-between rounded bg-gray-800 p-5 pb-6">
       <div>
-        <h3 className="text-body-1 text-gray-200">{profileData.name}</h3>
-        <span className="text-body-4 text-gray-400">{profileData.email}</span>
-        <ul className="flex gap-1.5">
+        <div>
+          <h3 className="text-body-1 text-gray-200">{profileData.name}</h3>
+          <span className="text-body-4 text-gray-400">{profileData.email}</span>
+        </div>
+        <ul className="mt-3 flex gap-1.5">
           {profileData.linkedinUrl && (
             <SnsIcon extraClasses="h-4 w-4">
               <LinkedinSvg />
@@ -42,7 +44,9 @@ function MyProfile() {
         </ul>
       </div>
       <div className="w-20">
-        <BaseButton onClick={moveProfileEdit}>프로필 수정</BaseButton>
+        <BaseButton onClick={moveProfileEdit} extraClasses={'text-button-5 px-3 py-2'}>
+          프로필 수정
+        </BaseButton>
       </div>
     </article>
   );

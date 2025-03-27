@@ -1,6 +1,7 @@
 interface IBaseButtonProps {
   children: React.ReactNode;
   variant?: 'default' | 'kakao';
+  extraClasses?: string;
   isDisabled?: boolean;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
@@ -8,6 +9,7 @@ interface IBaseButtonProps {
 function BaseButton({
   children,
   variant = 'default',
+  extraClasses,
   isDisabled = false,
   onClick,
 }: IBaseButtonProps) {
@@ -18,7 +20,7 @@ function BaseButton({
 
   return (
     <button
-      className={`${bgClasses[variant]} text-button-1 duration-400 w-full rounded-lg p-4 transition-colors disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-25`}
+      className={`${bgClasses[variant]} text-button-1 duration-400 w-full rounded-lg p-4 transition-colors disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-25 ${extraClasses}`}
       disabled={isDisabled}
       onClick={onClick}
     >
