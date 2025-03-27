@@ -11,9 +11,24 @@ const defaultFields = [
 ];
 
 const snsFields = [
-  { labelName: 'LinkedIn', placeholder: 'LinkedIn 아이디', name: 'linkedIn', required: false },
-  { labelName: 'Github', placeholder: 'Github 아이디', name: 'github', required: false },
-  { labelName: 'Instagram', placeholder: 'Instagram 아이디', name: 'instagram', required: false },
+  {
+    labelName: 'LinkedIn',
+    placeholder: 'www.linkedin.com/in/ooo',
+    name: 'linkedIn',
+    required: false,
+  },
+  {
+    labelName: 'Github',
+    placeholder: 'github.com/ooo',
+    name: 'github',
+    required: false,
+  },
+  {
+    labelName: 'Instagram',
+    placeholder: 'www.instagram.com/ooo',
+    name: 'instagram',
+    required: false,
+  },
 ];
 
 function FormSection({ type, handleChange }: IFormProps) {
