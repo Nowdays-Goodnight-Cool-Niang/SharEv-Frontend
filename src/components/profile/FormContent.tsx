@@ -3,17 +3,18 @@ import BaseButton from '../common/BaseButton';
 
 import FormSection from './FormSection';
 import { useState } from 'react';
-import { IFormAccount } from '../../types/formAccount';
-import { accountAPI } from '../../apis/accounts';
+import { IProfile } from '../../types';
+import { useQueryAccount } from '../../hooks/useQueryAccount';
 
 interface IContentProps {
   variant: 'setup' | 'edit';
 }
 
 function Content({ variant }: IContentProps) {
-  const [formAccount, setFormAccount] = useState<IFormAccount>({});
+  const [formAccount, setFormAccount] = useState<IProfile>({});
 
   const navigate = useNavigate();
+  const { patchProfileInfo } = useQueryAccount();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,10 +27,16 @@ function Content({ variant }: IContentProps) {
   const handleProfileSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      await accountAPI.patchParticipantInfo(formAccount);
-      if (variant === 'setup') navigate('/event');
-      else navigate('/user/:userId');
-      // TODO: userId 변수처리
+      patchProfileInfo(formAccount, {
+        onSuccess: () => {
+          if (variant === 'setup') navigate('/event');
+          else navigate('/user/:userId'); // TODO: userId 변수처리
+          // TODO: 로직 논의 필요 - 바로 마이페이지로 이동(그 전에 수정완료 알림 ex.토스트) or 수정된 데이터 반영한 프로필폼 보여주기
+        },
+        onError: () => {
+          console.log('Error occurred while updating profile');
+        },
+      });
     } catch {
       console.log('error');
     }
