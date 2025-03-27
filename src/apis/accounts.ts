@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IFormAccount } from '../types/formAccount';
+import { IProfile } from '../types';
 
 export const accountInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/accounts`,
@@ -7,12 +7,12 @@ export const accountInstance = axios.create({
 });
 
 export const accountAPI = {
-  getAccount: async () => {
+  getProfile: async () => {
     const response = await accountInstance.get('');
     return response.data;
   },
 
-  patchParticipantInfo: async (data: IFormAccount) => {
+  patchProfileInfo: async (data: Omit<IProfile, 'id'>) => {
     const response = await accountInstance.patch('', data, { withCredentials: true });
     return response.data;
   },
