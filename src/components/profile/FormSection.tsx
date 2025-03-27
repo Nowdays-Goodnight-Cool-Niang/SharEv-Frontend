@@ -14,19 +14,19 @@ const snsFields = [
   {
     labelName: 'LinkedIn',
     placeholder: 'www.linkedin.com/in/ooo',
-    name: 'linkedIn',
+    name: 'linkedinUrl',
     required: false,
   },
   {
     labelName: 'Github',
     placeholder: 'github.com/ooo',
-    name: 'github',
+    name: 'githubUrl',
     required: false,
   },
   {
     labelName: 'Instagram',
     placeholder: 'www.instagram.com/ooo',
-    name: 'instagram',
+    name: 'instagramUrl',
     required: false,
   },
 ];
