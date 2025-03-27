@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router';
 import BaseButton from '../common/BaseButton';
+import SnsIcon from '../common/SnsIcon';
 import GtihubSvg from '../../assets/icons/ic_github.svg?react';
-import LinkedInSvg from '../../assets/icons/ic_linkedin.svg?react';
+import LinkedinSvg from '../../assets/icons/ic_linkedin.svg?react';
 import InstagramSvg from '../../assets/icons/ic_instagram.svg?react';
 
 function MyProfile() {
@@ -10,7 +11,7 @@ function MyProfile() {
   const profileData = {
     name: '권나연',
     email: 'example@ex.com',
-    linkedInUrl: 'linkedin.com/in/ooo',
+    linkedinUrl: 'linkedin.com/in/ooo',
     githubUrl: 'github.com/ooo',
     instagramUrl: 'instagram.com/ooo',
   };
@@ -23,20 +24,20 @@ function MyProfile() {
         <h3 className="text-body-1 text-gray-200">{profileData.name}</h3>
         <span className="text-body-4 text-gray-400">{profileData.email}</span>
         <ul className="flex gap-1.5">
-          {profileData.linkedInUrl && (
-            <li className="flex h-4 w-4 items-center justify-center rounded bg-gray-700">
-              <LinkedInSvg />
-            </li>
+          {profileData.linkedinUrl && (
+            <SnsIcon extraClasses="h-4 w-4">
+              <LinkedinSvg />
+            </SnsIcon>
           )}
           {profileData.githubUrl && (
-            <li className="flex h-4 w-4 items-center justify-center rounded bg-gray-700">
+            <SnsIcon extraClasses="h-4 w-4">
               <GtihubSvg />
-            </li>
+            </SnsIcon>
           )}
           {profileData.instagramUrl && (
-            <li className="flex h-4 w-4 items-center justify-center rounded bg-gray-700">
+            <SnsIcon extraClasses="h-4 w-4">
               <InstagramSvg />
-            </li>
+            </SnsIcon>
           )}
         </ul>
       </div>
