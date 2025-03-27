@@ -44,7 +44,7 @@ function MyProfile() {
         </ul>
       </div>
       <div className="w-20">
-        <BaseButton onClick={moveProfileEdit} extraClasses={'text-button-5 px-3 py-2'}>
+        <BaseButton size="small" onClick={moveProfileEdit}>
           프로필 수정
         </BaseButton>
       </div>

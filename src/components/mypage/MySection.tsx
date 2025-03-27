@@ -6,6 +6,7 @@ function MySection() {
     { title: '프로필', content: <MyProfile /> },
     { title: '설정', buttons: settingButtons },
   ];
+
   return (
     <section className="mt-6">
       {datas.map((data) => (
@@ -16,7 +17,9 @@ function MySection() {
               {data.buttons.map((button, idx) => (
                 <button
                   key={idx}
-                  className="text-body-3 rounded bg-gray-800 p-5 text-gray-200 hover:bg-gray-700"
+                  className={`text-body-3 border border-gray-700 bg-gray-800 p-5 text-left text-gray-200 hover:bg-gray-700 ${
+                    idx === 0 ? 'rounded-t' : ''
+                  } ${idx === data.buttons.length - 1 ? 'rounded-b border-none' : ''}`}
                 >
                   {button.title}
                 </button>
