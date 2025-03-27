@@ -1,12 +1,13 @@
 import { QRCodeSVG } from 'qrcode.react';
 import ShareCardLabel from './ShareCardLabel';
-import ShareCardInput from './ShareCardInput';
 import GtihubSvg from '../../assets/icons/ic_github.svg?react';
 import LinkedInSvg from '../../assets/icons/ic_linkedin.svg?react';
 import InstagramSvg from '../../assets/icons/ic_instagram.svg?react';
 import EditSvg from '../../assets/icons/ic_edit.svg?react';
 import { useEffect, useState } from 'react';
 import { useQueryShareCard } from '../../hooks/useQueryShareCard';
+import ShareCardInput from './ShareCardInput';
+import CustomInput from './CustomInput';
 
 function ShareCard() {
   const { participantInfo, isLoading, error } = useQueryShareCard('participantId');
@@ -50,25 +51,17 @@ function ShareCard() {
         </div>
       </div>
       <div className="rounded-[4px] rounded-t-xl bg-gray-900 p-5 pb-7">
-        <li className="flex flex-wrap items-center gap-x-1 gap-y-2 leading-10">
-          <ShareCardLabel>
-            이번 해커톤에서{' '}
-            <span
-              contentEditable
-              className="text-body-3 break-all rounded-[4px] bg-gray-800 px-2 py-[6px] leading-10 text-gray-200 placeholder:text-gray-600"
-            >
-              팀에서
-            </span>
-            팀에서
-          </ShareCardLabel>
-          {/* <ShareCardInput initalValue={teamName} onChange={(input) => setTeamName(input)} placeholder='팀이름'/>
-        <ShareCardLabel></ShareCardLabel>
-        <ShareCardInput initalValue={position} onChange={(input) => setPosition(input)} placeholder='직군'/>
-        <ShareCardLabel>역할을 맡아</ShareCardLabel>
-        <ShareCardInput initalValue={introductionText} onChange={(input) => setIntroductionText(input)} placeholder='프로젝트 한 줄 소개'/>
-        <ShareCardLabel>를</ShareCardLabel>
-        <ShareCardLabel>만들었어요.</ShareCardLabel> */}
-        </li>
+        <ShareCardLabel>
+          이번 해커톤에서
+          <CustomInput />
+          <ShareCardInput value={teamName} placeholder="팀이름" />
+          팀에서
+          <ShareCardInput value={position} placeholder="직군" />
+          역할을 맡아
+          <ShareCardInput value={introductionText} placeholder="프로젝트 한 줄 소개" />를
+          만들었어요.
+        </ShareCardLabel>
+
         <div className="mt-3 flex justify-end">
           <EditButton />
         </div>

@@ -1,38 +1,28 @@
-import { useRef, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface IShareCardInput {
   placeholder?: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function ShareCardInput({ placeholder = '', value, onChange }: IShareCardInput) {
-  const [inputWidth, setInputWidth] = useState(0);
-  const spanRef = useRef<HTMLSpanElement>(null);
+function ShareCardInput({ placeholder = '', value }: IShareCardInput) {
+  console.log(value);
+  const [content, setContent] = useState(value);
 
-  useEffect(() => {
-    if (spanRef.current) {
-      setInputWidth(spanRef.current.offsetWidth);
-    }
-  }, [value]);
+  const handleInput = (e: React.FormEvent<HTMLSpanElement>) => {
+    setContent(e.currentTarget.textContent || '');
+  };
 
   return (
-    <div className="relative inline-block">
-      <input
-        type="text"
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        style={{ width: `${inputWidth}px`, transition: 'width 0.2s' }}
-        className="text-body-3 rounded-[4px] bg-gray-800 px-2 py-[6px] text-gray-200 placeholder:text-gray-600"
-      />
-      <span
-        ref={spanRef}
-        className="text-body-3 invisible absolute left-0 top-0 whitespace-pre px-2 py-[6px]"
-      >
-        {value || placeholder}
-      </span>
-    </div>
+    <span
+      contentEditable
+      onInput={handleInput}
+      suppressContentEditableWarning
+      className="text-body-3 relative mx-2 rounded-[4px] bg-gray-800 px-2 py-[6px] leading-10 text-gray-200 focus:outline-none focus:ring-0"
+    >
+      <span>{content}</span>
+      {content === '' && <span className="text-gray-600">{placeholder}</span>}
+    </span>
   );
 }
 
