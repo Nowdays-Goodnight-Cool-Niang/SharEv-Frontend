@@ -1,16 +1,16 @@
-interface IButtonPrimaryProps {
+interface IBaseButtonProps {
   children: React.ReactNode;
   variant?: 'default' | 'kakao';
   isDisabled?: boolean;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-function ButtonPrimary({
+function BaseButton({
   children,
   variant = 'default',
   isDisabled = false,
   onClick,
-}: IButtonPrimaryProps) {
+}: IBaseButtonProps) {
   const bgClasses = {
     default: 'bg-orange-500 text-gray-50 hover:bg-orange-700',
     kakao: 'bg-[#FEE500] text-[#000000]/85 hover:bg-[#eecc0d]',
@@ -27,4 +27,4 @@ function ButtonPrimary({
   );
 }
 
-export default ButtonPrimary;
+export default BaseButton;
