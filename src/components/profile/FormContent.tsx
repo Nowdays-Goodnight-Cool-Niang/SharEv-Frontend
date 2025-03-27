@@ -1,15 +1,20 @@
 import { useNavigate } from 'react-router';
-import ButtonPrimary from '../common/BaseButton';
+import BaseButton from '../common/BaseButton';
 
 import FormSection from './FormSection';
-import { useState, useEffect } from 'react';
-import { IFormAccount } from '../../types/formAccount';
-import { accountAPI } from '../../apis/accounts';
+import { useState } from 'react';
+import { IProfile } from '../../types';
+import { useQueryAccount } from '../../hooks/useQueryAccount';
 
-function Content() {
-  const [formAccount, setFormAccount] = useState<IFormAccount>({});
+interface IContentProps {
+  variant: 'setup' | 'edit';
+}
+
+function Content({ variant }: IContentProps) {
+  const [formAccount, setFormAccount] = useState<IProfile>({});
 
   const navigate = useNavigate();
+  const { patchProfileInfo } = useQueryAccount();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -19,29 +24,36 @@ function Content() {
     }));
   };
 
-  const handleProfileCompletion = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleProfileSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      await accountAPI.patchParticipantInfo(formAccount);
-      navigate('/events');
+      patchProfileInfo(formAccount, {
+        onSuccess: () => {
+          if (variant === 'setup') navigate('/event');
+          else navigate('/user/:userId'); // TODO: userId 변수처리
+          // TODO: 로직 논의 필요 - 바로 마이페이지로 이동(그 전에 수정완료 알림 ex.토스트) or 수정된 데이터 반영한 프로필폼 보여주기
+        },
+        onError: () => {
+          console.log('Error occurred while updating profile');
+        },
+      });
     } catch {
       console.log('error');
     }
   };
-
-  useEffect(() => {
-    console.log(formAccount);
-  }, [formAccount]);
 
   return (
     <form>
       <FormSection type="default" handleChange={handleChange} />
       <FormSection type="sns" handleChange={handleChange} />
 
-      <div className="fixed bottom-11 left-4 right-4 max-w-full">
-        <ButtonPrimary isDisabled={!formAccount.name} onClick={(e) => handleProfileCompletion(e)}>
-          프로필을 완성했어요
-        </ButtonPrimary>
+      <div className="fixed bottom-11 left-6 right-6 max-w-full">
+        <BaseButton
+          isDisabled={!formAccount.name || !formAccount.email}
+          onClick={(e) => handleProfileSubmit(e)}
+        >
+          {`프로필을 ${variant === 'setup' ? '완성했어요' : '수정할래요'}`}
+        </BaseButton>
       </div>
     </form>
   );
