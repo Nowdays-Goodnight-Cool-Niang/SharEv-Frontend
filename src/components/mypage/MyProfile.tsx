@@ -29,21 +29,15 @@ function MyProfile() {
           <span className="text-body-4 text-gray-400">{profile?.email}</span>
         </div>
         <ul className="mt-3 flex gap-1.5">
-          {profile?.linkedinUrl && (
-            <SnsIcon extraClasses="h-4 w-4">
-              <LinkedinSvg />
-            </SnsIcon>
-          )}
-          {profile?.githubUrl && (
-            <SnsIcon extraClasses="h-4 w-4">
-              <GtihubSvg />
-            </SnsIcon>
-          )}
-          {profile?.instagramUrl && (
-            <SnsIcon extraClasses="h-4 w-4">
-              <InstagramSvg />
-            </SnsIcon>
-          )}
+          <SnsIcon size="small" hasUrl={!!profile?.linkedinUrl}>
+            <LinkedinSvg />
+          </SnsIcon>
+          <SnsIcon size="small" hasUrl={!!profile?.githubUrl}>
+            <GtihubSvg />
+          </SnsIcon>
+          <SnsIcon size="small" hasUrl={!!profile?.instagramUrl}>
+            <InstagramSvg />
+          </SnsIcon>
         </ul>
       </div>
       <div className="w-20">
