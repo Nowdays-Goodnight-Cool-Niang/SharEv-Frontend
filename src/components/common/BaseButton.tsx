@@ -5,7 +5,7 @@ interface IButtonPrimaryProps {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-function ButtonPrimary({
+function BaseButton({
   children,
   variant = 'default',
   isDisabled = false,
@@ -27,4 +27,4 @@ function ButtonPrimary({
   );
 }
 
-export default ButtonPrimary;
+export default BaseButton;

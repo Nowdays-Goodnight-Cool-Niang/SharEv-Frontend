@@ -1,15 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import { shareCardAPI } from '../apis/shareCards';
-import { IShareCard } from '../types';
+import { IShareCardDetailsByEvent } from '../types';
 
-export const useQueryShareCard = (participantId: string) => {
+interface UseQueryShareCardOptions {
+  enabled?: boolean;
+}
+
+export const useQueryShareCard = (participantId: string, options?: UseQueryShareCardOptions) => {
   const {
     data: participantInfo,
     isLoading,
     error,
-  } = useQuery<IShareCard>({
-    queryKey: ['shareCard', participantId],
+  } = useQuery<IShareCardDetailsByEvent>({
+    queryKey: ['shareCardDetail', participantId],
     queryFn: () => shareCardAPI.getShareCardById(participantId),
+    enabled: options?.enabled ?? true,
   });
 
   return {

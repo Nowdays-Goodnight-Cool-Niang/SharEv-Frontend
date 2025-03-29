@@ -15,7 +15,9 @@ function ParticipantSection() {
       <h2 className="text-title-2 mb-4 text-gray-300">행사 참여자</h2>
       <ul className="grid grid-cols-3 gap-x-3 gap-y-5">
         {participants &&
-          participants.accountInfoPage.content.map((participants: IProfile) => <ParticipantCard />)}
+          participants.accountInfoPage.content.map((participants: IProfile) => (
+            <ParticipantCard key={participants.id} />
+          ))}
       </ul>
     </div>
   );

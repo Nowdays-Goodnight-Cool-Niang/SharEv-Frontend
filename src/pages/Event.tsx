@@ -8,7 +8,7 @@ function Event() {
   const { selected } = useEventTabsStore();
 
   return (
-    <div className="background bg-gray-800">
+    <div className="h-full bg-gray-800">
       <EventTabs />
       {selected == EventTabType.profile && <ProfileSection />}
       {selected == EventTabType.participant && <ParticipantSection />}
