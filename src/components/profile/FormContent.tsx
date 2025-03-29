@@ -11,17 +11,11 @@ interface IContentProps {
 }
 
 function Content({ variant }: IContentProps) {
-  const [formAccount, setFormAccount] = useState<IProfile>({});
-  const [isModified, setIsModified] = useState(false);
-
   const navigate = useNavigate();
   const { profile, isLoading = true, error, patchProfileInfo } = useQueryAccount();
 
-  useEffect(() => {
-    if (profile) {
-      setFormAccount(profile);
-    }
-  }, [profile]);
+  const [formAccount, setFormAccount] = useState<IProfile>(profile || {});
+  const [isModified, setIsModified] = useState(false);
 
   useEffect(() => {
     if (variant === 'edit' && profile) {
