@@ -10,15 +10,15 @@ function Home() {
 
   return (
     <div className="background relative bg-gray-900">
-      <div className="h-screen w-full overflow-hidden">
+      <div className="absolute top-0 h-full w-full overflow-hidden">
         <img
           src="src/assets/images/img_geometric_graphic.png"
           className="absolute bottom-[15%] w-full"
         />
       </div>
-      <div className="absolute bottom-0 h-screen w-full">
-        <div className="flex h-full flex-col items-center justify-between gap-[40%] py-11">
-          <div className="wrapper m-6 flex w-full translate-y-5 animate-fade-in flex-col items-center justify-center gap-4 bg-gray-900 p-9 opacity-0">
+      <div className="absolute bottom-0 h-screen w-full overflow-hidden">
+        <div className="flex h-full flex-col items-center justify-between">
+          <div className="wrapper flex w-full translate-y-5 animate-fade-in flex-col items-center justify-center gap-4 bg-gradient-to-b from-gray-900 to-gray-900/0 pb-20 pt-40 opacity-0">
             <h1 className="font-museo text-5xl text-gray-50">SharE:v</h1>
             <p className="text-title-1 text-center text-gray-50">
               프로필을 등록하고
@@ -26,12 +26,14 @@ function Home() {
               간편하게 네트워킹하세요
             </p>
           </div>
-          <BaseButton variant="kakao" onClick={handleKakaoLogin}>
-            <span className="flex items-center justify-center gap-2">
-              <KakaoSvg />
-              카카오 로그인
-            </span>
-          </BaseButton>
+          <div className="wrapper mb-11 w-full">
+            <BaseButton variant="kakao" onClick={handleKakaoLogin}>
+              <span className="flex items-center justify-center gap-2">
+                <KakaoSvg />
+                카카오 로그인
+              </span>
+            </BaseButton>
+          </div>
         </div>
       </div>
     </div>

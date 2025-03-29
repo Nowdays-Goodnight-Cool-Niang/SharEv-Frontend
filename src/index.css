@@ -108,7 +108,7 @@
   }
 
   .background {
-    @apply h-screen w-[402px];
+    @apply mx-auto h-screen w-[402px];
   }
 
   .wrapper {
