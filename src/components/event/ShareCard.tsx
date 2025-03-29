@@ -37,13 +37,13 @@ function ShareCard() {
           <QRCodeSVG value="https://reactjs.org/" />
           <p className="text-body-2 mb-4 mt-6 text-gray-400">example.example.com</p>
           <ul className="flex gap-1">
-            <li className="flex h-9 w-9 items-center justify-center rounded-[4px] bg-gray-700">
+            <li className="flex h-9 w-9 items-center justify-center rounded bg-gray-700">
               <LinkedInSvg className="w-6" />
             </li>
-            <li className="flex h-9 w-9 items-center justify-center rounded-[4px] bg-gray-700">
+            <li className="flex h-9 w-9 items-center justify-center rounded bg-gray-700">
               <GtihubSvg className="w-6" />
             </li>
-            <li className="flex h-9 w-9 items-center justify-center rounded-[4px] bg-gray-700">
+            <li className="flex h-9 w-9 items-center justify-center rounded bg-gray-700">
               <InstagramSvg className="w-6" />
             </li>
           </ul>

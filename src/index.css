@@ -64,7 +64,7 @@
   }
 
   .text-body-1 {
-    @apply text-sm font-medium leading-[160%];
+    @apply text-base font-medium leading-[160%];
   }
 
   .text-body-2 {
@@ -76,7 +76,7 @@
   }
 
   .text-body-4 {
-    @apply text-sm font-medium leading-[160%];
+    @apply text-sm font-normal leading-[160%];
   }
 
   .text-label-1 {
