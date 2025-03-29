@@ -12,7 +12,9 @@ export const useQueryAccount = () => {
     queryFn: accountAPI.getProfile,
   });
 
-  const mutation = useMutation({ mutationFn: accountAPI.patchProfileInfo });
+  const mutation = useMutation({
+    mutationFn: accountAPI.patchProfileInfo,
+  });
 
   return {
     profile,

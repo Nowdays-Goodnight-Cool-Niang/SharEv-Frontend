@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface InputProps {
   type?: 'password' | 'text';
@@ -26,6 +26,10 @@ function Input({
   onChange,
 }: InputProps) {
   const [value, setValue] = useState(initialValue);
+
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
 
   return (
     <label className="mt-6 block">
