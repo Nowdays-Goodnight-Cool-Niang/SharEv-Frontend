@@ -4,11 +4,18 @@ export default {
   theme: {
     animation: {
       'fade-in': 'fade-in 1s ease-out forwards',
+      'bounce-delay-1': 'bounce-y 0.8s infinite ease-in-out',
+      'bounce-delay-2': 'bounce-y 0.8s infinite ease-in-out 0.2s',
+      'bounce-delay-3': 'bounce-y 0.8s infinite ease-in-out 0.4s',
     },
     keyframes: {
       'fade-in': {
         from: { opacity: 0, transform: 'translateY(20px)' },
         to: { opacity: 1, transform: 'translateY(0)' },
+      },
+      'bounce-y': {
+        '0%, 100%': { transform: 'translateY(0)' },
+        '50%': { transform: 'translateY(-10px)' },
       },
     },
     extend: {

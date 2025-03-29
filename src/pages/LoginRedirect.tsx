@@ -1,30 +1,15 @@
-import { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router';
-import { kakaoAuthAPI } from '../apis/kakaoAuth';
+import LoadingSpinner from '../components/common/LoadingSpinner';
+import { useKakaoLogin } from '../hooks/useKakaoLogin';
 
 function LoginRedirect() {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  useKakaoLogin();
 
-  useEffect(() => {
-    const fetchLogin = async () => {
-      const code = searchParams.get('code');
-      const state = searchParams.get('state');
-
-      if (code && state) {
-        const data = await kakaoAuthAPI.loginWithKakao({ code, state });
-        if (data.isAuthenticated) {
-          navigate('/event', { replace: true });
-        } else {
-          navigate('/profile-setup', { replace: true });
-        }
-      }
-    };
-
-    fetchLogin();
-  }, [navigate, searchParams]);
-
-  return <div className="text-gray-50">로그인 중입니다...</div>;
+  return (
+    <div className="background flex h-screen flex-col items-center justify-center gap-4 bg-gray-800">
+      <LoadingSpinner />
+      <span className="text-label-2 text-gray-50">로그인 중입니다...</span>
+    </div>
+  );
 }
 
 export default LoginRedirect;
