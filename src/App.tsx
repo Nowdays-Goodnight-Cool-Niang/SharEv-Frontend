@@ -34,7 +34,7 @@ function App() {
           element: <Event />,
         },
         {
-          path: '/user/:userId',
+          path: '/setting',
           element: <MyPage />,
         },
         {

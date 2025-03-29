@@ -1,15 +1,33 @@
 import MyProfile from './MyProfile';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router';
 
 function MySection() {
+  const navigate = useNavigate();
   const handleInquiry = () => {
     toast('준비 중입니다.', {
       icon: '🙏🏻',
     });
   };
 
-  const handleLogout = () => {
-    // TODO: 로그아웃 API 호출
+  const handleLogout = async () => {
+    try {
+      const logoutApi = `${import.meta.env.VITE_API_BASE_URL}/logout`;
+      const response = await fetch(logoutApi, {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        navigate('/');
+        toast.success('로그아웃 되었습니다.');
+      } else {
+        toast.error('로그아웃에 실패했습니다. 잠시 후에 시도해주세요.');
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast.error('오류가 발생했습니다. 잠시 후에 시도해주세요.');
+    }
   };
 
   const handleAccountDeletion = () => {
