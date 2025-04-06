@@ -16,4 +16,9 @@ export const accountAPI = {
     const response = await accountInstance.patch('', data, { withCredentials: true });
     return response.data;
   },
+
+  deleteAccount: async () => {
+    const response = await accountInstance.delete('');
+    return response.data;
+  },
 };
