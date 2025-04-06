@@ -4,7 +4,7 @@ import InstagramSvg from '../../assets/icons/ic_instagram.svg?react';
 import SNS from '../profile/SNS';
 import ProfileText from '../profile/ProfileText';
 import ProfileInput from '../profile/ProfileInput';
-import { IEventProfile } from '../../types';
+import { IProfile } from '../../types';
 
 interface ProfileCardProps {
   id: number;
@@ -17,8 +17,9 @@ interface ProfileCardProps {
   jobGroup: string;
   teamName: string;
   projectInfo: string;
-  onInputChange: (key: keyof IEventProfile, value: string) => void;
+  onInputChange: (key: keyof IProfile, value: string) => void;
 }
+// TODO: 이벤트프로필 타입 통일한걸로 기억하여 수정하였으니 확인 부탁드립니당
 
 function ProfileCard({
   name,
