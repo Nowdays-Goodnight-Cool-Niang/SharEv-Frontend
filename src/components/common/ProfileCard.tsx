@@ -4,7 +4,7 @@ import InstagramSvg from '../../assets/icons/ic_instagram.svg?react';
 import SNS from '../profile/SNS';
 import ProfileText from '../profile/ProfileText';
 import ProfileInput from '../profile/ProfileInput';
-import { IProfile } from '../../types';
+import { IShareCard } from '../../types';
 
 interface ProfileCardProps {
   id: number;
@@ -14,12 +14,12 @@ interface ProfileCardProps {
   github?: string;
   instagram?: string;
   facebook?: string;
-  jobGroup: string;
+  position: string;
   teamName: string;
-  projectInfo: string;
-  onInputChange: (key: keyof IProfile, value: string) => void;
+  introductionText: string;
+  onInputChange: (key: keyof IShareCard, value: string) => void;
 }
-// TODO: 이벤트프로필 타입 통일한걸로 기억하여 수정하였으니 확인 부탁드립니당
+// TODO: IShareCard 타입으로 수정하였는데, 프로퍼티명 수정하신 것 같아 맞추어 변경하였으니 확인부탁드립니당
 
 function ProfileCard({
   name,
@@ -28,9 +28,9 @@ function ProfileCard({
   github,
   instagram,
   facebook,
-  jobGroup,
+  position,
   teamName,
-  projectInfo,
+  introductionText,
   onInputChange,
 }: ProfileCardProps) {
   return (
@@ -72,15 +72,15 @@ function ProfileCard({
           <ProfileText>팀에서</ProfileText>
           <ProfileInput
             placeholder={'직군'}
-            value={jobGroup}
-            onChange={(e) => onInputChange('jobGroup', e.target.value)}
+            value={position}
+            onChange={(e) => onInputChange('position', e.target.value)}
           />
           <ProfileText>을 맡고 있습니다</ProfileText>
           <ProfileText>이번 해커톤에서</ProfileText>
           <ProfileInput
             placeholder={'프로젝트 한 줄 소개'}
-            value={projectInfo}
-            onChange={(e) => onInputChange('projectInfo', e.target.value)}
+            value={introductionText}
+            onChange={(e) => onInputChange('introductionText', e.target.value)}
           />
           <ProfileText>를 만들었습니다</ProfileText>
         </div>
