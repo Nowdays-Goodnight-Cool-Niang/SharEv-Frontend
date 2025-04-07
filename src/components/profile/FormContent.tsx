@@ -92,6 +92,11 @@ function Content({ variant }: IContentProps) {
     });
   };
 
+  const isFormValid =
+    Object.values(validationMessages).every((validationMessage) => !validationMessage) &&
+    formAccount.name &&
+    formAccount.email;
+
   return (
     <form>
       <FormSection
@@ -109,7 +114,7 @@ function Content({ variant }: IContentProps) {
 
       <div className="fixed bottom-11 left-6 right-6 max-w-full">
         <BaseButton
-          isDisabled={variant === 'edit' ? !isModified : !formAccount.name || !formAccount.email}
+          isDisabled={!isFormValid || (variant === 'edit' && !isModified)}
           onClick={(e) => handleProfileSubmit(e)}
         >
           {`프로필을 ${variant === 'setup' ? '완성했어요' : '수정할래요'}`}
