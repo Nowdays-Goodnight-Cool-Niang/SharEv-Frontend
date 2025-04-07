@@ -11,6 +11,7 @@ interface InputProps {
   minLength?: number;
   validationMessage?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 function Input({
@@ -24,6 +25,7 @@ function Input({
   minLength,
   validationMessage,
   onChange,
+  onBlur,
 }: InputProps) {
   const [value, setValue] = useState(initialValue);
 
@@ -49,6 +51,7 @@ function Input({
           if (onChange) onChange(e);
           setValue(e.target.value);
         }}
+        onBlur={onBlur}
         placeholder={placeholder}
         className="text-body-2 mt-2 h-11 w-full rounded bg-gray-700 p-3 text-gray-100 placeholder:text-gray-500"
       />

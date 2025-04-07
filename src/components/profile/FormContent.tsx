@@ -5,6 +5,7 @@ import BaseButton from '../common/BaseButton';
 import FormSection from './FormSection';
 import { IProfile } from '../../types';
 import { useQueryAccount } from '../../hooks/useQueryAccount';
+import { validateInput } from '../../utils/form';
 
 interface IContentProps {
   variant: 'setup' | 'edit';
@@ -15,6 +16,7 @@ function Content({ variant }: IContentProps) {
   const { profile, isLoading = true, error, patchProfileInfo } = useQueryAccount();
 
   const [formAccount, setFormAccount] = useState<IProfile>(profile || {});
+  const [validationMessages, setValidationMessages] = useState<{ [key: string]: string }>({});
   const [isModified, setIsModified] = useState(false);
 
   useEffect(() => {
@@ -47,32 +49,63 @@ function Content({ variant }: IContentProps) {
     }));
   };
 
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    const validationMessage = validateInput(name, value);
+    setValidationMessages((prevMessages) => ({
+      ...prevMessages,
+      [name]: validationMessage || '',
+    }));
+  };
+
   const handleProfileSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    try {
-      patchProfileInfo(formAccount, {
-        onSuccess: () => {
-          if (variant === 'setup') {
-            navigate('/event');
-          } else {
-            navigate('/setting');
-            toast.success('수정되었습니다.');
-          }
-        },
-        onError: () => {
-          toast.error('오류가 발생했습니다. 잠시 후에 시도해주세요.');
-          console.log('Error occurred while updating profile');
-        },
-      });
-    } catch {
-      console.log('error');
+
+    const validationMessages = Object.keys(formAccount).reduce(
+      (acc, key) => {
+        const validationMessage = validateInput(key, formAccount[key as keyof IProfile] || '');
+        if (validationMessage) acc[key] = validationMessage;
+        return acc;
+      },
+      {} as { [key: string]: string }
+    );
+
+    if (Object.keys(validationMessages).length > 0) {
+      setValidationMessages(validationMessages);
+      return;
     }
+
+    patchProfileInfo(formAccount, {
+      onSuccess: () => {
+        if (variant === 'setup') {
+          navigate('/event');
+        } else {
+          navigate('/setting');
+          toast.success('수정되었습니다.');
+        }
+      },
+      onError: (error) => {
+        toast.error('오류가 발생했습니다. 잠시 후에 시도해주세요.');
+        console.error('Profile Edit error:', error);
+      },
+    });
   };
 
   return (
     <form>
-      <FormSection type="default" handleChange={handleChange} />
-      <FormSection type="sns" handleChange={handleChange} />
+      <FormSection
+        type="default"
+        handleChange={handleChange}
+        handleBlur={handleBlur}
+        validationMessages={validationMessages}
+      />
+      <FormSection
+        type="sns"
+        handleChange={handleChange}
+        handleBlur={handleBlur}
+        validationMessages={validationMessages}
+      />
 
       <div className="fixed bottom-11 left-6 right-6 max-w-full">
         <BaseButton
