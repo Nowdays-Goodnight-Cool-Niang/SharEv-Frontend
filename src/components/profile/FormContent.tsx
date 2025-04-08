@@ -13,7 +13,7 @@ interface IContentProps {
 
 function Content({ variant }: IContentProps) {
   const navigate = useNavigate();
-  const { profile, isLoading = true, error, patchProfileInfo } = useQueryAccount();
+  const { profile, isLoading, error, patchProfileInfo } = useQueryAccount();
 
   const [formAccount, setFormAccount] = useState<IProfile>(profile || {});
   const [validationMessages, setValidationMessages] = useState<{ [key: string]: string }>({});

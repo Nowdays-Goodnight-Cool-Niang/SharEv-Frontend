@@ -1,6 +1,6 @@
 import { QRCodeSVG } from 'qrcode.react';
 import ShareCardLabel from './ShareCardLabel';
-import ShareCardInput from './ShareCardInput';
+// import ShareCardInput from './ShareCardInput';
 import GtihubSvg from '../../assets/icons/ic_github.svg?react';
 import LinkedInSvg from '../../assets/icons/ic_linkedin.svg?react';
 import InstagramSvg from '../../assets/icons/ic_instagram.svg?react';
@@ -13,6 +13,8 @@ function ShareCard() {
   const [teamName, setTeamName] = useState('');
   const [position, setPosition] = useState('');
   const [introductionText, setIntroductionText] = useState('');
+
+  console.log(teamName, position, introductionText);
 
   useEffect(() => {
     if (!isLoading) {

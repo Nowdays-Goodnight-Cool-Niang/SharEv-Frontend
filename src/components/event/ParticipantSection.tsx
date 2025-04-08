@@ -13,7 +13,8 @@ function ParticipantSection() {
       <h1 className="text-title-1 mb-5 mt-11 text-gray-50">삐약톤 캠퍼스 대항전</h1>
       <h2 className="text-title-2 mb-4 text-gray-300">행사 참여자</h2>
       <ul className="grid grid-cols-3 gap-x-3 gap-y-5">
-        {participants && participants.map((participants: IProfile) => <ParticipantCard />)}
+        {participants &&
+          participants.map((participants: IProfile) => <ParticipantCard data={participants} />)}
       </ul>
     </div>
   );

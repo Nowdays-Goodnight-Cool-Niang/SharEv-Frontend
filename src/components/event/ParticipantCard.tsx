@@ -1,8 +1,16 @@
 import GtihubSvg from '../../assets/icons/ic_github.svg?react';
 import LinkedInSvg from '../../assets/icons/ic_linkedin.svg?react';
 import InstagramSvg from '../../assets/icons/ic_instagram.svg?react';
+import { IProfile } from '../../types';
 
-function ParticipantCard() {
+interface ParticipantCardProps {
+  data: IProfile;
+}
+
+function ParticipantCard({ data }: ParticipantCardProps) {
+  console.log(data);
+  // TODO: 데이터 파악 용이하도록 일단 출력하였으니 추후 수정 부탁드립니당
+
   return (
     <li className="max-w-28">
       <div className="relative overflow-hidden rounded-bl-md rounded-br-md bg-orange-500 px-1 pb-2 pt-6">
