@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react';
-
 interface InputProps {
   type?: 'password' | 'text';
-  initialValue?: string;
+  value?: string;
   placeholder?: string;
   labelName?: string;
   name?: string;
@@ -17,7 +15,7 @@ interface InputProps {
 function Input({
   labelName,
   type = 'text',
-  initialValue = '',
+  value = '',
   placeholder = '',
   required = false,
   name,
@@ -27,12 +25,6 @@ function Input({
   onChange,
   onBlur,
 }: InputProps) {
-  const [value, setValue] = useState(initialValue);
-
-  useEffect(() => {
-    setValue(initialValue);
-  }, [initialValue]);
-
   return (
     <label className="mt-6 block">
       <div className="flex items-center">
@@ -49,7 +41,6 @@ function Input({
         required={required}
         onChange={(e) => {
           if (onChange) onChange(e);
-          setValue(e.target.value);
         }}
         onBlur={onBlur}
         placeholder={placeholder}

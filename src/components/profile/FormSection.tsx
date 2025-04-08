@@ -1,5 +1,4 @@
 import Input from '../common/Input';
-import { useQueryAccount } from '../../hooks/useQueryAccount';
 import { IProfile } from '../../types';
 
 interface IFormProps {
@@ -7,6 +6,7 @@ interface IFormProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   validationMessages: { [key: string]: string };
+  formAccount: IProfile;
 }
 
 const defaultFields = [
@@ -35,10 +35,13 @@ const snsFields = [
   },
 ];
 
-function FormSection({ type, handleChange, handleBlur, validationMessages }: IFormProps) {
-  const { profile } = useQueryAccount();
-  // TODO: formAccount와 서버데이터 중 어떤 것을 활용하는게 적절한지 고민해보기
-
+function FormSection({
+  type,
+  handleChange,
+  handleBlur,
+  validationMessages,
+  formAccount,
+}: IFormProps) {
   const datas = {
     default: { title: '기본 정보', field: defaultFields },
     sns: { title: 'SNS', field: snsFields },
@@ -53,7 +56,7 @@ function FormSection({ type, handleChange, handleBlur, validationMessages }: IFo
           labelName={data.labelName}
           placeholder={data.placeholder}
           name={data.name}
-          initialValue={profile ? profile[data.name as keyof IProfile] : ''}
+          value={formAccount ? formAccount[data.name as keyof IProfile] : ''}
           required={data.required}
           onChange={handleChange}
           onBlur={handleBlur}

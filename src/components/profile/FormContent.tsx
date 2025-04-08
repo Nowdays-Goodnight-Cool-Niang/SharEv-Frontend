@@ -26,10 +26,17 @@ function Content({ variant }: IContentProps) {
       );
       setIsModified(isChanged);
     }
-  }, [formAccount, profile, variant]);
+  }, [formAccount]);
 
   useEffect(() => {
-    if (isLoading) {
+    if (!isLoading && profile) {
+      setFormAccount((prevFormAccount) => {
+        if (JSON.stringify(prevFormAccount) !== JSON.stringify(profile)) {
+          return { ...profile };
+        }
+        return prevFormAccount;
+      });
+    } else if (isLoading) {
       const loadingToastId = toast.loading('프로필 정보를 불러오는 중입니다.');
       return () => toast.dismiss(loadingToastId);
     }
@@ -94,8 +101,8 @@ function Content({ variant }: IContentProps) {
 
   const isFormValid =
     Object.values(validationMessages).every((validationMessage) => !validationMessage) &&
-    formAccount.name &&
-    formAccount.email;
+    !!formAccount.name &&
+    !!formAccount.email;
 
   return (
     <form>
@@ -104,12 +111,14 @@ function Content({ variant }: IContentProps) {
         handleChange={handleChange}
         handleBlur={handleBlur}
         validationMessages={validationMessages}
+        formAccount={formAccount}
       />
       <FormSection
         type="sns"
         handleChange={handleChange}
         handleBlur={handleBlur}
         validationMessages={validationMessages}
+        formAccount={formAccount}
       />
 
       <div className="fixed bottom-11 left-6 right-6 max-w-full">
