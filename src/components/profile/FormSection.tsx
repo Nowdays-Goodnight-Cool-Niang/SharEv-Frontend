@@ -17,7 +17,7 @@ const defaultFields = [
 const snsFields = [
   {
     labelName: 'LinkedIn',
-    placeholder: 'www.linkedin.com/in/ooo',
+    placeholder: 'linkedin.com/in/ooo',
     name: 'linkedinUrl',
     required: false,
   },
@@ -29,7 +29,7 @@ const snsFields = [
   },
   {
     labelName: 'Instagram',
-    placeholder: 'www.instagram.com/ooo',
+    placeholder: 'instagram.com/ooo',
     name: 'instagramUrl',
     required: false,
   },
