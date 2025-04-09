@@ -1,40 +1,15 @@
-import { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router';
-import { kakaoAuthAPI } from '../apis/kakaoAuth';
-import { useProfileStore } from '../stores/useProfileStore';
+import LoadingSpinner from '../components/common/LoadingSpinner';
+import { useKakaoLogin } from '../hooks/useKakaoLogin';
 
 function LoginRedirect() {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const { setProfile } = useProfileStore();
+  useKakaoLogin();
 
-  useEffect(() => {
-    const fetchLogin = async () => {
-      const code = searchParams.get('code');
-      const state = searchParams.get('state');
-
-      if (code && state) {
-        const data = await kakaoAuthAPI.loginWithKakao({ code, state });
-        if (data.isAuthenticated) {
-          setProfile({
-            id: data.id,
-            name: data.name,
-            email: data.email,
-            linkedinUrl: data.linkedinUrl,
-            githubUrl: data.githubUrl,
-            instagramUrl: data.instagramUrl,
-          });
-          navigate('/event', { replace: true });
-        } else {
-          navigate('/profile-setup', { replace: true });
-        }
-      }
-    };
-
-    fetchLogin();
-  }, [navigate, searchParams, setProfile]);
-
-  return <div className="text-gray-50">로그인 중입니다...</div>;
+  return (
+    <div className="background flex h-screen flex-col items-center justify-center gap-4 bg-gray-800">
+      <LoadingSpinner />
+      <span className="text-body-1 text-gray-50">로그인 중입니다...</span>
+    </div>
+  );
 }
 
 export default LoginRedirect;

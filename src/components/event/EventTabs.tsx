@@ -6,7 +6,7 @@ export default function EventTabs() {
   const { selected, setSelected } = useEventTabsStore();
 
   return (
-    <div className="flex items-center gap-2 bg-gray-900 px-6 py-3">
+    <div className="sticky top-0 z-10 flex items-center gap-2 bg-gray-900 px-6 py-3">
       <EventTab
         isSelected={selected == EventTabType.profile}
         onClick={() => setSelected(EventTabType.profile)}
@@ -18,6 +18,12 @@ export default function EventTabs() {
         onClick={() => setSelected(EventTabType.participant)}
       >
         참여하는 사람들
+      </EventTab>
+      <EventTab
+        isSelected={selected == EventTabType.QRCamera}
+        onClick={() => setSelected(EventTabType.QRCamera)}
+      >
+        QR로 등록
       </EventTab>
     </div>
   );

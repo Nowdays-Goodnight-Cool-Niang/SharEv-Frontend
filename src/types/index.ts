@@ -8,9 +8,9 @@ export interface IProfile {
 }
 
 export interface IShareCardDetailsByEvent {
-  teamName: string;
-  position: string;
-  introductionText: string;
+  teamName: string | null;
+  position: string | null;
+  introductionText: string | null;
 }
 
 export interface IShareCard extends IProfile, IShareCardDetailsByEvent {}
