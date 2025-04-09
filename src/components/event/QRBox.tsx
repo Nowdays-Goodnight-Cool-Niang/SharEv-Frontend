@@ -1,14 +1,16 @@
 import { QRCodeSVG } from 'qrcode.react';
+import { ReactNode } from 'react';
 
 interface QRBoxProps {
-  url: string;
+  url?: string;
   isAvailable?: boolean;
+  inValidText?: ReactNode;
 }
 
 export function QRBox({ url, isAvailable = false }: QRBoxProps) {
   return (
-    <div className="relative h-40 w-40">
-      <div className={isAvailable ? '' : 'blur-sm'}>
+    <div className="relative h-32 w-32">
+      <div className={isAvailable ? '' : 'blur-[2px]'}>
         <QRCodeSVG value={url} className={`h-full w-full ${!isAvailable && 'opacity-10'}`} />
       </div>
       {!isAvailable && (

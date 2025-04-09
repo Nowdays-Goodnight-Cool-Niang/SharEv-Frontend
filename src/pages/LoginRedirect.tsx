@@ -7,7 +7,7 @@ function LoginRedirect() {
   return (
     <div className="background flex h-screen flex-col items-center justify-center gap-4 bg-gray-800">
       <LoadingSpinner />
-      <span className="text-label-2 text-gray-50">로그인 중입니다...</span>
+      <span className="text-body-1 text-gray-50">로그인 중입니다...</span>
     </div>
   );
 }

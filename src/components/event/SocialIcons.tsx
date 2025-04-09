@@ -13,13 +13,13 @@ function SocialIcons({ linkedinUrl, githubUrl, instagramUrl }: SocialIconsProps)
   return (
     <ul className="flex gap-1">
       <SocialIcon link={linkedinUrl}>
-        <LinkedInSvg className="w-6" />
+        <LinkedInSvg className="w-full" />
       </SocialIcon>
       <SocialIcon link={githubUrl}>
-        <GtihubSvg className="w-6" />
+        <GtihubSvg className="w-full" />
       </SocialIcon>
       <SocialIcon link={instagramUrl}>
-        <InstagramSvg className="w-6" />
+        <InstagramSvg className="w-full" />
       </SocialIcon>
     </ul>
   );

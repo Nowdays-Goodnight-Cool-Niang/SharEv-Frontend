@@ -15,6 +15,8 @@ export const useQueryShareCard = (participantId: string, options?: UseQueryShare
     queryKey: ['shareCardDetail', participantId],
     queryFn: () => shareCardAPI.getShareCardById(participantId),
     enabled: options?.enabled ?? true,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: false,
   });
 
   return {

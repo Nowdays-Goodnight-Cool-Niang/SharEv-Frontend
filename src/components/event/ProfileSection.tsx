@@ -1,20 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useQueryShareCard } from '../../hooks/useQueryShareCard';
-import ShareCard from './ShareCard';
 import { useShareCardDetailStore } from '../../stores/useShareCardDetailStore';
 import { useQueryAccount } from '../../hooks/useQueryAccount';
 import { useProfileStore } from '../../stores/useProfileStore';
 import BaseButton from '../common/BaseButton';
+import { useMutateShareCard } from '../../hooks/useMutateShareCard';
+import toast from 'react-hot-toast';
+import ShareCard from './ShareCard';
+import LoadingSpinner from '../common/LoadingSpinner';
+import Modal from '../common/Modal';
+import NoticeInfo from '../common/NoticeInfo';
 
 function ProfileSection() {
-  const setProfile = useProfileStore((state) => state.setProfile);
-
-  const shareCardDetail = useShareCardDetailStore((state) => state.shareCardDetail);
-  const setShareCardDetail = useShareCardDetailStore((state) => state.setShareCardDetail);
-  const editMode = useShareCardDetailStore((state) => state.editMode);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { profile, isLoading: isProfileLoading, error: profileError } = useQueryAccount();
-
   const {
     participantInfo,
     isLoading: isParticipantInfoLoading,
@@ -23,6 +22,12 @@ function ProfileSection() {
     enabled: !!profile?.id,
   });
 
+  const { mutate: saveShareCard } = useMutateShareCard();
+
+  const { setProfile } = useProfileStore();
+  const { shareCardDetail, setShareCardDetail, isShareCardDetailBlank, editMode, setEditMode } =
+    useShareCardDetailStore();
+
   useEffect(() => {
     if (profile) {
       setProfile(profile);
@@ -30,45 +35,70 @@ function ProfileSection() {
   }, [profile, setProfile]);
 
   useEffect(() => {
-    if (
-      participantInfo &&
-      participantInfo.teamName !== null &&
-      participantInfo.position !== null &&
-      participantInfo.introductionText !== null
-    ) {
-      setShareCardDetail(participantInfo);
+    // TODO: 초기값 null로 확실한지 확인하기
+    if (participantInfo) {
+      if (
+        participantInfo.teamName !== '' &&
+        participantInfo.teamName !== null &&
+        participantInfo.position !== '' &&
+        participantInfo.position !== null &&
+        participantInfo.introductionText !== '' &&
+        participantInfo.introductionText !== null
+      ) {
+        setShareCardDetail(participantInfo);
+      } else {
+        setIsModalOpen(true);
+        setEditMode(true);
+      }
     }
-  }, [participantInfo, setShareCardDetail]);
+  }, [participantInfo, setEditMode, setShareCardDetail]);
 
-  if (isProfileLoading || isParticipantInfoLoading) return <div>로딩 중...</div>;
+  if (isProfileLoading || isParticipantInfoLoading) return <LoadingSpinner />;
 
   if (profileError || participantError || !participantInfo)
     return (
-      <div>
+      <div className="tex-white">
         에러가 발생했습니다:
         {profileError?.message || participantError?.message}
       </div>
     );
 
+  const handleSaveCardDetail = () => {
+    if (shareCardDetail) {
+      saveShareCard({
+        teamName: shareCardDetail.teamName,
+        position: shareCardDetail.position,
+        introductionText: shareCardDetail.introductionText,
+      });
+      toast.success('프로필을 저장했습니다');
+      setEditMode(false);
+      setShareCardDetail(shareCardDetail);
+    }
+  };
   return (
-    <div className="wrapper mt-11">
-      <ShareCard />
-      <div className="my-6"></div>
-      {editMode && (
-        <BaseButton
-          isDisabled={
-            shareCardDetail?.teamName == null ||
-            shareCardDetail?.position == null ||
-            shareCardDetail?.introductionText == null
-          }
-          onClick={() => {
-            // 버튼 클릭 처리
-          }}
-        >
-          프로필 완성하기
-        </BaseButton>
-      )}
-    </div>
+    <>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <span className="text-body-2 text-center text-gray-100">
+          이번 행사에서 사용할 나만의 프로필을 완성해 보세요! 등록한 행사 프로필은 언제든지 수정
+          가능해요.
+        </span>
+        <BaseButton onClick={() => setIsModalOpen(false)}>알겠습니다</BaseButton>
+      </Modal>
+      <div className="wrapper mt-11 flex flex-col items-center overflow-x-hidden">
+        <NoticeInfo>
+          프로필을 모두 입력하면, QR을 통해 서로의 프로필을 확인할 수 있어요. 카메라로 QR을 스캔해
+          행사장에 있는 사람들의 프로필을 확인해보세요.
+        </NoticeInfo>
+        <div className="my-2"></div>
+        <ShareCard profile={profile} isReveal={true} isOpen={true} mode="edit" />
+        <div className="my-6"></div>
+        {editMode && (
+          <BaseButton isDisabled={isShareCardDetailBlank()} onClick={handleSaveCardDetail}>
+            프로필 완성하기
+          </BaseButton>
+        )}
+      </div>
+    </>
   );
 }
 

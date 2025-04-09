@@ -7,11 +7,16 @@ export default {
       'bounce-delay-1': 'bounce-y 0.8s infinite ease-in-out',
       'bounce-delay-2': 'bounce-y 0.8s infinite ease-in-out 0.2s',
       'bounce-delay-3': 'bounce-y 0.8s infinite ease-in-out 0.4s',
+      'modal-enter': 'modal-enter 0.3s ease-in-out forwards',
     },
     keyframes: {
       'fade-in': {
         from: { opacity: 0, transform: 'translateY(20px)' },
         to: { opacity: 1, transform: 'translateY(0)' },
+      },
+      'modal-enter': {
+        '0%': { opacity: '0', transform: 'translateY(16px)' },
+        '100%': { opacity: '1', transform: 'translateY(0)' },
       },
       'bounce-y': {
         '0%, 100%': { transform: 'translateY(0)' },
@@ -39,5 +44,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-3d')],
 };

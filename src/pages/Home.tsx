@@ -3,7 +3,7 @@ import KakaoSvg from '../assets/icons/ic_kakao.svg?react';
 
 function Home() {
   const handleKakaoLogin = () => {
-    console.log(import.meta.env.VITE_API_BASE_URL);
+    // TODO: 서버가 껴져 있을 경우 사용자에게 알려주기
     const url = `${import.meta.env.VITE_API_BASE_URL}/oauth2/authorization/kakao`;
     window.location.assign(url);
   };
