@@ -32,10 +32,10 @@ export default function ShareCard({
   };
 
   return (
-    <div className="perspective-1000 group">
+    <div className="group perspective-1000">
       <div
         onClick={handleToggleCard}
-        className={`${!isOpen && '-translate-y-32'} ${isTop && !isOpen && 'group-hover:-rotate-y-12 group-hover:rotate-x-12'} transform-style-3d relative w-[340px] transition-transform duration-700`}
+        className={`${!isOpen && '-translate-y-32'} ${isTop && !isOpen && 'group-hover:-rotate-y-12 group-hover:rotate-x-12'} relative w-[340px] transition-transform duration-700 transform-style-3d`}
       >
         <CardTop profile={profile} isReveal={isReveal} isOpen={isOpen} mode={mode} />
         <CardDivider />
@@ -78,11 +78,11 @@ function CardTopInSide({ profile, mode }: CardTopInsideProps) {
 
   return (
     <div
-      className={`backface-hidden absolute inset-0 h-full w-full overflow-hidden rounded-b-2xl bg-gray-900 p-6`}
+      className={`absolute inset-0 h-full w-full overflow-hidden rounded-b-2xl bg-gray-900 p-6 backface-hidden`}
     >
       <img
         src="src/assets/images/img_share_card_graphic.png"
-        className="pointer-events-none absolute inset-0 w-full -translate-y-10 transform select-none opacity-10 mix-blend-screen"
+        className="pointer-events-none absolute inset-0 w-full select-none opacity-10 mix-blend-screen -translate-y-10 transform"
       />
       {isEditable && (
         <div className="absolute right-6 top-6">
@@ -116,11 +116,11 @@ interface CardTopOutSideeProps {
 function CardTopOutSide({ profile, isReveal }: CardTopOutSideeProps) {
   return (
     <div
-      className={`${!isReveal && 'grayscale'} backface-hidden rotate-z-180 rotate-y-180 absolute flex h-full w-full flex-col justify-end overflow-hidden rounded-t-2xl bg-orange-700 p-6`}
+      className={`${!isReveal && 'grayscale'} absolute flex h-full w-full flex-col justify-end overflow-hidden rounded-t-2xl bg-orange-700 p-6 rotate-y-180 rotate-z-180 backface-hidden`}
     >
       <img
         src="src/assets/images/img_share_card_graphic.png"
-        className="pointer-events-none absolute inset-0 w-full -translate-y-10 transform select-none mix-blend-multiply"
+        className="pointer-events-none absolute inset-0 w-full select-none mix-blend-multiply -translate-y-10 transform"
       />
       <div className="z-10">
         <h1 className="mb-3 text-3xl font-bold text-gray-50">{profile?.name}</h1>
@@ -132,7 +132,7 @@ function CardTopOutSide({ profile, isReveal }: CardTopOutSideeProps) {
 
 function CardBottom({ detail, mode }: { detail?: IShareCardDetailsByEvent; mode: ShareCardMode }) {
   return (
-    <div className="transform-style-3d relative h-56 w-full">
+    <div className="relative h-56 w-full transform-style-3d">
       <CardBottomInSide detail={detail} mode={mode} />
       <CardBottomOutSide />
     </div>
@@ -151,7 +151,7 @@ function CardBottomInSide({
   const isEditable = mode === 'edit';
 
   return (
-    <div className="backface-hidden absolute inset-0 flex h-56 w-full flex-col justify-between gap-2 rounded-t-2xl bg-gray-900 p-6">
+    <div className="absolute inset-0 flex h-56 w-full flex-col justify-between gap-2 rounded-t-2xl bg-gray-900 p-6 backface-hidden">
       <div className="scroll-hide h-full w-full overflow-y-scroll">
         <ShareCardLabel>
           이번 해커톤에서
@@ -203,7 +203,7 @@ function CardBottomInSide({
 }
 function CardBottomOutSide() {
   return (
-    <div className="backface-hidden rotate-y-180 -rotate-z-180 absolute flex h-full w-full rounded-t-2xl bg-orange-700 p-6"></div>
+    <div className="absolute flex h-full w-full rounded-t-2xl bg-orange-700 p-6 -rotate-z-180 rotate-y-180 backface-hidden"></div>
   );
 }
 

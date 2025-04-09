@@ -1,20 +1,52 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import toast from 'react-hot-toast';
 import BaseButton from '../common/BaseButton';
-
 import FormSection from './FormSection';
-import { useState } from 'react';
 import { IProfile } from '../../types';
 import { useQueryAccount } from '../../hooks/useQueryAccount';
+import { validateInput } from '../../utils/form';
 
 interface IContentProps {
   variant: 'setup' | 'edit';
 }
 
 function Content({ variant }: IContentProps) {
-  const [formAccount, setFormAccount] = useState<IProfile>({});
-
   const navigate = useNavigate();
-  const { patchProfileInfo } = useQueryAccount();
+  const { profile, isLoading, error, patchProfileInfo } = useQueryAccount();
+
+  const [formAccount, setFormAccount] = useState<IProfile>(profile || {});
+  const [validationMessages, setValidationMessages] = useState<{ [key: string]: string }>({});
+  const [isModified, setIsModified] = useState(false);
+
+  useEffect(() => {
+    if (variant === 'edit' && profile) {
+      const isChanged = Object.keys(profile).some(
+        (key) => formAccount[key as keyof IProfile] !== profile[key as keyof IProfile]
+      );
+      setIsModified(isChanged);
+    }
+  }, [formAccount]);
+
+  useEffect(() => {
+    if (!isLoading && profile) {
+      setFormAccount((prevFormAccount) => {
+        if (JSON.stringify(prevFormAccount) !== JSON.stringify(profile)) {
+          return { ...profile };
+        }
+        return prevFormAccount;
+      });
+    } else if (isLoading) {
+      const loadingToastId = toast.loading('프로필 정보를 불러오는 중입니다.');
+      return () => toast.dismiss(loadingToastId);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error('프로필 정보를 불러오는 중 오류가 발생했습니다.');
+    }
+  }, [error]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -24,32 +56,74 @@ function Content({ variant }: IContentProps) {
     }));
   };
 
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    const validationMessage = validateInput(name, value);
+    setValidationMessages((prevMessages) => ({
+      ...prevMessages,
+      [name]: validationMessage || '',
+    }));
+  };
+
   const handleProfileSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    try {
-      patchProfileInfo(formAccount, {
-        onSuccess: () => {
-          if (variant === 'setup') navigate('/event');
-          else navigate('/user/:userId'); // TODO: userId 변수처리
-          // TODO: 로직 논의 필요 - 바로 마이페이지로 이동(그 전에 수정완료 알림 ex.토스트) or 수정된 데이터 반영한 프로필폼 보여주기
-        },
-        onError: () => {
-          console.log('Error occurred while updating profile');
-        },
-      });
-    } catch {
-      console.log('error');
+
+    const validationMessages = Object.keys(formAccount).reduce(
+      (acc, key) => {
+        const validationMessage = validateInput(key, formAccount[key as keyof IProfile] || '');
+        if (validationMessage) acc[key] = validationMessage;
+        return acc;
+      },
+      {} as { [key: string]: string }
+    );
+
+    if (Object.keys(validationMessages).length > 0) {
+      setValidationMessages(validationMessages);
+      return;
     }
+
+    patchProfileInfo(formAccount, {
+      onSuccess: () => {
+        if (variant === 'setup') {
+          navigate('/event');
+        } else {
+          navigate('/setting');
+          toast.success('수정되었습니다.');
+        }
+      },
+      onError: (error) => {
+        toast.error('오류가 발생했습니다. 잠시 후에 시도해주세요.');
+        console.error('Profile Edit error:', error);
+      },
+    });
   };
+
+  const isFormValid =
+    Object.values(validationMessages).every((validationMessage) => !validationMessage) &&
+    !!formAccount.name &&
+    !!formAccount.email;
 
   return (
     <form>
-      <FormSection type="default" handleChange={handleChange} />
-      <FormSection type="sns" handleChange={handleChange} />
+      <FormSection
+        type="default"
+        handleChange={handleChange}
+        handleBlur={handleBlur}
+        validationMessages={validationMessages}
+        formAccount={formAccount}
+      />
+      <FormSection
+        type="sns"
+        handleChange={handleChange}
+        handleBlur={handleBlur}
+        validationMessages={validationMessages}
+        formAccount={formAccount}
+      />
 
       <div className="fixed bottom-11 left-6 right-6 max-w-full">
         <BaseButton
-          isDisabled={!formAccount.name || !formAccount.email}
+          isDisabled={!isFormValid || (variant === 'edit' && !isModified)}
           onClick={(e) => handleProfileSubmit(e)}
         >
           {`프로필을 ${variant === 'setup' ? '완성했어요' : '수정할래요'}`}
