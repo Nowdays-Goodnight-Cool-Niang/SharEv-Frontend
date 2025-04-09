@@ -1,90 +1,212 @@
-import { QRCodeSVG } from 'qrcode.react';
+import { useShareCardDetailStore } from '@/stores/useShareCardDetailStore';
+import EditButton from './EditButton';
+import { QRBox } from './QRBox';
+import ShareCardInput from './ShareCardInput';
 import ShareCardLabel from './ShareCardLabel';
-// import ShareCardInput from './ShareCardInput';
-import GtihubSvg from '../../assets/icons/ic_github.svg?react';
-import LinkedInSvg from '../../assets/icons/ic_linkedin.svg?react';
-import InstagramSvg from '../../assets/icons/ic_instagram.svg?react';
-import EditSvg from '../../assets/icons/ic_edit.svg?react';
-import { useEffect, useState } from 'react';
-import { useQueryShareCard } from '../../hooks/useQueryShareCard';
+import SocialIcons from './SocialIcons';
+import { IProfile, IShareCardDetailsByEvent } from '@/types';
+import { useState } from 'react';
 
-function ShareCard() {
-  const { participantInfo, isLoading, error } = useQueryShareCard('participantId');
-  const [teamName, setTeamName] = useState('');
-  const [position, setPosition] = useState('');
-  const [introductionText, setIntroductionText] = useState('');
+export type ShareCardMode = 'edit' | 'view';
 
-  console.log(teamName, position, introductionText);
+interface ShareCardProps {
+  profile?: IProfile;
+  detail?: IShareCardDetailsByEvent;
+  mode?: ShareCardMode;
+  isReveal?: boolean;
+  isTop?: boolean;
+}
 
-  useEffect(() => {
-    if (!isLoading) {
-      setTeamName(participantInfo?.teamName || '');
-      setPosition(participantInfo?.position || '');
-      setIntroductionText(participantInfo?.introductionText || '');
-    }
-  }, [isLoading]);
+export default function ShareCard({
+  profile,
+  detail,
+  mode = 'view',
+  isReveal = false,
+  isTop = false,
+}: ShareCardProps) {
+  const [isOpen, setIsOpen] = useState(false);
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error) return <div>에러가 발생했습니다: {error.message}</div>;
+  const handleToggleCard = () => {
+    if (!isReveal) return;
+    setIsOpen((prev) => !prev);
+  };
 
   return (
-    <div>
-      <div className="relative overflow-hidden rounded-[4px] rounded-b-xl bg-orange-500 pb-5 pt-16">
-        <img
-          src="src/assets/images/img_share_card_graphic.png"
-          className="absolute w-full -translate-y-1/3 transform"
-        />
-        <div className="relative z-10 mx-5 flex flex-col items-center rounded-[4px] bg-gray-900 px-3 py-10">
-          <h1 className="font-ydestreet mb-5 text-3xl text-gray-50">권나연</h1>
-          <QRCodeSVG value="https://reactjs.org/" />
-          <p className="text-body-2 mb-4 mt-6 text-gray-400">example.example.com</p>
-          <ul className="flex gap-1">
-            <li className="flex h-9 w-9 items-center justify-center rounded bg-gray-700">
-              <LinkedInSvg className="w-6" />
-            </li>
-            <li className="flex h-9 w-9 items-center justify-center rounded bg-gray-700">
-              <GtihubSvg className="w-6" />
-            </li>
-            <li className="flex h-9 w-9 items-center justify-center rounded bg-gray-700">
-              <InstagramSvg className="w-6" />
-            </li>
-          </ul>
-        </div>
+    <div className="group perspective-1000">
+      <div
+        onClick={handleToggleCard}
+        className={`${!isOpen && '-translate-y-32'} ${isTop && !isOpen && 'group-hover:-rotate-y-12 group-hover:rotate-x-12'} relative w-[340px] transition-transform duration-700 transform-style-3d`}
+      >
+        <CardTop profile={profile} isReveal={isReveal} isOpen={isOpen} mode={mode} />
+        <CardDivider />
+        <CardBottom detail={detail} mode={mode} />
       </div>
-      <div className="rounded-[4px] rounded-t-xl bg-gray-900 p-5 pb-7">
-        <li className="flex flex-wrap items-center gap-x-1 gap-y-2 leading-10">
-          <ShareCardLabel>
-            이번 해커톤에서{' '}
-            <span
-              contentEditable
-              className="text-body-3 break-all rounded-[4px] bg-gray-800 px-2 py-[6px] leading-10 text-gray-200 placeholder:text-gray-600"
-            >
-              팀에서
-            </span>
-            팀에서
-          </ShareCardLabel>
-          {/* <ShareCardInput initalValue={teamName} onChange={(input) => setTeamName(input)} placeholder='팀이름'/>
-        <ShareCardLabel></ShareCardLabel>
-        <ShareCardInput initalValue={position} onChange={(input) => setPosition(input)} placeholder='직군'/>
-        <ShareCardLabel>역할을 맡아</ShareCardLabel>
-        <ShareCardInput initalValue={introductionText} onChange={(input) => setIntroductionText(input)} placeholder='프로젝트 한 줄 소개'/>
-        <ShareCardLabel>를</ShareCardLabel>
-        <ShareCardLabel>만들었어요.</ShareCardLabel> */}
-        </li>
-        <div className="mt-3 flex justify-end">
-          <EditButton />
+    </div>
+  );
+}
+
+function CardTop({
+  isReveal,
+  isOpen,
+  profile,
+  mode,
+  isTop,
+}: {
+  isReveal?: boolean;
+  isOpen?: boolean;
+  mode?: ShareCardMode;
+  profile?: IProfile;
+  isTop?: boolean;
+}) {
+  return (
+    <div
+      className={`transform-style-3d translate-z-[1px] ${!isOpen && '-rotate-x-180'} ${!isOpen && !isReveal && isTop && 'group-hover:-rotate-x-90'} relative h-56 w-full origin-bottom transition-transform duration-700`}
+    >
+      <CardTopInSide profile={profile} mode={mode} />
+      <CardTopOutSide profile={profile} isReveal={isReveal} />
+    </div>
+  );
+}
+
+interface CardTopInsideProps {
+  profile?: IProfile;
+  mode?: ShareCardMode;
+}
+function CardTopInSide({ profile, mode }: CardTopInsideProps) {
+  const isEditable = mode === 'edit';
+  const { isShareCardDetailBlank } = useShareCardDetailStore();
+
+  return (
+    <div
+      className={`absolute inset-0 h-full w-full overflow-hidden rounded-b-2xl bg-gray-900 p-6 backface-hidden`}
+    >
+      <img
+        src="src/assets/images/img_share_card_graphic.png"
+        className="pointer-events-none absolute inset-0 w-full select-none opacity-10 mix-blend-screen -translate-y-10 transform"
+      />
+      {isEditable && (
+        <div className="absolute right-6 top-6">
+          <QRBox
+            url={`${import.meta.env.VITE_API_BASE_URL}/share-cards/${profile?.id}`}
+            isAvailable={!isShareCardDetailBlank()}
+          />
+        </div>
+      )}
+
+      <div className="flex h-full flex-col justify-between">
+        <SocialIcons
+          linkedinUrl={profile?.linkedinUrl}
+          githubUrl={profile?.githubUrl}
+          instagramUrl={profile?.instagramUrl}
+        />
+        <div>
+          <h1 className="mb-3 text-3xl font-bold text-gray-50">{profile?.name}</h1>
+          <p className="text-body-3 mb-2 text-gray-400">{profile?.email}</p>
+          <p className="text-body-3 text-gray-400">삐약톤 캠퍼스 대항전</p>
         </div>
       </div>
     </div>
   );
 }
 
-export default ShareCard;
-
-function EditButton() {
+interface CardTopOutSideeProps {
+  profile?: IProfile;
+  isReveal?: boolean;
+}
+function CardTopOutSide({ profile, isReveal }: CardTopOutSideeProps) {
   return (
-    <button className="text-button-5 flex items-center gap-0.5 text-gray-500">
-      <EditSvg /> 수정하기
-    </button>
+    <div
+      className={`${!isReveal && 'grayscale'} absolute flex h-full w-full flex-col justify-end overflow-hidden rounded-t-2xl bg-orange-700 p-6 rotate-y-180 rotate-z-180 backface-hidden`}
+    >
+      <img
+        src="src/assets/images/img_share_card_graphic.png"
+        className="pointer-events-none absolute inset-0 w-full select-none mix-blend-multiply -translate-y-10 transform"
+      />
+      <div className="z-10">
+        <h1 className="mb-3 text-3xl font-bold text-gray-50">{profile?.name}</h1>
+        <p className="text-body-3 text-gray-100">삐약톤 캠퍼스 대항전</p>
+      </div>
+    </div>
   );
+}
+
+function CardBottom({ detail, mode }: { detail?: IShareCardDetailsByEvent; mode: ShareCardMode }) {
+  return (
+    <div className="relative h-56 w-full transform-style-3d">
+      <CardBottomInSide detail={detail} mode={mode} />
+      <CardBottomOutSide />
+    </div>
+  );
+}
+function CardBottomInSide({
+  detail,
+  mode,
+}: {
+  detail?: IShareCardDetailsByEvent;
+  mode: ShareCardMode;
+}) {
+  const { shareCardDetail, editMode, setEditMode, setShareCardDetailByKey } =
+    useShareCardDetailStore();
+
+  const isEditable = mode === 'edit';
+
+  return (
+    <div className="absolute inset-0 flex h-56 w-full flex-col justify-between gap-2 rounded-t-2xl bg-gray-900 p-6 backface-hidden">
+      <div className="scroll-hide h-full w-full overflow-y-scroll">
+        <ShareCardLabel>
+          이번 해커톤에서
+          {isEditable ? (
+            <ShareCardInput
+              value={shareCardDetail?.teamName || ''}
+              onChange={(val) => setShareCardDetailByKey('teamName', val)}
+              placeholder="팀이름"
+            />
+          ) : (
+            <span className="mx-1 text-sm font-semibold leading-8 text-gray-200">
+              {detail?.teamName}
+            </span>
+          )}
+          팀에서
+          {isEditable ? (
+            <ShareCardInput
+              value={shareCardDetail?.position || ''}
+              onChange={(val) => setShareCardDetailByKey('position', val)}
+              placeholder="직군"
+            />
+          ) : (
+            <span className="mx-1 text-sm font-semibold leading-8 text-gray-200">
+              {detail?.position}
+            </span>
+          )}
+          역할을 맡아
+          {isEditable ? (
+            <ShareCardInput
+              value={shareCardDetail?.introductionText || ''}
+              onChange={(val) => setShareCardDetailByKey('introductionText', val)}
+              placeholder="프로젝트 한 줄 소개"
+            />
+          ) : (
+            <span className="mx-1 text-sm font-semibold leading-8 text-gray-200">
+              {detail?.introductionText}
+            </span>
+          )}
+          를 만들었어요.
+        </ShareCardLabel>
+      </div>
+      {isEditable && !editMode && (
+        <div className="flex justify-end">
+          <EditButton onClick={() => setEditMode(true)} />
+        </div>
+      )}
+    </div>
+  );
+}
+function CardBottomOutSide() {
+  return (
+    <div className="absolute flex h-full w-full rounded-t-2xl bg-orange-700 p-6 -rotate-z-180 rotate-y-180 backface-hidden"></div>
+  );
+}
+
+function CardDivider() {
+  return <hr className="mx-4 border-dashed border-gray-600" />;
 }

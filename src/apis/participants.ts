@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 export const participantInstance = axios.create({
-  baseURL: `${import.meta.env.VITE_API_BASE_URL}/social-dex`,
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}/participants`,
   withCredentials: true,
 });
 
 export const participantAPI = {
-  getParticipants: async () => {
-    const response = await participantInstance.get('');
+  getParticipants: async (page: number, size: number) => {
+    const response = await participantInstance.get('', { params: { page, size } });
     return response.data;
   },
 };

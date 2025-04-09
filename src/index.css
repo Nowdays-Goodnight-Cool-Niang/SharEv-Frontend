@@ -72,11 +72,11 @@
   }
 
   .text-body-3 {
-    @apply text-sm font-medium leading-[100%];
+    @apply text-xs font-medium leading-[100%];
   }
 
   .text-body-4 {
-    @apply text-sm font-normal leading-[160%];
+    @apply text-xs font-medium leading-[160%];
   }
 
   .text-label-1 {
@@ -84,7 +84,7 @@
   }
 
   .text-label-2 {
-    @apply text-xs font-medium leading-[120%];
+    @apply text-xs font-medium leading-[140%];
   }
 
   .text-button-1 {
@@ -108,10 +108,18 @@
   }
 
   .background {
-    @apply h-screen w-[402px];
+    @apply mx-auto h-screen w-[402px];
   }
 
   .wrapper {
     @apply px-6;
+  }
+
+  .scroll-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .scroll-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
   }
 }
