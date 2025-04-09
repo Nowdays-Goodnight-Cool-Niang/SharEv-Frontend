@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useQueryShareCard } from '../../hooks/useQueryShareCard';
 import { useShareCardDetailStore } from '../../stores/useShareCardDetailStore';
 import { useQueryAccount } from '../../hooks/useQueryAccount';
-import { useProfileStore } from '../../stores/useProfileStore';
 import BaseButton from '../common/BaseButton';
 import { useMutateShareCard } from '../../hooks/useMutateShareCard';
 import toast from 'react-hot-toast';
@@ -24,15 +23,8 @@ function ProfileSection() {
 
   const { mutate: saveShareCard } = useMutateShareCard();
 
-  const { setProfile } = useProfileStore();
   const { shareCardDetail, setShareCardDetail, isShareCardDetailBlank, editMode, setEditMode } =
     useShareCardDetailStore();
-
-  useEffect(() => {
-    if (profile) {
-      setProfile(profile);
-    }
-  }, [profile, setProfile]);
 
   useEffect(() => {
     // TODO: 초기값 null로 확실한지 확인하기
@@ -90,7 +82,7 @@ function ProfileSection() {
           행사장에 있는 사람들의 프로필을 확인해보세요.
         </NoticeInfo>
         <div className="my-2"></div>
-        <ShareCard profile={profile} isReveal={true} isOpen={true} mode="edit" />
+        <ShareCard profile={profile} isReveal={true} mode="edit" />
         <div className="my-6"></div>
         {editMode && (
           <BaseButton isDisabled={isShareCardDetailBlank()} onClick={handleSaveCardDetail}>
