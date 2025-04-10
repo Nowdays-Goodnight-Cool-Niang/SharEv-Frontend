@@ -10,15 +10,6 @@ function MyProfile() {
   const navigate = useNavigate();
   const { profile } = useQueryAccount();
 
-  // const profileData = {
-  //   name: '권나연',
-  //   email: 'example@ex.com',
-  //   linkedinUrl: 'linkedin.com/in/ooo',
-  //   githubUrl: 'github.com/ooo',
-  //   instagramUrl: 'instagram.com/ooo',
-  // };
-  // TODO: mock
-
   const moveProfileEdit = () => navigate('/profile-edit');
 
   return (
