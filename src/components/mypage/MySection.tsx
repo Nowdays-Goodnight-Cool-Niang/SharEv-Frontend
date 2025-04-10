@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import MyProfile from './MyProfile';
 import { accountAPI } from '../../apis/accounts';
+import { authAPI } from '../../apis/auth';
+import { TOAST_MESSAGE } from '../../utils/labels';
 
 function MySection() {
   const navigate = useNavigate();
@@ -13,38 +15,29 @@ function MySection() {
     onSuccess: () => {
       queryClient.clear();
       navigate('/');
-      toast.success('탈퇴가 완료되었습니다. 이용해 주셔서 감사합니다.');
+      toast.success(TOAST_MESSAGE.ACCOUNT_DELETION_SUCCESS, { icon: '🙇🏻‍♀️' });
     },
     onError: (error) => {
       console.error('Account deletion error:', error.message);
-      toast.error('오류가 발생했습니다. 잠시 후에 시도해주세요.');
+    },
+  });
+
+  const { mutate: performLogout } = useMutation({
+    mutationFn: authAPI.logout,
+    onSuccess: () => {
+      queryClient.clear();
+      navigate('/');
+      toast(TOAST_MESSAGE.LOGOUT_SUCCESS, { icon: '👋🏻' });
+    },
+    onError: (error) => {
+      console.error('Account logout error:', error.message);
     },
   });
 
   const handleInquiry = () => {
-    toast('준비 중입니다.', {
+    toast(TOAST_MESSAGE.INQUIRY_UNDER_CONSTRUCTION, {
       icon: '🙏🏻',
     });
-  };
-
-  const handleLogout = async () => {
-    try {
-      const logoutApi = `${import.meta.env.VITE_API_BASE_URL}/logout`;
-      const response = await fetch(logoutApi, {
-        method: 'GET',
-        credentials: 'include',
-      });
-
-      if (response.ok) {
-        navigate('/');
-        toast.success('로그아웃 되었습니다.');
-      } else {
-        toast.error('로그아웃에 실패했습니다. 잠시 후에 시도해주세요.');
-      }
-    } catch (error) {
-      console.error('Logout error:', error);
-      toast.error('오류가 발생했습니다. 잠시 후에 시도해주세요.');
-    }
   };
 
   const handleAccountDeletion = async () => {
@@ -59,7 +52,7 @@ function MySection() {
 
   const settingButtons = [
     { title: '문의하기', onClick: handleInquiry },
-    { title: '로그아웃', onClick: handleLogout },
+    { title: '로그아웃', onClick: () => performLogout() },
     { title: '탈퇴하기', onClick: handleAccountDeletion },
   ];
   const datas = [

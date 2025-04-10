@@ -9,6 +9,7 @@ import ShareCard from './ShareCard';
 import LoadingSpinner from '../common/LoadingSpinner';
 import Modal from '../common/Modal';
 import NoticeInfo from '../common/NoticeInfo';
+import { TOAST_MESSAGE } from '../../utils/labels';
 
 function ProfileSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -62,7 +63,7 @@ function ProfileSection() {
         position: shareCardDetail.position,
         introductionText: shareCardDetail.introductionText,
       });
-      toast.success('프로필을 저장했습니다');
+      toast.success(TOAST_MESSAGE.PROFILE_SAVE_SUCCESS, { icon: '🎉' });
       setEditMode(false);
       setShareCardDetail(shareCardDetail);
     }
