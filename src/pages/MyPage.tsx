@@ -3,7 +3,7 @@ import MySection from '../components/mypage/MySection';
 
 function MyPage() {
   return (
-    <main className="pt-11">
+    <main className="wrapper pt-11">
       <FormHeader content="마이페이지" />
       <MySection />
     </main>
