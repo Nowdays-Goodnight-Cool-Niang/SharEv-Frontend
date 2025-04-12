@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams } from 'react-router';
 import { useEffect } from 'react';
-import { kakaoAuthAPI } from '../apis/kakaoAuth';
+import { kakaoAuthAPI } from '@/apis/kakaoAuth';
 import { toast } from 'react-hot-toast';
-import { TOAST_MESSAGE } from '../utils/labels';
+import { TOAST_MESSAGE } from '@/utils/labels';
 
 export const useKakaoLogin = () => {
   const navigate = useNavigate();
