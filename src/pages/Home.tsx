@@ -1,5 +1,5 @@
-import BaseButton from '../components/common/BaseButton';
-import KakaoSvg from '../assets/icons/ic_kakao.svg?react';
+import BaseButton from '@/components/common/BaseButton';
+import KakaoSvg from '@/assets/icons/ic_kakao.svg?react';
 import geometricGraphic from '@/assets/images/img_geometric_graphic.png';
 
 function Home() {
