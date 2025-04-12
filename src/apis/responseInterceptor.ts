@@ -5,7 +5,7 @@ import { participantInstance } from './participants';
 import { shareCardInstance } from './shareCards';
 import { kakaoAuthInstance } from './kakaoAuth';
 import { authInstance } from './auth';
-import { TOAST_MESSAGE } from '../utils/labels';
+import { TOAST_MESSAGE } from '@/utils/labels';
 
 export const setupAxiosInterceptors = () => {
   const handleResponseError = (error: AxiosError) => {

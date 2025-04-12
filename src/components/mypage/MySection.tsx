@@ -1,10 +1,10 @@
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import MyProfile from './MyProfile';
-import { accountAPI } from '../../apis/accounts';
-import { authAPI } from '../../apis/auth';
-import { TOAST_MESSAGE } from '../../utils/labels';
+import MyProfile from '@/components/mypage/MyProfile';
+import { accountAPI } from '@/apis/accounts';
+import { authAPI } from '@/apis/auth';
+import { TOAST_MESSAGE } from '@/utils/labels';
 
 function MySection() {
   const navigate = useNavigate();

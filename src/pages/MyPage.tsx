@@ -1,5 +1,5 @@
-import FormHeader from '../components/profile/FormHeader';
-import MySection from '../components/mypage/MySection';
+import FormHeader from '@/components/profile/FormHeader';
+import MySection from '@/components/mypage/MySection';
 
 function MyPage() {
   return (

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { IShareCard } from '../types/index';
+import { IShareCard } from '@/types/index';
 
 interface IParticipantProfileState {
   isOpen: boolean;
