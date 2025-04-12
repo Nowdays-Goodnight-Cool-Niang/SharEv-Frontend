@@ -12,4 +12,8 @@ export const participantAPI = {
     });
     return response.data;
   },
+  postParticipant: async (id: string) => {
+    const response = await participantInstance.post('', { targetAccountId: id });
+    return response.data;
+  },
 };

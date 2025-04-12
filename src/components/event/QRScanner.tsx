@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { BrowserQRCodeReader } from '@zxing/browser';
 import WebcamCapture from './WebcamCapture';
+import NoticeInfo from '../common/NoticeInfo';
+import { participantAPI } from '@/apis/participants';
+
 import toast from 'react-hot-toast';
 
 const qrReader = new BrowserQRCodeReader();
@@ -9,37 +12,27 @@ const QRScanner = () => {
   const [qrText, setQrText] = useState('');
 
   const handleImage = async (imageSrc: string) => {
-    const image = new Image();
-    image.src = imageSrc;
-
-    image.onload = async () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = image.width;
-      canvas.height = image.height;
-
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-      ctx.drawImage(image, 0, 0);
-
-      try {
-        console.log('=======');
-        const result = await qrReader.decodeFromImageElement(image);
-        console.log(result);
-        if (result?.getText && result.getText() !== qrText) {
-          setQrText(result.getText());
-          console.log('✅ QR 인식:', result.getText());
-        }
-      } catch (err) {
-        // 실패했을 경우 아무것도 하지 않음
-        toast.error(err as string);
+    try {
+      const result = await qrReader.decodeFromImageUrl(imageSrc);
+      if (result?.getText && result.getText() !== qrText) {
+        setQrText(result.getText());
+        const id = result.getText();
+        await participantAPI.postParticipant(id);
+        toast.success('QR이 등록되었습니다.');
       }
-    };
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex w-full flex-col items-center gap-6">
+      <div className="wrapper mt-11 w-full">
+        <NoticeInfo>
+          카메라로 행사장에 있는 다른 사람의 QR을 스캔해 프로필을 확인해 보세요
+        </NoticeInfo>
+      </div>
       <WebcamCapture onCapture={handleImage} />
-      <p className="mt-4 text-lg text-green-700">{qrText}</p>
     </div>
   );
 };
