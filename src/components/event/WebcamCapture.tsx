@@ -1,8 +1,12 @@
 import { useEffect, useRef } from 'react';
 import Webcam from 'react-webcam';
 
-const WebcamCapture = ({ onCapture }) => {
-  const webcamRef = useRef(null);
+interface WebcamCaptureProps {
+  onCapture: (imageSrc: string) => void;
+}
+
+const WebcamCapture = ({ onCapture }: WebcamCaptureProps) => {
+  const webcamRef = useRef<Webcam>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {

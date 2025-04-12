@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
 import QRScanner from './QRScanner';
 
 export default function QRCameraSection() {
