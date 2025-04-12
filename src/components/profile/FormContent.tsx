@@ -116,7 +116,8 @@ function Content({ variant }: IContentProps) {
         formAccount={formAccount}
       />
 
-      <div className="fixed bottom-11 left-6 right-6 max-w-full">
+      <div className="mt-10 w-full">
+        {/* TOOD: 아래 margin(44px)보다는 큰 제목 간격(40px)으로 맞췄는데 괜찮은지 유진님께 여쭤보기 */}
         <BaseButton
           isDisabled={!isFormValid || (variant === 'edit' && !isModified)}
           onClick={(e) => handleProfileSubmit(e)}
