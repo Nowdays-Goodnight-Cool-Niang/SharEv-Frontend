@@ -6,6 +6,7 @@ import ShareCardLabel from './ShareCardLabel';
 import SocialIcons from './SocialIcons';
 import { IProfile, IShareCardDetailsByEvent } from '@/types';
 import { useState } from 'react';
+import backgroundGraphic from '@/assets/images/img_share_card_graphic.png';
 
 export type ShareCardMode = 'edit' | 'view';
 
@@ -81,7 +82,7 @@ function CardTopInSide({ profile, mode }: CardTopInsideProps) {
       className={`absolute inset-0 h-full w-full overflow-hidden rounded-b-2xl bg-gray-900 p-6 backface-hidden`}
     >
       <img
-        src="src/assets/images/img_share_card_graphic.png"
+        src={backgroundGraphic}
         className="pointer-events-none absolute inset-0 w-full select-none opacity-10 mix-blend-screen -translate-y-10 transform"
       />
       {isEditable && (
@@ -119,7 +120,7 @@ function CardTopOutSide({ profile, isReveal }: CardTopOutSideeProps) {
       className={`${!isReveal && 'grayscale'} absolute flex h-full w-full flex-col justify-end overflow-hidden rounded-t-2xl bg-orange-700 p-6 rotate-y-180 rotate-z-180 backface-hidden`}
     >
       <img
-        src="src/assets/images/img_share_card_graphic.png"
+        src={backgroundGraphic}
         className="pointer-events-none absolute inset-0 w-full select-none mix-blend-multiply -translate-y-10 transform"
       />
       <div className="z-10">
