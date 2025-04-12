@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BrowserQRCodeReader } from '@zxing/browser';
 import WebcamCapture from './WebcamCapture';
+import toast from 'react-hot-toast';
 
 const qrReader = new BrowserQRCodeReader();
 
@@ -30,7 +31,7 @@ const QRScanner = () => {
         }
       } catch (err) {
         // 실패했을 경우 아무것도 하지 않음
-        console.log(err);
+        toast.error(err as string);
       }
     };
   };
