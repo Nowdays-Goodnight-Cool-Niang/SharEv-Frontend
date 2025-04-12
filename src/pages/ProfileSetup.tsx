@@ -1,6 +1,6 @@
-import FormHeader from '../components/profile/FormHeader';
-import NoticeInfo from '../components/common/NoticeInfo';
-import FormContent from '../components/profile/FormContent';
+import FormHeader from '@/components/profile/FormHeader';
+import NoticeInfo from '@/components/common/NoticeInfo';
+import FormContent from '@/components/profile/FormContent';
 
 function ProfileSetup() {
   return (

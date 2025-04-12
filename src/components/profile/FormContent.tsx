@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
-import BaseButton from '../common/BaseButton';
-import FormSection from './FormSection';
-import { IProfile } from '../../types';
-import { useQueryAccount } from '../../hooks/useQueryAccount';
-import { validateInput } from '../../utils/form';
-import { TOAST_MESSAGE } from '../../utils/labels';
+import { IProfile } from '@/types';
+import BaseButton from '@/components/common/BaseButton';
+import FormSection from '@/components/profile/FormSection';
+import { useQueryAccount } from '@/hooks/useQueryAccount';
+import { validateInput } from '@/utils/form';
+import { TOAST_MESSAGE } from '@/utils/labels';
 
 interface IContentProps {
   variant: 'setup' | 'edit';

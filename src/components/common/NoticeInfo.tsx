@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import NoticeSvg from '../../assets/icons/ic_notice.svg?react';
+import NoticeSvg from '@/assets/icons/ic_notice.svg?react';
 
 function NoticeInfo({ children }: PropsWithChildren) {
   return (
