@@ -46,7 +46,7 @@ function ShareCardInput({ value, onChange, placeholder = '' }: IShareCardInput) 
         onChange(e.currentTarget.textContent || '');
       }}
       suppressContentEditableWarning
-      className="text-body-3 relative mx-2 rounded-[4px] bg-gray-800 px-2 py-[6px] leading-10 text-gray-200 before:text-gray-600 before:content-[attr(data-placeholder)] focus:outline-none focus:ring-1 focus:ring-gray-700"
+      className="text-body-3 relative mx-1 rounded border border-gray-200 bg-white px-2 py-1.5 leading-10 text-gray-900 before:text-gray-400 before:content-[attr(data-placeholder)] focus:outline-none focus:ring-1 focus:ring-gray-200"
     />
   );
 }
