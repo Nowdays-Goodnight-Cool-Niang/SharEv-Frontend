@@ -1,18 +1,11 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { participantAPI } from '@/apis/participants';
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 1000;
 
-export const useInfiniteParticipants = () => {
-  return useInfiniteQuery({
+export const useParticipants = () => {
+  return useQuery({
     queryKey: ['participants'],
-    queryFn: ({ pageParam = 0 }) => participantAPI.getParticipants(pageParam, PAGE_SIZE),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, pages) => {
-      const totalSize = lastPage.totalSize;
-      const loaded = pages.flatMap((p) => p.accountInfoPage.content).length;
-
-      return loaded < totalSize ? pages.length : undefined;
-    },
+    queryFn: () => participantAPI.getParticipants(0, PAGE_SIZE),
   });
 };

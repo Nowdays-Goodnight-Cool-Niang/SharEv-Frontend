@@ -13,4 +13,6 @@ export interface IShareCardDetailsByEvent {
   introductionText: string | null;
 }
 
-export interface IShareCard extends IProfile, IShareCardDetailsByEvent {}
+export interface IShareCard extends IProfile, IShareCardDetailsByEvent {
+  registerFlag?: boolean;
+}

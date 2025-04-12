@@ -78,10 +78,7 @@ function ProfileSection() {
         <BaseButton onClick={() => setIsModalOpen(false)}>알겠습니다</BaseButton>
       </Modal>
       <div className="wrapper mt-11 flex flex-col items-center overflow-x-hidden">
-        <NoticeInfo>
-          프로필을 모두 입력하면, QR을 통해 서로의 프로필을 확인할 수 있어요. 카메라로 QR을 스캔해
-          행사장에 있는 사람들의 프로필을 확인해보세요.
-        </NoticeInfo>
+        <NoticeInfo>프로필을 입력하면 자신의 QR 코드가 생성돼요</NoticeInfo>
         <div className="my-2"></div>
         <ShareCard profile={profile} isReveal={true} mode="edit" />
         <div className="my-6"></div>

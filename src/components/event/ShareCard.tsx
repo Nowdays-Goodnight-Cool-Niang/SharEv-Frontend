@@ -40,7 +40,7 @@ export default function ShareCard({
       >
         <CardTop profile={profile} isReveal={isReveal} isOpen={isOpen} mode={mode} />
         <CardDivider />
-        <CardBottom detail={detail} mode={mode} />
+        {isReveal && <CardBottom detail={detail} mode={mode} />}
       </div>
     </div>
   );
@@ -79,18 +79,15 @@ function CardTopInSide({ profile, mode }: CardTopInsideProps) {
 
   return (
     <div
-      className={`absolute inset-0 h-full w-full overflow-hidden rounded-b-2xl bg-gray-900 p-6 backface-hidden`}
+      className={`absolute inset-0 h-full w-full overflow-hidden rounded-b-2xl bg-white p-6 backface-hidden`}
     >
       <img
         src={backgroundGraphic}
-        className="pointer-events-none absolute inset-0 w-full select-none opacity-10 mix-blend-screen -translate-y-10 transform"
+        className="pointer-events-none absolute inset-0 w-full select-none opacity-10 mix-blend-multiply -translate-y-10 transform"
       />
       {isEditable && (
         <div className="absolute right-6 top-6">
-          <QRBox
-            url={`${import.meta.env.VITE_API_BASE_URL}/share-cards/${profile?.id}`}
-            isAvailable={!isShareCardDetailBlank()}
-          />
+          <QRBox url={profile?.id} isAvailable={!isShareCardDetailBlank()} />
         </div>
       )}
 
@@ -101,9 +98,9 @@ function CardTopInSide({ profile, mode }: CardTopInsideProps) {
           instagramUrl={profile?.instagramUrl}
         />
         <div>
-          <h1 className="mb-3 text-3xl font-bold text-gray-50">{profile?.name}</h1>
-          <p className="text-body-3 mb-2 text-gray-400">{profile?.email}</p>
-          <p className="text-body-3 text-gray-400">삐약톤 캠퍼스 대항전</p>
+          <h1 className="mb-3 text-3xl font-bold text-gray-900">{profile?.name}</h1>
+          <p className="text-body-3 mb-2 text-gray-700">{profile?.email}</p>
+          <p className="text-body-3 text-gray-700">삐약톤 캠퍼스 대항전</p>
         </div>
       </div>
     </div>
@@ -152,7 +149,7 @@ function CardBottomInSide({
   const isEditable = mode === 'edit';
 
   return (
-    <div className="absolute inset-0 flex h-56 w-full flex-col justify-between gap-2 rounded-t-2xl bg-gray-900 p-6 backface-hidden">
+    <div className="absolute inset-0 flex h-56 w-full flex-col justify-between gap-2 rounded-t-2xl bg-white p-6 backface-hidden">
       <div className="scroll-hide h-full w-full overflow-y-scroll">
         <ShareCardLabel>
           이번 해커톤에서
