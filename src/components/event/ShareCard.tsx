@@ -5,7 +5,7 @@ import ShareCardInput from './ShareCardInput';
 import ShareCardLabel from './ShareCardLabel';
 import SocialIcons from './SocialIcons';
 import { IProfile, IShareCardDetailsByEvent } from '@/types';
-import { useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 
 export type ShareCardMode = 'edit' | 'view';
 
@@ -159,9 +159,7 @@ function CardBottomInSide({
               placeholder="팀이름"
             />
           ) : (
-            <span className="mx-1 text-sm font-semibold leading-8 text-gray-200">
-              {detail?.teamName}
-            </span>
+            <Tag>{detail?.teamName}</Tag>
           )}
           팀에서
           {isEditable ? (
@@ -171,9 +169,7 @@ function CardBottomInSide({
               placeholder="직군"
             />
           ) : (
-            <span className="mx-1 text-sm font-semibold leading-8 text-gray-200">
-              {detail?.position}
-            </span>
+            <Tag>{detail?.position}</Tag>
           )}
           역할을 맡아
           {isEditable ? (
@@ -183,9 +179,7 @@ function CardBottomInSide({
               placeholder="프로젝트 한 줄 소개"
             />
           ) : (
-            <span className="mx-1 text-sm font-semibold leading-8 text-gray-200">
-              {detail?.introductionText}
-            </span>
+            <Tag>{detail?.introductionText}</Tag>
           )}
           를 만들었어요.
         </ShareCardLabel>
@@ -198,6 +192,14 @@ function CardBottomInSide({
     </div>
   );
 }
+function Tag({ children }: PropsWithChildren) {
+  return (
+    <span className="mx-1 rounded bg-gray-100 px-1.5 py-1 text-xs font-semibold leading-8 text-gray-800">
+      {children}
+    </span>
+  );
+}
+
 function CardBottomOutSide() {
   return (
     <div className="absolute flex h-full w-full rounded-t-2xl bg-orange-700 p-6 -rotate-z-180 rotate-y-180 backface-hidden"></div>
