@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useQueryShareCard } from '../../hooks/useQueryShareCard';
-import { useShareCardDetailStore } from '../../stores/useShareCardDetailStore';
-import { useQueryAccount } from '../../hooks/useQueryAccount';
-import BaseButton from '../common/BaseButton';
-import { useMutateShareCard } from '../../hooks/useMutateShareCard';
 import toast from 'react-hot-toast';
-import ShareCard from './ShareCard';
-import LoadingSpinner from '../common/LoadingSpinner';
-import Modal from '../common/Modal';
-import NoticeInfo from '../common/NoticeInfo';
-import { TOAST_MESSAGE } from '../../utils/labels';
+import { useShareCardDetailStore } from '@/stores/useShareCardDetailStore';
+import { useQueryShareCard } from '@/hooks/useQueryShareCard';
+import { useQueryAccount } from '@/hooks/useQueryAccount';
+import BaseButton from '@/components/common/BaseButton';
+import { useMutateShareCard } from '@/hooks/useMutateShareCard';
+import ShareCard from '@/components/event/ShareCard';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import Modal from '@/components/common/Modal';
+import NoticeInfo from '@/components/common/NoticeInfo';
+import { TOAST_MESSAGE } from '@/utils/labels';
 
 function ProfileSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
-import { IShareCard } from '../../types';
-import ShareCard from './ShareCard';
+import { IShareCard } from '@/types';
+import ShareCard from '@/components/event/ShareCard';
 
 const mockShareCards: IShareCard[] = [
   {
