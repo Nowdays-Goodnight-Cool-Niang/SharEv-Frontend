@@ -5,7 +5,7 @@ import ShareCardInput from './ShareCardInput';
 import ShareCardLabel from './ShareCardLabel';
 import SocialIcons from './SocialIcons';
 import { IProfile, IShareCardDetailsByEvent } from '@/types';
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren } from 'react';
 
 export type ShareCardMode = 'edit' | 'view';
 
@@ -15,6 +15,8 @@ interface ShareCardProps {
   mode?: ShareCardMode;
   isReveal?: boolean;
   isTop?: boolean;
+  isOpen?: boolean;
+  onToggle?: () => void;
 }
 
 export default function ShareCard({
@@ -23,18 +25,13 @@ export default function ShareCard({
   mode = 'view',
   isReveal = false,
   isTop = false,
+  isOpen = false,
+  onToggle,
 }: ShareCardProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleToggleCard = () => {
-    if (!isReveal) return;
-    setIsOpen((prev) => !prev);
-  };
-
   return (
     <div className="group perspective-1000">
       <div
-        onClick={handleToggleCard}
+        onClick={onToggle}
         className={`${!isOpen && '-translate-y-32'} ${isTop && !isOpen && 'group-hover:-rotate-y-12 group-hover:rotate-x-12'} relative w-[340px] transition-transform duration-700 transform-style-3d`}
       >
         <CardTop profile={profile} isReveal={isReveal} isOpen={isOpen} mode={mode} />

@@ -12,6 +12,7 @@ import NoticeInfo from '../common/NoticeInfo';
 
 function ProfileSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const { profile, isLoading: isProfileLoading, error: profileError } = useQueryAccount();
   const {
     participantInfo,
@@ -45,7 +46,12 @@ function ProfileSection() {
     }
   }, [participantInfo, setEditMode, setShareCardDetail]);
 
-  if (isProfileLoading || isParticipantInfoLoading) return <LoadingSpinner />;
+  if (isProfileLoading || isParticipantInfoLoading)
+    return (
+      <div className="w-full py-16">
+        <LoadingSpinner />
+      </div>
+    );
 
   if (profileError || participantError || !participantInfo)
     return (
@@ -79,7 +85,13 @@ function ProfileSection() {
       <div className="wrapper mt-11 flex flex-col items-center overflow-x-hidden">
         <NoticeInfo>프로필을 입력하면 자신의 QR 코드가 생성돼요</NoticeInfo>
         <div className="my-2"></div>
-        <ShareCard profile={profile} isReveal={true} mode="edit" />
+        <ShareCard
+          isOpen={isOpen}
+          onToggle={() => setIsOpen((prev) => !prev)}
+          profile={profile}
+          isReveal={true}
+          mode="edit"
+        />
         <div className="my-6"></div>
         {editMode && (
           <BaseButton isDisabled={isShareCardDetailBlank()} onClick={handleSaveCardDetail}>

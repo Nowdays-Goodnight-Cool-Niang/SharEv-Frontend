@@ -8,6 +8,7 @@ export default function ParticipantSection() {
   const { data, isLoading, isError } = useParticipants();
   const [registerCount, setRegisterCount] = useState(0);
   const [cards, setCards] = useState<IShareCard[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const startX = useRef(0);
@@ -46,6 +47,7 @@ export default function ParticipantSection() {
       setTimeout(() => {
         const updated = [...cards.slice(1), cards[0]];
         setCards(updated);
+        setIsOpen(false);
         if (cardRef.current) {
           cardRef.current.style.transition = 'none';
           cardRef.current.style.transform = 'translateX(0)';
@@ -60,9 +62,14 @@ export default function ParticipantSection() {
     translateX.current = 0;
   };
 
-  if (isLoading) return <LoadingSpinner />; // 로딩 중일 때
+  if (isLoading)
+    return (
+      <div className="w-full py-16">
+        <LoadingSpinner />
+      </div>
+    );
   if (isError) return <p className="text-white">데이터를 불러오는 데 실패했습니다.</p>;
-  console.log(cards);
+
   return (
     <div className="wrapper flex h-full max-h-full flex-col overflow-hidden" ref={containerRef}>
       <h1 className="text-title-1 mb-5 mt-11 text-gray-50">삐약톤 캠퍼스 대항전</h1>
@@ -101,7 +108,16 @@ export default function ParticipantSection() {
               onMouseUp={isTop ? end : undefined}
               onMouseLeave={isTop ? end : undefined}
             >
-              <ShareCard isReveal={card.registerFlag} profile={card} detail={card} isTop={isTop} />
+              <ShareCard
+                isOpen={isTop && isOpen}
+                onToggle={() => {
+                  if (card.registerFlag) setIsOpen((prev) => !prev);
+                }}
+                isReveal={card.registerFlag}
+                profile={card}
+                detail={card}
+                isTop={isTop}
+              />
             </div>
           );
         })}
