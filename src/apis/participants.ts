@@ -7,7 +7,9 @@ export const participantInstance = axios.create({
 
 export const participantAPI = {
   getParticipants: async (page: number, size: number) => {
-    const response = await participantInstance.get('', { params: { page, size } });
+    const response = await participantInstance.get('', {
+      params: { page, size, snapshotTime: new Date().toISOString() },
+    });
     return response.data;
   },
 };

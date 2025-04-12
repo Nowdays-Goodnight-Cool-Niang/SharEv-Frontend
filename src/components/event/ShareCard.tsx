@@ -39,7 +39,7 @@ export default function ShareCard({
       >
         <CardTop profile={profile} isReveal={isReveal} isOpen={isOpen} mode={mode} />
         <CardDivider />
-        <CardBottom detail={detail} mode={mode} />
+        {isReveal && <CardBottom detail={detail} mode={mode} />}
       </div>
     </div>
   );
