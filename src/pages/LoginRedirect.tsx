@@ -1,5 +1,5 @@
-import LoadingSpinner from '../components/common/LoadingSpinner';
-import { useKakaoLogin } from '../hooks/useKakaoLogin';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import { useKakaoLogin } from '@/hooks/useKakaoLogin';
 
 function LoginRedirect() {
   useKakaoLogin();

@@ -1,6 +1,6 @@
-import { EventTabType } from '../../enums';
-import { useEventTabsStore } from '../../stores/useEventTabStore';
-import EventTab from './EventTab';
+import { EventTabType } from '@/enums';
+import { useEventTabsStore } from '@/stores/useEventTabStore';
+import EventTab from '@/components/event/EventTab';
 
 export default function EventTabs() {
   const { selected, setSelected } = useEventTabsStore();

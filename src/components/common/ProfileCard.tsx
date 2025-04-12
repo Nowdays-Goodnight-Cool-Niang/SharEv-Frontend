@@ -1,10 +1,10 @@
-import GithubSvg from '../../assets/icons/ic_github.svg?react';
-import FacebookSvg from '../../assets/icons/ic_facebook.svg?react';
-import InstagramSvg from '../../assets/icons/ic_instagram.svg?react';
-import SNS from '../profile/SNS';
-import ProfileText from '../profile/ProfileText';
-import ProfileInput from '../profile/ProfileInput';
-import { IShareCard } from '../../types';
+import GithubSvg from '@/assets/icons/ic_github.svg?react';
+import FacebookSvg from '@/assets/icons/ic_facebook.svg?react';
+import InstagramSvg from '@/assets/icons/ic_instagram.svg?react';
+import SNS from '@/components/profile/SNS';
+import ProfileText from '@/components/profile/ProfileText';
+import ProfileInput from '@/components/profile/ProfileInput';
+import { IShareCard } from '@/types';
 
 interface ProfileCardProps {
   id: number;

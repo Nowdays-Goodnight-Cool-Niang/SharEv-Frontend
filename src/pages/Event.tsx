@@ -1,8 +1,8 @@
-import EventTabs from '../components/event/EventTabs';
-import { useEventTabsStore } from '../stores/useEventTabStore';
-import { EventTabType } from '../enums';
-import ProfileSection from '../components/event/ProfileSection';
-import ParticipantSection from '../components/event/ParticipantSection';
+import EventTabs from '@/components/event/EventTabs';
+import { useEventTabsStore } from '@/stores/useEventTabStore';
+import { EventTabType } from '@/enums';
+import ProfileSection from '@/components/event/ProfileSection';
+import ParticipantSection from '@/components/event/ParticipantSection';
 import QRCameraSection from '@/components/event/QRCameraSection';
 
 function Event() {

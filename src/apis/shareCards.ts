@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IShareCard } from '../types';
+import { IShareCard } from '@/types';
 
 export const shareCardInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/share-cards`,

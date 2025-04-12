@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useShareCardDetailStore } from '../../stores/useShareCardDetailStore';
+import { useShareCardDetailStore } from '@/stores/useShareCardDetailStore';
 
 interface IShareCardInput {
   value: string;

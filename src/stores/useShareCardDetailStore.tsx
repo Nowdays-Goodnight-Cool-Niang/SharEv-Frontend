@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { IShareCardDetailsByEvent } from '../types';
+import { IShareCardDetailsByEvent } from '@/types';
 
 interface IShareCardDetailStore {
   editMode: boolean;

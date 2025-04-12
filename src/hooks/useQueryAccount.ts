@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { accountAPI } from '../apis/accounts';
-import { IProfile } from '../types';
+import { accountAPI } from '@/apis/accounts';
+import { IProfile } from '@/types';
 
 export const useQueryAccount = () => {
   const {

@@ -1,7 +1,7 @@
 import SocialIcon from './SocialIcon';
-import GtihubSvg from '../../assets/icons/ic_github.svg?react';
-import LinkedInSvg from '../../assets/icons/ic_linkedin.svg?react';
-import InstagramSvg from '../../assets/icons/ic_instagram.svg?react';
+import GtihubSvg from '@/assets/icons/ic_github.svg?react';
+import LinkedInSvg from '@/assets/icons/ic_linkedin.svg?react';
+import InstagramSvg from '@/assets/icons/ic_instagram.svg?react';
 
 interface SocialIconsProps {
   linkedinUrl?: string;

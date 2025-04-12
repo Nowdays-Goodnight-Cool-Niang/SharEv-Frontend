@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { participantAPI } from '../apis/participants';
+import { participantAPI } from '@/apis/participants';
 
 const PAGE_SIZE = 1000;
 

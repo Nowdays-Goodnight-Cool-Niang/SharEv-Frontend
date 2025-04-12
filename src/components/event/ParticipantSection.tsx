@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import ShareCard from './ShareCard';
+import ShareCard from '@/components/event/ShareCard';
 import { useParticipants } from '@/hooks/useQueryEventParticipants';
 import { IShareCard } from '@/types';
 import LoadingSpinner from '../common/LoadingSpinner';

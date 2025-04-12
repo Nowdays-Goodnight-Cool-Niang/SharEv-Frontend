@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
-import BaseButton from '../common/BaseButton';
-import FormSection from './FormSection';
-import { IProfile } from '../../types';
-import { useQueryAccount } from '../../hooks/useQueryAccount';
-import { validateInput } from '../../utils/form';
+import { IProfile } from '@/types';
+import BaseButton from '@/components/common/BaseButton';
+import FormSection from '@/components/profile/FormSection';
+import { useQueryAccount } from '@/hooks/useQueryAccount';
+import { validateInput } from '@/utils/form';
+import { TOAST_MESSAGE } from '@/utils/labels';
 
 interface IContentProps {
   variant: 'setup' | 'edit';
@@ -13,7 +14,7 @@ interface IContentProps {
 
 function Content({ variant }: IContentProps) {
   const navigate = useNavigate();
-  const { profile, isLoading, error, patchProfileInfo } = useQueryAccount();
+  const { profile, isLoading, patchProfileInfo } = useQueryAccount();
 
   const [formAccount, setFormAccount] = useState<IProfile>(profile || {});
   const [validationMessages, setValidationMessages] = useState<{ [key: string]: string }>({});
@@ -37,16 +38,10 @@ function Content({ variant }: IContentProps) {
         return prevFormAccount;
       });
     } else if (isLoading) {
-      const loadingToastId = toast.loading('프로필 정보를 불러오는 중입니다.');
+      const loadingToastId = toast.loading(TOAST_MESSAGE.PROFILE_LOADING);
       return () => toast.dismiss(loadingToastId);
     }
   }, [isLoading]);
-
-  useEffect(() => {
-    if (error) {
-      toast.error('프로필 정보를 불러오는 중 오류가 발생했습니다.');
-    }
-  }, [error]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -89,11 +84,11 @@ function Content({ variant }: IContentProps) {
           navigate('/event');
         } else {
           navigate('/setting');
-          toast.success('수정되었습니다.');
+          toast.success(TOAST_MESSAGE.PROFILE_SAVE_SUCCESS, { icon: '🎉' });
         }
       },
       onError: (error) => {
-        toast.error('오류가 발생했습니다. 잠시 후에 시도해주세요.');
+        toast.error(TOAST_MESSAGE.PROFILE_SAVE_FAILURE);
         console.error('Profile Edit error:', error);
       },
     });
@@ -121,7 +116,8 @@ function Content({ variant }: IContentProps) {
         formAccount={formAccount}
       />
 
-      <div className="fixed bottom-11 left-6 right-6 max-w-full">
+      <div className="mt-10 w-full">
+        {/* TOOD: 아래 margin(44px)보다는 큰 제목 간격(40px)으로 맞췄는데 괜찮은지 유진님께 여쭤보기 */}
         <BaseButton
           isDisabled={!isFormValid || (variant === 'edit' && !isModified)}
           onClick={(e) => handleProfileSubmit(e)}

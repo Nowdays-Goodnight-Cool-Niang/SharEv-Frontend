@@ -1,30 +1,44 @@
+import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
 import { accountInstance } from './accounts';
 import { participantInstance } from './participants';
 import { shareCardInstance } from './shareCards';
 import { kakaoAuthInstance } from './kakaoAuth';
-import toast from 'react-hot-toast';
-import { AxiosError } from 'axios';
+import { authInstance } from './auth';
+import { TOAST_MESSAGE } from '@/utils/labels';
 
 export const setupAxiosInterceptors = () => {
   const handleResponseError = (error: AxiosError) => {
-    if (error.response?.status && error.response.status === 401) {
+    if (!error.response) {
+      toast.error(TOAST_MESSAGE.ERROR_NETWORK);
+      return Promise.reject(error);
+    }
+
+    const status = error.response?.status;
+
+    if (status === 401) {
       setTimeout(() => {
         window.location.href = '/';
       }, 2000);
 
-      console.error('API returned 401. Redirecting to home...');
-      toast.remove();
-      toast('세션이 만료되었습니다. 재로그인해주세요', {
+      toast(TOAST_MESSAGE.SESSION_EXPIRED, {
         icon: '🙏🏻',
         duration: 4000,
       });
+    } else if (status === 500) {
+      toast.error(TOAST_MESSAGE.ERROR_SERVER);
     }
+
     return Promise.reject(error);
   };
 
-  [accountInstance, participantInstance, shareCardInstance, kakaoAuthInstance].forEach(
-    (instance) => {
-      instance.interceptors.response.use((response) => response, handleResponseError);
-    }
-  );
+  [
+    accountInstance,
+    participantInstance,
+    shareCardInstance,
+    kakaoAuthInstance,
+    authInstance,
+  ].forEach((instance) => {
+    instance.interceptors.response.use((response) => response, handleResponseError);
+  });
 };
