@@ -178,7 +178,7 @@ function CardBottomInSide({
               placeholder="팀이름"
             />
           ) : (
-            <span className="mx-1 text-sm font-semibold leading-8 text-gray-200">
+            <span className="mx-1 text-sm font-semibold leading-8 text-gray-800">
               {detail?.teamName}
             </span>
           )}
@@ -190,7 +190,7 @@ function CardBottomInSide({
               placeholder="직군"
             />
           ) : (
-            <span className="mx-1 text-sm font-semibold leading-8 text-gray-200">
+            <span className="mx-1 text-sm font-semibold leading-8 text-gray-800">
               {detail?.position}
             </span>
           )}
@@ -202,7 +202,7 @@ function CardBottomInSide({
               placeholder="프로젝트 한 줄 소개"
             />
           ) : (
-            <span className="mx-1 text-sm font-semibold leading-8 text-gray-200">
+            <span className="mx-1 text-sm font-semibold leading-8 text-gray-800">
               {detail?.introductionText}
             </span>
           )}
