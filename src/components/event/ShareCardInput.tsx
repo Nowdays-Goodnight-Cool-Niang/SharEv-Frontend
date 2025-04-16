@@ -20,18 +20,20 @@ function ShareCardInput({ value, onChange, placeholder = '' }: IShareCardInput) 
 
   useEffect(() => {
     if (spanRef.current) {
-      if (!value) {
+      if (!value && !isComposing) {
         spanRef.current.dataset.placeholder = placeholder;
       } else {
         delete spanRef.current.dataset.placeholder;
       }
     }
-  }, [value, placeholder]);
+  }, [value, placeholder, isComposing]);
 
   const handleInput = (e: React.FormEvent<HTMLSpanElement>) => {
-    if (!isComposing) {
-      onChange(e.currentTarget.textContent || '');
-    }
+    if (!isComposing) onChange(e.currentTarget.textContent || '');
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
+    if (e.key === 'Enter') e.preventDefault();
   };
 
   return (
@@ -39,6 +41,7 @@ function ShareCardInput({ value, onChange, placeholder = '' }: IShareCardInput) 
       ref={spanRef}
       contentEditable={editMode}
       onClick={(e) => e.stopPropagation()}
+      onKeyDown={handleKeyDown}
       onInput={handleInput}
       onCompositionStart={() => setIsComposing(true)}
       onCompositionEnd={(e) => {
@@ -46,7 +49,7 @@ function ShareCardInput({ value, onChange, placeholder = '' }: IShareCardInput) 
         onChange(e.currentTarget.textContent || '');
       }}
       suppressContentEditableWarning
-      className="text-body-3 relative mx-1 rounded border border-gray-200 bg-white px-2 py-1.5 leading-10 text-gray-900 before:text-gray-400 before:content-[attr(data-placeholder)] focus:outline-none focus:ring-1 focus:ring-gray-200"
+      className="text-body-3 relative mx-1 select-text rounded border border-gray-200 bg-white px-2 py-1.5 leading-10 text-gray-900 before:text-gray-400 before:content-[attr(data-placeholder)] focus:outline-none focus:ring-1 focus:ring-gray-200"
     />
   );
 }

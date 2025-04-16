@@ -75,7 +75,7 @@ interface CardTopInsideProps {
 }
 function CardTopInSide({ profile, mode }: CardTopInsideProps) {
   const isEditable = mode === 'edit';
-  const { isShareCardDetailBlank } = useShareCardDetailStore();
+  const { editMode, isShareCardDetailBlank } = useShareCardDetailStore();
 
   return (
     <div
@@ -87,7 +87,7 @@ function CardTopInSide({ profile, mode }: CardTopInsideProps) {
       />
       {isEditable && (
         <div className="absolute right-6 top-6">
-          <QRBox url={profile?.id} isAvailable={!isShareCardDetailBlank()} />
+          <QRBox url={profile?.id} isAvailable={!editMode && !isShareCardDetailBlank()} />
         </div>
       )}
 
@@ -149,7 +149,7 @@ function CardBottomInSide({
   const isEditable = mode === 'edit';
 
   return (
-    <div className="absolute inset-0 flex h-56 w-full flex-col justify-between gap-2 rounded-t-2xl bg-white p-6 backface-hidden">
+    <div className="absolute inset-0 flex h-56 w-full flex-col justify-between gap-2 rounded-t-2xl bg-white p-6 scale-[99.5%] backface-hidden">
       <div className="scroll-hide h-full w-full overflow-y-scroll">
         <ShareCardLabel>
           이번 해커톤에서
