@@ -1,11 +1,11 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ShareCard from '@/components/event/ShareCard';
-import { useParticipants } from '@/hooks/useQueryEventParticipants';
+import { useQueryParticipants } from '@/hooks/useQueryEventParticipants';
 import { IShareCard } from '@/types';
 import LoadingSpinner from '../common/LoadingSpinner';
 
 export default function ParticipantSection() {
-  const { data, isLoading, isError } = useParticipants();
+  const { data, isLoading, isError } = useQueryParticipants();
   const [registerCount, setRegisterCount] = useState(0);
   const [cards, setCards] = useState<IShareCard[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -14,10 +14,12 @@ export default function ParticipantSection() {
   const translateX = useRef(0);
   const dragging = useRef(false);
 
-  if (data && cards.length === 0) {
-    setCards(data.socialDexInfo.content);
-    setRegisterCount(data.registerCount);
-  }
+  useEffect(() => {
+    if (data && cards.length === 0) {
+      setCards(data.socialDexInfo.content);
+      setRegisterCount(data.registerCount);
+    }
+  }, [data]);
 
   const start = (x: number) => {
     startX.current = x;
