@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import backgroundGraphic from '@/assets/images/img_share_card_graphic.png';
 import { IProfile, IShareCardDetailsByEvent } from '@/types';
 import { useShareCardDetailStore } from '@/stores/useShareCardDetailStore';
