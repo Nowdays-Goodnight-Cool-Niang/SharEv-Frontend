@@ -16,6 +16,7 @@ interface ShareCardProps {
   mode?: ShareCardMode;
   isReveal?: boolean;
   isTop?: boolean;
+  isQRClicked?: () => void;
 }
 
 export default function ShareCard({
@@ -24,6 +25,7 @@ export default function ShareCard({
   mode = 'view',
   isReveal = false,
   isTop = false,
+  isQRClicked,
 }: ShareCardProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -33,12 +35,18 @@ export default function ShareCard({
   };
 
   return (
-    <div className="group perspective-1000">
+    <div className="group flex w-full justify-center perspective-1000">
       <div
         onClick={handleToggleCard}
-        className={`${!isOpen && '-translate-y-32'} ${isTop && !isOpen && 'group-hover:-rotate-y-12 group-hover:rotate-x-12'} relative w-[340px] transition-transform duration-700 transform-style-3d`}
+        className={`${!isOpen && '-translate-y-32'} ${isTop && !isOpen && 'group-hover:-rotate-y-12 group-hover:rotate-x-12'} relative w-full max-w-[340px] transition-transform duration-700 transform-style-3d`}
       >
-        <CardTop profile={profile} isReveal={isReveal} isOpen={isOpen} mode={mode} />
+        <CardTop
+          isQRClicked={isQRClicked}
+          profile={profile}
+          isReveal={isReveal}
+          isOpen={isOpen}
+          mode={mode}
+        />
         <CardDivider />
         {isReveal && <CardBottom detail={detail} mode={mode} />}
       </div>
@@ -47,12 +55,14 @@ export default function ShareCard({
 }
 
 function CardTop({
+  isQRClicked,
   isReveal,
   isOpen,
   profile,
   mode,
   isTop,
 }: {
+  isQRClicked?: () => void;
   isReveal?: boolean;
   isOpen?: boolean;
   mode?: ShareCardMode;
@@ -61,33 +71,41 @@ function CardTop({
 }) {
   return (
     <div
-      className={`transform-style-3d translate-z-[1px] ${!isOpen && '-rotate-x-180'} ${!isOpen && !isReveal && isTop && 'group-hover:-rotate-x-90'} relative h-56 w-full origin-bottom transition-transform duration-700`}
+      className={`transform-style-3d translate-z-[1px] ${!isOpen && '-rotate-x-180'} ${!isOpen && !isReveal && isTop && 'group-hover:-rotate-x-90'} relative aspect-[8/5] w-full origin-bottom transition-transform duration-700`}
     >
-      <CardTopInSide profile={profile} mode={mode} />
+      <CardTopInSide isQRClicked={isQRClicked} profile={profile} mode={mode} />
       <CardTopOutSide profile={profile} isReveal={isReveal} />
     </div>
   );
 }
 
 interface CardTopInsideProps {
+  isQRClicked?: () => void;
   profile?: IProfile;
   mode?: ShareCardMode;
 }
-function CardTopInSide({ profile, mode }: CardTopInsideProps) {
+function CardTopInSide({ profile, mode, isQRClicked }: CardTopInsideProps) {
   const isEditable = mode === 'edit';
-  const { isShareCardDetailBlank } = useShareCardDetailStore();
+  const { editMode, isShareCardDetailBlank } = useShareCardDetailStore();
+  const handleQRClicked = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    if (isQRClicked) isQRClicked();
+  };
 
   return (
     <div
-      className={`absolute inset-0 h-full w-full overflow-hidden rounded-b-2xl bg-white p-6 backface-hidden`}
+      className={`absolute inset-0 h-full w-full overflow-hidden rounded-b-2xl bg-white p-6 translate-z-[1px] backface-hidden`}
     >
       <img
         src={backgroundGraphic}
         className="pointer-events-none absolute inset-0 w-full select-none opacity-10 mix-blend-multiply -translate-y-10 transform"
       />
       {isEditable && (
-        <div className="absolute right-6 top-6">
-          <QRBox url={profile?.id} isAvailable={!isShareCardDetailBlank()} />
+        <div
+          onClick={handleQRClicked}
+          className="pointer-events-auto absolute right-6 top-6 h-24 w-24"
+        >
+          <QRBox url={profile?.id} isAvailable={!editMode && !isShareCardDetailBlank()} />
         </div>
       )}
 
@@ -130,7 +148,7 @@ function CardTopOutSide({ profile, isReveal }: CardTopOutSideeProps) {
 
 function CardBottom({ detail, mode }: { detail?: IShareCardDetailsByEvent; mode: ShareCardMode }) {
   return (
-    <div className="relative h-56 w-full transform-style-3d">
+    <div className="relative aspect-[8/5] w-full transform-style-3d">
       <CardBottomInSide detail={detail} mode={mode} />
       <CardBottomOutSide />
     </div>
@@ -149,7 +167,7 @@ function CardBottomInSide({
   const isEditable = mode === 'edit';
 
   return (
-    <div className="absolute inset-0 flex h-56 w-full flex-col justify-between gap-2 rounded-t-2xl bg-white p-6 backface-hidden">
+    <div className="absolute inset-0 flex h-full w-full flex-col justify-between gap-2 rounded-t-2xl bg-white p-6 scale-[99.5%] backface-hidden">
       <div className="scroll-hide h-full w-full overflow-y-scroll">
         <ShareCardLabel>
           이번 해커톤에서

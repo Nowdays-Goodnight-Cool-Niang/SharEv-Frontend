@@ -3,7 +3,7 @@ import { participantAPI } from '@/apis/participants';
 
 const PAGE_SIZE = 1000;
 
-export const useParticipants = () => {
+export const useQueryParticipants = () => {
   return useQuery({
     queryKey: ['participants'],
     queryFn: () => participantAPI.getParticipants(0, PAGE_SIZE),
