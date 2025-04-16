@@ -9,7 +9,7 @@ interface QRBoxProps {
 
 export function QRBox({ url, isAvailable = false }: QRBoxProps) {
   return (
-    <div className="relative h-32 w-32">
+    <div className="relative h-full w-full">
       <div className={isAvailable ? '' : 'blur-[2px]'}>
         <QRCodeSVG value={url} className={`h-full w-full ${!isAvailable && 'opacity-5'}`} />
       </div>

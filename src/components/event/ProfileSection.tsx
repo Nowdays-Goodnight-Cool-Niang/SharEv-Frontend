@@ -10,9 +10,11 @@ import LoadingSpinner from '@/components/common/LoadingSpinner';
 import Modal from '@/components/common/Modal';
 import NoticeInfo from '@/components/common/NoticeInfo';
 import { TOAST_MESSAGE } from '@/utils/labels';
+import { QRBox } from './QRBox';
 
 function ProfileSection() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isQRModalOpen, setIsQRModalOpen] = useState(false);
+  const [isExplainModalOpen, setIsExplainModalOpen] = useState(false);
   const { profile, isLoading: isProfileLoading, error: profileError } = useQueryAccount();
   const {
     participantInfo,
@@ -40,7 +42,7 @@ function ProfileSection() {
       ) {
         setShareCardDetail(participantInfo);
       } else {
-        setIsModalOpen(true);
+        setIsExplainModalOpen(true);
         setEditMode(true);
       }
     }
@@ -70,17 +72,26 @@ function ProfileSection() {
   };
   return (
     <>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal variant="light" isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)}>
+        <QRBox url={profile?.id} isAvailable />
+        <BaseButton onClick={() => setIsQRModalOpen(false)}>닫기</BaseButton>
+      </Modal>
+      <Modal isOpen={isExplainModalOpen} onClose={() => setIsExplainModalOpen(false)}>
         <span className="text-body-2 text-center text-gray-100">
           이번 행사에서 사용할 나만의 프로필을 완성해 보세요! 등록한 행사 프로필은 언제든지 수정
           가능해요.
         </span>
-        <BaseButton onClick={() => setIsModalOpen(false)}>알겠습니다</BaseButton>
+        <BaseButton onClick={() => setIsExplainModalOpen(false)}>알겠습니다</BaseButton>
       </Modal>
       <div className="wrapper mt-11 flex flex-col items-center overflow-x-hidden">
         <NoticeInfo>프로필을 입력하면 자신의 QR 코드가 생성돼요</NoticeInfo>
         <div className="my-2"></div>
-        <ShareCard profile={profile} isReveal={true} mode="edit" />
+        <ShareCard
+          isQRClicked={() => setIsQRModalOpen(true)}
+          profile={profile}
+          isReveal={true}
+          mode="edit"
+        />
         <div className="my-6"></div>
         {editMode && (
           <BaseButton isDisabled={isShareCardDetailBlank()} onClick={handleSaveCardDetail}>
