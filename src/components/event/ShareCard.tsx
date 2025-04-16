@@ -16,6 +16,8 @@ interface ShareCardProps {
   mode?: ShareCardMode;
   isReveal?: boolean;
   isTop?: boolean;
+  isOpen?: boolean;
+  onToggle?: () => void;
   isQRClicked?: () => void;
 }
 
@@ -26,18 +28,13 @@ export default function ShareCard({
   isReveal = false,
   isTop = false,
   isQRClicked,
+  isOpen = false,
+  onToggle,
 }: ShareCardProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleToggleCard = () => {
-    if (!isReveal) return;
-    setIsOpen((prev) => !prev);
-  };
-
   return (
     <div className="group flex w-full justify-center perspective-1000">
       <div
-        onClick={handleToggleCard}
+        onClick={onToggle}
         className={`${!isOpen && '-translate-y-32'} ${isTop && !isOpen && 'group-hover:-rotate-y-12 group-hover:rotate-x-12'} relative w-full max-w-[340px] transition-transform duration-700 transform-style-3d`}
       >
         <CardTop
