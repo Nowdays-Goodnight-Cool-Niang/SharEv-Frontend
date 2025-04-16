@@ -13,6 +13,7 @@ import { TOAST_MESSAGE } from '@/utils/labels';
 import { QRBox } from './QRBox';
 
 function ProfileSection() {
+  const [isOpen, setIsOpen] = useState(false);
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [isExplainModalOpen, setIsExplainModalOpen] = useState(false);
   const { profile, isLoading: isProfileLoading, error: profileError } = useQueryAccount();
@@ -48,8 +49,12 @@ function ProfileSection() {
     }
   }, [participantInfo, setEditMode, setShareCardDetail]);
 
-  if (isProfileLoading || isParticipantInfoLoading) return <LoadingSpinner />;
-
+  if (isProfileLoading || isParticipantInfoLoading)
+    return (
+      <div className="w-full py-20">
+        <LoadingSpinner />
+      </div>
+    );
   if (profileError || participantError || !participantInfo)
     return (
       <div className="tex-white">
@@ -87,6 +92,8 @@ function ProfileSection() {
         <NoticeInfo>프로필을 입력하면 자신의 QR 코드가 생성돼요</NoticeInfo>
         <div className="my-2"></div>
         <ShareCard
+          isOpen={isOpen}
+          onToggle={() => setIsOpen((prev) => !prev)}
           isQRClicked={() => setIsQRModalOpen(true)}
           profile={profile}
           isReveal={true}
