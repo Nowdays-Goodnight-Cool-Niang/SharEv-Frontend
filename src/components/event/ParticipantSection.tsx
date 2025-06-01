@@ -1,11 +1,12 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ShareCard from '@/components/event/ShareCard';
-import { useParticipants } from '@/hooks/useQueryEventParticipants';
+import { useQueryParticipants } from '@/hooks/useQueryEventParticipants';
 import { IShareCard } from '@/types';
 import LoadingSpinner from '../common/LoadingSpinner';
 
 export default function ParticipantSection() {
-  const { data, isLoading, isError } = useParticipants();
+  const [isOpen, setIsOpen] = useState(false);
+  const { data, isLoading, isError } = useQueryParticipants();
   const [registerCount, setRegisterCount] = useState(0);
   const [cards, setCards] = useState<IShareCard[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -14,10 +15,12 @@ export default function ParticipantSection() {
   const translateX = useRef(0);
   const dragging = useRef(false);
 
-  if (data && cards.length === 0) {
-    setCards(data.socialDexInfo.content);
-    setRegisterCount(data.registerCount);
-  }
+  useEffect(() => {
+    if (data && cards.length === 0) {
+      setCards(data.socialDexInfo.content);
+      setRegisterCount(data.registerCount);
+    }
+  }, [data]);
 
   const start = (x: number) => {
     startX.current = x;
@@ -43,6 +46,7 @@ export default function ParticipantSection() {
         cardRef.current.style.transform = `translateX(${translateX.current > 0 ? '100%' : '-100%'})`;
       }
 
+      setIsOpen(false);
       setTimeout(() => {
         const updated = [...cards.slice(1), cards[0]];
         setCards(updated);
@@ -60,9 +64,14 @@ export default function ParticipantSection() {
     translateX.current = 0;
   };
 
-  if (isLoading) return <LoadingSpinner />; // 로딩 중일 때
+  if (isLoading)
+    return (
+      <div className="w-full py-20">
+        <LoadingSpinner />
+      </div>
+    );
   if (isError) return <p className="text-white">데이터를 불러오는 데 실패했습니다.</p>;
-  console.log(cards);
+
   return (
     <div className="wrapper flex h-full max-h-full flex-col overflow-hidden" ref={containerRef}>
       <h1 className="text-title-1 mb-5 mt-11 text-gray-50">삐약톤 캠퍼스 대항전</h1>
@@ -101,7 +110,16 @@ export default function ParticipantSection() {
               onMouseUp={isTop ? end : undefined}
               onMouseLeave={isTop ? end : undefined}
             >
-              <ShareCard isReveal={card.registerFlag} profile={card} detail={card} isTop={isTop} />
+              <ShareCard
+                isOpen={isTop && isOpen}
+                onToggle={() => {
+                  if (card.registerFlag) setIsOpen((prev) => !prev);
+                }}
+                isReveal={card.registerFlag}
+                profile={card}
+                detail={card}
+                isTop={isTop}
+              />
             </div>
           );
         })}

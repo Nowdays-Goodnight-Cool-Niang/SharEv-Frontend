@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 
 interface ModalProps {
   isOpen: boolean;
+  variant?: 'dark' | 'light';
   onClose: () => void;
   children: React.ReactNode;
   closeOnOverlayClick?: boolean;
@@ -12,6 +13,7 @@ interface ModalProps {
 function Modal({
   isOpen,
   onClose,
+  variant = 'dark',
   children,
   closeOnOverlayClick = true,
   closeOnEsc = true,
@@ -36,7 +38,7 @@ function Modal({
         onClick={closeOnOverlayClick ? onClose : undefined}
       />
       <div
-        className="animate-modal-enter relative z-10 w-full max-w-72 space-y-6 rounded-xl border border-gray-700 bg-gray-900/90 p-6 shadow-xl backdrop-blur-md"
+        className={`${variant == 'dark' ? 'bg-gray-900/90' : 'bg-white/90'} relative z-10 w-full max-w-72 animate-modal-enter space-y-6 rounded-xl border border-gray-700 p-6 shadow-xl backdrop-blur-md`}
         onClick={(e) => e.stopPropagation()}
       >
         {children}
