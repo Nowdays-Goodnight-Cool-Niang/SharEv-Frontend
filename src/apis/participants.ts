@@ -7,7 +7,16 @@ export const participantInstance = axios.create({
 
 export const participantAPI = {
   getParticipants: async (page: number, size: number) => {
-    const response = await participantInstance.get('', { params: { page, size } });
+    const offset = new Date().getTimezoneOffset() * 60000;
+    const today = new Date(Date.now() - offset);
+
+    const response = await participantInstance.get('', {
+      params: { page, size, snapshotTime: today.toISOString() },
+    });
+    return response.data;
+  },
+  postParticipant: async (id: string) => {
+    const response = await participantInstance.post('', { targetAccountId: id });
     return response.data;
   },
 };

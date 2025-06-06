@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import Logo from './Logo';
-import PersonSvg from '../../assets/icons/ic_person.svg?react';
+import PersonSvg from '@/assets/icons/ic_person.svg?react';
 
 interface HeaderProps {
   isLoggedIn: boolean;

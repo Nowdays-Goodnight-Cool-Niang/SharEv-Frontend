@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IProfile } from '../types';
+import { IProfile } from '@/types';
 
 export const accountInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/accounts`,

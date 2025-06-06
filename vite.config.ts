@@ -12,4 +12,8 @@ export default defineConfig({
       '@public': path.resolve(__dirname, 'public'),
     },
   },
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+  },
 });

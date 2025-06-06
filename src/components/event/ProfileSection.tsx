@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
-import { useQueryShareCard } from '../../hooks/useQueryShareCard';
-import { useShareCardDetailStore } from '../../stores/useShareCardDetailStore';
-import { useQueryAccount } from '../../hooks/useQueryAccount';
-import BaseButton from '../common/BaseButton';
-import { useMutateShareCard } from '../../hooks/useMutateShareCard';
 import toast from 'react-hot-toast';
-import ShareCard from './ShareCard';
-import LoadingSpinner from '../common/LoadingSpinner';
-import Modal from '../common/Modal';
-import NoticeInfo from '../common/NoticeInfo';
+import { useShareCardDetailStore } from '@/stores/useShareCardDetailStore';
+import { useQueryShareCard } from '@/hooks/useQueryShareCard';
+import { useQueryAccount } from '@/hooks/useQueryAccount';
+import BaseButton from '@/components/common/BaseButton';
+import { useMutateShareCard } from '@/hooks/useMutateShareCard';
+import ShareCard from '@/components/event/ShareCard';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import Modal from '@/components/common/Modal';
+import NoticeInfo from '@/components/common/NoticeInfo';
+import { TOAST_MESSAGE } from '@/utils/labels';
+import { QRBox } from './QRBox';
 
 function ProfileSection() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isQRModalOpen, setIsQRModalOpen] = useState(false);
+  const [isExplainModalOpen, setIsExplainModalOpen] = useState(false);
   const { profile, isLoading: isProfileLoading, error: profileError } = useQueryAccount();
   const {
     participantInfo,
@@ -39,14 +43,18 @@ function ProfileSection() {
       ) {
         setShareCardDetail(participantInfo);
       } else {
-        setIsModalOpen(true);
+        setIsExplainModalOpen(true);
         setEditMode(true);
       }
     }
   }, [participantInfo, setEditMode, setShareCardDetail]);
 
-  if (isProfileLoading || isParticipantInfoLoading) return <LoadingSpinner />;
-
+  if (isProfileLoading || isParticipantInfoLoading)
+    return (
+      <div className="w-full py-20">
+        <LoadingSpinner />
+      </div>
+    );
   if (profileError || participantError || !participantInfo)
     return (
       <div className="tex-white">
@@ -62,27 +70,35 @@ function ProfileSection() {
         position: shareCardDetail.position,
         introductionText: shareCardDetail.introductionText,
       });
-      toast.success('프로필을 저장했습니다');
+      toast.success(TOAST_MESSAGE.PROFILE_SAVE_SUCCESS, { icon: '🎉' });
       setEditMode(false);
       setShareCardDetail(shareCardDetail);
     }
   };
   return (
     <>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal variant="light" isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)}>
+        <QRBox url={profile?.id} isAvailable />
+        <BaseButton onClick={() => setIsQRModalOpen(false)}>닫기</BaseButton>
+      </Modal>
+      <Modal isOpen={isExplainModalOpen} onClose={() => setIsExplainModalOpen(false)}>
         <span className="text-body-2 text-center text-gray-100">
           이번 행사에서 사용할 나만의 프로필을 완성해 보세요! 등록한 행사 프로필은 언제든지 수정
           가능해요.
         </span>
-        <BaseButton onClick={() => setIsModalOpen(false)}>알겠습니다</BaseButton>
+        <BaseButton onClick={() => setIsExplainModalOpen(false)}>알겠습니다</BaseButton>
       </Modal>
       <div className="wrapper mt-11 flex flex-col items-center overflow-x-hidden">
-        <NoticeInfo>
-          프로필을 모두 입력하면, QR을 통해 서로의 프로필을 확인할 수 있어요. 카메라로 QR을 스캔해
-          행사장에 있는 사람들의 프로필을 확인해보세요.
-        </NoticeInfo>
+        <NoticeInfo>프로필을 입력하면 자신의 QR 코드가 생성돼요</NoticeInfo>
         <div className="my-2"></div>
-        <ShareCard profile={profile} isReveal={true} mode="edit" />
+        <ShareCard
+          isOpen={isOpen}
+          onToggle={() => setIsOpen((prev) => !prev)}
+          isQRClicked={() => setIsQRModalOpen(true)}
+          profile={profile}
+          isReveal={true}
+          mode="edit"
+        />
         <div className="my-6"></div>
         {editMode && (
           <BaseButton isDisabled={isShareCardDetailBlank()} onClick={handleSaveCardDetail}>

@@ -1,5 +1,6 @@
-import BaseButton from '../components/common/BaseButton';
-import KakaoSvg from '../assets/icons/ic_kakao.svg?react';
+import BaseButton from '@/components/common/BaseButton';
+import KakaoSvg from '@/assets/icons/ic_kakao.svg?react';
+import geometricGraphic from '@/assets/images/img_geometric_graphic.png';
 
 function Home() {
   const handleKakaoLogin = () => {
@@ -12,13 +13,15 @@ function Home() {
     <div className="background relative bg-gray-900">
       <div className="absolute top-0 h-full w-full overflow-hidden">
         <img
-          src="src/assets/images/img_geometric_graphic.png"
+          src={geometricGraphic}
+          alt="Geometric Graphic"
           className="absolute bottom-[15%] w-full"
         />
+        ;
       </div>
       <div className="absolute bottom-0 h-screen w-full overflow-hidden">
         <div className="flex h-full flex-col items-center justify-between">
-          <div className="wrapper flex w-full translate-y-5 animate-fade-in flex-col items-center justify-center gap-4 bg-gradient-to-b from-gray-900 to-gray-900/0 pb-20 pt-40 opacity-0">
+          <div className="wrapper flex w-full animate-fade-in flex-col items-center justify-center gap-4 bg-gradient-to-b from-gray-900 to-gray-900/0 pb-20 pt-40 opacity-0 translate-y-5">
             <h1 className="font-museo text-5xl text-gray-50">SharE:v</h1>
             <p className="text-title-1 text-center text-gray-50">
               프로필을 등록하고

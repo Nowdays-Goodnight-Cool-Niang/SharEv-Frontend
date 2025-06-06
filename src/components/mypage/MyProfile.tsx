@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router';
-import BaseButton from '../common/BaseButton';
-import SnsIcon from '../common/SnsIcon';
-import GtihubSvg from '../../assets/icons/ic_github.svg?react';
-import LinkedinSvg from '../../assets/icons/ic_linkedin.svg?react';
-import InstagramSvg from '../../assets/icons/ic_instagram.svg?react';
-import { useQueryAccount } from '../../hooks/useQueryAccount';
+import BaseButton from '@/components/common/BaseButton';
+import SnsIcon from '@/components/common/SnsIcon';
+import GtihubSvg from '@/assets/icons/ic_github.svg?react';
+import LinkedinSvg from '@/assets/icons/ic_linkedin.svg?react';
+import InstagramSvg from '@/assets/icons/ic_instagram.svg?react';
+import { useQueryAccount } from '@/hooks/useQueryAccount';
 
 function MyProfile() {
   const navigate = useNavigate();
