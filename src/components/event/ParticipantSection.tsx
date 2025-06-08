@@ -4,7 +4,122 @@ import { useQueryParticipants } from '@/hooks/useQueryEventParticipants';
 import { IShareCard } from '@/types';
 import LoadingSpinner from '../common/LoadingSpinner';
 
+import GridSvg from '@/assets/icons/ic_grid.svg?react';
+import StackSvg from '@/assets/icons/ic_stack.svg?react';
+
+const dummyCards: IShareCard[] = [
+  {
+    id: '1',
+    name: '홍길동',
+    email: 'hong@example.com',
+    linkedinUrl: 'https://linkedin.com/in/hong',
+    githubUrl: 'https://github.com/hong',
+    instagramUrl: 'https://instagram.com/hong',
+    teamName: 'Frontend Avengers',
+    position: 'Frontend Developer',
+    introductionText: 'React와 TypeScript를 사랑하는 개발자입니다!',
+    registerFlag: true,
+  },
+  {
+    id: '1',
+    name: '홍길동',
+    email: 'hong@example.com',
+    linkedinUrl: 'https://linkedin.com/in/hong',
+    githubUrl: 'https://github.com/hong',
+    instagramUrl: 'https://instagram.com/hong',
+    teamName: 'Frontend Avengers',
+    position: 'Frontend Developer',
+    introductionText: 'React와 TypeScript를 사랑하는 개발자입니다!',
+    registerFlag: true,
+  },
+  {
+    id: '1',
+    name: '홍길동',
+    email: 'hong@example.com',
+    linkedinUrl: 'https://linkedin.com/in/hong',
+    githubUrl: 'https://github.com/hong',
+    instagramUrl: 'https://instagram.com/hong',
+    teamName: 'Frontend Avengers',
+    position: 'Frontend Developer',
+    introductionText: 'React와 TypeScript를 사랑하는 개발자입니다!',
+    registerFlag: true,
+  },
+  {
+    id: '1',
+    name: '홍길동',
+    email: 'hong@example.com',
+    linkedinUrl: 'https://linkedin.com/in/hong',
+    githubUrl: 'https://github.com/hong',
+    instagramUrl: 'https://instagram.com/hong',
+    teamName: 'Frontend Avengers',
+    position: 'Frontend Developer',
+    introductionText: 'React와 TypeScript를 사랑하는 개발자입니다!',
+    registerFlag: true,
+  },
+  {
+    id: '2',
+    name: '김영희',
+    email: 'kim@example.com',
+    linkedinUrl: 'https://linkedin.com/in/kim',
+    githubUrl: 'https://github.com/kim',
+    instagramUrl: 'https://instagram.com/kim',
+    teamName: 'Data Wizards',
+    position: 'Data Scientist',
+    introductionText: '데이터로 세상을 더 나은 곳으로!',
+    registerFlag: false,
+  },
+  {
+    id: '3',
+    name: '박철수',
+    email: 'park@example.com',
+    linkedinUrl: 'https://linkedin.com/in/park',
+    githubUrl: 'https://github.com/park',
+    instagramUrl: 'https://instagram.com/park',
+    teamName: 'Backend Ninjas',
+    position: 'Backend Developer',
+    introductionText: 'Go와 Node.js를 주로 사용합니다.',
+    registerFlag: true,
+  },
+  {
+    id: '4',
+    name: '홍길동',
+    email: 'hong@example.com',
+    linkedinUrl: 'https://linkedin.com/in/hong',
+    githubUrl: 'https://github.com/hong',
+    instagramUrl: 'https://instagram.com/hong',
+    teamName: 'Frontend Avengers',
+    position: 'Frontend Developer',
+    introductionText: 'React와 TypeScript를 사랑하는 개발자입니다!',
+    registerFlag: true,
+  },
+  {
+    id: '5',
+    name: '김영희',
+    email: 'kim@example.com',
+    linkedinUrl: 'https://linkedin.com/in/kim',
+    githubUrl: 'https://github.com/kim',
+    instagramUrl: 'https://instagram.com/kim',
+    teamName: 'Data Wizards',
+    position: 'Data Scientist',
+    introductionText: '데이터로 세상을 더 나은 곳으로!',
+    registerFlag: false,
+  },
+  {
+    id: '6',
+    name: '박철수',
+    email: 'park@example.com',
+    linkedinUrl: 'https://linkedin.com/in/park',
+    githubUrl: 'https://github.com/park',
+    instagramUrl: 'https://instagram.com/park',
+    teamName: 'Backend Ninjas',
+    position: 'Backend Developer',
+    introductionText: 'Go와 Node.js를 주로 사용합니다.',
+    registerFlag: true,
+  },
+];
+
 export default function ParticipantSection() {
+  const [isGrid, setIsGrid] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { data, isLoading, isError } = useQueryParticipants();
   const [registerCount, setRegisterCount] = useState(0);
@@ -16,8 +131,9 @@ export default function ParticipantSection() {
   const dragging = useRef(false);
 
   useEffect(() => {
+    setCards(dummyCards);
     if (data && cards.length === 0) {
-      setCards(data.socialDexInfo.content);
+      //setCards(data.socialDexInfo.content);
       setRegisterCount(data.registerCount);
     }
   }, [data]);
@@ -73,18 +189,38 @@ export default function ParticipantSection() {
   if (isError) return <p className="text-white">데이터를 불러오는 데 실패했습니다.</p>;
 
   return (
-    <div className="wrapper flex h-full max-h-full flex-col overflow-hidden" ref={containerRef}>
-      <h1 className="text-title-1 mb-5 mt-11 text-gray-50">삐약톤 캠퍼스 대항전</h1>
-      <div className="mb-12 flex items-center justify-between">
+    <div className="flex flex-col h-full max-h-full wrapper" ref={containerRef}>
+      <h1 className="mb-5 text-title-1 mt-11 text-gray-50">삐약톤 캠퍼스 대항전</h1>
+
+      <div className="flex items-center justify-between mb-12">
         <div className="flex items-center gap-2">
-          <h2 className="text-title-2 text-gray-300">행사 참여자</h2>
+          <h2 className="text-gray-300 text-title-2">행사 참여자</h2>
           <div className="text-label-2 rounded bg-orange-700 px-1.5 py-0.5">
             <span className="text-white">{registerCount}</span>
             <span className="text-gray-200">/{cards.length}</span>
           </div>
         </div>
+        <div className="flex gap-2">
+          <button
+            className={`${isGrid ? 'text-orange-500' : 'text-gray-600'} z-10 transition-colors duration-100`}
+            onClick={() => setIsGrid(() => true)}
+          >
+            <GridSvg />
+          </button>
+          <button
+            className={`${!isGrid ? 'text-orange-500' : 'text-gray-600'} z-10 transition-colors duration-100`}
+            onClick={() => setIsGrid(() => false)}
+          >
+            <StackSvg />
+          </button>
+        </div>
       </div>
-      <div className="relative h-full w-full px-2">
+
+      <div
+        className={`relative h-full w-full px-2 transition-all duration-500 ease-in-out ${
+          isGrid ? 'grid grid-cols-2 gap-4' : ''
+        }`}
+      >
         {cards.map((card, i) => {
           const opacity = 1 - i * 0.3;
           const translateY = -i * 2;
@@ -92,16 +228,21 @@ export default function ParticipantSection() {
           const zIndex = cards.length - i;
           const isTop = i === 0;
 
-          return (
-            <div
-              key={card.id}
-              ref={isTop ? cardRef : null}
-              className="absolute h-full w-full touch-none select-none transition-all duration-200"
-              style={{
+          const cardStyle = isGrid
+            ? { transition: 'all 0.3s ease-in-out' } // grid 모드 시 부드럽게 위치 이동
+            : {
                 zIndex,
                 transform: `scale(${scale}) translateY(${translateY}rem)`,
                 opacity,
-              }}
+                transition: 'all 0.3s ease-in-out',
+              };
+
+          return (
+            <div
+              key={card.id}
+              ref={isTop && !isGrid ? cardRef : null}
+              className={`${!isGrid && 'absolute'} w-full touch-none select-none transition-all duration-200`}
+              style={cardStyle}
               onTouchStart={isTop ? (e) => start(e.touches[0].clientX) : undefined}
               onTouchMove={isTop ? (e) => move(e.touches[0].clientX) : undefined}
               onTouchEnd={isTop ? end : undefined}
