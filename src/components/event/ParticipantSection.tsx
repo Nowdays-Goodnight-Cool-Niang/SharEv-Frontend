@@ -9,7 +9,7 @@ import StackSvg from '@/assets/icons/ic_stack.svg?react';
 
 const dummyCards: IShareCard[] = [
   {
-    id: '1',
+    id: '11',
     name: '홍길동',
     email: 'hong@example.com',
     linkedinUrl: 'https://linkedin.com/in/hong',
@@ -21,7 +21,7 @@ const dummyCards: IShareCard[] = [
     registerFlag: true,
   },
   {
-    id: '1',
+    id: '10',
     name: '홍길동',
     email: 'hong@example.com',
     linkedinUrl: 'https://linkedin.com/in/hong',
@@ -33,7 +33,7 @@ const dummyCards: IShareCard[] = [
     registerFlag: true,
   },
   {
-    id: '1',
+    id: '12',
     name: '홍길동',
     email: 'hong@example.com',
     linkedinUrl: 'https://linkedin.com/in/hong',
@@ -45,7 +45,7 @@ const dummyCards: IShareCard[] = [
     registerFlag: true,
   },
   {
-    id: '1',
+    id: '13',
     name: '홍길동',
     email: 'hong@example.com',
     linkedinUrl: 'https://linkedin.com/in/hong',
@@ -120,7 +120,7 @@ const dummyCards: IShareCard[] = [
 
 export default function ParticipantSection() {
   const [isGrid, setIsGrid] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [openCardId, setOpenCardId] = useState<string | null>(null);
   const { data, isLoading, isError } = useQueryParticipants();
   const [registerCount, setRegisterCount] = useState(0);
   const [cards, setCards] = useState<IShareCard[]>([]);
@@ -162,7 +162,7 @@ export default function ParticipantSection() {
         cardRef.current.style.transform = `translateX(${translateX.current > 0 ? '100%' : '-100%'})`;
       }
 
-      setIsOpen(false);
+      setOpenCardId(null);
       setTimeout(() => {
         const updated = [...cards.slice(1), cards[0]];
         setCards(updated);
@@ -189,7 +189,7 @@ export default function ParticipantSection() {
   if (isError) return <p className="text-white">데이터를 불러오는 데 실패했습니다.</p>;
 
   return (
-    <div className="flex flex-col h-full max-h-full wrapper" ref={containerRef}>
+    <div className="flex flex-col h-full max-h-full overflow-hidden wrapper" ref={containerRef}>
       <h1 className="mb-5 text-title-1 mt-11 text-gray-50">삐약톤 캠퍼스 대항전</h1>
 
       <div className="flex items-center justify-between mb-12">
@@ -217,7 +217,7 @@ export default function ParticipantSection() {
       </div>
 
       <div
-        className={`relative h-full w-full px-2 transition-all duration-500 ease-in-out ${
+        className={`relative h-full w-full overflow-y-auto px-2 py-12 transition-all duration-500 ease-in-out ${
           isGrid ? 'grid grid-cols-2 gap-4' : ''
         }`}
       >
@@ -252,9 +252,12 @@ export default function ParticipantSection() {
               onMouseLeave={isTop ? end : undefined}
             >
               <ShareCard
-                isOpen={isTop && isOpen}
+                size={isGrid ? 'small' : 'default'}
+                isOpen={isGrid ? openCardId === card.id : openCardId === card.id && isTop}
                 onToggle={() => {
-                  if (card.registerFlag) setIsOpen((prev) => !prev);
+                  if (card.registerFlag) {
+                    setOpenCardId((prev) => (prev === card.id ? null : (card.id ?? '')));
+                  }
                 }}
                 isReveal={card.registerFlag}
                 profile={card}

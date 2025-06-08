@@ -8,11 +8,13 @@ import ShareCardLabel from '@/components/event/ShareCardLabel';
 import SocialIcons from '@/components/event/SocialIcons';
 
 export type ShareCardMode = 'edit' | 'view';
+export type ShareCardSize = 'default' | 'small';
 
 interface ShareCardProps {
   profile?: IProfile;
   detail?: IShareCardDetailsByEvent;
   mode?: ShareCardMode;
+  size?: ShareCardSize;
   isReveal?: boolean;
   isTop?: boolean;
   isOpen?: boolean;
@@ -24,6 +26,7 @@ export default function ShareCard({
   profile,
   detail,
   mode = 'view',
+  size = 'default',
   isReveal = false,
   isTop = false,
   isQRClicked,
@@ -31,10 +34,10 @@ export default function ShareCard({
   onToggle,
 }: ShareCardProps) {
   return (
-    <div className="group flex w-full justify-center perspective-1000">
+    <div className="align-self-center group flex h-0 w-[340px] justify-center justify-self-center overflow-visible perspective-1000">
       <div
         onClick={onToggle}
-        className={`${!isOpen && '-translate-y-32'} ${isTop && !isOpen && 'group-hover:-rotate-y-12 group-hover:rotate-x-12'} relative w-full max-w-[340px] transition-transform duration-700 transform-style-3d`}
+        className={`${size == 'small' && 'scale-50'} ${!isOpen && '-translate-y-32'} ${isTop && !isOpen && 'group-hover:-rotate-y-12 group-hover:rotate-x-12'} relative w-full max-w-[340px] transition-transform duration-700 transform-style-3d`}
       >
         <CardTop
           isQRClicked={isQRClicked}
@@ -77,6 +80,7 @@ function CardTop({
 
 interface CardTopInsideProps {
   isQRClicked?: () => void;
+
   profile?: IProfile;
   mode?: ShareCardMode;
 }
@@ -94,27 +98,27 @@ function CardTopInSide({ profile, mode, isQRClicked }: CardTopInsideProps) {
     >
       <img
         src={backgroundGraphic}
-        className="pointer-events-none absolute inset-0 w-full select-none opacity-10 mix-blend-multiply -translate-y-10 transform"
+        className="absolute inset-0 w-full transform -translate-y-10 pointer-events-none select-none opacity-10 mix-blend-multiply"
       />
       {isEditable && (
         <div
           onClick={handleQRClicked}
-          className="pointer-events-auto absolute right-6 top-6 h-24 w-24"
+          className="absolute w-24 h-24 pointer-events-auto right-6 top-6"
         >
           <QRBox url={profile?.id} isAvailable={!editMode && !isShareCardDetailBlank()} />
         </div>
       )}
 
-      <div className="flex h-full flex-col justify-between">
+      <div className="flex flex-col justify-between h-full">
         <SocialIcons
           linkedinUrl={profile?.linkedinUrl}
           githubUrl={profile?.githubUrl}
           instagramUrl={profile?.instagramUrl}
         />
-        <div>
+        <div className={`z-10 origin-bottom-left transform`}>
           <h1 className="mb-3 text-3xl font-bold text-gray-900">{profile?.name}</h1>
-          <p className="text-body-3 mb-2 text-gray-700">{profile?.email}</p>
-          <p className="text-body-3 text-gray-700">삐약톤 캠퍼스 대항전</p>
+          <p className="mb-2 text-gray-700 text-body-3">{profile?.email}</p>
+          <p className="text-gray-700 text-body-3">삐약톤 캠퍼스 대항전</p>
         </div>
       </div>
     </div>
@@ -124,19 +128,21 @@ function CardTopInSide({ profile, mode, isQRClicked }: CardTopInsideProps) {
 interface CardTopOutSideeProps {
   profile?: IProfile;
   isReveal?: boolean;
+  size?: ShareCardSize;
 }
-function CardTopOutSide({ profile, isReveal }: CardTopOutSideeProps) {
+function CardTopOutSide({ size, profile, isReveal }: CardTopOutSideeProps) {
+  const isSmall = size == 'small';
   return (
     <div
       className={`${!isReveal && 'grayscale'} absolute flex h-full w-full flex-col justify-end overflow-hidden rounded-t-2xl bg-orange-700 p-6 rotate-y-180 rotate-z-180 backface-hidden`}
     >
       <img
         src={backgroundGraphic}
-        className="pointer-events-none absolute inset-0 w-full select-none mix-blend-multiply -translate-y-10 transform"
+        className="absolute inset-0 w-full transform -translate-y-10 pointer-events-none select-none mix-blend-multiply"
       />
-      <div className="z-10">
+      <div className={`${isSmall && 'scale-75'} z-10 origin-bottom-left transform`}>
         <h1 className="mb-3 text-3xl font-bold text-gray-50">{profile?.name}</h1>
-        <p className="text-body-3 text-gray-100">삐약톤 캠퍼스 대항전</p>
+        <p className="text-gray-100 text-body-3">삐약톤 캠퍼스 대항전</p>
       </div>
     </div>
   );
@@ -164,7 +170,7 @@ function CardBottomInSide({
 
   return (
     <div className="absolute inset-0 flex h-full w-full flex-col justify-between gap-2 rounded-t-2xl bg-white p-6 scale-[99.5%] backface-hidden">
-      <div className="scroll-hide h-full w-full overflow-y-scroll">
+      <div className="w-full h-full overflow-y-scroll scroll-hide">
         <ShareCardLabel>
           이번 해커톤에서
           {isEditable ? (
@@ -215,10 +221,10 @@ function CardBottomInSide({
 }
 function CardBottomOutSide() {
   return (
-    <div className="absolute flex h-full w-full rounded-t-2xl bg-orange-700 p-6 -rotate-z-180 rotate-y-180 backface-hidden"></div>
+    <div className="absolute flex w-full h-full p-6 bg-orange-700 rounded-t-2xl -rotate-z-180 rotate-y-180 backface-hidden"></div>
   );
 }
 
 function CardDivider() {
-  return <hr className="mx-4 border-dashed border-gray-600" />;
+  return <hr className="mx-4 border-gray-600 border-dashed" />;
 }
