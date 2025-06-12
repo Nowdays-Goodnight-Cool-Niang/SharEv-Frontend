@@ -34,10 +34,10 @@ export default function ShareCard({
   onToggle,
 }: ShareCardProps) {
   return (
-    <div className="align-self-center group flex h-0 w-[340px] justify-center justify-self-center overflow-visible perspective-1000">
+    <div className="align-self-center group relative flex h-16 w-[340px] justify-center justify-self-center overflow-visible perspective-1000">
       <div
         onClick={onToggle}
-        className={`${size == 'small' && 'scale-50'} ${!isOpen && '-translate-y-32'} ${isTop && !isOpen && 'group-hover:-rotate-y-12 group-hover:rotate-x-12'} relative w-full max-w-[340px] transition-transform duration-700 transform-style-3d`}
+        className={`${size == 'small' && (isOpen ? 'scale-75' : 'scale-50')} ${!isOpen && '-translate-y-32'} ${isTop && !isOpen && 'group-hover:-rotate-y-12 group-hover:rotate-x-12'} relative w-full max-w-[340px] transition-transform duration-700 transform-style-3d`}
       >
         <CardTop
           isQRClicked={isQRClicked}
