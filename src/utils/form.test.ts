@@ -1,39 +1,45 @@
-import { describe, it, expect } from 'vitest';
+import { describe, test, expect } from 'vitest';
 import { validateInput } from './form';
 
+type Case = [field: string, value: string, expected: string | undefined];
+
 describe('validateInput', () => {
-  it('이름 공백', () => {
-    expect(validateInput('name', '')).toBe('이름을 입력해주세요.');
-  });
-  it('이름 1글자', () => {
-    expect(validateInput('name', '홍')).toBe('이름은 2글자 이상이어야 합니다.');
-  });
-  it('이름 특수문자 포함', () => {
-    expect(validateInput('name', '홍길동!')).toBe('이름에 특수문자는 사용할 수 없습니다.');
-  });
-  it('이름 정상', () => {
-    expect(validateInput('name', '홍길동')).toBeUndefined();
-  });
+  describe.each<Case>([
+    ['name', '', '이름을 입력해주세요.'],
+    ['name', '홍', '이름은 2글자 이상이어야 합니다.'],
+    ['name', '홍길동!', '이름에 특수문자는 사용할 수 없습니다.'],
+    ['name', '홍길동', undefined],
 
-  it('이메일 공백', () => {
-    expect(validateInput('email', '')).toBe('이메일을 입력해주세요.');
-  });
-  it('이메일 도메인', () => {
-    expect(validateInput('email', 'test@com')).toBe('올바른 형식의 이메일이어야 합니다.');
-  });
-  it('이메일 정상', () => {
-    expect(validateInput('email', 'test@example.com')).toBeUndefined();
-  });
+    ['email', '', '이메일을 입력해주세요.'],
+    ['email', 'test@com', '올바른 형식의 이메일이어야 합니다.'],
+    ['email', 'test@example.com', undefined],
 
-  it('LinkedIn 글자수', () => {
-    expect(validateInput('linkedinUrl', 'linkedin.com/in/ab')).toMatch(
-      '올바른 형식의 링크를 입력해주세요. (예: linkedin.com/in/3~30자의 문자, 숫자, 하이픈만 허용)'
-    );
-  });
-  it('LinkedIn 정상', () => {
-    expect(validateInput('linkedinUrl', 'linkedin.com/in/abc123')).toBeUndefined();
-  });
-  it('LinkedIn 공백', () => {
-    expect(validateInput('linkedinUrl', '')).toBeUndefined();
+    ['linkedinUrl', '', undefined],
+    [
+      'linkedinUrl',
+      'linkedin.com/in/ab',
+      '올바른 형식의 링크를 입력해주세요. (예: linkedin.com/in/3~30자의 문자, 숫자, 하이픈만 허용)',
+    ],
+    ['linkedinUrl', 'linkedin.com/in/abc123', undefined],
+
+    ['githubUrl', '', undefined],
+    [
+      'githubUrl',
+      'github.com/',
+      '올바른 형식의 링크를 입력해주세요. (예: github.com/1~39자의 문자, 숫자, 하이픈만 허용)',
+    ],
+    ['githubUrl', 'github.com/abc-123', undefined],
+
+    ['instagramUrl', '', undefined],
+    [
+      'instagramUrl',
+      'instagram.com/!@#',
+      '올바른 형식의 링크를 입력해주세요. (예: instagram.com/1~30자의 영문, 숫자, 밑줄, 마침표만 허용)',
+    ],
+    ['instagramUrl', 'instagram.com/cool_niang', undefined],
+  ])('%s: "%s"', (field, value, expected) => {
+    test(`=> ${expected === undefined ? 'no error' : expected}`, () => {
+      expect(validateInput(field, value)).toBe(expected);
+    });
   });
 });
