@@ -9,12 +9,11 @@ export default function EventTab({ isSelected, onClick, children }: EventTabProp
   return (
     <button
       onClick={onClick}
-      className={`relaive flex flex-col items-center whitespace-nowrap p-2 transition-colors duration-300 ${
-        isSelected ? 'text-orange-500' : 'text-gray-600'
+      className={`text-button-4 whitespace-nowrap rounded-[4px] px-3 py-2 transition-colors ${
+        isSelected ? 'bg-orange-500 text-gray-50' : 'text-gray-500'
       }`}
     >
       {children}
-      {isSelected && <div className="absolute w-1 h-1 bg-orange-500 rounded-full bottom-3"></div>}
     </button>
   );
 }

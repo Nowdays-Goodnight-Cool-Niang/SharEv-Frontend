@@ -90,21 +90,24 @@ function ProfileSection() {
       </Modal>
       <div className="flex flex-col items-center h-full overflow-x-hidden wrapper mt-11">
         <NoticeInfo>프로필을 입력하면 자신의 QR 코드가 생성돼요</NoticeInfo>
-        <div className="my-2"></div>
-        <ShareCard
-          isOpen={isOpen}
-          onToggle={() => setIsOpen((prev) => !prev)}
-          isQRClicked={() => setIsQRModalOpen(true)}
-          profile={profile}
-          isReveal={true}
-          mode="edit"
-        />
         <div className="my-6"></div>
+        <div className="flex flex-col justify-center h-full">
+          <ShareCard
+            isOpen={isOpen}
+            onToggle={() => setIsOpen((prev) => !prev)}
+            isQRClicked={() => setIsQRModalOpen(true)}
+            profile={profile}
+            isReveal={true}
+            mode="edit"
+          />
+        </div>
+        <div className="my-4"></div>
         {editMode && (
           <BaseButton isDisabled={isShareCardDetailBlank()} onClick={handleSaveCardDetail}>
             프로필 완성하기
           </BaseButton>
         )}
+        <div className="my-6"></div>
       </div>
     </>
   );
