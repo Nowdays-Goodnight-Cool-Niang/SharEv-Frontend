@@ -9,7 +9,7 @@ function Event() {
   const { selected } = useEventTabsStore();
 
   return (
-    <div className="scroll-hide flex h-full flex-col bg-gray-800">
+    <div className="flex flex-col h-full bg-gray-800 scroll-hide">
       <EventTabs />
       {selected == EventTabType.profile && <ProfileSection />}
       {selected == EventTabType.participant && <ParticipantSection />}

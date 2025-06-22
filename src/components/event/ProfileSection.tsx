@@ -82,13 +82,13 @@ function ProfileSection() {
         <BaseButton onClick={() => setIsQRModalOpen(false)}>닫기</BaseButton>
       </Modal>
       <Modal isOpen={isExplainModalOpen} onClose={() => setIsExplainModalOpen(false)}>
-        <span className="text-body-2 text-center text-gray-100">
+        <span className="text-center text-gray-100 text-body-2">
           이번 행사에서 사용할 나만의 프로필을 완성해 보세요! 등록한 행사 프로필은 언제든지 수정
           가능해요.
         </span>
         <BaseButton onClick={() => setIsExplainModalOpen(false)}>알겠습니다</BaseButton>
       </Modal>
-      <div className="wrapper mt-11 flex flex-col items-center overflow-x-hidden">
+      <div className="flex flex-col items-center h-full overflow-x-hidden wrapper mt-11">
         <NoticeInfo>프로필을 입력하면 자신의 QR 코드가 생성돼요</NoticeInfo>
         <div className="my-2"></div>
         <ShareCard

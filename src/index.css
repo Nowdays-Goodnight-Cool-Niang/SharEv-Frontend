@@ -108,7 +108,10 @@
   }
 
   .background {
-    @apply mx-auto h-screen w-full sm:max-w-[402px];
+    @apply w-full h-screen mx-auto;
+    @media (min-width: 402px) {
+      max-width: 402px;
+    }
   }
 
   .wrapper {
