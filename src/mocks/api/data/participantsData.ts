@@ -1,4 +1,4 @@
-const dummyCards = [
+export const participantsData = [
   {
     id: '1',
     name: '홍길동',
@@ -1200,5 +1200,3 @@ const dummyCards = [
     registerFlag: false,
   },
 ];
-
-export default dummyCards;

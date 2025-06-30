@@ -10,7 +10,7 @@ function Event() {
   const { selected } = useEventTabsStore();
 
   return (
-    <div className="flex flex-col h-full bg-gray-800 scroll-hide">
+    <div className="flex flex-col h-full bg-gray-800 scroll-hide relative">
       <EventTabs />
       <QRFloatingButton />
       {selected == EventTabType.profile && <ProfileSection />}

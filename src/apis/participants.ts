@@ -1,3 +1,4 @@
+import { ParticipantsResponse } from '@/types/response';
 import axios from 'axios';
 
 export const participantInstance = axios.create({
@@ -6,14 +7,28 @@ export const participantInstance = axios.create({
 });
 
 export const participantAPI = {
-  getParticipants: async (page: number, size: number) => {
+  getParticipants: async ({
+    page,
+    size = 10,
+  }: {
+    page: number;
+    size?: number;
+  }): Promise<ParticipantsResponse> => {
     const offset = new Date().getTimezoneOffset() * 60000;
     const today = new Date(Date.now() - offset);
 
     const response = await participantInstance.get('', {
       params: { page, size, snapshotTime: today.toISOString() },
     });
-    return response.data;
+
+    return {
+      registerCount: response.data.registerCount,
+      participants: response.data.socialDexInfo.content,
+      totalCount: response.data.socialDexInfo.totalElements,
+      totalPages: response.data.socialDexInfo.totalPages,
+      currentPage: response.data.socialDexInfo.number,
+      isLast: response.data.socialDexInfo.last,
+    } as ParticipantsResponse;
   },
   postParticipant: async (id: string) => {
     const response = await participantInstance.post('', { targetAccountId: id });

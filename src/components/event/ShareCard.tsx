@@ -123,9 +123,9 @@ function CardTopInSide({ profile, mode, isQRClicked }: CardTopInsideProps) {
           instagramUrl={profile?.instagramUrl}
         />
         <div className={`z-10 origin-bottom-left transform`}>
-          <h1 className="mb-3 text-3xl font-bold text-gray-900">{profile?.name}</h1>
-          <p className="mb-2 text-gray-700 text-body-3">{profile?.email}</p>
-          <p className="text-gray-700 text-body-3">삐약톤 캠퍼스 대항전</p>
+          <h1 className="mb-3 text-3xl font-medium text-gray-900 font-gmarket">{profile?.name}</h1>
+          <p className="mb-2 text-gray-700 text-body-3 font-gmarket">{profile?.email}</p>
+          <p className="text-gray-700 font-gmarket text-body-3">삐약톤 캠퍼스 대항전</p>
         </div>
       </div>
     </div>
@@ -146,8 +146,8 @@ function CardTopOutSide({ profile, isReveal }: CardTopOutSideeProps) {
         className="absolute inset-0 w-full transform -translate-y-10 pointer-events-none select-none mix-blend-multiply"
       />
       <div className={`z-10 origin-bottom-left transform`}>
-        <h1 className="mb-3 text-3xl font-bold text-gray-50">{profile?.name}</h1>
-        <p className="text-gray-100 text-body-3">삐약톤 캠퍼스 대항전</p>
+        <h1 className="mb-3 text-3xl font-medium text-gray-50 font-gmarket">{profile?.name}</h1>
+        <p className="text-gray-100 text-body-3 font-gmarket">삐약톤 캠퍼스 대항전</p>
       </div>
     </div>
   );
@@ -196,7 +196,7 @@ function CardBottomInSide({
               placeholder="팀이름"
             />
           ) : (
-            <span className="mx-1 text-xs font-semibold leading-8 text-gray-800">
+            <span className="mx-1 text-xs text-gray-800">
               {detail?.teamName}
             </span>
           )}
@@ -208,7 +208,7 @@ function CardBottomInSide({
               placeholder="직군"
             />
           ) : (
-            <span className="mx-1 text-xs font-semibold leading-8 text-gray-800">
+            <span className="mx-1 text-xs text-gray-800">
               {detail?.position}
             </span>
           )}
@@ -220,7 +220,7 @@ function CardBottomInSide({
               placeholder="프로젝트 한 줄 소개"
             />
           ) : (
-            <span className="mx-1 text-xs font-semibold leading-8 text-gray-800">
+            <span className="mx-1 text-xs text-gray-800">
               {detail?.introductionText}
             </span>
           )}
