@@ -1,10 +1,12 @@
-import { IProfile } from '.';
+import { IShareCard } from '.';
 
 export interface ParticipantsResponse {
-  accountInfoPage: {
-    content: IProfile[];
-  };
-  totalSize: number;
+  registerCount: number;
+  participants: IShareCard[];
+  totalCount: number;
+  totalPages: number;
+  currentPage: number;
+  isLast: boolean;
 }
 
 export interface KakaoLoginResponse {
