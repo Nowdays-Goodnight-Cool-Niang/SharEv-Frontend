@@ -46,12 +46,8 @@ jobs:
       - name: Upload build files to GCS
         uses: 'google-github-actions/upload-cloud-storage@v2'
         with:
-          # React 빌드 결과물이 있는 폴더 경로 (일반적으로 'build' 또는 'dist')
-          path: './build'
-          # 업로드할 GCS 버킷 이름
-          destination: ${{ env.GCS_BUCKET_NAME }}
-          # 버킷의 루트에 직접 업로드하려면 '.' 또는 ''
-          # 특정 경로에 업로드하려면 'frontend/' 와 같이 지정
+          path: './dist'
+          destination: ${{ env.GCS_BUCKET_NAME }} # 업로드할 GCS 버킷 이름
           parent: false # 'path'에 지정된 폴더 자체가 아닌, 그 안의 내용만 업로드
 
       - name: Discord Notification (Success)
