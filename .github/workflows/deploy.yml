@@ -6,8 +6,9 @@ on:
       - main # main 브랜치에 push될 때마다 워크플로우 실행
 
 env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }} # GCP 프로젝트 ID (GitHub Secrets 사용)
-  GCS_BUCKET_NAME: ${{ secrets.GCS_BUCKET_NAME }} # GCS 버킷 이름 (GitHub Secrets 사용)
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }} # GCP 프로젝트 ID
+  PROJECT_NUMBER: ${{ secrets.GCP_PROJECT_NUMBER }} # GCP 프로젝트 넘버
+  GCS_BUCKET_NAME: ${{ secrets.GCS_BUCKET_NAME }} # GCS 버킷 이름
 
 jobs:
   deploy:
@@ -39,7 +40,7 @@ jobs:
         id: 'auth'
         uses: 'google-github-actions/auth@v2'
         with:
-          workload_identity_provider: 'projects/${{ env.PROJECT_ID }}/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
+          workload_identity_provider: 'projects/${{ env.PROJECT_NUMBER }}/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
           service_account: 'github-actions-gcs-deployer@theta-anchor-465201-q4.iam.gserviceaccount.com'
 
       - name: Upload build files to GCS
