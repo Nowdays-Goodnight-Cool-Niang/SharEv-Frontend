@@ -5,12 +5,12 @@ import { useQueryShareCard } from '@/hooks/useQueryShareCard';
 import { useQueryAccount } from '@/hooks/useQueryAccount';
 import BaseButton from '@/components/common/BaseButton';
 import { useMutateShareCard } from '@/hooks/useMutateShareCard';
-import ShareCard from '@/components/event/ShareCard';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
-import Modal from '@/components/common/Modal';
-import NoticeInfo from '@/components/common/NoticeInfo';
 import { TOAST_MESSAGE } from '@/utils/labels';
-import { QRBox } from './QRBox';
+import EventProfile from './EventProfile';
+import BottomModal from '../common/BottonModal';
+import TipDropDown from './\bTipDropDown';
+import Header from '../common/Header';
 
 function ProfileSection() {
   const [isOpen, setIsOpen] = useState(false);
@@ -77,37 +77,21 @@ function ProfileSection() {
   };
   return (
     <>
-      <Modal variant="light" isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)}>
-        <QRBox url={profile?.id} isAvailable />
-        <BaseButton onClick={() => setIsQRModalOpen(false)}>닫기</BaseButton>
-      </Modal>
-      <Modal isOpen={isExplainModalOpen} onClose={() => setIsExplainModalOpen(false)}>
-        <span className="text-center text-gray-100 text-body-2">
-          이번 행사에서 사용할 나만의 프로필을 완성해 보세요! 등록한 행사 프로필은 언제든지 수정
-          가능해요.
-        </span>
-        <BaseButton onClick={() => setIsExplainModalOpen(false)}>알겠습니다</BaseButton>
-      </Modal>
-      <div className="flex flex-col items-center h-full overflow-x-hidden wrapper mt-11">
-        <NoticeInfo>프로필을 입력하면 자신의 QR 코드가 생성돼요</NoticeInfo>
-        <div className="my-6"></div>
-        <div className="flex flex-col justify-center h-full">
-          <ShareCard
-            isOpen={isOpen}
-            onToggle={() => setIsOpen((prev) => !prev)}
-            isQRClicked={() => setIsQRModalOpen(true)}
-            profile={profile}
-            isReveal={true}
-            mode="edit"
-          />
-        </div>
-        <div className="my-4"></div>
-        {editMode && (
-          <BaseButton isDisabled={isShareCardDetailBlank()} onClick={handleSaveCardDetail}>
-            프로필 완성하기
-          </BaseButton>
-        )}
-        <div className="my-6"></div>
+      <Header title="내 명함" />
+      <BottomModal isOpen={false} onClose={() => setIsExplainModalOpen(false)}>
+        <p className="mb-2 text-xl font-semibold tracking-tight text-gray-700">
+          이제 명함을 만들어 볼까요?
+        </p>
+        <p className="mb-12 text-sm leading-6 tracking-tight text-gray-500">
+          이번 행사에서 보여줄 나만의 명함을 완성하세요.
+          <br />
+          나를 가장 잘 드러낼 수 있도록 작성해 보세요.
+        </p>
+        <BaseButton onClick={() => setIsExplainModalOpen(false)}>확인했어요</BaseButton>
+      </BottomModal>
+      <div className="wrapper flex h-full w-full flex-col items-center gap-4 overflow-x-hidden pb-12 pt-2">
+        <TipDropDown />
+        <EventProfile />
       </div>
     </>
   );

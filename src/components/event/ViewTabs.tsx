@@ -1,25 +1,28 @@
-
 type TabItem = {
   key: string;
   icon: React.ReactNode;
-  value: string | number;
+  value: string;
 };
 
 interface ViewTabsProps {
   tabs: TabItem[];
-  value: string | number;
-  onChange: (value: string | number) => void;
+  value: string;
+  onChange: (value: string) => void;
   className?: string;
 }
 
 export default function ViewTabs({ tabs, value, onChange, className }: ViewTabsProps) {
   return (
-    <div className={`flex gap-2 ${className ?? ''}`}>
+    <div
+      className={`flex w-fit gap-2 rounded-lg border border-gray-100/10 bg-gray-100/10 p-1 backdrop-blur-sm ${className ?? ''}`}
+    >
       {tabs.map((tab) => (
         <button
           key={tab.key}
-          className={`z-10 transition-colors duration-100 ${
-            value === tab.value ? 'text-orange-500' : 'text-gray-300/70'
+          className={`z-10 flex h-8 w-8 flex-col items-center justify-center transition-colors duration-100 ${
+            value === tab.value
+              ? 'rounded-lg bg-white text-gray-700 shadow-md shadow-gray-500/10'
+              : 'text-white/50'
           }`}
           onClick={() => onChange(tab.value)}
         >
@@ -29,4 +32,3 @@ export default function ViewTabs({ tabs, value, onChange, className }: ViewTabsP
     </div>
   );
 }
-

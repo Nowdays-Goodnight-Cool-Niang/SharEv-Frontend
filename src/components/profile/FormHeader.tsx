@@ -5,7 +5,7 @@ interface FormHeaderProps {
 function FormHeader({ content }: FormHeaderProps) {
   return (
     <header>
-      <h1 className="text-title-1 text-gray-50">{content}</h1>
+      <h1 className="text-title-1 text-gray-800 dark:text-gray-50">{content}</h1>
     </header>
   );
 }

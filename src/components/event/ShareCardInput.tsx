@@ -8,7 +8,6 @@ interface IShareCardInput {
 }
 
 function ShareCardInput({ value, onChange, placeholder = '' }: IShareCardInput) {
-  const [isComposing, setIsComposing] = useState(false);
   const spanRef = useRef<HTMLSpanElement>(null);
   const { editMode } = useShareCardDetailStore();
 
@@ -20,16 +19,16 @@ function ShareCardInput({ value, onChange, placeholder = '' }: IShareCardInput) 
 
   useEffect(() => {
     if (spanRef.current) {
-      if (!value && !isComposing) {
+      if (!value) {
         spanRef.current.dataset.placeholder = placeholder;
       } else {
         delete spanRef.current.dataset.placeholder;
       }
     }
-  }, [value, placeholder, isComposing]);
+  }, [value, placeholder]);
 
   const handleInput = (e: React.FormEvent<HTMLSpanElement>) => {
-    if (!isComposing) onChange(e.currentTarget.textContent || '');
+    onChange(e.currentTarget.textContent || '');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
@@ -43,13 +42,8 @@ function ShareCardInput({ value, onChange, placeholder = '' }: IShareCardInput) 
       onClick={(e) => e.stopPropagation()}
       onKeyDown={handleKeyDown}
       onInput={handleInput}
-      onCompositionStart={() => setIsComposing(true)}
-      onCompositionEnd={(e) => {
-        setIsComposing(false);
-        onChange(e.currentTarget.textContent || '');
-      }}
       suppressContentEditableWarning
-      className="font-gmarket text-body-3 relative mx-1 select-text rounded border border-gray-200 bg-white px-2 py-1.5 leading-10 text-gray-900 before:text-gray-400 before:content-[attr(data-placeholder)] focus:outline-none focus:ring-1 focus:ring-gray-200"
+      className="relative mx-1 select-text rounded-lg border border-gray-100/10 bg-white/10 px-2 py-2 leading-10 text-gray-900 before:text-gray-400/40 before:content-[attr(data-placeholder)] focus:outline-none focus:ring-1 focus:ring-gray-200"
     />
   );
 }

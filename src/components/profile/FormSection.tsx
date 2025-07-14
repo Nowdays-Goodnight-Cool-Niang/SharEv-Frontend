@@ -49,7 +49,9 @@ function FormSection({
 
   return (
     <div className="mt-6">
-      <h2 className="mb-4 text-xl font-bold text-gray-400">{datas[type].title}</h2>
+      <h2 className="mb-4 text-base font-semibold tracking-tight text-gray-700">
+        {datas[type].title}
+      </h2>
       {datas[type].field.map((data) => (
         <Input
           key={data.name}
