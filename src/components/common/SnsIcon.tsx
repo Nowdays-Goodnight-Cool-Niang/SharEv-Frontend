@@ -7,7 +7,7 @@ interface ISnsIconProps {
 
 function SnsIcon({ children, size = 'default', hasUrl, onClick }: ISnsIconProps) {
   const defaultClasses =
-    'flex items-center justify-center rounded-lg bg-gray-100 text-gray-800 border border-gray-200';
+    'flex items-center justify-center rounded-lg bg-gray-50 text-gray-700 border border-gray-200';
   const sizeClasses = {
     default: 'h-9 w-9',
     small: 'h-8 w-8',

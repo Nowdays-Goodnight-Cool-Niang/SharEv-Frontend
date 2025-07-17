@@ -48,9 +48,6 @@ export default function ParticipantsSection() {
                 <p className="mt-2 text-sm font-medium leading-7 tracking-tight text-gray-100">
                   김주호
                 </p>
-                <div className="ml-1 mt-0.5 rounded-md bg-blue-100 px-1.5 py-0.5 text-xs font-semibold text-blue-500">
-                  공유
-                </div>
               </li>
             ))}
           </ul>

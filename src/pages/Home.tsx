@@ -12,9 +12,9 @@ function Home() {
       <div className="flex w-full flex-1 animate-fade-in flex-col justify-end gap-4">
         <h1 className="font-museo text-7xl text-gray-800 dark:text-gray-50">SharE:v</h1>
         <p className="text-body-2 text-gray-600 dark:text-gray-50">
-          간단한 정보로 명함을 만들고 <br />
-          QR로 서로의 명함을 교환해요. <br />
-          이번 행사에서 새로운 연결을 만들어보세요!
+          나만의 명함을 만들어
+          <br />
+          새로운 연결을 만들어보세요!
         </p>
       </div>
       <BaseButton size="large" variant="kakao" onClick={handleKakaoLogin}>

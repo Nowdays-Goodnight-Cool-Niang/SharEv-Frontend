@@ -58,19 +58,16 @@ function MySection() {
       title: '문의하기',
       onClick: handleInquiry,
       icon: MessageCircleSvg,
-      textColor: 'text-gray-600',
     },
     {
       title: '로그아웃',
       onClick: () => performLogout(),
       icon: LogOutSvg,
-      textColor: 'text-gray-600',
     },
     {
       title: '탈퇴하기',
       onClick: handleAccountDeletion,
       icon: UserMinusSvg,
-      textColor: 'text-red-500',
     },
   ];
 
@@ -96,9 +93,9 @@ function MySection() {
                   >
                     <div className="flex items-center space-x-3">
                       <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-100 bg-gray-50 transition-colors">
-                        <IconComponent width={20} height={20} className={button.textColor} />
+                        <IconComponent width={20} height={20} className={'text-gray-600'} />
                       </div>
-                      <span className={`tracking-tight ${button.textColor}`}>{button.title}</span>
+                      <span className={`tracking-tight text-gray-600`}>{button.title}</span>
                     </div>
                   </button>
                 );

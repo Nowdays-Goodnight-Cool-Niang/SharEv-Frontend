@@ -3,7 +3,7 @@ import NoticeSvg from '@/assets/icons/ic_notice.svg?react';
 
 function NoticeInfo({ children }: PropsWithChildren) {
   return (
-    <span className="text-label-2 flex w-fit items-center gap-1.5 rounded-xl border border-gray-100 bg-gray-50 px-4 py-2.5 text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
+    <span className="text-label-2 flex w-fit items-center gap-1.5 rounded-xl bg-blue-50 px-4 py-2 text-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
       <NoticeSvg height={20} width={20} />
       <span className="w-full">{children}</span>
     </span>

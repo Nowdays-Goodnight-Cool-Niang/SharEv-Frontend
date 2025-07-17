@@ -82,11 +82,11 @@ export default function ShareSection() {
 
             {shareMethod === 'qr' && (
               <>
-                <div className="mt-6 flex w-full flex-col items-center gap-2 rounded-3xl border border-gray-100 p-8">
-                  <div className="mx-auto mb-4 flex h-48 w-48 items-center justify-center rounded-3xl bg-white shadow-sm">
+                <div className="mt-6 flex w-full flex-col items-center gap-4 rounded-3xl border border-gray-100 bg-gray-50/30 p-6">
+                  <NoticeInfo> 상대방이 스캔할 수 있도록 보여주세요</NoticeInfo>
+                  <div className="mx-auto flex aspect-square max-h-56 w-full max-w-56 items-center justify-center rounded-2xl bg-white p-4">
                     <QRCodeSVG value={'123'} className={`h-52 w-full`} />
                   </div>
-                  <NoticeInfo> 상대방이 스캔할 수 있도록 보여주세요</NoticeInfo>
                 </div>
               </>
             )}
@@ -94,20 +94,18 @@ export default function ShareSection() {
               <>
                 <div className="mt-6 space-y-4">
                   <div className="text-center">
-                    <div className="mb-6 flex w-full flex-col items-center gap-2 rounded-2xl border border-gray-200 p-8">
-                      <div className="mb-4 flex justify-center gap-4">
+                    <div className="mb-6 flex w-full flex-col items-center gap-4 rounded-3xl border border-gray-200 bg-gray-50/30 p-6">
+                      <NoticeInfo> 상대방에게 이 번호를 알려주세요</NoticeInfo>
+                      <div className="flex justify-center gap-4">
                         {myPin.split('').map((digit, index) => (
                           <div
                             key={index}
-                            className="flex items-center justify-center rounded-xl border border-gray-200 bg-white px-5 py-5"
+                            className="flex items-center justify-center rounded-2xl border border-gray-200 bg-white px-5 py-5"
                           >
-                            <span className="font-mono text-4xl font-bold text-gray-900">
-                              {digit}
-                            </span>
+                            <span className="text-4xl font-bold text-gray-900">{digit}</span>
                           </div>
                         ))}
                       </div>
-                      <NoticeInfo> 상대방에게 이 번호를 알려주세요</NoticeInfo>
                     </div>
                   </div>
                 </div>
@@ -145,44 +143,41 @@ export default function ShareSection() {
 
             {/* PIN 입력 */}
             {receiveMethod === 'pin' && (
-              <div className="space-y-4">
-                <div className="text-center">
-                  <div className="my-6 flex w-full flex-col items-center gap-2 rounded-3xl border border-gray-200 p-8">
-                    <input
-                      type="text"
-                      value={pinInput}
-                      onChange={(e) => setPinInput(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                      placeholder="4자리 입력"
-                      className="w-full rounded-2xl border-2 border-gray-200 bg-white px-4 py-6 text-center font-mono text-3xl font-bold tracking-widest transition-colors focus:border-gray-400 focus:outline-none"
-                      maxLength="4"
-                    />
-                    <NoticeInfo> 상대방이 알려준 PIN 번호를 입력하세요</NoticeInfo>
-                  </div>
-
-                  <button
-                    onClick={handlePinSubmit}
-                    disabled={pinInput.length !== 4}
-                    className={`w-full rounded-2xl px-6 py-4 font-semibold transition-all duration-200 ${
-                      pinInput.length === 4
-                        ? 'bg-gray-900 text-white hover:bg-gray-800 active:scale-95'
-                        : 'cursor-not-allowed bg-gray-200 text-gray-500'
-                    }`}
-                  >
-                    {pinInput.length === 4
-                      ? '명함 가져오기'
-                      : `${4 - pinInput.length}자리 더 입력하세요`}
-                  </button>
+              <div className="">
+                <div className="mb-4 mt-6 flex flex-col items-center">
+                  <NoticeInfo> 상대방이 알려준 PIN 번호를 입력하세요</NoticeInfo>
                 </div>
+                <input
+                  type="text"
+                  value={pinInput}
+                  onChange={(e) => setPinInput(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                  placeholder="4자리 입력"
+                  className="mb-6 w-full rounded-2xl border border-gray-200 bg-white px-5 py-5 text-center text-4xl font-bold text-gray-900 transition-colors placeholder:text-gray-300 focus:border-gray-400 focus:outline-none"
+                  maxLength={4}
+                />
+                <button
+                  onClick={handlePinSubmit}
+                  disabled={pinInput.length !== 4}
+                  className={`w-full rounded-2xl px-6 py-4 font-semibold transition-all duration-200 ${
+                    pinInput.length === 4
+                      ? 'bg-gray-900 text-white hover:bg-gray-800 active:scale-95'
+                      : 'cursor-not-allowed bg-gray-200 text-gray-500'
+                  }`}
+                >
+                  {pinInput.length === 4
+                    ? '명함 가져오기'
+                    : `${4 - pinInput.length}자리 더 입력하세요`}
+                </button>
               </div>
             )}
 
             {/* QR 스캔 */}
             {receiveMethod === 'qr' && (
-              <div className="my-6 flex w-full flex-col items-center gap-2 rounded-3xl border border-gray-200 p-8">
+              <div className="my-6 flex flex-col items-center gap-4">
+                <NoticeInfo> 상대방의 QR 코드를 카메라로 스캔하세요</NoticeInfo>
                 <div className="mx-auto w-full max-w-md overflow-hidden rounded-2xl border border-gray-200">
                   <QRScanner />
                 </div>
-                <NoticeInfo> 상대방의 QR 코드를 카메라로 스캔하세요</NoticeInfo>
               </div>
             )}
           </div>
