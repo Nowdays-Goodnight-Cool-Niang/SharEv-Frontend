@@ -51,13 +51,14 @@ function MySection() {
   };
 
   const settingButtons = [
-    { title: '문의하기', onClick: handleInquiry },
     { title: '로그아웃', onClick: () => performLogout() },
     { title: '탈퇴하기', onClick: handleAccountDeletion },
+    { title: '문의하기', onClick: handleInquiry },
   ];
+
   const datas = [
     { title: '프로필', content: <MyProfile /> },
-    { title: '설정', buttons: settingButtons },
+    { title: '계정', buttons: settingButtons },
   ];
 
   return (
@@ -73,7 +74,7 @@ function MySection() {
                   onClick={button.onClick}
                   className={`text-body-3 border border-gray-700 bg-gray-800 p-5 text-left text-gray-200 hover:bg-gray-700 ${
                     idx === 0 ? 'rounded-t' : ''
-                  } ${idx === data.buttons.length - 1 ? 'rounded-b border-none text-orange-500' : ''}`}
+                  } ${idx === data.buttons.length - 1 ? 'rounded-b border-none' : ''}`}
                 >
                   {button.title}
                 </button>
