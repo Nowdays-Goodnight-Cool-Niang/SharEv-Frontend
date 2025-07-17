@@ -28,26 +28,20 @@ function App() {
       element: <LoginRedirect />,
     },
     {
-      path: '/',
-      element: <LayoutWithHeader />,
-      children: [
-        {
-          path: '/profile-setup',
-          element: <ProfileSetup />,
-        },
-        {
-          path: '/event',
-          element: <Event />,
-        },
-        {
-          path: '/setting',
-          element: <MyPage />,
-        },
-        {
-          path: '/profile-edit',
-          element: <ProfileEdit />,
-        },
-      ],
+      path: '/profile-setup',
+      element: <ProfileSetup />,
+    },
+    {
+      path: '/event',
+      element: <Event />,
+    },
+    {
+      path: '/setting',
+      element: <MyPage />,
+    },
+    {
+      path: '/profile-edit',
+      element: <ProfileEdit />,
     },
   ]);
 

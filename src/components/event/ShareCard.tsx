@@ -105,27 +105,27 @@ function CardTopInSide({ profile, mode, isQRClicked }: CardTopInsideProps) {
     >
       <img
         src={backgroundGraphic}
-        className="absolute inset-0 w-full transform -translate-y-10 pointer-events-none select-none opacity-10 mix-blend-multiply"
+        className="pointer-events-none absolute inset-0 w-full select-none opacity-10 mix-blend-multiply -translate-y-10 transform"
       />
       {isEditable && (
         <div
           onClick={handleQRClicked}
-          className="absolute w-24 h-24 pointer-events-auto right-6 top-6"
+          className="pointer-events-auto absolute right-6 top-6 h-24 w-24"
         >
           <QRBox url={profile?.id} isAvailable={!editMode && !isShareCardDetailBlank()} />
         </div>
       )}
 
-      <div className="flex flex-col justify-between h-full">
+      <div className="flex h-full flex-col justify-between">
         <SocialIcons
           linkedinUrl={profile?.linkedinUrl}
           githubUrl={profile?.githubUrl}
           instagramUrl={profile?.instagramUrl}
         />
         <div className={`z-10 origin-bottom-left transform`}>
-          <h1 className="mb-3 text-3xl font-medium text-gray-900 font-gmarket">{profile?.name}</h1>
-          <p className="mb-2 text-gray-700 text-body-3 font-gmarket">{profile?.email}</p>
-          <p className="text-gray-700 font-gmarket text-body-3">삐약톤 캠퍼스 대항전</p>
+          <h1 className="font-gmarket mb-3 text-3xl font-medium text-gray-900">{profile?.name}</h1>
+          <p className="text-body-3 font-gmarket mb-2 text-gray-700">{profile?.email}</p>
+          <p className="font-gmarket text-body-3 text-gray-700">삐약톤 캠퍼스 대항전</p>
         </div>
       </div>
     </div>
@@ -143,11 +143,11 @@ function CardTopOutSide({ profile, isReveal }: CardTopOutSideeProps) {
     >
       <img
         src={backgroundGraphic}
-        className="absolute inset-0 w-full transform -translate-y-10 pointer-events-none select-none mix-blend-multiply"
+        className="pointer-events-none absolute inset-0 w-full select-none mix-blend-multiply -translate-y-10 transform"
       />
       <div className={`z-10 origin-bottom-left transform`}>
-        <h1 className="mb-3 text-3xl font-medium text-gray-50 font-gmarket">{profile?.name}</h1>
-        <p className="text-gray-100 text-body-3 font-gmarket">삐약톤 캠퍼스 대항전</p>
+        <h1 className="font-gmarket mb-3 text-3xl font-medium text-gray-50">{profile?.name}</h1>
+        <p className="text-body-3 font-gmarket text-gray-100">삐약톤 캠퍼스 대항전</p>
       </div>
     </div>
   );
@@ -186,9 +186,9 @@ function CardBottomInSide({
 
   return (
     <div className="absolute inset-0 flex h-full w-full flex-col justify-between gap-2 rounded-t-2xl bg-white p-6 scale-[99.5%] backface-hidden">
-      <div className="w-full h-full overflow-y-scroll scroll-hide">
+      <div className="scroll-hide h-full w-full overflow-y-scroll">
         <ShareCardLabel>
-          이번 해커톤에서
+          저의 가장 인상 깊었던 경험은
           {isEditable ? (
             <ShareCardInput
               value={shareCardDetail?.teamName || ''}
@@ -196,9 +196,7 @@ function CardBottomInSide({
               placeholder="팀이름"
             />
           ) : (
-            <span className="mx-1 text-xs text-gray-800">
-              {detail?.teamName}
-            </span>
+            <span className="mx-1 text-xs text-gray-800">{detail?.teamName}</span>
           )}
           팀에서
           {isEditable ? (
@@ -208,9 +206,7 @@ function CardBottomInSide({
               placeholder="직군"
             />
           ) : (
-            <span className="mx-1 text-xs text-gray-800">
-              {detail?.position}
-            </span>
+            <span className="mx-1 text-xs text-gray-800">{detail?.position}</span>
           )}
           역할을 맡아
           {isEditable ? (
@@ -220,9 +216,7 @@ function CardBottomInSide({
               placeholder="프로젝트 한 줄 소개"
             />
           ) : (
-            <span className="mx-1 text-xs text-gray-800">
-              {detail?.introductionText}
-            </span>
+            <span className="mx-1 text-xs text-gray-800">{detail?.introductionText}</span>
           )}
           를 만들었어요.
         </ShareCardLabel>
@@ -237,7 +231,7 @@ function CardBottomInSide({
 }
 function CardBottomOutSide() {
   return (
-    <div className="absolute flex w-full h-full p-6 bg-orange-700 rounded-t-2xl -rotate-z-180 rotate-y-180 backface-hidden"></div>
+    <div className="absolute flex h-full w-full rounded-t-2xl bg-orange-700 p-6 -rotate-z-180 rotate-y-180 backface-hidden"></div>
   );
 }
 

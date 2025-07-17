@@ -1,23 +1,18 @@
 import { Link } from 'react-router';
-import Logo from './Logo';
-import PersonSvg from '@/assets/icons/ic_person.svg?react';
+import ProfileSvg from '@/assets/icons/ic_profile.svg?react';
 
 interface HeaderProps {
-  isLoggedIn: boolean;
+  title: string;
 }
 
-function Header({ isLoggedIn }: HeaderProps) {
+function Header({ title }: HeaderProps) {
   return (
-    <header className="wrapper sticky top-0 z-10 flex items-center justify-between border-b border-gray-700 py-3.5">
-      <Link to={'/event'}>
-        <Logo></Logo>
-      </Link>
+    <header className="wrapper sticky top-0 z-10 flex h-14 items-center justify-between bg-white text-gray-700 dark:bg-gray-900 dark:text-gray-50">
+      <h1 className="text-title-1 text-gray-800">{title}</h1>
 
-      {isLoggedIn && (
-        <Link to={`/setting`}>
-          <PersonSvg />
-        </Link>
-      )}
+      <Link to={`/setting`}>
+        <ProfileSvg width={28} height={28} className="text-gray-700" />
+      </Link>
     </header>
   );
 }

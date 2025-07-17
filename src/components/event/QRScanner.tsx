@@ -28,16 +28,7 @@ const QRScanner = () => {
     }
   };
 
-  return (
-    <div className="flex w-full flex-col items-center gap-6">
-      <div className="wrapper mt-11 w-full">
-        <NoticeInfo>
-          카메라로 행사장에 있는 다른 사람의 QR을 스캔해 프로필을 확인해 보세요
-        </NoticeInfo>
-      </div>
-      <WebcamCapture onCapture={handleImage} />
-    </div>
-  );
+  return <WebcamCapture onCapture={handleImage} />;
 };
 
 export default QRScanner;
