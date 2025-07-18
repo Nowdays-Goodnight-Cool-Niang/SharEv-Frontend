@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ShareCardInput from './ShareCardInput';
+import ShareCardInput from './ExpandableInput';
 import CharacterSvg from '@/assets/icons/ic_character_1.svg?react';
 import GithubSvg from '@/assets/icons/ic_github.svg?react';
 import LinkedInSvg from '@/assets/icons/ic_linkedin.svg?react';
@@ -63,31 +63,67 @@ function EventProfileFront() {
 }
 
 function EventProfileBack() {
+  const eventCardTemplate: IEventCardTemplate = {
+    blocks: [
+      { type: 'text', value: '안녕하세요. 저는 ' },
+      { type: 'input', fieldKey: 'intro' },
+      { type: 'text', value: ' 개발자입니다. 가장 힘들었던 경험은 ' },
+      { type: 'input', fieldKey: 'hardestMoment' },
+      { type: 'text', value: ' 이고, 가장 뿌듯했던 경험은 ' },
+      { type: 'input', fieldKey: 'proudestMoment' },
+      { type: 'text', value: ' 입니다.' },
+    ],
+    fields: {
+      intro: {
+        value: '',
+        placeholder: '스스로를 한 문장으로 소개해 보세요',
+      },
+      hardestMoment: {
+        value: '',
+        placeholder: '힘들었던 경험을 적어주세요',
+      },
+      proudestMoment: {
+        value: '',
+        placeholder: '뿌듯했던 경험을 적어주세요',
+      },
+    },
+  };
+
+  const [fieldValues, setFieldValues] = useState(
+    Object.fromEntries(
+      Object.entries(eventCardTemplate.fields).map(([key, { value }]) => [key, value])
+    )
+  );
+
+  const updateFieldValue = (key: string, newValue: string) => {
+    console.log(key, newValue);
+    setFieldValues((prev) => ({ ...prev, [key]: newValue }));
+  };
+
   return (
     <div
       className={`absolute top-0 flex aspect-[3/4] h-full w-full flex-col gap-2 rounded-3xl bg-gradient-to-br from-purple-500 via-blue-900 to-indigo-900 px-6 pb-8 pt-6 transition-transform duration-700 transform-style-3d`}
     >
       <div className="flex-1 overflow-auto">
         <span className="break-all text-base font-normal leading-[2.8rem] tracking-tight text-gray-200">
-          안녕하세요. 저는{' '}
-          <ShareCardInput
-            value={''}
-            onChange={() => {}}
-            placeholder="스스로를 한 문장으로 소개해 보세요"
-          />{' '}
-          개발자입니다. 개발을 하면서 가장 기억에 남는 순간은{' '}
-          <ShareCardInput
-            value={''}
-            onChange={() => {}}
-            placeholder="기억에 남는 순간이나 경험을 적어주세요"
-          />{' '}
-          입니다. 돌아가도 또 해보고 싶은 경험은{' '}
-          <ShareCardInput
-            value={''}
-            onChange={() => {}}
-            placeholder="다시 겪고 싶은 경험을 적어주세요"
-          />
-          입니다.
+          {eventCardTemplate.blocks.map((block, index) => {
+            if (block.type === 'text') {
+              return <span key={index}>{block.value}</span>;
+            }
+            if (block.type === 'input') {
+              const field = eventCardTemplate.fields[block.fieldKey];
+              if (!field) return null;
+              return (
+                <ShareCardInput
+                  key={index}
+                  value={fieldValues[block.fieldKey] ?? ''}
+                  placeholder={field.placeholder}
+                  onChange={(value) => updateFieldValue(block.fieldKey, value)}
+                />
+              );
+            }
+            return null;
+          })}
         </span>
       </div>
 

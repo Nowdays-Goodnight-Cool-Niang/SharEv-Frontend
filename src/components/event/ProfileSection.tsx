@@ -13,68 +13,66 @@ import TipDropDown from './\bTipDropDown';
 import Header from '../common/Header';
 
 function ProfileSection() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [isExplainModalOpen, setIsExplainModalOpen] = useState(false);
-  const { profile, isLoading: isProfileLoading, error: profileError } = useQueryAccount();
-  const {
-    participantInfo,
-    isLoading: isParticipantInfoLoading,
-    error: participantError,
-  } = useQueryShareCard(profile?.id || '', {
-    enabled: !!profile?.id,
-  });
+  // const { profile, isLoading: isProfileLoading, error: profileError } = useQueryAccount();
+  // const {
+  //   participantInfo,
+  //   isLoading: isParticipantInfoLoading,
+  //   error: participantError,
+  // } = useQueryShareCard(profile?.id || '', {
+  //   enabled: !!profile?.id,
+  // });
 
-  const { mutate: saveShareCard } = useMutateShareCard();
+  // const { mutate: saveShareCard } = useMutateShareCard();
 
-  const { shareCardDetail, setShareCardDetail, isShareCardDetailBlank, editMode, setEditMode } =
-    useShareCardDetailStore();
+  // const { shareCardDetail, setShareCardDetail, isShareCardDetailBlank, editMode, setEditMode } =
+  //   useShareCardDetailStore();
 
-  useEffect(() => {
-    // TODO: 초기값 null로 확실한지 확인하기
-    if (participantInfo) {
-      if (
-        participantInfo.teamName !== '' &&
-        participantInfo.teamName !== null &&
-        participantInfo.position !== '' &&
-        participantInfo.position !== null &&
-        participantInfo.introductionText !== '' &&
-        participantInfo.introductionText !== null
-      ) {
-        setShareCardDetail(participantInfo);
-      } else {
-        setIsExplainModalOpen(true);
-        setEditMode(true);
-      }
-    }
-  }, [participantInfo, setEditMode, setShareCardDetail]);
+  // useEffect(() => {
+  //   // TODO: 초기값 null로 확실한지 확인하기
+  //   if (participantInfo) {
+  //     if (
+  //       participantInfo.teamName !== '' &&
+  //       participantInfo.teamName !== null &&
+  //       participantInfo.position !== '' &&
+  //       participantInfo.position !== null &&
+  //       participantInfo.introductionText !== '' &&
+  //       participantInfo.introductionText !== null
+  //     ) {
+  //       setShareCardDetail(participantInfo);
+  //     } else {
+  //       setIsExplainModalOpen(true);
+  //       setEditMode(true);
+  //     }
+  //   }
+  // }, [participantInfo, setEditMode, setShareCardDetail]);
 
-  if (isProfileLoading || isParticipantInfoLoading)
-    return (
-      <div className="w-full py-20">
-        <LoadingSpinner />
-      </div>
-    );
-  if (profileError || participantError || !participantInfo)
-    return (
-      <div className="tex-white">
-        에러가 발생했습니다:
-        {profileError?.message || participantError?.message}
-      </div>
-    );
+  // if (isProfileLoading || isParticipantInfoLoading)
+  //   return (
+  //     <div className="w-full py-20">
+  //       <LoadingSpinner />
+  //     </div>
+  //   );
+  // if (profileError || participantError || !participantInfo)
+  //   return (
+  //     <div className="tex-white">
+  //       에러가 발생했습니다:
+  //       {profileError?.message || participantError?.message}
+  //     </div>
+  //   );
 
-  const handleSaveCardDetail = () => {
-    if (shareCardDetail) {
-      saveShareCard({
-        teamName: shareCardDetail.teamName,
-        position: shareCardDetail.position,
-        introductionText: shareCardDetail.introductionText,
-      });
-      toast.success(TOAST_MESSAGE.PROFILE_SAVE_SUCCESS, { icon: '🎉' });
-      setEditMode(false);
-      setShareCardDetail(shareCardDetail);
-    }
-  };
+  // const handleSaveCardDetail = () => {
+  //   if (shareCardDetail) {
+  //     saveShareCard({
+  //       teamName: shareCardDetail.teamName,
+  //       position: shareCardDetail.position,
+  //       introductionText: shareCardDetail.introductionText,
+  //     });
+  //     toast.success(TOAST_MESSAGE.PROFILE_SAVE_SUCCESS, { icon: '🎉' });
+  //     setEditMode(false);
+  //     setShareCardDetail(shareCardDetail);
+  //   }
+  // };
   return (
     <>
       <Header title="내 명함" />
