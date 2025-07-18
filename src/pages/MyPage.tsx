@@ -1,12 +1,14 @@
-import FormHeader from '@/components/profile/FormHeader';
 import MySection from '@/components/mypage/MySection';
+import Header from '@/components/common/Header';
 
 function MyPage() {
   return (
-    <main className="wrapper pt-11">
-      <FormHeader content="마이페이지" />
-      <MySection />
-    </main>
+    <>
+      <main className="background min-h-screen bg-gray-50">
+        <Header title="마이페이지" />
+        <MySection />
+      </main>
+    </>
   );
 }
 

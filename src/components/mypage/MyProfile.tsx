@@ -13,13 +13,15 @@ function MyProfile() {
   const moveProfileEdit = () => navigate('/profile-edit');
 
   return (
-    <article className="mt-6 flex justify-between rounded bg-gray-800 p-5 pb-6">
-      <div>
-        <div>
-          <h3 className="text-body-1 text-gray-200">{profile?.name}</h3>
-          <span className="text-body-4 text-gray-400">{profile?.email}</span>
+    <article className="">
+      <div className="mb-6">
+        <div className="mb-4 flex flex-col gap-1">
+          <h3 className="text-xl font-semibold leading-5 tracking-tight text-gray-800">
+            {profile?.name}
+          </h3>
+          <span className="text-sm leading-5 tracking-tight text-gray-500">{profile?.email}</span>
         </div>
-        <ul className="mt-3 flex gap-1.5">
+        <ul className="flex gap-2">
           <SnsIcon size="small" hasUrl={!!profile?.linkedinUrl}>
             <LinkedinSvg />
           </SnsIcon>
@@ -31,11 +33,7 @@ function MyProfile() {
           </SnsIcon>
         </ul>
       </div>
-      <div className="w-20">
-        <BaseButton size="small" onClick={moveProfileEdit}>
-          프로필 수정
-        </BaseButton>
-      </div>
+      <BaseButton onClick={moveProfileEdit}>프로필 수정</BaseButton>
     </article>
   );
 }

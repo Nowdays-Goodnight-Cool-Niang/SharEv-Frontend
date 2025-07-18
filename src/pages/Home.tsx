@@ -1,53 +1,37 @@
 import BaseButton from '@/components/common/BaseButton';
 import KakaoSvg from '@/assets/icons/ic_kakao.svg?react';
-import geometricGraphic from '@/assets/images/img_geometric_graphic.png';
 import { Link } from 'react-router';
 
 function Home() {
   const handleKakaoLogin = () => {
-    // TODO: 서버가 껴져 있을 경우 사용자에게 알려주기
     const url = `${import.meta.env.VITE_API_BASE_URL}/oauth2/authorization/kakao`;
     window.location.assign(url);
   };
 
   return (
-    <div className="background relative bg-gray-900">
-      <div className="absolute top-0 h-full w-full overflow-hidden">
-        <img
-          src={geometricGraphic}
-          alt="Geometric Graphic"
-          className="absolute bottom-[15%] w-full"
-        />
-        ;
+    <div className="background wrapper flex flex-col gap-[10%] overflow-hidden bg-gradient-to-b from-gray-50 to-white py-8 dark:bg-gray-900">
+      <div className="flex w-full flex-1 animate-fade-in flex-col justify-end gap-4">
+        <h1 className="font-museo text-7xl text-gray-800 dark:text-gray-50">SharE:v</h1>
+        <p className="text-body-2 text-gray-600 dark:text-gray-50">
+          나만의 명함을 만들어
+          <br />
+          새로운 연결을 만들어보세요!
+        </p>
       </div>
-      <div className="absolute bottom-0 h-screen w-full overflow-hidden">
-        <div className="flex h-full flex-col items-center justify-between">
-          <div className="wrapper flex w-full animate-fade-in flex-col items-center justify-center gap-4 bg-gradient-to-b from-gray-900 to-gray-900/0 pb-20 pt-40 opacity-0 translate-y-5">
-            <h1 className="font-museo text-5xl text-gray-50">SharE:v</h1>
-            <p className="text-title-1 text-center text-gray-50">
-              프로필을 등록하고
-              <br />
-              간편하게 네트워킹하세요
-            </p>
-          </div>
-          <div className="wrapper mb-11 w-full space-y-4">
-            <BaseButton variant="kakao" onClick={handleKakaoLogin}>
-              <span className="flex items-center justify-center gap-2">
-                <KakaoSvg />
-                카카오 로그인
-              </span>
-            </BaseButton>
-            <div className="text-body-4 flex justify-center space-x-4 text-gray-400">
-              <Link to="/terms" className="hover:text-gray-300">
-                이용약관
-              </Link>
-              <span>|</span>
-              <Link to="/privacy" className="hover:text-gray-300">
-                개인정보처리방침
-              </Link>
-            </div>
-          </div>
-        </div>
+      <BaseButton size="large" variant="kakao" onClick={handleKakaoLogin}>
+        <span className="flex items-center justify-center gap-2">
+          <KakaoSvg />
+          카카오 로그인
+        </span>
+      </BaseButton>
+      <div className="text-body-4 flex justify-center space-x-4 text-gray-400">
+        <Link to="/terms" className="hover:text-gray-300">
+          이용약관
+        </Link>
+        <span>|</span>
+        <Link to="/privacy" className="hover:text-gray-300">
+          개인정보처리방침
+        </Link>
       </div>
     </div>
   );

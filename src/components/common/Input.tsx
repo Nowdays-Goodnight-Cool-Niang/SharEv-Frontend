@@ -28,8 +28,14 @@ function Input({
   return (
     <label className="mt-6 block">
       <div className="flex items-center">
-        <span className="text-label-1 text-gray-500">{labelName}</span>
-        {required && <div className="ml-0.5 h-1 w-1 rounded-full bg-orange-500"></div>}
+        <span className="text-sm font-medium leading-6 tracking-tight text-gray-700">
+          {labelName}
+        </span>
+        {required && (
+          <div className="ml-1 rounded-md bg-orange-100 px-1.5 py-0.5 text-xs font-semibold text-orange-500">
+            필수
+          </div>
+        )}
       </div>
 
       <input
@@ -44,10 +50,12 @@ function Input({
         }}
         onBlur={onBlur}
         placeholder={placeholder}
-        className="text-body-2 mt-2 h-11 w-full rounded bg-gray-700 p-3 text-gray-100 placeholder:text-gray-500"
+        className="text-body-3 mt-3 w-full rounded-xl border border-gray-200 bg-white px-4 py-4 text-gray-700 placeholder:text-gray-300 dark:bg-gray-700 dark:text-gray-100"
       />
       {validationMessage && (
-        <span className="text-label-2 mt-2 text-orange-500">{validationMessage}</span>
+        <span className="mt-2 inline-block px-4 text-sm font-medium leading-7 tracking-tight text-orange-500">
+          {validationMessage}
+        </span>
       )}
     </label>
   );

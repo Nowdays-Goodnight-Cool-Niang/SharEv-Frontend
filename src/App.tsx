@@ -11,7 +11,6 @@ import MyPage from '@/pages/MyPage';
 import AccountDeletion from '@/pages/AccountDeletion';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import TermsOfService from '@/pages/TermsOfService';
-import LayoutWithHeader from '@/components/common/LayoutWithHeader';
 import { setupAxiosInterceptors } from '@/apis/responseInterceptor';
 
 function App() {
@@ -39,30 +38,24 @@ function App() {
       element: <TermsOfService />,
     },
     {
-      path: '/',
-      element: <LayoutWithHeader />,
-      children: [
-        {
-          path: '/profile-setup',
-          element: <ProfileSetup />,
-        },
-        {
-          path: '/event',
-          element: <Event />,
-        },
-        {
-          path: '/setting',
-          element: <MyPage />,
-        },
-        {
-          path: '/profile-edit',
-          element: <ProfileEdit />,
-        },
-        {
-          path: '/account-deletion',
-          element: <AccountDeletion />,
-        },
-      ],
+      path: '/profile-setup',
+      element: <ProfileSetup />,
+    },
+    {
+      path: '/event',
+      element: <Event />,
+    },
+    {
+      path: '/setting',
+      element: <MyPage />,
+    },
+    {
+      path: '/profile-edit',
+      element: <ProfileEdit />,
+    },
+    {
+      path: '/account-deletion',
+      element: <AccountDeletion />,
     },
   ]);
 

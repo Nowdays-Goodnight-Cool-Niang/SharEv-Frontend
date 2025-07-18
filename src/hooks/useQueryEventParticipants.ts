@@ -1,11 +1,15 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, UseInfiniteQueryResult, InfiniteData } from '@tanstack/react-query';
 import { participantAPI } from '@/apis/participants';
+import { ParticipantsResponse } from '@/types/response';
 
-const PAGE_SIZE = 1000;
-
-export const useQueryParticipants = () => {
-  return useQuery({
+export const useQueryParticipants = (): UseInfiniteQueryResult<
+  InfiniteData<ParticipantsResponse>,
+  Error
+> => {
+  return useInfiniteQuery<ParticipantsResponse, Error>({
     queryKey: ['participants'],
-    queryFn: () => participantAPI.getParticipants(0, PAGE_SIZE),
+    queryFn: ({ pageParam = 0 }) => participantAPI.getParticipants({ page: pageParam as number }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => (lastPage.isLast ? undefined : lastPage.currentPage + 1),
   });
 };
