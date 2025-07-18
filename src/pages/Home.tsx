@@ -1,6 +1,7 @@
 import BaseButton from '@/components/common/BaseButton';
 import KakaoSvg from '@/assets/icons/ic_kakao.svg?react';
 import geometricGraphic from '@/assets/images/img_geometric_graphic.png';
+import { Link } from 'react-router';
 
 function Home() {
   const handleKakaoLogin = () => {
@@ -29,13 +30,22 @@ function Home() {
               간편하게 네트워킹하세요
             </p>
           </div>
-          <div className="wrapper mb-11 w-full">
+          <div className="wrapper mb-11 w-full space-y-4">
             <BaseButton variant="kakao" onClick={handleKakaoLogin}>
               <span className="flex items-center justify-center gap-2">
                 <KakaoSvg />
                 카카오 로그인
               </span>
             </BaseButton>
+            <div className="text-body-4 flex justify-center space-x-4 text-gray-400">
+              <Link to="/terms" className="hover:text-gray-300">
+                이용약관
+              </Link>
+              <span>|</span>
+              <Link to="/privacy" className="hover:text-gray-300">
+                개인정보처리방침
+              </Link>
+            </div>
           </div>
         </div>
       </div>

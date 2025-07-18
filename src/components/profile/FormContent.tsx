@@ -117,7 +117,6 @@ function Content({ variant }: IContentProps) {
       />
 
       <div className="mt-10 w-full">
-        {/* TOOD: 아래 margin(44px)보다는 큰 제목 간격(40px)으로 맞췄는데 괜찮은지 유진님께 여쭤보기 */}
         <BaseButton
           isDisabled={!isFormValid || (variant === 'edit' && !isModified)}
           onClick={(e) => handleProfileSubmit(e)}

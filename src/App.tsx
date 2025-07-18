@@ -8,6 +8,9 @@ import LoginRedirect from '@/pages/LoginRedirect';
 import ProfileSetup from '@/pages/ProfileSetup';
 import ProfileEdit from '@/pages/ProfileEdit';
 import MyPage from '@/pages/MyPage';
+import AccountDeletion from '@/pages/AccountDeletion';
+import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import TermsOfService from '@/pages/TermsOfService';
 import LayoutWithHeader from '@/components/common/LayoutWithHeader';
 import { setupAxiosInterceptors } from '@/apis/responseInterceptor';
 
@@ -28,6 +31,14 @@ function App() {
       element: <LoginRedirect />,
     },
     {
+      path: '/privacy',
+      element: <PrivacyPolicy />,
+    },
+    {
+      path: '/terms',
+      element: <TermsOfService />,
+    },
+    {
       path: '/',
       element: <LayoutWithHeader />,
       children: [
@@ -46,6 +57,10 @@ function App() {
         {
           path: '/profile-edit',
           element: <ProfileEdit />,
+        },
+        {
+          path: '/account-deletion',
+          element: <AccountDeletion />,
         },
       ],
     },
