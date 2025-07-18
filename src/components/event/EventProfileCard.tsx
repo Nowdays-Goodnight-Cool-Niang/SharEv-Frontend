@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import ShareCardInput from './ExpandableInput';
+import ShareCardInput from './ExpandableInput';
 import CharacterSvg from '@/assets/icons/ic_character_1.svg?react';
 import GithubSvg from '@/assets/icons/ic_github.svg?react';
 import LinkedInSvg from '@/assets/icons/ic_linkedin.svg?react';
 import InstagramSvg from '@/assets/icons/ic_instagram.svg?react';
 
-export default function EventProfile() {
+function EventProfileCard() {
   const [flipped, setFlipped] = useState(false);
 
   return (
@@ -136,3 +136,5 @@ function EventProfileBack() {
     </div>
   );
 }
+
+export default EventProfileCard;

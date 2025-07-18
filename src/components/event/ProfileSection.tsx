@@ -7,7 +7,7 @@ import BaseButton from '@/components/common/BaseButton';
 import { useMutateShareCard } from '@/hooks/useMutateShareCard';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { TOAST_MESSAGE } from '@/utils/labels';
-import EventProfile from './EventProfile';
+import EventProfile from './EventProfileCard';
 import BottomModal from '../common/BottonModal';
 import TipDropDown from './\bTipDropDown';
 import Header from '../common/Header';

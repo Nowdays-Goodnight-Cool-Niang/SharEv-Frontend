@@ -3,7 +3,7 @@ import { IProfile, IShareCardDetailsByEvent } from '@/types';
 import { useShareCardDetailStore } from '@/stores/useShareCardDetailStore';
 import EditButton from '@/components/event/EditButton';
 import { QRBox } from '@/components/event/QRBox';
-import ShareCardInput from '@/components/event/ExpandableInput';
+import ShareCardInput from '@/components/event/ExpandableInput';
 import ShareCardLabel from '@/components/event/ShareCardLabel';
 import SocialIcons from '@/components/event/SocialIcons';
 import { forwardRef } from 'react';

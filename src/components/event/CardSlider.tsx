@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import EventProfile from './EventProfile';
+import EventProfile from './EventProfileCard';
 
 export default function CardSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
