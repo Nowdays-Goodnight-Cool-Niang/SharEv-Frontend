@@ -24,6 +24,7 @@ function Home() {
           카카오 로그인
         </span>
       </BaseButton>
+      {/* TO유진: 혹시몰라 서비스동의 버튼 남겨두었으니, 필요없으시면 삭제해주세용 */}
       <div className="text-body-4 flex justify-center space-x-4 text-gray-400">
         <Link to="/terms" className="hover:text-gray-300">
           이용약관
