@@ -2,9 +2,9 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import MyProfile from '@/components/mypage/MyProfile';
-import { accountAPI } from '@/apis/accounts';
 import { authAPI } from '@/apis/auth';
 import { TOAST_MESSAGE } from '@/utils/labels';
+import { Link } from 'react-router';
 import MessageCircleSvg from '@/assets/icons/ic_message_circle.svg?react';
 import LogOutSvg from '@/assets/icons/ic_logout.svg?react';
 import UserMinusSvg from '@/assets/icons/ic_user_minus.svg?react';
@@ -12,18 +12,6 @@ import UserMinusSvg from '@/assets/icons/ic_user_minus.svg?react';
 function MySection() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
-  const { mutate: performAccountDeletion } = useMutation({
-    mutationFn: accountAPI.deleteAccount,
-    onSuccess: () => {
-      queryClient.clear();
-      navigate('/');
-      toast.success(TOAST_MESSAGE.ACCOUNT_DELETION_SUCCESS, { icon: '🙇🏻‍♀️' });
-    },
-    onError: (error) => {
-      console.error('Account deletion error:', error.message);
-    },
-  });
 
   const { mutate: performLogout } = useMutation({
     mutationFn: authAPI.logout,
@@ -43,14 +31,8 @@ function MySection() {
     });
   };
 
-  const handleAccountDeletion = async () => {
-    // TODO: 개인정보 처리 관련 별도 페이지 필요
-    const confirmDeletion = window.confirm(
-      '정말로 탈퇴하시겠습니까?\n탈퇴 후에는 복구할 수 없습니다.'
-    );
-    if (confirmDeletion) {
-      performAccountDeletion();
-    }
+  const handleAccountDeletion = () => {
+    navigate('/account-deletion');
   };
 
   const settingButtons = [
@@ -73,7 +55,7 @@ function MySection() {
 
   const datas = [
     { title: '프로필', content: <MyProfile /> },
-    { title: '설정', buttons: settingButtons },
+    { title: '계정', buttons: settingButtons },
   ];
 
   return (
@@ -106,6 +88,15 @@ function MySection() {
           )}
         </div>
       ))}
+      <div className="text-body-4 mt-4 flex justify-center space-x-4 text-gray-400">
+        <Link to="/terms" className="hover:text-gray-300">
+          이용약관
+        </Link>
+        <span>|</span>
+        <Link to="/privacy" className="hover:text-gray-300">
+          개인정보처리방침
+        </Link>
+      </div>
     </section>
   );
 }

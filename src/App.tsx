@@ -8,6 +8,10 @@ import LoginRedirect from '@/pages/LoginRedirect';
 import ProfileSetup from '@/pages/ProfileSetup';
 import ProfileEdit from '@/pages/ProfileEdit';
 import MyPage from '@/pages/MyPage';
+import AccountDeletion from '@/pages/AccountDeletion';
+import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import PrivacyConsent from '@/pages/PrivacyConsent';
+import TermsOfService from '@/pages/TermsOfService';
 import { setupAxiosInterceptors } from '@/apis/responseInterceptor';
 import Events from './pages/Events';
 
@@ -28,6 +32,18 @@ function App() {
       element: <LoginRedirect />,
     },
     {
+      path: '/privacy',
+      element: <PrivacyPolicy />,
+    },
+    {
+      path: '/privacy-consent',
+      element: <PrivacyConsent />,
+    },
+    {
+      path: '/terms',
+      element: <TermsOfService />,
+    },
+    {
       path: '/profile-setup',
       element: <ProfileSetup />,
     },
@@ -46,6 +62,10 @@ function App() {
     {
       path: '/profile-edit',
       element: <ProfileEdit />,
+    },
+    {
+      path: '/account-deletion',
+      element: <AccountDeletion />,
     },
   ]);
 
