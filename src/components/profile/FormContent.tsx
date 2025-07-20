@@ -167,6 +167,7 @@ function Content({ variant }: IContentProps) {
                     to={item.linkTo}
                     className="md:text-body-4 ml-2 text-orange-500 underline hover:text-orange-600"
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     {item.linkText}
                   </Link>
