@@ -1,4 +1,4 @@
-import FormHeader from '@/components/profile/FormHeader';
+import Header from '@/components/common/Header';
 import AccountDeletionWarning from '@/components/mypage/AccountDeletionWarning';
 import AccountDeletionAgreement from '@/components/mypage/AccountDeletionAgreement';
 import AccountDeletionReasons from '@/components/mypage/AccountDeletionReasons';
@@ -20,29 +20,40 @@ function AccountDeletion() {
   } = useAccountDeletion();
 
   return (
-    <main className="wrapper pt-11">
-      <FormHeader content="회원 탈퇴" />
+    <div className="background flex flex-col bg-gray-50">
+      <Header title="회원 탈퇴" />
+      <div className="wrapper pb-6">
+        <div className="mt-4 space-y-4">
+          <div className="rounded-xl bg-white p-6 shadow-sm">
+            <AccountDeletionWarning />
+            <div className="mt-6">
+              <AccountDeletionAgreement
+                isAgreed={isAgreed}
+                onAgreementChange={handleAgreementChange}
+              />
+            </div>
+          </div>
 
-      <div className="mt-6">
-        <AccountDeletionWarning />
+          <div className="rounded-xl bg-white p-6 shadow-sm">
+            <AccountDeletionReasons
+              selectedReason={selectedReason}
+              customReason={customReason}
+              onReasonChange={handleReasonChange}
+              onCustomReasonChange={handleCustomReasonChange}
+            />
+          </div>
+        </div>
 
-        <AccountDeletionAgreement isAgreed={isAgreed} onAgreementChange={handleAgreementChange} />
-
-        <AccountDeletionReasons
-          selectedReason={selectedReason}
-          customReason={customReason}
-          onReasonChange={handleReasonChange}
-          onCustomReasonChange={handleCustomReasonChange}
-        />
-
-        <AccountDeletionActions
-          onCancel={handleCancel}
-          onConfirm={handleConfirm}
-          isPending={isPending}
-          isDisabled={!isFormValid}
-        />
+        <div className="mt-6">
+          <AccountDeletionActions
+            onCancel={handleCancel}
+            onConfirm={handleConfirm}
+            isPending={isPending}
+            isDisabled={!isFormValid}
+          />
+        </div>
       </div>
-    </main>
+    </div>
   );
 }
 

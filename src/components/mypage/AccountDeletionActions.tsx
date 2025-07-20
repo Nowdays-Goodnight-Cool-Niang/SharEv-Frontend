@@ -12,7 +12,7 @@ function AccountDeletionActions({
   isDisabled,
 }: AccountDeletionActionsProps) {
   return (
-    <div className="flex gap-3 pb-16 pt-4">
+    <div className="flex gap-3">
       <button
         onClick={onCancel}
         disabled={isPending}

@@ -129,38 +129,43 @@ function Content({ variant }: IContentProps) {
 
   return (
     <form>
-      <FormSection
-        type="default"
-        handleChange={handleChange}
-        handleBlur={handleBlur}
-        validationMessages={validationMessages}
-        formAccount={formAccount}
-      />
-      <FormSection
-        type="sns"
-        handleChange={handleChange}
-        handleBlur={handleBlur}
-        validationMessages={validationMessages}
-        formAccount={formAccount}
-      />
+      <div className="mt-4 rounded-xl bg-white p-6 shadow-sm">
+        <FormSection
+          type="default"
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          validationMessages={validationMessages}
+          formAccount={formAccount}
+        />
+      </div>
+
+      <div className="mt-4 rounded-xl bg-white p-6 shadow-sm">
+        <FormSection
+          type="sns"
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          validationMessages={validationMessages}
+          formAccount={formAccount}
+        />
+      </div>
 
       {variant === 'setup' && (
-        <div className="mt-4 space-y-3 md:mt-6">
-          <h3 className="text-body-3 md:text-title-3 text-gray-800">서비스 이용 동의</h3>
+        <div className="mt-4 rounded-xl bg-white p-6 shadow-sm">
+          <h3 className="text-title-3 text-gray-800">서비스 이용 동의</h3>
 
-          <div className="space-y-2">
+          <div className="mt-4 space-y-2">
             {agreementItems.map((item) => (
               <Checkbox
                 key={item.key}
                 checked={agreements[item.key]}
                 onChange={() => handleAgreementChange(item.key)}
               >
-                <div className="flex items-center">
-                  <span className="mr-1 text-xs text-red-500">[필수]</span>
-                  <span className="text-body-4 md:text-body-3">{item.label}</span>
+                <div className="text-body-4 flex items-center">
+                  <span className="text-overflow-x-scroll mr-1">[필수]</span>
+                  <span className="md:text-body-3">{item.label}</span>
                   <Link
                     to={item.linkTo}
-                    className="text-body-5 md:text-body-4 ml-2 text-orange-500 underline hover:text-orange-600"
+                    className="md:text-body-4 ml-2 text-orange-500 underline hover:text-orange-600"
                     target="_blank"
                   >
                     {item.linkText}

@@ -26,7 +26,7 @@ function Input({
   onBlur,
 }: InputProps) {
   return (
-    <label className="mt-4 block md:mt-6">
+    <label className="mt-2 block md:mt-6">
       <div className="flex items-center">
         <span className="text-body-4 font-medium leading-6 tracking-tight text-gray-700 md:text-sm">
           {labelName}
@@ -53,7 +53,7 @@ function Input({
         className="text-body-4 md:text-body-3 mt-2 w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-gray-700 placeholder:text-gray-300 md:mt-3 md:px-4 md:py-4 dark:bg-gray-700 dark:text-gray-100"
       />
       {validationMessage && (
-        <span className="text-body-5 mt-1 inline-block px-3 font-medium leading-7 tracking-tight text-orange-500 md:mt-2 md:px-4 md:text-sm">
+        <span className="mt-1 inline-block px-2 text-xs font-medium leading-7 tracking-tight text-orange-500 md:mt-2 md:px-4 md:text-sm">
           {validationMessage}
         </span>
       )}
