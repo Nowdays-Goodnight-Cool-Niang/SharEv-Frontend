@@ -24,7 +24,6 @@ export const useKakaoLogin = () => {
 
         if (data.isAuthenticated) {
           toast.success(TOAST_MESSAGE.LOGIN_SUCCESS, { icon: '🙌🏻' });
-          // TODO: 유진님께 여쭤보기 (이모지 앞에만 적용 & 로그아웃과 겹쳐 두 손으로 변경)
           navigate('/event', { replace: true });
         } else {
           navigate('/profile-setup', { replace: true });

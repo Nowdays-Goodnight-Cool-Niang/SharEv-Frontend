@@ -27,7 +27,6 @@ export function useAccountDeletion() {
   });
 
   const handleConfirm = () => {
-    // TODO: 한 번 더 물어보는거 논의해보기
     const finalConfirm = window.confirm(
       '정말로 탈퇴하시겠습니까?\n탈퇴 후에는 복구할 수 없습니다.'
     );
