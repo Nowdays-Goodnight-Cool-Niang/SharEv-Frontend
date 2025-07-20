@@ -9,6 +9,7 @@ function ProfileEdit() {
         <FormHeader content="프로필을 수정하세요" />
         <div className="mt-5">
           <NoticeInfo>모든 정보는 다른 사람에게 공개돼요</NoticeInfo>
+          {/* TODO: 문구 변경시 같이 수정 */}
         </div>
         <FormContent variant={'edit'} />
       </div>
