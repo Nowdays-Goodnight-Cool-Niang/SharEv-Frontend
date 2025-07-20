@@ -9,7 +9,7 @@ export default function EventTabs() {
   const { selected, setSelected } = useEventTabsStore();
 
   return (
-    <div className="flex h-16 w-full items-center gap-2 rounded-t-xl bg-white px-1 shadow-[0_-3px_10px_rgba(0,0,0,0.02)] dark:bg-gray-900">
+    <div className="flex h-14 w-full items-center gap-2 rounded-t-xl border-t border-gray-100/10 bg-black/40 px-1 shadow-[0_-3px_10px_rgba(0,0,0,0.02)] backdrop-blur-lg dark:border-gray-800 dark:bg-gray-900/80">
       <EventTab
         isSelected={selected == EventTabType.profile}
         onClick={() => setSelected(EventTabType.profile)}

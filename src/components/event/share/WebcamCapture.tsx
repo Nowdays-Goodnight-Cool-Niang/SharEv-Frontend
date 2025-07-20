@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
-import LoadingSpinner from '../common/LoadingSpinner';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
 
 interface WebcamCaptureProps {
   onCapture: (imageSrc: string) => void;
@@ -32,9 +32,11 @@ const WebcamCapture = ({ onCapture }: WebcamCaptureProps) => {
   return (
     <div className="relative aspect-square w-full">
       {isLoading && (
-        <div className="absolute flex aspect-square w-full flex-col items-center justify-center gap-4 bg-gray-900">
+        <div className="absolute flex aspect-square w-full flex-col items-center justify-center gap-6 bg-black">
           <LoadingSpinner />
-          <span className="text-body-1 text-gray-50">카메라를 불러오고 있습니다...</span>
+          <span className="text-sm font-medium leading-6 tracking-tight text-gray-300">
+            카메라를 불러오고 있습니다...
+          </span>
         </div>
       )}
       <Webcam

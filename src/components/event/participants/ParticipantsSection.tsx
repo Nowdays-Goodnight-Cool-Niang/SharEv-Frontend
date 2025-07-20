@@ -3,7 +3,7 @@ import StackSvg from '@/assets/icons/ic_stack.svg?react';
 import UsersSvg from '@/assets/icons/ic_users.svg?react';
 import ViewTabs from './ViewTabs';
 import CharacterSvg from '@/assets/icons/ic_character_1.svg?react';
-import Header from '../common/Header';
+import Header from '../../common/Header';
 import { useState } from 'react';
 import CardSlider from './CardSlider';
 
@@ -12,18 +12,20 @@ export default function ParticipantsSection() {
 
   return (
     <>
-      <div className="relative h-full w-full overflow-x-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-blue-950">
+      <div className="relative h-full w-full overflow-x-hidden">
         <Header title="참가자 명함" />
         <div className="wrapper sticky top-14 z-50 w-full py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1 rounded-full border border-gray-200/10 bg-white/10 px-4 py-3 backdrop-blur-sm">
+            <div className="flex items-center gap-1 rounded-full border border-gray-200/10 bg-blue-100/20 px-4 py-3 backdrop-blur-sm">
               <div className="flex aspect-square h-5 w-5 items-center justify-center">
-                <UsersSvg width={16} height={16} className="text-white" />
+                <UsersSvg width={16} height={16} className="text-blue-100" />
               </div>
               <div className="flex w-full items-center gap-2">
-                <p className="text-sm font-medium tracking-tight text-white">명함을 공유한 사람</p>
-                <span className="whitespace-nowrap text-sm text-white/30">
-                  <span className="font-semibold text-white">1</span>/13
+                <p className="text-sm font-medium tracking-tight text-blue-100">
+                  명함을 공유한 사람
+                </p>
+                <span className="whitespace-nowrap text-sm text-blue-100/40">
+                  <span className="font-semibold text-blue-100">1</span>/13
                 </span>
               </div>
             </div>

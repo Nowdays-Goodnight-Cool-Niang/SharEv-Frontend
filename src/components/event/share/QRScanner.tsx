@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { BrowserQRCodeReader } from '@zxing/browser';
 import WebcamCapture from './WebcamCapture';
-import NoticeInfo from '../common/NoticeInfo';
 import { participantAPI } from '@/apis/participants';
 
 import toast from 'react-hot-toast';

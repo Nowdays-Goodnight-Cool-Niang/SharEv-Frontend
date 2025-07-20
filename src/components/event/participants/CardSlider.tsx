@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import EventProfile from './EventProfileCard';
+import EventProfile from '../card/EventProfileCard';
 
 export default function CardSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -107,7 +107,7 @@ export default function CardSlider() {
               return (
                 <div
                   key={card.id}
-                  className={`absolute w-full max-w-[21rem] cursor-grab select-none text-white shadow-2xl transition-all duration-300 active:cursor-grabbing ${
+                  className={`absolute w-full max-w-[21rem] cursor-grab select-none rounded-3xl text-white shadow-2xl backdrop-blur transition-all duration-300 active:cursor-grabbing ${
                     isActive ? 'z-10 scale-100' : 'z-0 scale-90'
                   }`}
                   style={{
@@ -118,7 +118,17 @@ export default function CardSlider() {
                   onMouseDown={handleMouseDown}
                   onTouchStart={handleTouchStart}
                 >
-                  <EventProfile />
+                  <EventProfile
+                    profile={{
+                      name: '김주호',
+                      email: 'zuhu@gmail.com',
+                      socialLinks: {
+                        github: 'https://github.com/zuhu',
+                        instagram: 'https://instagram.com/zuhu',
+                      },
+                    }}
+                    eventName="CODE:ME"
+                  />
                 </div>
               );
             })}

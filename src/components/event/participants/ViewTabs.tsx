@@ -21,7 +21,7 @@ export default function ViewTabs({ tabs, value, onChange, className }: ViewTabsP
           key={tab.key}
           className={`z-10 flex h-8 w-8 flex-col items-center justify-center transition-colors duration-100 ${
             value === tab.value
-              ? 'rounded-lg bg-white text-gray-700 shadow-md shadow-gray-500/10'
+              ? 'rounded-lg bg-white/20 text-white shadow-md shadow-gray-500/10 backdrop-blur-md'
               : 'text-white/50'
           }`}
           onClick={() => onChange(tab.value)}

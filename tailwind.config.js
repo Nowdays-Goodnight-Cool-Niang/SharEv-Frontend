@@ -8,11 +8,26 @@ export default {
       'bounce-delay-2': 'bounce-y 0.8s infinite ease-in-out 0.2s',
       'bounce-delay-3': 'bounce-y 0.8s infinite ease-in-out 0.4s',
       'modal-enter': 'modal-enter 0.3s ease-in-out forwards',
+      'character-enter': 'character-enter 0.6s 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards',
     },
     keyframes: {
       'fade-in': {
         from: { opacity: 0, transform: 'translateY(20px)' },
         to: { opacity: 1, transform: 'translateY(0)' },
+      },
+      'character-enter': {
+        '0%': {
+          transform: 'translateY(0) scale(0.95)',
+          opacity: 0,
+        },
+        '80%': {
+          transform: 'translateY(calc(-100% + 6rem)) scale(1)',
+          opacity: 1,
+        },
+        '100%': {
+          transform: 'translateY(calc(-100% + 6rem)) scale(1)',
+          opacity: 1,
+        },
       },
       'modal-enter': {
         '0%': { opacity: '0', transform: 'translateY(16px)' },
