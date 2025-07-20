@@ -48,8 +48,8 @@ function FormSection({
   };
 
   return (
-    <div className="mt-6">
-      <h2 className="mb-4 text-base font-semibold tracking-tight text-gray-700">
+    <div className="mt-4 md:mt-6">
+      <h2 className="text-body-3 mb-3 font-semibold tracking-tight text-gray-700 md:mb-4 md:text-base">
         {datas[type].title}
       </h2>
       {datas[type].field.map((data) => (

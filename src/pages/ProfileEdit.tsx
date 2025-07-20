@@ -4,7 +4,7 @@ import FormContent from '@/components/profile/FormContent';
 
 function ProfileEdit() {
   return (
-    <div className="background min-h-screen flex flex-col bg-white">
+    <div className="background flex flex-col bg-white">
       <div className="wrapper pb-6 pt-11">
         <FormHeader content="프로필을 수정하세요" />
         <div className="mt-5">
