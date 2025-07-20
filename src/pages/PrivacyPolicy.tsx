@@ -2,7 +2,8 @@ import { Link } from 'react-router';
 import Header from '@/components/common/Header';
 
 function PrivacyPolicy() {
-  const tocLinkClass = 'text-body-3 block text-gray-600 hover:text-gray-800 hover:underline transition-colors duration-200';
+  const tocLinkClass =
+    'text-body-3 block text-gray-600 hover:text-gray-800 hover:underline transition-colors duration-200';
 
   return (
     <div className="background flex flex-col bg-gray-50">
