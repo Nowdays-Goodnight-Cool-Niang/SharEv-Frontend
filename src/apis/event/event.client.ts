@@ -12,12 +12,12 @@ async function getMyProfileSafe(eventId: string): Promise<IEventProfile | null> 
   });
 }
 
-// function createMyProfile(eventId: string) {
-//   return withErrorHandler({
-//     fallbackMessage: ERROR_MSG.profile.create,
-//     codeMap: ERROR_MSG.profile.codeMap,
-//   })(() => eventAPI.createMyProfile(eventId));
-// }
+function participateInEventSafe(eventId: string) {
+  return withErrorHandler({
+    fallbackMessage: ERROR_MSG.profile.create,
+    codeMap: ERROR_MSG.profile.codeMap,
+  })(() => eventAPI.participateInEvent(eventId));
+}
 
 // function updateMyProfile(eventId: string, data: EventProfileDetailRequest) {
 //   return withErrorHandler({
@@ -34,4 +34,5 @@ async function getMyProfileSafe(eventId: string): Promise<IEventProfile | null> 
 
 export const eventClient = {
   getMyProfileSafe,
+  participateInEventSafe,
 };

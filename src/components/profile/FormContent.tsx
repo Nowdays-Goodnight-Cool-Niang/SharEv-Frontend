@@ -84,7 +84,7 @@ function Content({ variant }: IContentProps) {
     patchProfileInfo(formAccount as Omit<IProfile, 'id'>, {
       onSuccess: () => {
         if (variant === 'setup') {
-          navigate('/event');
+          navigate('/events');
         } else {
           navigate('/setting');
           toast.success(TOAST_MESSAGE.PROFILE_SAVE_SUCCESS, { icon: '🎉' });

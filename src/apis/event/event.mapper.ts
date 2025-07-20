@@ -28,12 +28,13 @@ export function mapEventProfileResponse(response: EventProfileResponse): IEventP
 
 export function getDefaultProfileBlocks(): TemplateBlock[] {
   return [
-    { type: 'text', value: '자기소개' },
+    { type: 'text', value: '안녕하세요. 저는' },
     { type: 'input', fieldKey: 'introduce' },
-    { type: 'text', value: '가장 뿌듯했던 경험' },
-    { type: 'input', fieldKey: 'proudestExperience' },
-    { type: 'text', value: '가장 힘들었던 경험' },
+    { type: 'text', value: ' 개발자입니다. 가장 힘들었던 경험은 ' },
     { type: 'input', fieldKey: 'toughExperience' },
+    { type: 'text', value: ' 고, 가장 뿌듯했던 경험은 ' },
+    { type: 'input', fieldKey: 'proudestExperience' },
+    { type: 'text', value: ' 입니다.' },
   ];
 }
 

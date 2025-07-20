@@ -12,8 +12,8 @@ async function getMyProfile(eventId: string): Promise<EventProfileResponse> {
   return response.data;
 }
 
-// 본인 프로필 생성
-async function createMyProfile(eventId: string) {
+// 행사 참여: 본인 프로필 생성
+async function participateInEvent(eventId: string) {
   const response = await eventInstance.post(`/${eventId}/profiles`);
   return response.data;
 }
@@ -32,7 +32,7 @@ async function getProfileByPin(eventId: string, pinNumber: string) {
 
 export const eventAPI = {
   getMyProfile,
-  createMyProfile,
+  participateInEvent,
   updateMyProfile,
   getProfileByPin,
 };

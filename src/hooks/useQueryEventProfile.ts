@@ -6,7 +6,7 @@ export const useSuspenseQueryEventProfile = (eventId: string) => {
   const { data, error } = useSuspenseQuery<IEventProfile | null>({
     queryKey: ['eventProfile', eventId, 'mine'],
     queryFn: () => eventClient.getMyProfileSafe(eventId),
-    refetchOnMount: 'always',
+    refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
 
