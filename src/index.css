@@ -70,14 +70,6 @@
 }
 
 @layer utilities {
-  .font-gmarket {
-    font-family: 'GmarketSans', 'Pretendard Variable', serif;
-  }
-
-  .font-ydestreet {
-    font-family: 'Ydestreet', serif;
-  }
-
   .font-museo {
     font-family: 'MuseoModerno', serif;
     @apply tracking-tighter;
@@ -145,6 +137,13 @@
 
   .background {
     @apply mx-auto h-screen w-full;
+    @media (min-width: 720px) {
+      max-width: 720px;
+    }
+  }
+
+  .background-min {
+    @apply mx-auto w-full;
     @media (min-width: 720px) {
       max-width: 720px;
     }
