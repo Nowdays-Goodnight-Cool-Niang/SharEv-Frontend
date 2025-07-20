@@ -10,6 +10,7 @@ import ProfileEdit from '@/pages/ProfileEdit';
 import MyPage from '@/pages/MyPage';
 import AccountDeletion from '@/pages/AccountDeletion';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import PrivacyConsent from '@/pages/PrivacyConsent';
 import TermsOfService from '@/pages/TermsOfService';
 import { setupAxiosInterceptors } from '@/apis/responseInterceptor';
 
@@ -32,6 +33,10 @@ function App() {
     {
       path: '/privacy',
       element: <PrivacyPolicy />,
+    },
+    {
+      path: '/privacy-consent',
+      element: <PrivacyConsent />,
     },
     {
       path: '/terms',
