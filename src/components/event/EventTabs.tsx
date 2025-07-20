@@ -1,4 +1,4 @@
-import { EventTabType } from '@/enums';
+import { EventTabType } from '@/constants/enums';
 import { useEventTabsStore } from '@/stores/useEventTabStore';
 import EventTab from '@/components/event/EventTab';
 import IdentificationSvg from '@/assets/icons/ic_identification.svg?react';

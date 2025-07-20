@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { shareCardAPI } from '@/apis/shareCards';
+import { shareCardAPI } from '@/apis/event';
 import { IShareCardDetailsByEvent } from '@/types';
 
 interface UseQueryShareCardOptions {

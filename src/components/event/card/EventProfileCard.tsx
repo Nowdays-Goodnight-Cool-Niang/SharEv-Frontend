@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { EventProfileCardState, IEventProfileCardTemplate, IProfile } from '@/types';
+import { EventProfileState, IEventProfileContent, IProfile } from '@/types';
 import EventProfileCardFront from './EventProfileCardFront';
 import EventProfileCardBack from './EventProfileCardBack';
 
 interface EventProfileCardProps {
-  state?: EventProfileCardState;
+  state?: EventProfileState;
   profile: IProfile;
   eventName: string;
-  template?: IEventProfileCardTemplate; // edit | readonly 모드에서 필요
+  content?: IEventProfileContent; // edit | readonly 모드에서 필요
   fieldValues?: Record<string, string>; // edit | readonly 모드에서 필요
   onFieldChange?: (key: string, value: string) => void; // edit 모드에서 필요
   onActionButtonClick?: () => void; // edit 모드에서 필요
@@ -19,7 +19,7 @@ function EventProfileCard({
   state,
   profile,
   eventName,
-  template,
+  content,
   fieldValues,
   onFieldChange,
   onActionButtonClick,
@@ -28,7 +28,7 @@ function EventProfileCard({
 }: EventProfileCardProps) {
   const [flipped, setFlipped] = useState(false);
   const isActionButtonDisabled =
-    state === EventProfileCardState.EDIT &&
+    state === EventProfileState.EDIT &&
     !Object.values(fieldValues ?? {}).every((v) => v.trim() !== '');
 
   const handleFlip = () => {
@@ -43,10 +43,7 @@ function EventProfileCard({
     <div
       onClick={() => {
         // 읽기 전용일 때는 언제나 가능 + 뒤집혀 있을 때는 편집 중일 때
-        if (
-          state === EventProfileCardState.READONLY ||
-          (state === EventProfileCardState.EDIT && !flipped)
-        )
+        if (state === EventProfileState.READONLY || (state === EventProfileState.EDIT && !flipped))
           handleFlip();
       }}
       className="w-full max-w-[22rem] perspective-1000"
@@ -59,10 +56,10 @@ function EventProfileCard({
         <div className="absolute inset-0 backface-hidden">
           <EventProfileCardFront profile={profile} eventName={eventName} />
         </div>
-        {state !== EventProfileCardState.LOCKED && template && fieldValues && (
+        {state !== EventProfileState.LOCKED && content && fieldValues && (
           <div className="absolute inset-0 rotate-y-180 backface-hidden">
             <EventProfileCardBack
-              template={template}
+              content={content}
               fieldValues={fieldValues}
               state={state}
               onFieldChange={onFieldChange}

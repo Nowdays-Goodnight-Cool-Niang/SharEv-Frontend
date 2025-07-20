@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { shareCardAPI } from '@/apis/shareCards';
+import { shareCardAPI } from '@/apis/event';
 
 export const useMutateShareCard = () => {
   const queryClient = useQueryClient();

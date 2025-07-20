@@ -1,9 +1,10 @@
 import EventTabs from '@/components/event/EventTabs';
 import { useEventTabsStore } from '@/stores/useEventTabStore';
-import { EventTabType } from '@/enums';
+
 import ProfileSection from '@/components/event/profile/ProfileSection';
 import ParticipantsSection from '@/components/event/participants/ParticipantsSection';
 import ShareSection from '@/components/event/share/ShareSection';
+import { EventTabType } from '@/constants/enums';
 
 function Event() {
   const { selected } = useEventTabsStore();

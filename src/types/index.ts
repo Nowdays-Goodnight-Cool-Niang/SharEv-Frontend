@@ -11,16 +11,6 @@ export interface IProfile {
   socialLinks?: ISocialLinks;
 }
 
-export interface IShareCardDetailsByEvent {
-  teamName: string | null;
-  position: string | null;
-  introductionText: string | null;
-}
-
-export interface IShareCard extends IProfile, IShareCardDetailsByEvent {
-  registerFlag?: boolean;
-}
-
 type TextBlock = {
   type: 'text';
   value: string;
@@ -38,19 +28,23 @@ export interface IInputFieldConfig {
   placeholder: string;
 }
 
-export interface IEventProfileCardTemplate {
+export interface IEventProfileContent {
   blocks: TemplateBlock[];
   fields: Record<string, IInputFieldConfig>;
 }
 
-export const EventProfileCardState = {
+export interface IEventProfile {
+  profile: IProfile;
+  content: IEventProfileContent;
+}
+
+export const EventProfileState = {
   EDIT: 'edit',
   READONLY: 'readonly',
   LOCKED: 'locked',
 } as const;
 
-export type EventProfileCardState =
-  (typeof EventProfileCardState)[keyof typeof EventProfileCardState];
+export type EventProfileState = (typeof EventProfileState)[keyof typeof EventProfileState];
 
 export interface ITabButtonOption {
   label: string;

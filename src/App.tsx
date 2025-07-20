@@ -8,8 +8,8 @@ import LoginRedirect from '@/pages/LoginRedirect';
 import ProfileSetup from '@/pages/ProfileSetup';
 import ProfileEdit from '@/pages/ProfileEdit';
 import MyPage from '@/pages/MyPage';
-import LayoutWithHeader from '@/components/common/LayoutWithHeader';
 import { setupAxiosInterceptors } from '@/apis/responseInterceptor';
+import Events from './pages/Events';
 
 function App() {
   const queryClient = new QueryClient();
@@ -30,6 +30,10 @@ function App() {
     {
       path: '/profile-setup',
       element: <ProfileSetup />,
+    },
+    {
+      path: '/events',
+      element: <Events />,
     },
     {
       path: '/event',

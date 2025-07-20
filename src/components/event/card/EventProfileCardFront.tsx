@@ -1,12 +1,12 @@
 import GithubSvg from '@/assets/icons/ic_github.svg?react';
 import LinkedInSvg from '@/assets/icons/ic_linkedin.svg?react';
 import InstagramSvg from '@/assets/icons/ic_instagram.svg?react';
-import { EventProfileCardState, IProfile } from '@/types';
+import { EventProfileState, IProfile } from '@/types';
 import gradientImage from '@/assets/images/img_gradient.png';
 import GraphicImage from '@/assets/images/img_graphic_9.png';
 
 interface EventProfileCardFrontProps {
-  state?: EventProfileCardState;
+  state?: EventProfileState;
   profile: IProfile;
   eventName: string;
 }
@@ -18,7 +18,7 @@ const socialIcons = [
 ] as const;
 
 function EventProfileCardFront({
-  state = EventProfileCardState.LOCKED,
+  state = EventProfileState.LOCKED,
   profile,
   eventName,
 }: EventProfileCardFrontProps) {
@@ -51,7 +51,7 @@ function EventProfileCardFront({
         <img src={gradientImage} className="h-full object-cover opacity-5" alt="" />
       </div>
       <div className="absolute bottom-0 flex aspect-square w-full flex-col items-end justify-end">
-        <div className="animate-character-enter w-96 translate-x-20 translate-y-full">
+        <div className="w-96 animate-character-enter translate-x-20 translate-y-full">
           <img src={GraphicImage} className="aspect-square w-full" alt="" />
         </div>
       </div>

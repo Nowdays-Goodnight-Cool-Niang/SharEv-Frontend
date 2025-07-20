@@ -3,6 +3,7 @@ import NoticeInfo from '@/components/common/NoticeInfo';
 import FormContent from '@/components/profile/FormContent';
 
 function ProfileSetup() {
+  console.log('도착');
   return (
     <main className="background wrapper min-h-screen bg-white pb-6 pt-4">
       <FormHeader content="프로필을 완성하세요" />

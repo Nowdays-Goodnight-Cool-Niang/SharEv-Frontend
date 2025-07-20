@@ -1,4 +1,4 @@
-import { ParticipantsResponse } from '@/types/response';
+import { ParticipantsResponse } from '@/types/api.types';
 import axios from 'axios';
 
 export const participantInstance = axios.create({

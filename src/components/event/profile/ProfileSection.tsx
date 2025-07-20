@@ -1,59 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useShareCardDetailStore } from '@/stores/useShareCardDetailStore';
-import { useQueryShareCard } from '@/hooks/useQueryShareCard';
 import { useQueryAccount } from '@/hooks/useQueryAccount';
 import BaseButton from '@/components/common/BaseButton';
 import { useMutateShareCard } from '@/hooks/useMutateShareCard';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { TOAST_MESSAGE } from '@/utils/labels';
 import EventProfileCard from '../card/EventProfileCard';
-import BottomModal from '../../common/BottonModal';
-import Header from '../../common/Header';
-import { EventProfileCardState, IEventProfileCardTemplate, IProfile } from '@/types';
-import NoticeInfo from '../../common/NoticeInfo';
+import BottomModal from '@/components/common/BottomModal';
+import Header from '@/components/common/Header';
+import NoticeInfo from '@/components/common/NoticeInfo';
 import TipDropDown from './TipDropDown';
 import EventProfileCardSkeleton from '../card/EventProfileCardSkeleton';
-
-/**
- * skeleton UI 만들기
- * 링크 연결 고치기
- */
-
-const profile: IProfile = {
-  name: '김주호',
-  email: 'zuhu@gmail.com',
-  socialLinks: {
-    github: 'https://github.com/zuhu',
-    instagram: 'https://instagram.com/zuhu',
-  },
-};
-
-const template: IEventProfileCardTemplate = {
-  blocks: [
-    { type: 'text', value: '안녕하세요. 저는 ' },
-    { type: 'input', fieldKey: 'intro' },
-    { type: 'text', value: ' 개발자입니다. 개발을 하면서 가장 힘들었던 경험은 ' },
-    { type: 'input', fieldKey: 'hardestMoment' },
-    { type: 'text', value: ' 고, 가장 뿌듯했던 경험은 ' },
-    { type: 'input', fieldKey: 'proudestMoment' },
-    { type: 'text', value: ' 입니다.' },
-  ],
-  fields: {
-    intro: {
-      value: '백엔드',
-      placeholder: '스스로를 한 문장으로 소개해 보세요',
-    },
-    hardestMoment: {
-      value: '',
-      placeholder: '힘들었던 경험을 적어주세요',
-    },
-    proudestMoment: {
-      value: '',
-      placeholder: '뿌듯했던 경험을 적어주세요',
-    },
-  },
-};
+import { EventProfileState } from '@/types';
+import { EVENT_ID } from '@/constants/eventId';
+import { useSuspenseQueryEventProfile } from '@/hooks/useQueryEventProfile';
 
 const NOTICE_TEXT = {
   flip: '카드를 눌러 뒤집어 보세요!',
@@ -62,15 +21,26 @@ const NOTICE_TEXT = {
 
 function ProfileSection() {
   const [isExplainModalOpen, setIsExplainModalOpen] = useState(false);
+
   const [noticeText, setNoticeText] = useState(NOTICE_TEXT.flip);
-  const [cardState, setCardState] = useState<EventProfileCardState>(EventProfileCardState.READONLY);
-
-  const [fieldValues, setFieldValues] = useState(
-    Object.fromEntries(Object.entries(template.fields).map(([key, { value }]) => [key, value]))
+  const [eventProfileState, setEventProfileState] = useState<EventProfileState>(
+    EventProfileState.READONLY
   );
+  const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
+  const initialFieldValues = useRef<Record<string, string>>({});
 
-  const initialFieldValues = useRef(fieldValues);
-  const isEditing = cardState === EventProfileCardState.EDIT;
+  const { data: eventProfile, error: eventProfileError } = useSuspenseQueryEventProfile(EVENT_ID);
+
+  useEffect(() => {
+    if (!(eventProfileState === EventProfileState.EDIT) && eventProfile?.content?.fields) {
+      const newFieldValues = Object.fromEntries(
+        Object.entries(eventProfile.content.fields).map(([key, { value }]) => [key, value])
+      );
+
+      setFieldValues(newFieldValues);
+      initialFieldValues.current = newFieldValues;
+    }
+  }, [eventProfile, eventProfileState]);
 
   const updateFieldValue = (key: string, newValue: string) => {
     setFieldValues((prev) => ({ ...prev, [key]: newValue }));
@@ -78,19 +48,19 @@ function ProfileSection() {
 
   const handleEdit = () => {
     initialFieldValues.current = fieldValues;
-    setCardState(EventProfileCardState.EDIT);
+    setEventProfileState(EventProfileState.EDIT);
   };
 
   const handleSave = () => {
     // 실제 저장 로직이 있다면 여기에 (ex: API 호출)
     toast.success('저장되었습니다');
-    setCardState(EventProfileCardState.READONLY);
+    setEventProfileState(EventProfileState.READONLY);
     initialFieldValues.current = fieldValues;
   };
 
   const handleCancel = () => {
     setFieldValues(initialFieldValues.current);
-    setCardState(EventProfileCardState.READONLY);
+    setEventProfileState(EventProfileState.READONLY);
     toast('변경사항이 취소되었습니다');
   };
 
@@ -101,65 +71,6 @@ function ProfileSection() {
     });
   };
 
-  // const { profile, isLoading: isProfileLoading, error: profileError } = useQueryAccount();
-  // const {
-  //   participantInfo,
-  //   isLoading: isParticipantInfoLoading,
-  //   error: participantError,
-  // } = useQueryShareCard(profile?.id || '', {
-  //   enabled: !!profile?.id,
-  // });
-
-  // const { mutate: saveShareCard } = useMutateShareCard();
-
-  // const { shareCardDetail, setShareCardDetail, isShareCardDetailBlank, editMode, setEditMode } =
-  //   useShareCardDetailStore();
-
-  // useEffect(() => {
-  //   // TODO: 초기값 null로 확실한지 확인하기
-  //   if (participantInfo) {
-  //     if (
-  //       participantInfo.teamName !== '' &&
-  //       participantInfo.teamName !== null &&
-  //       participantInfo.position !== '' &&
-  //       participantInfo.position !== null &&
-  //       participantInfo.introductionText !== '' &&
-  //       participantInfo.introductionText !== null
-  //     ) {
-  //       setShareCardDetail(participantInfo);
-  //     } else {
-  //       setIsExplainModalOpen(true);
-  //       setEditMode(true);
-  //     }
-  //   }
-  // }, [participantInfo, setEditMode, setShareCardDetail]);
-
-  // if (isProfileLoading || isParticipantInfoLoading)
-  //   return (
-  //     <div className="w-full py-20">
-  //       <LoadingSpinner />
-  //     </div>
-  //   );
-  // if (profileError || participantError || !participantInfo)
-  //   return (
-  //     <div className="tex-white">
-  //       에러가 발생했습니다:
-  //       {profileError?.message || participantError?.message}
-  //     </div>
-  //   );
-
-  // const handleSaveCardDetail = () => {
-  //   if (shareCardDetail) {
-  //     saveShareCard({
-  //       teamName: shareCardDetail.teamName,
-  //       position: shareCardDetail.position,
-  //       introductionText: shareCardDetail.introductionText,
-  //     });
-  //     toast.success(TOAST_MESSAGE.PROFILE_SAVE_SUCCESS, { icon: '🎉' });
-  //     setEditMode(false);
-  //     setShareCardDetail(shareCardDetail);
-  //   }
-  // };
   return (
     <div className="">
       <Header title="내 명함" />
@@ -176,18 +87,28 @@ function ProfileSection() {
       </BottomModal>
       <div className="wrapper flex h-full w-full flex-col items-center gap-4 overflow-x-hidden pb-12 pt-2">
         <TipDropDown />
-        <EventProfileCard
-          state={cardState}
-          profile={profile}
-          eventName="CODE:ME"
-          template={template}
-          fieldValues={fieldValues}
-          onFieldChange={updateFieldValue}
-          onActionButtonClick={isEditing ? handleSave : handleEdit}
-          onCancelButtonClick={isEditing ? handleCancel : undefined}
-          onFlipChange={handleFlip}
-        />
-        <EventProfileCardSkeleton />
+        {eventProfileError || !eventProfile?.profile ? (
+          <div className="tex-white">에러가 발생했습니다:</div>
+        ) : (
+          <Suspense fallback={<EventProfileCardSkeleton />}>
+            <EventProfileCard
+              state={eventProfileState}
+              profile={eventProfile?.profile}
+              eventName="CODE:ME"
+              content={eventProfile?.content}
+              fieldValues={fieldValues}
+              onFieldChange={updateFieldValue}
+              onActionButtonClick={
+                eventProfileState === EventProfileState.EDIT ? handleSave : handleEdit
+              }
+              onCancelButtonClick={
+                eventProfileState === EventProfileState.EDIT ? handleCancel : undefined
+              }
+              onFlipChange={handleFlip}
+            />
+          </Suspense>
+        )}
+
         <NoticeInfo>{noticeText}</NoticeInfo>
       </div>
     </div>

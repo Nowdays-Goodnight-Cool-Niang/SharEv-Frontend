@@ -1,10 +1,10 @@
 import ExpandableInput from './ExpandableInput';
-import { EventProfileCardState, IEventProfileCardTemplate } from '@/types';
+import { EventProfileState, IEventProfileContent } from '@/types';
 import gradientImage from '@/assets/images/img_gradient.png';
 
 interface EventProfileCardBack {
-  template: IEventProfileCardTemplate;
-  state?: EventProfileCardState;
+  content: IEventProfileContent;
+  state?: EventProfileState;
   fieldValues: Record<string, string>;
   onFieldChange?: (key: string, value: string) => void;
   onActionButtonClick?: () => void;
@@ -13,8 +13,8 @@ interface EventProfileCardBack {
 }
 
 function EventProfileCardBack({
-  template,
-  state = EventProfileCardState.LOCKED,
+  content,
+  state = EventProfileState.LOCKED,
   fieldValues,
   onFieldChange,
   onActionButtonClick,
@@ -30,17 +30,17 @@ function EventProfileCardBack({
       </div>
       <div className="flex-1 overflow-auto px-6 pt-6">
         <span className="break-all text-base font-normal leading-[2.8rem] tracking-tight text-gray-50/70">
-          {template.blocks.map((block, index) => {
+          {content.blocks.map((block, index) => {
             if (block.type === 'text') {
               return <span key={index}>{block.value}</span>;
             }
             if (block.type === 'input') {
-              const field = template.fields[block.fieldKey];
+              const field = content.fields[block.fieldKey];
               if (!field) return null;
               return (
                 <ExpandableInput
                   key={index}
-                  editMode={state === EventProfileCardState.EDIT}
+                  editMode={state === EventProfileState.EDIT}
                   value={fieldValues[block.fieldKey] ?? ''}
                   placeholder={field.placeholder}
                   onChange={(value) => {
@@ -68,14 +68,14 @@ function EventProfileCardBack({
         )}
         {onActionButtonClick && (
           <button
-            className={`${state === EventProfileCardState.EDIT ? 'bg-white text-gray-700 disabled:bg-white/20 disabled:text-white/25' : 'border border-white/40 text-white'} duration-400 flex-2 h-14 w-full rounded-xl font-semibold tracking-tight transition-all disabled:pointer-events-none disabled:cursor-not-allowed`}
+            className={`${state === EventProfileState.EDIT ? 'bg-white text-gray-700 disabled:bg-white/20 disabled:text-white/25' : 'border border-white/40 text-white'} duration-400 flex-2 h-14 w-full rounded-xl font-semibold tracking-tight transition-all disabled:pointer-events-none disabled:cursor-not-allowed`}
             onClick={(e) => {
               e.stopPropagation();
               onActionButtonClick();
             }}
             disabled={isActionButtonDisabled}
           >
-            {state === EventProfileCardState.EDIT ? '저장하기' : '편집하기'}
+            {state === EventProfileState.EDIT ? '저장하기' : '편집하기'}
           </button>
         )}
       </div>

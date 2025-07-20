@@ -1,6 +1,6 @@
 import { useInfiniteQuery, UseInfiniteQueryResult, InfiniteData } from '@tanstack/react-query';
 import { participantAPI } from '@/apis/participants';
-import { ParticipantsResponse } from '@/types/response';
+import { ParticipantsResponse } from '@/types/api.types';
 
 export const useQueryParticipants = (): UseInfiniteQueryResult<
   InfiniteData<ParticipantsResponse>,

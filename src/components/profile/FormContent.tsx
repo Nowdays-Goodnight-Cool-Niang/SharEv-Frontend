@@ -16,7 +16,7 @@ function Content({ variant }: IContentProps) {
   const navigate = useNavigate();
   const { profile, isLoading, patchProfileInfo } = useQueryAccount();
 
-  const [formAccount, setFormAccount] = useState<IProfile>(profile || {});
+  const [formAccount, setFormAccount] = useState<IProfile>(profile || ({} as IProfile));
   const [validationMessages, setValidationMessages] = useState<{ [key: string]: string }>({});
   const [isModified, setIsModified] = useState(false);
 
@@ -66,8 +66,11 @@ function Content({ variant }: IContentProps) {
 
     const validationMessages = Object.keys(formAccount).reduce(
       (acc, key) => {
-        const validationMessage = validateInput(key, formAccount[key as keyof IProfile] || '');
-        if (validationMessage) acc[key] = validationMessage;
+        const value = formAccount[key as keyof IProfile];
+        if (typeof value === 'string') {
+          const validationMessage = validateInput(key, value);
+          if (validationMessage) acc[key] = validationMessage;
+        }
         return acc;
       },
       {} as { [key: string]: string }
@@ -78,7 +81,7 @@ function Content({ variant }: IContentProps) {
       return;
     }
 
-    patchProfileInfo(formAccount, {
+    patchProfileInfo(formAccount as Omit<IProfile, 'id'>, {
       onSuccess: () => {
         if (variant === 'setup') {
           navigate('/event');
