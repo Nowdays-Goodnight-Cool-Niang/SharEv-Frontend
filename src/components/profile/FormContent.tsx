@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import toast from 'react-hot-toast';
 import { IProfile } from '@/types';
 import BaseButton from '@/components/common/BaseButton';
+import Checkbox from '@/components/common/Checkbox';
 import FormSection from '@/components/profile/FormSection';
 import { useQueryAccount } from '@/hooks/useQueryAccount';
 import { validateInput } from '@/utils/form';
@@ -12,6 +13,21 @@ interface IContentProps {
   variant: 'setup' | 'edit';
 }
 
+const agreementItems = [
+  {
+    key: 'terms' as const,
+    label: '이용약관 동의',
+    linkTo: '/terms',
+    linkText: '보기',
+  },
+  {
+    key: 'privacy' as const,
+    label: '개인정보 수집·이용 동의',
+    linkTo: '/privacy-consent',
+    linkText: '보기',
+  },
+];
+
 function Content({ variant }: IContentProps) {
   const navigate = useNavigate();
   const { profile, isLoading, patchProfileInfo } = useQueryAccount();
@@ -19,6 +35,10 @@ function Content({ variant }: IContentProps) {
   const [formAccount, setFormAccount] = useState<IProfile>(profile || {});
   const [validationMessages, setValidationMessages] = useState<{ [key: string]: string }>({});
   const [isModified, setIsModified] = useState(false);
+  const [agreements, setAgreements] = useState({
+    terms: false,
+    privacy: false,
+  });
 
   useEffect(() => {
     if (variant === 'edit' && profile) {
@@ -27,12 +47,12 @@ function Content({ variant }: IContentProps) {
       );
       setIsModified(isChanged);
     }
-  }, [formAccount]);
+  }, [formAccount, profile, variant]);
 
   useEffect(() => {
-    if (!isLoading && profile) {
+    if (!isLoading && profile && variant === 'edit') {
       setFormAccount((prevFormAccount) => {
-        if (JSON.stringify(prevFormAccount) !== JSON.stringify(profile)) {
+        if (JSON.stringify(prevFormAccount) === JSON.stringify({})) {
           return { ...profile };
         }
         return prevFormAccount;
@@ -41,7 +61,7 @@ function Content({ variant }: IContentProps) {
       const loadingToastId = toast.loading(TOAST_MESSAGE.PROFILE_LOADING);
       return () => toast.dismiss(loadingToastId);
     }
-  }, [isLoading]);
+  }, [isLoading, profile, variant]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -58,6 +78,13 @@ function Content({ variant }: IContentProps) {
     setValidationMessages((prevMessages) => ({
       ...prevMessages,
       [name]: validationMessage || '',
+    }));
+  };
+
+  const handleAgreementChange = (type: 'terms' | 'privacy') => {
+    setAgreements((prev) => ({
+      ...prev,
+      [type]: !prev[type],
     }));
   };
 
@@ -97,7 +124,8 @@ function Content({ variant }: IContentProps) {
   const isFormValid =
     Object.values(validationMessages).every((validationMessage) => !validationMessage) &&
     !!formAccount.name &&
-    !!formAccount.email;
+    !!formAccount.email &&
+    (variant === 'edit' || (agreements.terms && agreements.privacy));
 
   return (
     <form>
@@ -116,7 +144,35 @@ function Content({ variant }: IContentProps) {
         formAccount={formAccount}
       />
 
-      <div className="mt-10 w-full">
+      {variant === 'setup' && (
+        <div className="mt-4 space-y-3 md:mt-6">
+          <h3 className="text-body-3 md:text-title-3 text-gray-800">서비스 이용 동의</h3>
+
+          <div className="space-y-2">
+            {agreementItems.map((item) => (
+              <Checkbox
+                key={item.key}
+                checked={agreements[item.key]}
+                onChange={() => handleAgreementChange(item.key)}
+              >
+                <div className="flex items-center">
+                  <span className="mr-1 text-xs text-red-500">[필수]</span>
+                  <span className="text-body-4 md:text-body-3">{item.label}</span>
+                  <Link
+                    to={item.linkTo}
+                    className="text-body-5 md:text-body-4 ml-2 text-orange-500 underline hover:text-orange-600"
+                    target="_blank"
+                  >
+                    {item.linkText}
+                  </Link>
+                </div>
+              </Checkbox>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="mt-6 w-full pb-4 md:mt-10 md:pb-0">
         <BaseButton
           isDisabled={!isFormValid || (variant === 'edit' && !isModified)}
           onClick={(e) => handleProfileSubmit(e)}
