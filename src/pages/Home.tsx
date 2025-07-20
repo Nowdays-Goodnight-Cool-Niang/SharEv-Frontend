@@ -9,7 +9,7 @@ function Home() {
   };
 
   return (
-    <div className="background wrapper flex flex-col gap-[10%] overflow-hidden bg-gradient-to-b from-gray-50 to-white py-8 dark:bg-gray-900">
+    <div className="background wrapper flex h-screen flex-col gap-[10%] overflow-hidden bg-gradient-to-b from-gray-50 to-white py-8 dark:bg-gray-900">
       <div className="flex w-full flex-1 animate-fade-in flex-col justify-end gap-4">
         <h1 className="font-museo text-7xl text-gray-800 dark:text-gray-50">SharE:v</h1>
         <p className="text-body-2 text-gray-600 dark:text-gray-50">
