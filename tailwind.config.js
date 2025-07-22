@@ -25,18 +25,6 @@ export default {
     },
     extend: {
       colors: {
-        gray: {
-          50: '#FAFAFA',
-          100: '#F5F5F5',
-          200: '#EEEEEE',
-          300: '#DEDEDE',
-          400: '#BDBDBD',
-          500: '#7C7C7C',
-          600: '#4B4B4B',
-          700: '#282828',
-          800: '#1E1E1E',
-          900: '#0D0D0D',
-        },
         orange: {
           500: '#FF6A29',
           700: '#ED4700',

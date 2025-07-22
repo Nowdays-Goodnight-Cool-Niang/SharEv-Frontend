@@ -14,7 +14,8 @@ function BaseButton({
   onClick,
 }: IBaseButtonProps) {
   const bgClasses = {
-    default: 'bg-slate-800 text-white hover:bg-slate-900',
+    default:
+      'bg-slate-800 dark:bg-slate-50 dark:text-slate-900 text-white hover:bg-slate-900 hover:dark:bg-slate-200',
     kakao: 'bg-[#FEE500] text-[#000000]/85 hover:bg-[#eecc0d]',
   };
 

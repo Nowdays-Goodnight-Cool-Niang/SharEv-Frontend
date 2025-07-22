@@ -1,16 +1,17 @@
-import { Link } from 'react-router';
+import { useNavigate } from 'react-router';
 import Header from '@/components/common/Header';
 import { termOfServiceData } from '@/constants/termsOfServiceData';
+import BaseButton from '@/components/common/BaseButton';
+import { PropsWithChildren } from 'react';
 
-interface SectionProps {
+interface SectionProps extends PropsWithChildren {
   title: string;
-  children: React.ReactNode;
 }
 
 function TermsSection({ title, children }: SectionProps) {
   return (
-    <section className="rounded-xl bg-slate-50 px-5 pb-4 pt-6 text-sm leading-7 tracking-tight text-slate-600">
-      <h2 className="mb-2 text-base font-semibold leading-7 tracking-tight text-slate-700">
+    <section className="rounded-xl bg-gray-50 px-5 pb-4 pt-6 text-sm leading-7 tracking-tight text-gray-600 dark:bg-gray-900 dark:text-gray-300">
+      <h2 className="mb-2 text-base font-semibold leading-7 tracking-tight text-gray-700 dark:text-gray-100">
         {title}
       </h2>
       {children}
@@ -39,11 +40,13 @@ function TermsList({ items }: { items: string[] }) {
 }
 
 function TermsOfService() {
+  const navigate = useNavigate();
+
   return (
-    <div className="background flex flex-col bg-white">
+    <div className="background flex flex-col bg-white dark:bg-gray-950">
       <Header title="이용약관" />
 
-      <div className="wrapper py-6">
+      <div className="wrapper pb-14 pt-6">
         <div className="space-y-6">
           {termOfServiceData.map(({ title, contents }, idx) => (
             <TermsSection key={idx} title={`제${idx + 1}조 (${title})`}>
@@ -60,14 +63,13 @@ function TermsOfService() {
           ))}
 
           <div className="text-center">
-            <ul className="text-sm font-medium leading-6 tracking-tight text-slate-600">
+            <ul className="mb-8 text-xs font-medium leading-5 tracking-tight text-gray-600 dark:text-gray-400">
               <li>약관 버전: v0.0.0</li>
               <li>공고일자: 2025.07.20</li>
               <li>시행일자: 2025.08.02</li>
             </ul>
-            <Link to="/" className="text-body-3 text-orange-500 hover:text-orange-400">
-              홈으로 돌아가기
-            </Link>
+
+            <BaseButton onClick={() => navigate(-1)}>홈으로 돌아가기</BaseButton>
           </div>
         </div>
       </div>
