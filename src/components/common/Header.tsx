@@ -18,12 +18,14 @@ function Header({ title }: HeaderProps) {
   ].includes(location.pathname);
 
   return (
-    <header className="wrapper sticky top-0 z-10 flex h-14 items-center justify-between bg-gradient-to-b from-black/20 to-black/0 backdrop-blur-lg dark:bg-gray-900/80">
-      <h1 className="text-title-1 text-white dark:text-gray-200">{title}</h1>
+    <header className="wrapper sticky top-0 z-10 flex min-h-14 items-center justify-between bg-gradient-to-b from-white/90 to-white/50 text-gray-900 backdrop-blur-md dark:bg-gray-900/80">
+      <h1 className="text-lg font-semibold leading-none tracking-tight dark:text-gray-200">
+        {title}
+      </h1>
 
       {!hideProfileIcon && (
         <Link to={`/setting`}>
-          <ProfileSvg width={28} height={28} className="text-white dark:text-gray-200" />
+          <ProfileSvg width={24} height={24} className="dark:text-gray-200" />
         </Link>
       )}
     </header>

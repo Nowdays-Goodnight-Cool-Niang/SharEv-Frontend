@@ -21,7 +21,11 @@ export function mapEventProfileResponse(response: EventProfileResponse): IEventP
     },
     content: {
       blocks: getDefaultProfileBlocks(),
-      fields: extractFieldData(response.introduce),
+      fields: extractFieldData({
+        introduce: response.introduce,
+        proudestExperience: response.proudestExperience,
+        toughExperience: response.toughExperience,
+      }),
     },
   };
 }

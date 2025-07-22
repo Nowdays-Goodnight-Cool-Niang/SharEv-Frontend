@@ -17,15 +17,12 @@ export interface EventProfileDetailRequest {
   toughExperience: string;
 }
 
-export interface EventProfileResponse {
+export interface EventProfileResponse extends EventProfileDetailRequest {
   participantId: number;
   name: string;
   email: string;
   linkedinUrl: string | null;
   githubUrl: string | null;
   instagramUrl: string | null;
-  introduce: {
-    version: number;
-  } & EventProfileDetailRequest;
   registerRequireFlag: boolean;
 }

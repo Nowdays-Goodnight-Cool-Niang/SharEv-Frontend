@@ -15,7 +15,7 @@ function BaseButton({
 }: IBaseButtonProps) {
   const bgClasses = {
     default:
-      'bg-slate-800 dark:bg-slate-50 dark:text-slate-900 text-white hover:bg-slate-900 hover:dark:bg-slate-200',
+      'bg-gradient-to-br from-blue-500 border border-blue-400 to-blue-600 backdrop-blur-sm dark:bg-gray-50 dark:text-gray-900 text-white hover:bg-gray-900 hover:dark:bg-gray-200',
     kakao: 'bg-[#FEE500] text-[#000000]/85 hover:bg-[#eecc0d]',
   };
 
