@@ -14,7 +14,7 @@ function BaseButton({
   onClick,
 }: IBaseButtonProps) {
   const bgClasses = {
-    default: 'bg-gray-800 text-white hover:bg-gray-900',
+    default: 'bg-slate-800 text-white hover:bg-slate-900',
     kakao: 'bg-[#FEE500] text-[#000000]/85 hover:bg-[#eecc0d]',
   };
 
@@ -25,7 +25,7 @@ function BaseButton({
 
   return (
     <button
-      className={`${bgClasses[variant]} duration-400 w-full rounded-xl font-semibold tracking-tight transition-colors disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-25 ${sizeClasses[size]}`}
+      className={`${bgClasses[variant]} w-full rounded-2xl font-semibold tracking-tight transition-colors duration-300 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-25 ${sizeClasses[size]}`}
       disabled={isDisabled}
       onClick={onClick}
     >
