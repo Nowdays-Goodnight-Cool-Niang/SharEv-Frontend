@@ -20,34 +20,11 @@
   }
 
   @font-face {
-    font-family: 'Ydestreet';
-    font-style: normal;
+    font-family: 'MuseoModerno';
+    font-weight: 45 920;
+    font-style: italic;
     font-display: swap;
-    src: url('./assets/fonts/YdestreetB.ttf');
-  }
-
-  @font-face {
-    font-family: 'GmarketSans';
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-    src: url('./assets/fonts/GmarketSansTTFBold.ttf') format('truetype');
-  }
-
-  @font-face {
-    font-family: 'GmarketSans';
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-    src: url('./assets/fonts/GmarketSansTTFMedium.ttf') format('truetype');
-  }
-
-  @font-face {
-    font-family: 'GmarketSans';
-    font-weight: 300;
-    font-style: normal;
-    font-display: swap;
-    src: url('./assets/fonts/GmarketSansTTFLight.ttf') format('truetype');
+    src: url('./assets/fonts/MuseoModerno-Italic-VariableFont_wght.ttf');
   }
 
   body {
@@ -72,7 +49,6 @@
 @layer utilities {
   .font-museo {
     font-family: 'MuseoModerno', serif;
-    @apply tracking-tighter;
   }
 
   .text-title-1 {

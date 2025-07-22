@@ -1,4 +1,5 @@
 import BaseButton from '@/components/common/BaseButton';
+import LogoImg from '@/assets/images/img_logo.png';
 import KakaoSvg from '@/assets/icons/ic_kakao.svg?react';
 import { Link } from 'react-router';
 
@@ -9,30 +10,42 @@ function Home() {
   };
 
   return (
-    <div className="background wrapper flex h-screen flex-col gap-[10%] overflow-hidden bg-gradient-to-b from-gray-50 to-white py-8 dark:bg-gray-900">
-      <div className="flex w-full flex-1 animate-fade-in flex-col justify-end gap-4">
-        <h1 className="font-museo text-7xl text-gray-800 dark:text-gray-50">SharE:v</h1>
-        <p className="text-body-2 text-gray-600 dark:text-gray-50">
-          나만의 명함을 만들어
-          <br />
-          새로운 연결을 만들어보세요!
-        </p>
+    <div className="background wrapper flex h-screen flex-col gap-[5%] overflow-hidden bg-white py-14 dark:bg-gray-950">
+      <div className="flex w-full flex-1 animate-fade-in flex-col items-center justify-center gap-8">
+        <img src={LogoImg} className="w-36" />
+        <div className="flex flex-col items-center gap-3">
+          <h1 className="font-museo text-5xl font-semibold italic tracking-tight text-gray-900 dark:text-gray-50">
+            SharE<span className="text-blue-500 dark:text-blue-400">:</span>v
+          </h1>
+          <p className="text-center text-lg leading-7 tracking-tight text-gray-700 dark:text-gray-200">
+            나만의 디지털 명함을 공유해
+            <br />
+            새로운 연결을 만들어봐요
+          </p>
+        </div>
       </div>
-      <BaseButton size="large" variant="kakao" onClick={handleKakaoLogin}>
-        <span className="flex items-center justify-center gap-2">
-          <KakaoSvg />
-          카카오 로그인
-        </span>
-      </BaseButton>
-      {/* TO유진: 혹시몰라 서비스동의 버튼 남겨두었으니, 필요없으시면 삭제해주세용 */}
-      <div className="text-body-4 flex justify-center space-x-4 text-gray-400">
-        <Link to="/terms" className="hover:text-gray-300">
-          이용약관
-        </Link>
-        <span>|</span>
-        <Link to="/privacy" className="hover:text-gray-300">
-          개인정보처리방침
-        </Link>
+      <div className="space-y-8">
+        <BaseButton size="large" variant="kakao" onClick={handleKakaoLogin}>
+          <span className="flex items-center justify-center gap-2">
+            <KakaoSvg />
+            카카오 로그인
+          </span>
+        </BaseButton>
+        <div className="flex justify-center space-x-3 text-xs text-gray-400 dark:text-gray-500">
+          <Link
+            to="/terms"
+            className="transition-colors duration-300 hover:text-gray-500 hover:dark:text-gray-400"
+          >
+            이용약관
+          </Link>
+          <span>|</span>
+          <Link
+            to="/privacy"
+            className="transition-colors duration-300 hover:text-gray-500 hover:dark:text-gray-400"
+          >
+            개인정보처리방침
+          </Link>
+        </div>
       </div>
     </div>
   );

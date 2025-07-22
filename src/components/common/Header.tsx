@@ -7,7 +7,6 @@ interface HeaderProps {
 
 function Header({ title }: HeaderProps) {
   const location = useLocation();
-
   const hideProfileIcon = [
     '/setting',
     '/terms',
