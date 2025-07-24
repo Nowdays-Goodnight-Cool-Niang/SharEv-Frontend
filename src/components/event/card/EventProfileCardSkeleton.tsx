@@ -1,5 +1,3 @@
-import gradientImage from '@/assets/images/img_gradient.png';
-
 function EventProfileCardSkeleton() {
   const renderSocialSkeletons = () => {
     return Array.from({ length: 3 }).map((_, i) => (
@@ -15,11 +13,8 @@ function EventProfileCardSkeleton() {
       <div
         className={`relative aspect-[3/4] h-full w-full min-w-60 overflow-hidden rounded-3xl border border-white/30 bg-gradient-to-br from-white/0 via-white/10 to-indigo-900/50 backdrop-blur-2xl transform-style-3d`}
       >
-        <div className="absolute top-0 h-full">
-          <img src={gradientImage} className="h-full object-cover opacity-5" alt="" />
-        </div>
         <div className="absolute bottom-0 flex aspect-square w-full flex-col items-end justify-end">
-          <div className="animate-character-enter w-96 translate-x-20 translate-y-full"></div>
+          <div className="w-96 animate-character-enter translate-x-20 translate-y-full"></div>
         </div>
         <div className="absolute inset-0 w-full pl-8 pr-6 pt-6">
           <div className="flex justify-end">

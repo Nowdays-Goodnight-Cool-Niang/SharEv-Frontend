@@ -8,6 +8,7 @@ interface HeaderProps {
 function Header({ title }: HeaderProps) {
   const location = useLocation();
   const hideProfileIcon = [
+    '/event',
     '/setting',
     '/terms',
     '/privacy',
@@ -18,14 +19,14 @@ function Header({ title }: HeaderProps) {
   ].includes(location.pathname);
 
   return (
-    <header className="wrapper sticky top-0 z-10 flex min-h-14 items-center justify-between bg-gradient-to-b from-white/90 to-white/50 text-gray-900 backdrop-blur-md dark:bg-gray-900/80">
+    <header className="wrapper sticky top-0 z-50 flex min-h-14 items-center justify-between bg-white text-gray-900 backdrop-blur-md dark:bg-gray-900/80">
       <h1 className="text-lg font-semibold leading-none tracking-tight dark:text-gray-200">
         {title}
       </h1>
 
       {!hideProfileIcon && (
         <Link to={`/setting`}>
-          <ProfileSvg width={24} height={24} className="dark:text-gray-200" />
+          <ProfileSvg width={28} height={28} className="dark:text-gray-200" />
         </Link>
       )}
     </header>

@@ -4,12 +4,16 @@ import toast from 'react-hot-toast';
 import { EventProfileState } from '@/types';
 import { EVENT_ID } from '@/constants/eventId';
 import { useSuspenseQueryEventProfile } from '@/hooks/useQueryEventProfile';
+import { useMutateMyEventProfile } from '@/hooks/useMutateMyEventProfile';
+import { EventProfileDetailRequest } from '@/types/api.types';
+import { useEventProfileStore } from '@/stores/useEventProfileStore';
 
 interface MyEventProfileProps {
   onFlipChange: (flipped: boolean) => void;
+  onEditStateChange?: (isEditing: boolean) => void;
 }
 
-export default function MyEventProfile({ onFlipChange }: MyEventProfileProps) {
+export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEventProfileProps) {
   const [eventProfileState, setEventProfileState] = useState<EventProfileState>(
     EventProfileState.READONLY
   );
@@ -17,6 +21,23 @@ export default function MyEventProfile({ onFlipChange }: MyEventProfileProps) {
   const initialFieldValues = useRef<Record<string, string>>({});
 
   const { data: eventProfile, error: eventProfileError } = useSuspenseQueryEventProfile(EVENT_ID);
+  const { mutate } = useMutateMyEventProfile();
+  const { setProfileComplete } = useEventProfileStore();
+
+  useEffect(() => {
+    if (onEditStateChange) {
+      onEditStateChange(eventProfileState === EventProfileState.EDIT);
+    }
+  }, [eventProfileState]);
+
+  // 데이터를 받아온 후 프로필 정보 입력 상태를 전역 상태로 저장
+  useEffect(() => {
+    if (!eventProfile) return;
+    const isComplete = Object.values(eventProfile.content.fields).every(
+      (field) => field.value !== null && field.value.trim() !== ''
+    );
+    setProfileComplete(isComplete);
+  }, [eventProfile]);
 
   useEffect(() => {
     if (!(eventProfileState === EventProfileState.EDIT) && eventProfile?.content?.fields) {
@@ -39,10 +60,22 @@ export default function MyEventProfile({ onFlipChange }: MyEventProfileProps) {
   };
 
   const handleSave = () => {
-    // 실제 저장 로직이 있다면 여기에 (ex: API 호출)
-    toast.success('저장되었습니다');
-    setEventProfileState(EventProfileState.READONLY);
-    initialFieldValues.current = fieldValues;
+    const payload: EventProfileDetailRequest = {
+      introduce: fieldValues.introduce ?? '',
+      proudestExperience: fieldValues.proudestExperience ?? '',
+      toughExperience: fieldValues.toughExperience ?? '',
+    };
+
+    mutate(payload, {
+      onSuccess: () => {
+        toast.success('저장되었습니다');
+        setEventProfileState(EventProfileState.READONLY);
+        initialFieldValues.current = fieldValues;
+      },
+      onError: () => {
+        toast.error('저장에 실패했습니다');
+      },
+    });
   };
 
   const handleCancel = () => {
@@ -52,12 +85,13 @@ export default function MyEventProfile({ onFlipChange }: MyEventProfileProps) {
   };
 
   if (eventProfileError || !eventProfile) return <div>에러 발생</div>;
-
+  console.log(eventProfile.imageIndex);
   return (
     <EventProfileCard
       state={eventProfileState}
       profile={eventProfile?.profile}
       eventName="CODE:ME"
+      graphicNumber={eventProfile?.imageIndex}
       content={eventProfile?.content}
       fieldValues={fieldValues}
       onFieldChange={updateFieldValue}

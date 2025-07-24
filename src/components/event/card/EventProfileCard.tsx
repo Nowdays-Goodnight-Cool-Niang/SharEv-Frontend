@@ -7,6 +7,7 @@ interface EventProfileCardProps {
   state?: EventProfileState;
   profile: IProfile;
   eventName: string;
+  graphicNumber: number;
   content?: IEventProfileContent; // edit | readonly 모드에서 필요
   fieldValues?: Record<string, string>; // edit | readonly 모드에서 필요
   onFieldChange?: (key: string, value: string) => void; // edit 모드에서 필요
@@ -19,6 +20,7 @@ function EventProfileCard({
   state,
   profile,
   eventName,
+  graphicNumber,
   content,
   fieldValues,
   onFieldChange,
@@ -27,9 +29,10 @@ function EventProfileCard({
   onFlipChange,
 }: EventProfileCardProps) {
   const [flipped, setFlipped] = useState(false);
+
   const isActionButtonDisabled =
     state === EventProfileState.EDIT &&
-    !Object.values(fieldValues ?? {}).every((v) => v.trim() !== '');
+    !Object.values(fieldValues ?? {}).every((v) => v !== null && v.trim() !== '');
 
   const handleFlip = () => {
     setFlipped((prev) => {
@@ -49,12 +52,16 @@ function EventProfileCard({
       className="w-full max-w-[22rem] perspective-1000"
     >
       <div
-        className={`relative aspect-[3/4] w-full transition-transform duration-700 transform-style-3d ${
+        className={`relative aspect-[11/17] w-full transition-transform duration-700 transform-style-3d ${
           flipped ? 'rotate-y-180' : ''
         }`}
       >
         <div className="absolute inset-0 backface-hidden">
-          <EventProfileCardFront profile={profile} eventName={eventName} />
+          <EventProfileCardFront
+            profile={profile}
+            eventName={eventName}
+            graphicNumber={graphicNumber}
+          />
         </div>
         {state !== EventProfileState.LOCKED && content && fieldValues && (
           <div className="absolute inset-0 rotate-y-180 backface-hidden">

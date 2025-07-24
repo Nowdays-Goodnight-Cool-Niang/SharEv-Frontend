@@ -1,11 +1,19 @@
-// export interface ParticipantsResponse {
-//   registerCount: number;
-//   participants: IShareCard[];
-//   totalCount: number;
-//   totalPages: number;
-//   currentPage: number;
-//   isLast: boolean;
-// }
+export interface PageInfo {
+  size: number;
+  number: number;
+  totalElements: number;
+  totalPages: number;
+}
+
+export interface RelationProfiles {
+  content: CustomEventProfile[];
+  page: PageInfo;
+}
+
+export interface ParticipantsResponse {
+  registerCount: number;
+  relationProfiles: RelationProfiles;
+}
 
 export interface KakaoLoginResponse {
   isAuthenticated: boolean;
@@ -18,11 +26,27 @@ export interface EventProfileDetailRequest {
 }
 
 export interface EventProfileResponse extends EventProfileDetailRequest {
-  participantId: number;
+  profileId: number;
   name: string;
   email: string;
   linkedinUrl: string | null;
   githubUrl: string | null;
   instagramUrl: string | null;
   registerRequireFlag: boolean;
+  iconNumber: number;
+}
+
+export interface CustomEventProfile extends Partial<EventProfileDetailRequest> {
+  profileId?: number;
+  name: string;
+  email?: string;
+  linkedinUrl?: string | null;
+  githubUrl?: string | null;
+  instagramUrl?: string | null;
+  relationFlag: boolean;
+  iconNumber: number;
+}
+
+export interface ParticipationCheckResponse {
+  isParticipant: boolean;
 }

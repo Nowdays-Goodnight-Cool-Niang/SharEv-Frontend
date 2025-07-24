@@ -3,6 +3,7 @@ interface IBaseButtonProps {
   variant?: 'default' | 'kakao';
   size?: 'default' | 'large';
   isDisabled?: boolean;
+  animate?: boolean;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -11,11 +12,11 @@ function BaseButton({
   variant = 'default',
   size = 'default',
   isDisabled = false,
+  animate = false,
   onClick,
 }: IBaseButtonProps) {
   const bgClasses = {
-    default:
-      'bg-gradient-to-br from-blue-500 border border-blue-400 to-blue-600 backdrop-blur-sm dark:bg-gray-50 dark:text-gray-900 text-white hover:bg-gray-900 hover:dark:bg-gray-200',
+    default: 'bg-blue-500 text-white hover:bg-blue-400',
     kakao: 'bg-[#FEE500] text-[#000000]/85 hover:bg-[#eecc0d]',
   };
 
@@ -26,7 +27,7 @@ function BaseButton({
 
   return (
     <button
-      className={`${bgClasses[variant]} w-full rounded-2xl font-semibold tracking-tight transition-colors duration-300 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-25 ${sizeClasses[size]}`}
+      className={`${animate && 'animate-button-in'} ${bgClasses[variant]} w-full rounded-2xl px-5 font-semibold tracking-tight transition-colors duration-300 disabled:pointer-events-none disabled:cursor-not-allowed ${sizeClasses[size]}`}
       disabled={isDisabled}
       onClick={onClick}
     >

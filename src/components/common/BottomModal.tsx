@@ -36,7 +36,7 @@ export default function BottomModal({
         onClick={closeOnOverlayClick ? onClose : undefined}
       />
       <div
-        className={`absolute bottom-0 z-10 w-full animate-modal-enter rounded-t-3xl bg-white px-6 py-9 shadow-xl backdrop-blur-lg`}
+        className={`absolute bottom-0 z-10 h-4/5 w-full animate-modal-enter overflow-y-auto rounded-t-3xl bg-white px-6 pb-14 pt-10 shadow-xl backdrop-blur-lg`}
         onClick={(e) => e.stopPropagation()}
       >
         {children}

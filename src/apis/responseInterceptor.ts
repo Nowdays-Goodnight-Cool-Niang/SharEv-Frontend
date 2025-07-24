@@ -1,6 +1,5 @@
 import toast from 'react-hot-toast';
 import { accountInstance } from './accounts';
-import { participantInstance } from './participants';
 import { eventInstance } from './event/event.api';
 import { kakaoAuthInstance } from './kakaoAuth';
 import { authInstance } from './auth';
@@ -33,9 +32,7 @@ export const setupAxiosInterceptors = () => {
     return Promise.reject(error);
   };
 
-  [accountInstance, participantInstance, eventInstance, kakaoAuthInstance, authInstance].forEach(
-    (instance) => {
-      instance.interceptors.response.use((response) => response, handleResponseError);
-    }
-  );
+  [accountInstance, eventInstance, kakaoAuthInstance, authInstance].forEach((instance) => {
+    instance.interceptors.response.use((response) => response, handleResponseError);
+  });
 };

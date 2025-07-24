@@ -19,12 +19,13 @@ export function mapEventProfileResponse(response: EventProfileResponse): IEventP
         instagram: response.instagramUrl ?? undefined,
       },
     },
+    imageIndex: response.iconNumber,
     content: {
       blocks: getDefaultProfileBlocks(),
       fields: extractFieldData({
-        introduce: response.introduce,
-        proudestExperience: response.proudestExperience,
-        toughExperience: response.toughExperience,
+        introduce: response.introduce ?? '',
+        proudestExperience: response.proudestExperience ?? '',
+        toughExperience: response.toughExperience ?? '',
       }),
     },
   };

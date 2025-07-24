@@ -9,6 +9,8 @@ export default {
       'bounce-delay-3': 'bounce-y 0.8s infinite ease-in-out 0.4s',
       'modal-enter': 'modal-enter 0.3s ease-in-out forwards',
       'character-enter': 'character-enter 0.6s 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards',
+      'tooltip-pop': 'tooltip-pop 0.5s ease-in-out forwards',
+      'button-in': 'fade-in 0.2s ease-out forwards',
     },
     keyframes: {
       'fade-in': {
@@ -36,6 +38,20 @@ export default {
       'bounce-y': {
         '0%, 100%': { transform: 'translateY(0)' },
         '50%': { transform: 'translateY(-10px)' },
+      },
+      'tooltip-pop': {
+        '0%': {
+          opacity: '0',
+          transform: 'translateY(10px) scale(0.95)',
+        },
+        '60%': {
+          opacity: '1',
+          transform: 'translateY(-1px) scale(1.05)',
+        },
+        '100%': {
+          opacity: '1',
+          transform: 'translateY(0) scale(1)',
+        },
       },
     },
     extend: {

@@ -96,7 +96,7 @@ export default function CardSlider() {
   };
 
   return (
-    <div className="absolute top-0 flex h-full w-full flex-col">
+    <div className="absolute top-0 flex h-full w-full flex-col overflow-x-hidden py-96">
       <div className="flex flex-1 items-center justify-center">
         <div className="w-full">
           <div className="relative flex w-full items-center justify-center">
@@ -107,8 +107,8 @@ export default function CardSlider() {
               return (
                 <div
                   key={card.id}
-                  className={`absolute w-full max-w-[21rem] cursor-grab select-none rounded-3xl text-white shadow-2xl backdrop-blur transition-all duration-300 active:cursor-grabbing ${
-                    isActive ? 'z-10 scale-100' : 'z-0 scale-90'
+                  className={`absolute w-full max-w-[22rem] cursor-grab select-none rounded-3xl transition-all duration-300 active:cursor-grabbing ${
+                    isActive ? 'z-10 shadow-2xl scale-100' : 'z-0 scale-90'
                   }`}
                   style={{
                     transform: `translateX(${offset * 280 + translateX}px) scale(${isActive ? 1 : 0.9})`,
@@ -128,6 +128,7 @@ export default function CardSlider() {
                       },
                     }}
                     eventName="CODE:ME"
+                    graphicNumber={3}
                   />
                 </div>
               );
@@ -135,11 +136,11 @@ export default function CardSlider() {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-20 z-50 flex w-full justify-center">
-        <div className="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
+      {/* <div className="absolute top-40 z-50 flex w-full justify-center">
+        <div className="rounded-full bg-black/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
           {currentIndex + 1} / {cards.length}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

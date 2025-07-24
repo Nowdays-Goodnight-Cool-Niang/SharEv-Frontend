@@ -36,6 +36,7 @@ export interface IEventProfileContent {
 export interface IEventProfile {
   profile: IProfile;
   content: IEventProfileContent;
+  imageIndex: number;
 }
 
 export const EventProfileState = {
@@ -49,4 +50,14 @@ export type EventProfileState = (typeof EventProfileState)[keyof typeof EventPro
 export interface ITabButtonOption {
   label: string;
   value: string;
+}
+
+export interface IEvent {
+  id: number;
+  eventName: string;
+  status: 'ongoing' | 'upcoming' | 'ended';
+  organizer: string;
+  startDate: Date;
+  endDate: Date;
+  location: string;
 }
