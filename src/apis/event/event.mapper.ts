@@ -20,6 +20,7 @@ export function mapEventProfileResponse(response: EventProfileResponse): IEventP
       },
     },
     imageIndex: response.iconNumber,
+    pinNumber: response.pinNumber,
     content: {
       blocks: getDefaultProfileBlocks(),
       fields: extractFieldData({

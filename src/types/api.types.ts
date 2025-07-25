@@ -34,6 +34,7 @@ export interface EventProfileResponse extends EventProfileDetailRequest {
   instagramUrl: string | null;
   registerRequireFlag: boolean;
   iconNumber: number;
+  pinNumber: number;
 }
 
 export interface CustomEventProfile extends Partial<EventProfileDetailRequest> {

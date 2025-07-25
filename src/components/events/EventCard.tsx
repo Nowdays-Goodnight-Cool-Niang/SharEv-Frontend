@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
 import ClockSvg from '@/assets/icons/ic_clock.svg?react';
 import LocationSvg from '@/assets/icons/ic_location.svg?react';
-import ToolTip from '../common/Tooltip';
+import ToolTip from '@/components/common/ToolTip';
 import { IEvent } from '@/types';
 import { formatKoreanDate } from '@/utils/format';
 import {

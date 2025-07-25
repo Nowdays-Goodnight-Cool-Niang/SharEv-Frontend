@@ -9,7 +9,7 @@ interface TabSelectorProps {
 
 function TabSelector({ tabConfigs, activeTab, setActiveTab }: TabSelectorProps) {
   return (
-    <div className="flex rounded-2xl bg-gray-100 p-1 tracking-tight">
+    <div className="flex rounded-full bg-gray-100 p-1 tracking-tight">
       {tabConfigs.map((option) => (
         <TabButton
           key={option.value}

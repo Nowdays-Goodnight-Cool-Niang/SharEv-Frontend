@@ -21,6 +21,7 @@ async function checkParticipation(eventId: string): Promise<ParticipationCheckRe
   const response = await eventInstance.get<ParticipationCheckResponse>(`/${eventId}`);
   return response.data;
 }
+
 // 행사 참여: 본인 프로필 생성
 async function participateInEvent(eventId: string) {
   const response = await eventInstance.post(`/${eventId}/profiles`);
@@ -30,12 +31,6 @@ async function participateInEvent(eventId: string) {
 // 본인 프로필 수정
 async function updateMyProfile(eventId: string, data: EventProfileDetailRequest) {
   const response = await eventInstance.patch(`/${eventId}/profiles`, data);
-  return response.data;
-}
-
-// PIN 번호로 상대 프로필 조회
-async function getProfileByPin(eventId: string, pinNumber: string) {
-  const response = await eventInstance.get(`/${eventId}/profiles/${pinNumber}`);
   return response.data;
 }
 
@@ -58,8 +53,14 @@ async function getParticipants(
   return response.data;
 }
 
+// PIN 번호로 상대 프로필 조회
+async function getProfileByPin(eventId: string, pinNumber: string): Promise<EventProfileResponse> {
+  const response = await eventInstance.get(`/${eventId}/profiles/${pinNumber}`);
+  return response.data;
+}
+
 // 도감 등록
-async function postParticipant(eventId: string, id: string) {
+async function registerParticipant(eventId: string, id: string) {
   const response = await eventInstance.post(`/${eventId}/participants`, { targetPinNumber: id });
   return response.data;
 }
@@ -69,7 +70,7 @@ export const eventAPI = {
   checkParticipation,
   participateInEvent,
   updateMyProfile,
-  getProfileByPin,
   getParticipants,
-  postParticipant,
+  getProfileByPin,
+  registerParticipant,
 };

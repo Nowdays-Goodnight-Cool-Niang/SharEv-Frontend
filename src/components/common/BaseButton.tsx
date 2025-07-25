@@ -27,7 +27,7 @@ function BaseButton({
 
   return (
     <button
-      className={`${animate && 'animate-button-in'} ${bgClasses[variant]} w-full rounded-2xl px-5 font-semibold tracking-tight transition-colors duration-300 disabled:pointer-events-none disabled:cursor-not-allowed ${sizeClasses[size]}`}
+      className={`${animate && 'animate-button-in'} ${bgClasses[variant]} w-full rounded-2xl px-5 font-semibold tracking-tight transition-colors duration-300 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 ${sizeClasses[size]}`}
       disabled={isDisabled}
       onClick={onClick}
     >

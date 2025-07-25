@@ -5,17 +5,17 @@ import {
   participationCheckData,
   profileByPinData,
 } from './data/eventData';
-import { ParticipantsResponse } from '@/types/api.types';
+import { EventProfileResponse, ParticipantsResponse } from '@/types/api.types';
 
 export const eventHandler = [
   // 본인 프로필 조회
-  http.get(`${import.meta.env.VITE_API_BASE_URL}/events/:eventId/profiles`, async ({ params }) => {
+  http.get(`${import.meta.env.VITE_API_BASE_URL}/events/:eventId/profiles`, async () => {
     await delay(500);
     return HttpResponse.json(eventProfileData);
   }),
 
   // 참여 여부 조회
-  http.get(`${import.meta.env.VITE_API_BASE_URL}/events/:eventId`, async ({ params }) => {
+  http.get(`${import.meta.env.VITE_API_BASE_URL}/events/:eventId`, async () => {
     await delay(300);
     return HttpResponse.json(participationCheckData);
   }),
@@ -56,25 +56,19 @@ export const eventHandler = [
   ),
 
   // PIN으로 프로필 조회
-  http.get(
-    `${import.meta.env.VITE_API_BASE_URL}/events/:eventId/profiles/:pinNumber`,
-    async ({ params }) => {
-      await delay(400);
-      return HttpResponse.json(profileByPinData);
-    }
-  ),
+  http.get(`${import.meta.env.VITE_API_BASE_URL}/events/:eventId/profiles/:pinNumber`, async () => {
+    await delay(400);
+    return HttpResponse.json(profileByPinData);
+  }),
 
   // 도감 등록 (POST)
-  http.post(
-    `${import.meta.env.VITE_API_BASE_URL}/events/:eventId/participants`,
-    async ({ request }) => {
-      await delay(300);
-      return HttpResponse.json({ success: true });
-    }
-  ),
+  http.post(`${import.meta.env.VITE_API_BASE_URL}/events/:eventId/participants`, async () => {
+    await delay(300);
+    return HttpResponse.json({ success: true });
+  }),
 
   // 참여 (POST)
-  http.post(`${import.meta.env.VITE_API_BASE_URL}/events/:eventId/profiles`, async ({ params }) => {
+  http.post(`${import.meta.env.VITE_API_BASE_URL}/events/:eventId/profiles`, async () => {
     await delay(300);
     return HttpResponse.json({ ...eventProfileData, profileId: 5 });
   }),
@@ -83,7 +77,7 @@ export const eventHandler = [
   http.patch(
     `${import.meta.env.VITE_API_BASE_URL}/events/:eventId/profiles`,
     async ({ request }) => {
-      const body = await request.json();
+      const body = (await request.json()) as Partial<EventProfileResponse>;
       return HttpResponse.json({ ...eventProfileData, ...body });
     }
   ),

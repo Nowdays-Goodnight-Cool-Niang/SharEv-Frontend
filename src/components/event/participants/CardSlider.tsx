@@ -1,146 +1,150 @@
-import { useState, useRef, useEffect } from 'react';
-import EventProfile from '../card/EventProfileCard';
+import { useState, useEffect } from 'react';
+import EventProfileCard from '../card/EventProfileCard';
+import { CustomEventProfile } from '@/types/api.types';
+import EventProfileCardSkeleton from '../card/EventProfileCardSkeleton';
 
-export default function CardSlider() {
+export default function CardSlider({
+  profiles,
+  fetchNextPage,
+  isLoading,
+  hasNextPage,
+  isFetchingNextPage,
+}: {
+  profiles: CustomEventProfile[];
+  fetchNextPage: () => void;
+  isLoading: boolean;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [translateX, setTranslateX] = useState(0);
-  const sliderRef = useRef(null);
 
-  // 샘플 카드 데이터
-  const cards = Array.from({ length: 20 }, (_, i) => ({
-    id: i + 1,
-    title: `카드 ${i + 1}`,
-    subtitle: `서브타이틀 ${i + 1}`,
-    description: `이것은 ${i + 1}번째 카드입니다. 좌우로 슬라이드하여 다른 카드들을 확인해보세요.`,
-    color: `hsl(${(i * 137.5) % 360}, 70%, 60%)`,
-    icon: ['🎨', '🚀', '💡', '🎯', '🌟', '🔥', '⚡', '🎪', '🎭', '🎨'][i % 10],
-  }));
-
-  const handleStart = (clientX) => {
+  const handleStart = (clientX: number) => {
     setIsDragging(true);
     setStartX(clientX);
   };
 
-  const handleMove = (clientX) => {
+  const handleMove = (clientX: number) => {
     if (!isDragging) return;
-
     const deltaX = clientX - startX;
     setTranslateX(deltaX);
   };
 
   const handleEnd = () => {
     if (!isDragging) return;
-
     setIsDragging(false);
-
     const threshold = 50;
-
-    // 스냅 로직: 임계값을 넘으면 다음/이전 카드로 이동
     if (Math.abs(translateX) > threshold) {
       if (translateX > 0 && currentIndex > 0) {
-        setCurrentIndex(currentIndex - 1);
-      } else if (translateX < 0 && currentIndex < cards.length - 1) {
-        setCurrentIndex(currentIndex + 1);
+        setCurrentIndex((prev) => prev - 1);
+      } else if (translateX < 0 && currentIndex < profiles.length - 1) {
+        setCurrentIndex((prev) => prev + 1);
       }
     }
-
     setTranslateX(0);
   };
 
-  // 마우스 이벤트
-  const handleMouseDown = (e) => {
-    handleStart(e.clientX);
-  };
-
-  const handleMouseMove = (e) => {
-    handleMove(e.clientX);
-  };
-
-  const handleMouseUp = () => {
-    handleEnd();
-  };
-
-  // 터치 이벤트
-  const handleTouchStart = (e) => {
-    handleStart(e.touches[0].clientX);
-  };
-
-  const handleTouchMove = (e) => {
-    handleMove(e.touches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    handleEnd();
-  };
+  const handleMouseDown = (e: React.MouseEvent) => handleStart(e.clientX);
+  const handleMouseMove = (e: MouseEvent) => handleMove(e.clientX);
+  const handleMouseUp = () => handleEnd();
+  const handleTouchStart = (e: React.TouchEvent) => handleStart(e.touches[0].clientX);
+  const handleTouchMove = (e: TouchEvent) => handleMove(e.touches[0].clientX);
+  const handleTouchEnd = () => handleEnd();
 
   useEffect(() => {
-    if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-      document.addEventListener('touchmove', handleTouchMove);
-      document.addEventListener('touchend', handleTouchEnd);
+    if (!isDragging) return;
 
-      return () => {
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
-        document.removeEventListener('touchmove', handleTouchMove);
-        document.removeEventListener('touchend', handleTouchEnd);
-      };
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('touchmove', handleTouchMove);
+    document.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [isDragging, handleMove, handleEnd]);
+
+  // ✅ infinite scroll trigger
+  useEffect(() => {
+    if (currentIndex === profiles.length - 1 && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
     }
-  }, [isDragging, startX, translateX]);
-
-  const goToCard = (index) => {
-    setCurrentIndex(index);
-  };
+  }, [currentIndex, profiles.length, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
     <div className="absolute top-0 flex h-full w-full flex-col overflow-x-hidden py-96">
       <div className="flex flex-1 items-center justify-center">
         <div className="w-full">
           <div className="relative flex w-full items-center justify-center">
-            {cards.map((card, index) => {
-              const offset = index - currentIndex;
-              const isActive = index === currentIndex;
-
-              return (
-                <div
-                  key={card.id}
-                  className={`absolute w-full max-w-[22rem] cursor-grab select-none rounded-3xl transition-all duration-300 active:cursor-grabbing ${
-                    isActive ? 'z-10 shadow-2xl scale-100' : 'z-0 scale-90'
-                  }`}
-                  style={{
-                    transform: `translateX(${offset * 280 + translateX}px) scale(${isActive ? 1 : 0.9})`,
-                    opacity: Math.abs(offset) > 1 ? 0 : isActive ? 1 : 0.6,
-                    zIndex: isActive ? 10 : 5 - Math.abs(offset),
-                  }}
-                  onMouseDown={handleMouseDown}
-                  onTouchStart={handleTouchStart}
-                >
-                  <EventProfile
-                    profile={{
-                      name: '김주호',
-                      email: 'zuhu@gmail.com',
-                      socialLinks: {
-                        github: 'https://github.com/zuhu',
-                        instagram: 'https://instagram.com/zuhu',
-                      },
+            {isLoading ? (
+              <>
+                {[0, 1].map((i) => (
+                  <div
+                    key={`skeleton-init-${i}`}
+                    className={`absolute w-full max-w-[22rem] rounded-3xl ${i == 0 && 'shadow-2xl'}`}
+                    style={{
+                      transform: `translateX(${i * 280}px) scale(${i === 0 ? 1 : 0.9})`,
+                      zIndex: i === 0 ? 10 : 5,
                     }}
-                    eventName="CODE:ME"
-                    graphicNumber={3}
-                  />
-                </div>
-              );
-            })}
+                  >
+                    <EventProfileCardSkeleton />
+                  </div>
+                ))}
+              </>
+            ) : (
+              profiles.map((profile, index) => {
+                const offset = index - currentIndex;
+                const isActive = index === currentIndex;
+
+                return (
+                  <div
+                    key={profile.profileId ?? index}
+                    className={`absolute w-full max-w-[22rem] cursor-grab select-none rounded-3xl transition-all duration-300 active:cursor-grabbing ${
+                      isActive ? 'z-10 shadow-2xl scale-100' : 'z-0 scale-90'
+                    }`}
+                    style={{
+                      transform: `translateX(${offset * 280 + translateX}px) scale(${isActive ? 1 : 0.9})`,
+                      opacity: Math.abs(offset) > 1 ? 0 : isActive ? 1 : 0.6,
+                      zIndex: isActive ? 10 : 5 - Math.abs(offset),
+                    }}
+                    onMouseDown={handleMouseDown}
+                    onTouchStart={handleTouchStart}
+                  >
+                    <EventProfileCard
+                      profile={{
+                        name: '김주호',
+                        email: 'zuhu@gmail.com',
+                        socialLinks: {
+                          github: 'https://github.com/zuhu',
+                          instagram: 'https://instagram.com/zuhu',
+                        },
+                      }}
+                      eventName="CODE:ME"
+                      graphicNumber={profile.iconNumber}
+                    />
+                  </div>
+                );
+              })
+            )}
+            {isFetchingNextPage && hasNextPage && (
+              <div
+                className="absolute w-full max-w-[22rem]"
+                style={{
+                  transform: `translateX(${(profiles.length - currentIndex) * 280}px) scale(0.9)`,
+                  zIndex: 1,
+                }}
+              >
+                <EventProfileCardSkeleton />
+              </div>
+            )}
           </div>
         </div>
       </div>
-      {/* <div className="absolute top-40 z-50 flex w-full justify-center">
-        <div className="rounded-full bg-black/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
-          {currentIndex + 1} / {cards.length}
-        </div>
-      </div> */}
     </div>
   );
 }

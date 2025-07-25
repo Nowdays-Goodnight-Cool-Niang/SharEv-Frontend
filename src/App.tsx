@@ -14,6 +14,7 @@ import PrivacyConsent from '@/pages/PrivacyConsent';
 import TermsOfService from '@/pages/TermsOfService';
 import { setupAxiosInterceptors } from '@/apis/responseInterceptor';
 import Events from './pages/Events';
+import DummyPanel from './components/common/DummyPanel';
 
 function App() {
   const queryClient = new QueryClient();
@@ -71,6 +72,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <DummyPanel />
       <Toaster />
       <RouterProvider router={router} />
     </QueryClientProvider>

@@ -16,6 +16,7 @@ export const eventProfileData: EventProfileResponse = {
   introduce: '안녕하세요. 열정적인 개발자입니다.',
   proudestExperience: '개발한 프로젝트가 상을 받았어요.',
   toughExperience: '야근하면서 배포 문제를 해결한 적이 있어요.',
+  pinNumber: 3512,
 };
 
 export const participantsData: CustomEventProfile[] = [
@@ -33,12 +34,14 @@ export const participantsData: CustomEventProfile[] = [
     iconNumber: 3,
   },
   {
+    profileId: 2,
     name: '이수민',
     proudestExperience: '첫 팀 프로젝트 성공',
     relationFlag: false,
     iconNumber: 2,
   },
   {
+    profileId: 3,
     name: '박지윤',
     proudestExperience: 'UI/UX 공모전 수상',
     relationFlag: false,
@@ -58,6 +61,7 @@ export const participantsData: CustomEventProfile[] = [
     iconNumber: 6,
   },
   {
+    profileId: 5,
     name: '최민서',
     proudestExperience: 'React Native 앱 출시',
     relationFlag: false,

@@ -10,8 +10,10 @@ export default function CompactTabButton({ option, selected, onClick }: CompactT
   return (
     <button
       onClick={() => onClick(option.value)}
-      className={`rounded-lg px-3 py-2 text-sm font-medium tracking-tight transition-all duration-200 ${
-        selected ? 'bg-white text-gray-700 shadow-md shadow-gray-500/10' : 'text-gray-400'
+      className={`z-10 flex h-8 items-center justify-center gap-1.5 px-2 font-medium transition-colors duration-300 ${
+        selected
+          ? 'rounded-lg bg-white text-gray-700 shadow-md shadow-gray-500/10'
+          : 'text-gray-400'
       }`}
     >
       {option.label}

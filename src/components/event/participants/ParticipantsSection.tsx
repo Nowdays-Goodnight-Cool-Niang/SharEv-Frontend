@@ -13,7 +13,7 @@ import ParticipationInfo from './ParticipationInfo';
 
 export default function ParticipantsSection() {
   const [viewMode, setViewMode] = useState('grid');
-  const { data, fetchNextPage, hasNextPage, isFetching, isLoading, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
     useQueryParticipants(EVENT_ID);
   const observerRef = useRef<HTMLLIElement | null>(null);
 
@@ -142,7 +142,15 @@ export default function ParticipantsSection() {
               ))}
           </ul>
         )}
-        {viewMode === 'slide' && <CardSlider />}
+        {viewMode === 'slide' && (
+          <CardSlider
+            profiles={profiles}
+            fetchNextPage={fetchNextPage}
+            isLoading={isLoading}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+          />
+        )}
       </div>
       <div className="wrapper fixed bottom-20 z-30 flex flex-col items-center">
         <ParticipationInfo

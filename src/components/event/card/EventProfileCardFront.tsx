@@ -1,4 +1,3 @@
-import EmailSvg from '@/assets/icons/ic_email.svg?react';
 import { EventProfileState, IProfile } from '@/types';
 import { getGraphicImageByNumber } from '@/utils/graphic';
 
@@ -17,7 +16,7 @@ function EventProfileCardFront({
 }: EventProfileCardFrontProps) {
   return (
     <div
-      className={`relative h-full w-full min-w-60 overflow-hidden rounded-3xl bg-gradient-to-br from-blue-500 to-blue-400 transform-style-3d`}
+      className={`relative h-full w-full min-w-60 overflow-hidden rounded-3xl ${state === EventProfileState.LOCKED ? 'bg-gray-200' : 'bg-gradient-to-br from-blue-500 to-blue-400'} transform-style-3d`}
     >
       <div className="absolute -bottom-10 flex aspect-square w-full flex-col items-end justify-end">
         <div className="w-[36rem] translate-x-48 translate-y-20">
@@ -28,8 +27,8 @@ function EventProfileCardFront({
           />
         </div>
       </div>
-      <div className="absolute inset-0 w-full pl-8 pr-6 pt-10">
-        <p className="mb-3 w-full text-xl leading-7 tracking-tight text-white/50">{eventName}</p>
+      <div className="absolute inset-0 w-full pl-6 pr-6 pt-10">
+        <p className="mb-2 w-full text-xl leading-7 tracking-tight text-white/50">{eventName}</p>
         <p className="mb-8 w-full text-3xl font-semibold leading-7 tracking-tight text-white">
           {profile.name}
         </p>

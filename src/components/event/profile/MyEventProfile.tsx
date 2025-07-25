@@ -22,7 +22,8 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
 
   const { data: eventProfile, error: eventProfileError } = useSuspenseQueryEventProfile(EVENT_ID);
   const { mutate } = useMutateMyEventProfile();
-  const { setProfileComplete } = useEventProfileStore();
+  const setProfileComplete = useEventProfileStore((state) => state.setProfileComplete);
+  const setMyPinNumber = useEventProfileStore((state) => state.setMyPinNumber);
 
   useEffect(() => {
     if (onEditStateChange) {
@@ -37,6 +38,8 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
       (field) => field.value !== null && field.value.trim() !== ''
     );
     setProfileComplete(isComplete);
+
+    if (eventProfile.pinNumber) setMyPinNumber(eventProfile.pinNumber);
   }, [eventProfile]);
 
   useEffect(() => {

@@ -51,7 +51,7 @@ function ProfileSection() {
   const [isEditing, setIsEditing] = useState(false);
   const [noticeText, setNoticeText] = useState(NOTICE_TEXT.flip);
   const domRef = useRef<HTMLDivElement>(null);
-  const { isProfileComplete } = useEventProfileStore();
+  const isProfileComplete = useEventProfileStore((state) => state.isProfileComplete);
 
   useEffect(() => {
     const hasSeenModal = sessionStorage.getItem('seenEventProfileModal');

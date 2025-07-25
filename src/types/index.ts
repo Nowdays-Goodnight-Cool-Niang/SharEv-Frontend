@@ -37,6 +37,7 @@ export interface IEventProfile {
   profile: IProfile;
   content: IEventProfileContent;
   imageIndex: number;
+  pinNumber: number;
 }
 
 export const EventProfileState = {

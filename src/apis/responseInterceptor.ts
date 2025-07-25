@@ -28,7 +28,9 @@ export const setupAxiosInterceptors = () => {
       toast.error(TOAST_MESSAGE.ERROR_SERVER);
     }
 
-    error.config._handledByInterceptor = true;
+    if (error.config) {
+      error.config._handledByInterceptor = true;
+    }
     return Promise.reject(error);
   };
 

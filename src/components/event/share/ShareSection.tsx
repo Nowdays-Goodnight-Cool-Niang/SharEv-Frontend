@@ -1,41 +1,75 @@
 import { useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import QRScanner from './QRScanner';
 import NoticeInfo from '@/components/common/NoticeInfo';
 import TabSelector from './TabSelector';
 import CompactTabPanel from './CompactTabPanel';
 import LockSvg from '@/assets/icons/ic_lock.svg?react';
 import { useEventProfileStore } from '@/stores/useEventProfileStore';
-import { useSuspenseQueryEventProfile } from '@/hooks/useQueryEventProfile';
+import BaseButton from '@/components/common/BaseButton';
+import Input from '@/components/common/Input';
+import { useMutateGetProfileByPin } from '@/hooks/useQueryGetProfileByPin';
+import { EVENT_ID } from '@/constants/eventId';
+import EventProfileCard from '../card/EventProfileCard';
+import { EventProfileState } from '@/types';
+import { useQueryRegisterParticipant } from '@/hooks/useQueryRegisterParticipant';
+import WebcamCapture from './WebcamCapture';
+import { BrowserQRCodeReader } from '@zxing/browser';
+import toast from 'react-hot-toast';
+
 export default function ShareSection() {
-  const { data } = useSuspenseQueryEventProfile;
+  const qrReader = new BrowserQRCodeReader();
   const [activeTab, setActiveTab] = useState('share');
-  const [shareMethod, setShareMethod] = useState('qr');
   const [receiveMethod, setReceiveMethod] = useState('qr');
   const [pinInput, setPinInput] = useState('');
-  const [cameraActive, setCameraActive] = useState(false);
-  const { isProfileComplete } = useEventProfileStore();
-  // 예시 데이터
-  const myPin = '1234';
-  const myQRData = 'https://mycard.com/user/123456';
+  const [qrText, setQrText] = useState('');
+  const { isProfileComplete, myPinNumber } = useEventProfileStore();
+  const {
+    mutate: mutateGetProfile,
+    data: profile,
+    isPending: isGetProfilePending,
+  } = useMutateGetProfileByPin(EVENT_ID);
+  const { mutate: mutateRegisterParticipant } = useQueryRegisterParticipant(EVENT_ID);
 
   const handlePinSubmit = () => {
-    if (pinInput.length === 6) {
-      alert(`PIN ${pinInput}으로 명함을 검색합니다.`);
-      setPinInput('');
+    if (pinInput.length === 4) {
+      handleRegisterAndShowProfile(pinInput);
     }
   };
 
-  const handleCameraCapture = () => {
-    setCameraActive(true);
-    setTimeout(() => {
-      setCameraActive(false);
-      alert('QR 코드를 스캔했습니다!');
-    }, 2000);
+  const handleRegisterAndShowProfile = (pinNumber: string) => {
+    mutateGetProfile(pinNumber);
+    mutateRegisterParticipant(pinNumber);
+    toast.success('명함을 교환에 성공했습니다!');
+    setPinInput('');
+  };
+
+  const handleImage = async (imageSrc: string) => {
+    try {
+      const result = await qrReader.decodeFromImageUrl(imageSrc);
+      if (result?.getText && result.getText() !== qrText) {
+        setQrText(result.getText());
+        const pinNumber = result.getText();
+        handleRegisterAndShowProfile(pinNumber);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
-    <div className="">
+    <div className="relative">
+      {!isGetProfilePending && profile && (
+        <div className="background fixed inset-0 z-50 flex flex-col items-center justify-center">
+          <div className="fixed inset-0 bg-black bg-opacity-50" onClick={() => {}} />
+          <EventProfileCard
+            state={EventProfileState.READONLY}
+            profile={profile.profile}
+            eventName="CODE:ME"
+            graphicNumber={profile.imageIndex}
+            content={profile.content}
+          />
+        </div>
+      )}
       <div className="wrapper">
         <div className="my-2 flex h-12 items-center">
           <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">명함 공유</h3>
@@ -70,46 +104,25 @@ export default function ShareSection() {
               />
             </div>
             {activeTab === 'share' && (
-              <CompactTabPanel
-                title="내 명함 공유"
-                activeTab={shareMethod}
-                setActiveTab={setShareMethod}
-                tabConfigs={[
-                  {
-                    label: 'QR 코드',
-                    value: 'qr',
-                    content: (
-                      <div className="mt-6 flex w-full flex-col items-center gap-4">
-                        <div className="mx-auto flex aspect-square max-h-56 w-full max-w-56 items-center justify-center rounded-2xl bg-white p-4">
-                          <QRCodeSVG value={'123'} className="h-52 w-full" />
-                        </div>
-                        <NoticeInfo>상대방이 스캔할 수 있도록 보여주세요</NoticeInfo>
+              <div className="mt-6 flex w-full flex-col items-center gap-4">
+                <div className="mx-auto flex aspect-square max-h-56 w-full max-w-56 items-center justify-center rounded-2xl bg-white p-4">
+                  <QRCodeSVG value={myPinNumber} className="h-52 w-full" />
+                </div>
+                <div className="flex justify-center gap-3">
+                  {myPinNumber
+                    ?.toString()
+                    .split('')
+                    .map((digit, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-center rounded-xl bg-gray-50 px-5 py-5"
+                      >
+                        <span className="text-4xl font-bold text-gray-900">{digit}</span>
                       </div>
-                    ),
-                  },
-                  {
-                    label: 'PIN 번호',
-                    value: 'pin',
-                    content: (
-                      <div className="mt-6 space-y-4 text-center">
-                        <div className="mb-6 flex w-full flex-col items-center gap-4">
-                          <div className="flex justify-center gap-3">
-                            {myPin.split('').map((digit, index) => (
-                              <div
-                                key={index}
-                                className="flex items-center justify-center rounded-xl bg-gray-50 px-5 py-5"
-                              >
-                                <span className="text-4xl font-bold text-gray-900">{digit}</span>
-                              </div>
-                            ))}
-                          </div>
-                          <NoticeInfo>상대방에게 이 번호를 알려주세요</NoticeInfo>
-                        </div>
-                      </div>
-                    ),
-                  },
-                ]}
-              />
+                    ))}
+                </div>
+                <NoticeInfo>상대방이 스캔할 수 있도록 보여주세요</NoticeInfo>
+              </div>
             )}
             {activeTab === 'receive' && (
               <CompactTabPanel
@@ -123,7 +136,7 @@ export default function ShareSection() {
                     content: (
                       <div className="my-6 flex flex-col items-center gap-4">
                         <div className="mx-auto w-full max-w-md overflow-hidden rounded-2xl bg-gray-50">
-                          <QRScanner />
+                          <WebcamCapture onCapture={handleImage} />;
                         </div>
                         <NoticeInfo> 상대방의 QR 코드를 카메라로 스캔하세요</NoticeInfo>
                       </div>
@@ -133,30 +146,21 @@ export default function ShareSection() {
                     label: 'PIN 번호',
                     value: 'pin',
                     content: (
-                      <div className="pt-4">
-                        <input
-                          type="text"
+                      <div className="flex flex-col gap-3 pt-4">
+                        <Input
+                          placeholder="핀번호 입력"
+                          maxLength={4}
                           value={pinInput}
                           onChange={(e) =>
                             setPinInput(e.target.value.replace(/\D/g, '').slice(0, 4))
                           }
-                          placeholder="4자리 입력"
-                          className="mb-3 w-full rounded-xl bg-gray-50 px-5 py-3 text-center font-bold text-gray-800 transition-colors placeholder:text-gray-300/50 focus:border-gray-400/10 focus:outline-none"
-                          maxLength={4}
                         />
-                        <button
-                          onClick={handlePinSubmit}
-                          disabled={pinInput.length !== 4}
-                          className={`w-full rounded-xl px-6 py-4 font-semibold transition-all duration-200 ${
-                            pinInput.length === 4
-                              ? 'bg-gray-100 text-gray-900'
-                              : 'cursor-not-allowed bg-gray-100 text-gray-400'
-                          }`}
-                        >
+                        <BaseButton isDisabled={pinInput.length !== 4} onClick={handlePinSubmit}>
                           {pinInput.length === 4
                             ? '명함 가져오기'
                             : `${4 - pinInput.length}자리 더 입력하세요`}
-                        </button>
+                        </BaseButton>
+
                         <div className="mt-4 flex flex-col items-center">
                           <NoticeInfo> 상대방이 알려준 PIN 번호를 입력하세요</NoticeInfo>
                         </div>

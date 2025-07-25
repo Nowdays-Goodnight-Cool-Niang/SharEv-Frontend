@@ -63,7 +63,7 @@ function EventProfileCard({
             graphicNumber={graphicNumber}
           />
         </div>
-        {state !== EventProfileState.LOCKED && content && fieldValues && (
+        {state !== EventProfileState.LOCKED && content && (
           <div className="absolute inset-0 rotate-y-180 backface-hidden">
             <EventProfileCardBack
               content={content}
