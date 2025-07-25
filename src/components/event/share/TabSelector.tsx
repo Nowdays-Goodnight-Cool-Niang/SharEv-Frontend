@@ -1,4 +1,4 @@
-import { ITabButtonOption } from '@/types';
+import { ITabButtonOption } from '@/types/common/ui';
 import TabButton from './TabButton';
 
 interface TabSelectorProps {

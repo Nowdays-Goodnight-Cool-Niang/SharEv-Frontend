@@ -1,5 +1,5 @@
+import { KakaoLoginResponse } from '@/types/api/auth';
 import axios from 'axios';
-import { KakaoLoginResponse } from '@/types/api.types';
 
 export const kakaoAuthInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/login/oauth2/code/kakao`,

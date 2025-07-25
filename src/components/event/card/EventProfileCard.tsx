@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { EventProfileState, IEventProfileContent, IProfile } from '@/types';
+import { EventProfileState, IEventProfileContent, IProfile } from '@/types/common/ui';
 import EventProfileCardFront from './EventProfileCardFront';
 import EventProfileCardBack from './EventProfileCardBack';
 

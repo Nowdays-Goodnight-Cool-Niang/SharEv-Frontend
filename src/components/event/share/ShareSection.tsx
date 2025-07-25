@@ -10,11 +10,12 @@ import Input from '@/components/common/Input';
 import { useMutateGetProfileByPin } from '@/hooks/useQueryGetProfileByPin';
 import { EVENT_ID } from '@/constants/eventId';
 import EventProfileCard from '../card/EventProfileCard';
-import { EventProfileState } from '@/types';
+import { EventProfileState } from '@/types/common/ui';
 import { useQueryRegisterParticipant } from '@/hooks/useQueryRegisterParticipant';
 import WebcamCapture from './WebcamCapture';
 import { BrowserQRCodeReader } from '@zxing/browser';
 import toast from 'react-hot-toast';
+import SpotlightCard from '../card/SpotlightCard';
 
 export default function ShareSection() {
   const qrReader = new BrowserQRCodeReader();
@@ -59,16 +60,7 @@ export default function ShareSection() {
   return (
     <div className="relative">
       {!isGetProfilePending && profile && (
-        <div className="background fixed inset-0 z-50 flex flex-col items-center justify-center">
-          <div className="fixed inset-0 bg-black bg-opacity-50" onClick={() => {}} />
-          <EventProfileCard
-            state={EventProfileState.READONLY}
-            profile={profile.profile}
-            eventName="CODE:ME"
-            graphicNumber={profile.imageIndex}
-            content={profile.content}
-          />
-        </div>
+        <SpotlightCard profile={profile.profile} eventName="CODE:ME" />
       )}
       <div className="wrapper">
         <div className="my-2 flex h-12 items-center">

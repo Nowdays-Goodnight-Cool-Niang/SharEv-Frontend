@@ -1,7 +1,7 @@
 import EventProfileCard from '../card/EventProfileCard';
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { EventProfileState } from '@/types';
+import { EventProfileState } from '@/types/common/ui';
 import { EVENT_ID } from '@/constants/eventId';
 import { useSuspenseQueryEventProfile } from '@/hooks/useQueryEventProfile';
 import { useMutateMyEventProfile } from '@/hooks/useMutateMyEventProfile';

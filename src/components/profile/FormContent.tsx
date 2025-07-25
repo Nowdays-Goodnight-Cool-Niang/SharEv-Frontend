@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router';
 import toast from 'react-hot-toast';
-import { IProfile } from '@/types';
+import { IProfile } from '@/types/common/ui';
 import BaseButton from '@/components/common/BaseButton';
 import Checkbox from '@/components/common/Checkbox';
 import FormSection from '@/components/profile/FormSection';

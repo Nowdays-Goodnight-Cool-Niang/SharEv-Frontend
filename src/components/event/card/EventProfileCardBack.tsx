@@ -1,5 +1,5 @@
 import ExpandableInput from './ExpandableInput';
-import { EventProfileState, IEventProfileContent } from '@/types';
+import { EventProfileState, IEventProfileContent } from '@/types/common/ui';
 // import GithubSvg from '@/assets/icons/ic_github.svg?react';
 // import LinkedInSvg from '@/assets/icons/ic_linkedin.svg?react';
 // import InstagramSvg from '@/assets/icons/ic_instagram.svg?react';

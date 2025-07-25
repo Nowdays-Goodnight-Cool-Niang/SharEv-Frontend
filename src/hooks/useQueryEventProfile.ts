@@ -1,5 +1,5 @@
 import { eventClient } from '@/apis/event/event.client';
-import { IEventProfile } from '@/types';
+import { IEventProfile } from '@/types/common/ui';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 export const useSuspenseQueryEventProfile = (eventId: string) => {

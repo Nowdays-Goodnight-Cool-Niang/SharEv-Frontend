@@ -1,7 +1,7 @@
 import toast from 'react-hot-toast';
 import { accountInstance } from './accounts';
 import { eventInstance } from './event/event.api';
-import { kakaoAuthInstance } from './kakaoAuth';
+import { kakaoAuthInstance } from './kakao';
 import { authInstance } from './auth';
 import { TOAST_MESSAGE } from '@/utils/labels';
 import { AxiosError } from 'axios';

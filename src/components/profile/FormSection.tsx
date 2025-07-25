@@ -1,5 +1,5 @@
 import Input from '@/components/common/Input';
-import { IProfile } from '@/types';
+import { IProfile } from '@/types/common/ui';
 
 interface IFormProps {
   type: 'default' | 'sns';

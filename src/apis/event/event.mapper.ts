@@ -1,27 +1,26 @@
-import { IEventProfile, IInputFieldConfig, TemplateBlock } from '@/types';
-import { EventProfileDetailRequest, EventProfileResponse } from '@/types/api.types';
+import { placeholders } from '@/constants/event';
+import { MyEventProfileResponse, PublicProfileResponse, ProfileContent } from '@/types/api/event';
+import {
+  IInputField,
+  TemplateBlock,
+  IMyEventProfile,
+  IPublicEventProfile,
+} from '@/types/domain/event';
 
-const placeholders = {
-  introduce: '자기소개를 입력하세요',
-  proudestExperience: '가장 뿌듯했던 경험을 입력하세요',
-  toughExperience: '가장 힘들었던 경험을 입력하세요',
-} as const;
-
-export function mapEventProfileResponse(response: EventProfileResponse): IEventProfile {
+function mapMyEventProfile(response: MyEventProfileResponse): IMyEventProfile {
   return {
-    profile: {
-      id: String(response.profileId),
-      name: response.name,
-      email: response.email,
-      socialLinks: {
-        github: response.githubUrl ?? undefined,
-        linkedIn: response.linkedinUrl ?? undefined,
-        instagram: response.instagramUrl ?? undefined,
-      },
+    type: 'my',
+    id: String(response.profileId),
+    name: response.name,
+    email: response.email,
+    socialLinks: {
+      github: response.githubUrl ?? undefined,
+      linkedIn: response.linkedinUrl ?? undefined,
+      instagram: response.instagramUrl ?? undefined,
     },
-    imageIndex: response.iconNumber,
+    iconNumber: response.iconNumber,
     pinNumber: response.pinNumber,
-    content: {
+    template: {
       blocks: getDefaultProfileBlocks(),
       fields: extractFieldData({
         introduce: response.introduce ?? '',
@@ -29,10 +28,48 @@ export function mapEventProfileResponse(response: EventProfileResponse): IEventP
         toughExperience: response.toughExperience ?? '',
       }),
     },
+    registerRequireFlag: response.registerRequireFlag,
   };
 }
+function mapPublicEventProfile(response: PublicProfileResponse): IPublicEventProfile {
+  return response.type === 'full'
+    ? {
+        type: 'full',
+        name: response.name,
+        email: response.email,
+        socialLinks: {
+          github: response.githubUrl ?? undefined,
+          linkedIn: response.linkedinUrl ?? undefined,
+          instagram: response.instagramUrl ?? undefined,
+        },
+        relationFlag: response.relationFlag,
+        iconNumber: response.iconNumber,
+        template: {
+          blocks: getDefaultProfileBlocks(),
+          fields: extractFieldData({
+            introduce: response.introduce ?? '',
+            proudestExperience: response.proudestExperience ?? '',
+            toughExperience: response.toughExperience ?? '',
+          }),
+        },
+      }
+    : {
+        type: 'minimum',
+        name: response.name,
+        iconNumber: response.iconNumber,
+        relationFlag: response.relationFlag,
+        template: {
+          blocks: getDefaultProfileBlocks(),
+          fields: extractFieldData({
+            introduce: null,
+            proudestExperience: response.proudestExperience ?? '',
+            toughExperience: null,
+          }),
+        },
+      };
+}
 
-export function getDefaultProfileBlocks(): TemplateBlock[] {
+function getDefaultProfileBlocks(): TemplateBlock[] {
   return [
     { type: 'text', value: '안녕하세요. 저는' },
     { type: 'input', fieldKey: 'introduce' },
@@ -44,9 +81,7 @@ export function getDefaultProfileBlocks(): TemplateBlock[] {
   ];
 }
 
-export function extractFieldData(
-  data: EventProfileDetailRequest
-): Record<string, IInputFieldConfig> {
+function extractFieldData(data: ProfileContent): Record<string, IInputField> {
   return Object.entries(data).reduce(
     (acc, [key, value]) => {
       acc[key] = {
@@ -55,6 +90,11 @@ export function extractFieldData(
       };
       return acc;
     },
-    {} as Record<string, IInputFieldConfig>
+    {} as Record<string, IInputField>
   );
 }
+
+export const eventMapper = {
+  mapMyEventProfile,
+  mapPublicEventProfile,
+};

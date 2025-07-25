@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 import ClockSvg from '@/assets/icons/ic_clock.svg?react';
 import LocationSvg from '@/assets/icons/ic_location.svg?react';
 import ToolTip from '@/components/common/ToolTip';
-import { IEvent } from '@/types';
+import { IEvent } from '@/types/common/ui';
 import { formatKoreanDate } from '@/utils/format';
 import {
   getEventStatus,

@@ -1,6 +1,6 @@
 import { useNavigate, useSearchParams } from 'react-router';
 import { useEffect } from 'react';
-import { kakaoAuthAPI } from '@/apis/kakaoAuth';
+import { kakaoAuthAPI } from '@/apis/kakao';
 import { toast } from 'react-hot-toast';
 import { TOAST_MESSAGE } from '@/utils/labels';
 

@@ -1,4 +1,4 @@
-import { EventProfileState, IProfile } from '@/types';
+import { EventProfileState, IProfile } from '@/types/common/ui';
 import { getGraphicImageByNumber } from '@/utils/graphic';
 
 interface EventProfileCardFrontProps {
