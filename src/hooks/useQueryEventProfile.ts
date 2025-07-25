@@ -1,29 +1,17 @@
-// @ts-nocheck
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { participantAPI } from '@/apis/participants';
+import { eventClient } from '@/apis/event/event.client';
 import { IEventProfile } from '@/types';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
-export const useQueryEventProfile = (participantId?: string) => {
-  // const queryClient = useQueryClient();
-
-  const {
-    data: eventProfile,
-    isLoading,
-    error,
-  } = useQuery<IEventProfile>({
-    queryKey: ['eventProfile', participantId],
-    queryFn: () => participantAPI.getParticipantInfo(participantId!), // Pass participantId dynamically
-  });
-
-  const createEventProfileMutation = useMutation({
-    mutationFn: (eventProfile: IEventProfile) => participantAPI.putParticipantInfo(eventProfile),
+export const useSuspenseQueryEventProfile = (eventId: string) => {
+  const { data, error } = useSuspenseQuery<IEventProfile | null>({
+    queryKey: ['eventProfile', eventId, 'mine'],
+    queryFn: () => eventClient.getMyProfileSafe(eventId),
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   return {
-    eventProfile,
-    isLoading,
+    data,
     error,
-    createEventProfile: createEventProfileMutation.mutate,
-    createEventProfileAsync: createEventProfileMutation.mutateAsync, // Optional async version
   };
 };

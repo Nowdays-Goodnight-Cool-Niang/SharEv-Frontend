@@ -21,10 +21,10 @@ export const useKakaoLogin = () => {
 
       try {
         const data = await kakaoAuthAPI.loginWithKakao({ code, state });
-
+        console.log(data);
         if (data.isAuthenticated) {
           toast.success(TOAST_MESSAGE.LOGIN_SUCCESS, { icon: '🙌🏻' });
-          navigate('/event', { replace: true });
+          navigate('/events', { replace: true });
         } else {
           navigate('/profile-setup', { replace: true });
         }

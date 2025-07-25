@@ -58,7 +58,7 @@ function FormSection({
           labelName={data.labelName}
           placeholder={data.placeholder}
           name={data.name}
-          value={formAccount ? formAccount[data.name as keyof IProfile] : ''}
+          value={formAccount ? (formAccount[data.name as keyof IProfile] as string) || '' : ''}
           required={data.required}
           onChange={handleChange}
           onBlur={handleBlur}

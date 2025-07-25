@@ -29,7 +29,7 @@
 
   body {
     font-family: 'Pretendard Variable', serif;
-    @apply flex justify-center bg-gray-900;
+    @apply flex justify-center bg-white;
   }
 
   #root {
@@ -113,6 +113,13 @@
 
   .background {
     @apply mx-auto min-h-screen w-full;
+    @media (min-width: 720px) {
+      max-width: 720px;
+    }
+  }
+
+  .background-min {
+    @apply mx-auto w-full;
     @media (min-width: 720px) {
       max-width: 720px;
     }

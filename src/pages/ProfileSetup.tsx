@@ -3,6 +3,7 @@ import FormContent from '@/components/profile/FormContent';
 import Header from '@/components/common/Header';
 
 function ProfileSetup() {
+  console.log('도착');
   return (
     <div className="background flex flex-col bg-gray-50">
       <Header title="프로필 생성" />

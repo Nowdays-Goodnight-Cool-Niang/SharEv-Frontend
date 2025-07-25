@@ -1,41 +1,50 @@
-import { EventTabType } from '@/enums';
+import { EventTabType } from '@/constants/enums';
 import { useEventTabsStore } from '@/stores/useEventTabStore';
-import EventTab from '@/components/event/EventTab';
+import EventTab from './EventTab';
 import IdentificationSvg from '@/assets/icons/ic_identification.svg?react';
 import QRSvg from '@/assets/icons/ic_qr.svg?react';
 import WallerSvg from '@/assets/icons/ic_wallet.svg?react';
+import IdentificationGraySvg from '@/assets/icons/ic_identification_gray.svg?react';
+import QRGraySvg from '@/assets/icons/ic_qr_gray.svg?react';
+import WallerGraySvg from '@/assets/icons/ic_wallet_gray.svg?react';
 
 export default function EventTabs() {
   const { selected, setSelected } = useEventTabsStore();
 
   return (
-    <div className="flex h-16 w-full items-center gap-2 rounded-t-xl bg-white px-1 shadow-[0_-3px_10px_rgba(0,0,0,0.02)] dark:bg-gray-900">
+    <div className="flex h-14 w-full gap-2 rounded-t-2xl border-t border-gray-100 bg-white dark:bg-gray-800">
       <EventTab
-        isSelected={selected == EventTabType.profile}
+        isSelected={selected === EventTabType.profile}
         onClick={() => setSelected(EventTabType.profile)}
       >
-        <div className="flex flex-col items-center gap-0.5">
+        {selected === EventTabType.profile ? (
           <IdentificationSvg width={24} height={24} />
-          <span>내 명함</span>
-        </div>
+        ) : (
+          <IdentificationGraySvg width={24} height={24} />
+        )}
+        <span>내 명함</span>
       </EventTab>
       <EventTab
-        isSelected={selected == EventTabType.participant}
+        isSelected={selected === EventTabType.participant}
         onClick={() => setSelected(EventTabType.participant)}
       >
-        <div className="flex flex-col items-center gap-0.5">
+        {selected === EventTabType.participant ? (
           <WallerSvg width={24} height={24} />
-          <span>참가자 명함</span>
-        </div>
+        ) : (
+          <WallerGraySvg width={24} height={24} />
+        )}
+        <span>참가자 명함</span>
       </EventTab>
       <EventTab
-        isSelected={selected == EventTabType.QRCamera}
+        isSelected={selected === EventTabType.QRCamera}
         onClick={() => setSelected(EventTabType.QRCamera)}
       >
-        <div className="flex flex-col items-center gap-0.5">
+        {selected === EventTabType.QRCamera ? (
           <QRSvg width={24} height={24} />
-          <span>명함 공유</span>
-        </div>
+        ) : (
+          <QRGraySvg width={24} height={24} />
+        )}
+        <span>명함 공유</span>
       </EventTab>
     </div>
   );
