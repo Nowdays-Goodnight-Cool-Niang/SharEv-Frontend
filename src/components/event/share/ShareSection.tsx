@@ -43,7 +43,7 @@ export default function ShareSection() {
 
         {!isProfileComplete ? (
           <div className="flex flex-col items-center rounded-3xl bg-gray-50 p-10">
-            <LockSvg className="mb-7 mt-4" />
+            <LockSvg width={60} height={60} className="mb-7 mt-4" />
             <div className="flex flex-col gap-2 text-center">
               <p className="text-lg font-medium leading-7 tracking-tight text-gray-600">
                 앗! 명함을 완성하기 전까지

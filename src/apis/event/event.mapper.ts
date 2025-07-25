@@ -10,7 +10,7 @@ const placeholders = {
 export function mapEventProfileResponse(response: EventProfileResponse): IEventProfile {
   return {
     profile: {
-      id: String(response.participantId),
+      id: String(response.profileId),
       name: response.name,
       email: response.email,
       socialLinks: {

@@ -1,5 +1,8 @@
 import ExpandableInput from './ExpandableInput';
-import { EventProfileState, IEventProfileContent } from '@/types';
+import { EventProfileState, IEventProfileContent, ISocialLinks } from '@/types';
+import GithubSvg from '@/assets/icons/ic_github.svg?react';
+import LinkedInSvg from '@/assets/icons/ic_linkedin.svg?react';
+import InstagramSvg from '@/assets/icons/ic_instagram.svg?react';
 
 interface EventProfileCardBack {
   content: IEventProfileContent;
@@ -10,6 +13,33 @@ interface EventProfileCardBack {
   onCancelButtonClick?: () => void;
   isActionButtonDisabled?: boolean;
 }
+
+const socialIcons = [
+  { name: 'linkedIn', icon: LinkedInSvg },
+  { name: 'github', icon: GithubSvg },
+  { name: 'instagram', icon: InstagramSvg },
+] as const;
+
+const renderSocialButtons = (socialLinks: ISocialLinks) => {
+  return socialIcons.map(({ name, icon: Icon }) => {
+    const url = socialLinks?.[name];
+    const fixedUrl = url?.startsWith('http') ? url : `https://${url}`;
+    return (
+      <a
+        key={name}
+        href={fixedUrl ?? '#'}
+        target="_blank"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (!url) e.preventDefault();
+        }}
+        className={`flex h-6 w-6 items-center justify-center rounded-lg ${url ? 'text-gray-200 opacity-90' : 'opacity-10'}`}
+      >
+        <Icon width={20} height={20} />
+      </a>
+    );
+  });
+};
 
 function EventProfileCardBack({
   content,
@@ -82,3 +112,14 @@ function EventProfileCardBack({
 }
 
 export default EventProfileCardBack;
+
+{
+  /* <ul className="absolute bottom-6 flex flex-wrap items-center gap-3">
+<li className="flex h-7 w-7 flex-col items-center justify-center">
+  <a href={`mailto:${profile.email}`} onClick={(e) => e.stopPropagation()}>
+    <EmailSvg width={20} height={20} />
+  </a>
+</li>
+{renderSocialButtons()}
+</ul> */
+}

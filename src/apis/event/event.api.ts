@@ -39,39 +39,30 @@ async function getProfileByPin(eventId: string, pinNumber: string) {
   return response.data;
 }
 
-// // 참여자 목록 확인
-// async function getParticipants(eventId: string, { page: number; size?: number } : { page: number; size?: number }) {
-//   const offset = new Date().getTimezoneOffset() * 60000;
-//   const today = new Date(Date.now() - offset);
+// 참여자 목록 확인
+async function getParticipants(
+  eventId: string,
+  { page, size = 10 }: { page: number; size?: number }
+) {
+  const offset = new Date().getTimezoneOffset() * 60000;
+  const today = new Date(Date.now() - offset);
 
-//   const response = await eventInstance.get(`/${eventId}/participants`, {
-//     params: { page: page.toSring(), size, snapshotTime: today.toISOString() },
-//   });
-//   return response.data;
-// }
+  const response = await eventInstance.get(`/${eventId}/participants`, {
+    params: {
+      page: page.toString(),
+      size,
+      snapshotTime: today.toISOString(),
+    },
+  });
+  console.log(response);
+  return response.data;
+}
 
-// async function postParticipant (eventId: string, id: string) {
-//   const response = await eventInstance.post(`/${eventId}/participants`, { targetPinNumber: id });
-//   return response.data;
-// };
-
-// export const participantAPI = {
-//   getParticipants: async ({}: { page: number; size?: number }): Promise<ParticipantsResponse> => {
-//     const response = await participantInstance.get('', {
-
-//     });
-
-//     return {
-//       registerCount: response.data.registerCount,
-//       participants: response.data.socialDexInfo.content,
-//       totalCount: response.data.socialDexInfo.totalElements,
-//       totalPages: response.data.socialDexInfo.totalPages,
-//       currentPage: response.data.socialDexInfo.number,
-//       isLast: response.data.socialDexInfo.last,
-//     } as ParticipantsResponse;
-//   },
-
-// };
+// 도감 등록
+async function postParticipant(eventId: string, id: string) {
+  const response = await eventInstance.post(`/${eventId}/participants`, { targetPinNumber: id });
+  return response.data;
+}
 
 export const eventAPI = {
   getMyProfile,
@@ -79,4 +70,6 @@ export const eventAPI = {
   participateInEvent,
   updateMyProfile,
   getProfileByPin,
+  getParticipants,
+  postParticipant,
 };

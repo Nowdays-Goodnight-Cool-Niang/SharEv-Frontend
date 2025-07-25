@@ -1,7 +1,7 @@
 import Header from '@/components/common/Header';
 import EventCard from '@/components/events/EventCard';
 import { EVENT_ID } from '@/constants/eventId';
-import { useCheckParticipationQuery } from '@/hooks/useCheckParticipationQuery';
+import { useQueryCheckParticipation } from '@/hooks/useQueryCheckParticipation';
 import { IEvent } from '@/types';
 
 export const events: IEvent[] = [
@@ -26,7 +26,7 @@ export const events: IEvent[] = [
 ];
 
 function Events() {
-  const { data, isLoading } = useCheckParticipationQuery(EVENT_ID);
+  const { data, isLoading } = useQueryCheckParticipation(EVENT_ID);
 
   if (isLoading) return <div>로딩중</div>;
   if (!data) throw new Error();

@@ -85,7 +85,7 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
   };
 
   if (eventProfileError || !eventProfile) return <div>에러 발생</div>;
-  console.log(eventProfile.imageIndex);
+
   return (
     <EventProfileCard
       state={eventProfileState}

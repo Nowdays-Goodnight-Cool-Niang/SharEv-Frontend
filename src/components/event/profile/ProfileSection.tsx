@@ -3,10 +3,9 @@ import BaseButton from '@/components/common/BaseButton';
 import BottomModal from '@/components/common/BottomModal';
 import BulbSvg from '@/assets/icons/ic_bulb.svg?react';
 import DownloadSvg from '@/assets/icons/ic_download.svg?react';
-import NoticeInfo from '@/components/common/NoticeInfo';
 import EventProfileCardSkeleton from '../card/EventProfileCardSkeleton';
 import MyEventProfile from './MyEventProfile';
-import ToolTip from '@/components/common/Tooltip';
+import ToolTip from '@/components/common/ToolTip';
 import { useEventProfileStore } from '@/stores/useEventProfileStore';
 import toast from 'react-hot-toast';
 import html2canvas from 'html2canvas';
@@ -56,7 +55,6 @@ function ProfileSection() {
 
   useEffect(() => {
     const hasSeenModal = sessionStorage.getItem('seenEventProfileModal');
-    console.log(hasSeenModal);
     if (!isProfileComplete && hasSeenModal != 'true') {
       setIsExplainModalOpen(true);
     }
@@ -144,7 +142,7 @@ function ProfileSection() {
         <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">내 명함</h3>
         <button
           onClick={() => setIsIdeaModalOpen(true)}
-          className="flex items-center justify-center gap-0.5 rounded-lg bg-blue-50 py-0.5 pl-1.5 pr-2"
+          className="flex items-center justify-center gap-1 rounded-lg bg-blue-50 py-1 pl-2 pr-2.5"
         >
           <BulbSvg width={18} height={18} />
           <span className="text font-medium tracking-tight text-blue-500">TIP</span>
@@ -153,16 +151,15 @@ function ProfileSection() {
 
       <div className="wrapper flex h-full w-full flex-col items-center gap-5">
         <div className="flex h-full w-full flex-col items-center gap-3">
-          {!isProfileComplete && <NoticeInfo>나만의 명함을 완성해 주세요!</NoticeInfo>}
           <div className="relative flex w-full flex-col items-center">
             <Suspense fallback={<EventProfileCardSkeleton />}>
               <MyEventProfile onFlipChange={handleFlip} onEditStateChange={setIsEditing} />
+              {!isProfileComplete && (
+                <div className="absolute -bottom-10 flex w-full justify-center">
+                  <ToolTip>{noticeText}</ToolTip>
+                </div>
+              )}
             </Suspense>
-            {!isProfileComplete && (
-              <div className="absolute -bottom-10 flex w-full justify-center">
-                <ToolTip>{noticeText}</ToolTip>
-              </div>
-            )}
           </div>
         </div>
         <button

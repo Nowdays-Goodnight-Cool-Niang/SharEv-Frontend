@@ -52,7 +52,7 @@ function EventProfileCard({
       className="w-full max-w-[22rem] perspective-1000"
     >
       <div
-        className={`relative aspect-[11/17] w-full transition-transform duration-700 transform-style-3d ${
+        className={`relative aspect-[5/7] w-full transition-transform duration-700 transform-style-3d ${
           flipped ? 'rotate-y-180' : ''
         }`}
       >
