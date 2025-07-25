@@ -9,7 +9,7 @@ export const useMutateMyEventProfile = () => {
   return useMutation({
     mutationFn: (data: ProfileContent) => eventAPI.updateMyProfile(EVENT_ID, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['eventProfile', EVENT_ID, 'my'] });
+      queryClient.invalidateQueries({ queryKey: ['eventProfile', EVENT_ID, 'MY'] });
     },
   });
 };

@@ -3,7 +3,6 @@ import { withErrorHandler } from '../withErrorHandler';
 import { eventAPI } from './event.api';
 import { eventMapper } from './event.mapper';
 import { ERROR_MESSAGE } from '@/constants/message';
-import { PaginatedEventProfilesResponse } from '@/types/api/event';
 
 async function getMyProfileSafe(eventId: string): Promise<IMyEventProfile | null> {
   return withErrorHandler<IMyEventProfile>({

@@ -12,6 +12,7 @@ import { EVENT_ID } from '@/constants/eventId';
 import ParticipationInfo from './ParticipationInfo';
 import SpotlightCard from '../card/SpotlightCard';
 import { IEventProfile } from '@/types/domain/event';
+import toast from 'react-hot-toast';
 
 export default function ParticipantsSection() {
   const [viewMode, setViewMode] = useState('grid');
@@ -118,6 +119,11 @@ export default function ParticipantsSection() {
                 <li
                   onClick={() => {
                     if (profile.relationFlag) setCurrentProfile(profile);
+                    else {
+                      toast.success(
+                        `저의 가장 뿌듯했던 경험은 ${profile.template.fields.proudestExperience.value}입니다.`
+                      );
+                    }
                   }}
                   key={i}
                   ref={isLast ? observerRef : null}

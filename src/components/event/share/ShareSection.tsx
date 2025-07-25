@@ -106,7 +106,7 @@ export default function ShareSection() {
             {activeTab === 'share' && (
               <div className="mt-6 flex w-full flex-col items-center gap-4">
                 <div className="mx-auto flex aspect-square max-h-56 w-full max-w-56 items-center justify-center rounded-2xl bg-white p-4">
-                  <QRCodeSVG value={myPinNumber} className="h-52 w-full" />
+                  <QRCodeSVG value={myPinNumber?.toString()} className="h-52 w-full" />
                 </div>
                 <div className="flex justify-center gap-3">
                   {myPinNumber
@@ -136,7 +136,7 @@ export default function ShareSection() {
                     content: (
                       <div className="my-6 flex flex-col items-center gap-4">
                         <div className="mx-auto w-full max-w-md overflow-hidden rounded-2xl bg-gray-50">
-                          <WebcamCapture onCapture={handleImage} />;
+                          <WebcamCapture onCapture={handleImage} />
                         </div>
                         <NoticeInfo> 상대방의 QR 코드를 카메라로 스캔하세요</NoticeInfo>
                       </div>
