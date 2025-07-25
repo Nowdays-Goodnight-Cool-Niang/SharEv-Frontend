@@ -72,7 +72,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <DummyPanel />
+      {/* <DummyPanel /> */}
       <Toaster />
       <RouterProvider router={router} />
     </QueryClientProvider>

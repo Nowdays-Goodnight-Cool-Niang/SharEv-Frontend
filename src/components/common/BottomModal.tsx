@@ -1,15 +1,15 @@
-import { useEffect } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import BaseButton from './BaseButton';
 
-interface BottomModalProps {
+interface BottomModalProps extends PropsWithChildren {
   isOpen: boolean;
   onClose: () => void;
-  children: React.ReactNode;
   closeOnOverlayClick?: boolean;
   closeOnEsc?: boolean;
 }
 
-export default function BottomModal({
+function BottomModal({
   isOpen,
   onClose,
   children,
@@ -45,3 +45,33 @@ export default function BottomModal({
     document.body
   );
 }
+
+BottomModal.Title = function Title({ children }: PropsWithChildren) {
+  return (
+    <h1 className="mb-2 flex items-center gap-2 text-xl font-semibold tracking-tight text-gray-700">
+      {children}
+    </h1>
+  );
+};
+
+BottomModal.Description = function Description({ children }: PropsWithChildren) {
+  return <div className="mb-6 leading-7 tracking-tight text-gray-600">{children}</div>;
+};
+
+BottomModal.Box = function Box({ children }: PropsWithChildren) {
+  return <div className="rounded-xl bg-gray-50 p-6">{children}</div>;
+};
+
+interface BottomModalButtonProps extends PropsWithChildren {
+  onClick: () => void;
+}
+
+BottomModal.Button = function Button({ children, onClick }: BottomModalButtonProps) {
+  return (
+    <div className="absolute bottom-0 left-0 w-full border-t bg-white px-6 py-4 shadow-inner">
+      <BaseButton onClick={onClick}> {children}</BaseButton>
+    </div>
+  );
+};
+
+export default BottomModal;
