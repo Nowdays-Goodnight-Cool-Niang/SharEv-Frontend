@@ -1,18 +1,22 @@
 import { useInfiniteQuery, UseInfiniteQueryResult, InfiniteData } from '@tanstack/react-query';
-import { eventAPI } from '@/apis/event/event.api';
-import { PaginatedEventProfilesResponse } from '@/types/api/event';
+import { IPaginatedEventProfiles } from '@/types/domain/event';
+import { eventClient } from '@/apis/event/event.client';
 
 export const useQueryParticipants = (
   eventId: string
-): UseInfiniteQueryResult<InfiniteData<PaginatedEventProfilesResponse>, Error> => {
-  return useInfiniteQuery<PaginatedEventProfilesResponse, Error>({
+): UseInfiniteQueryResult<InfiniteData<IPaginatedEventProfiles>, Error> => {
+  return useInfiniteQuery<IPaginatedEventProfiles, Error>({
     queryKey: ['participants', eventId],
-    queryFn: ({ pageParam = 0 }) =>
-      eventAPI.getParticipants(eventId, { page: pageParam as number }),
+    queryFn: async ({ pageParam = 0 }) => {
+      const result = await eventClient.getParticipantsSafe(eventId, {
+        page: pageParam as number,
+      });
+      if (!result) throw new Error('참여자 목록을 불러오지 못했습니다');
+      return result;
+    },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
-      const { page } = lastPage.relationProfiles;
-
+      const { page } = lastPage;
       const isLastPage = page.number + 1 >= page.totalPages;
       return isLastPage ? undefined : page.number + 1;
     },

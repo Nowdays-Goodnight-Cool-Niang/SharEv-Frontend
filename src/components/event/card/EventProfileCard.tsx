@@ -13,6 +13,8 @@ interface EventProfileCardProps {
   onActionButtonClick?: () => void; // edit 모드에서 필요
   onCancelButtonClick?: () => void; // edit 모드에서 필요
   onFlipChange?: (flipped: boolean) => void;
+  showLinkIcons?: boolean;
+  showButtons?: boolean;
 }
 
 function EventProfileCard({
@@ -24,6 +26,8 @@ function EventProfileCard({
   onActionButtonClick,
   onCancelButtonClick,
   onFlipChange,
+  showLinkIcons = false,
+  showButtons = false,
 }: EventProfileCardProps) {
   const [flipped, setFlipped] = useState(false);
 
@@ -56,9 +60,11 @@ function EventProfileCard({
         <div className="absolute inset-0 backface-hidden">
           <EventProfileCardFront profile={profile} state={state} eventName={eventName} />
         </div>
-        {state !== EventProfileState.LOCKED && profile.template && (
+        {state !== EventProfileState.LOCKED && profile.type !== 'MINIMUM' && profile.template && (
           <div className="absolute inset-0 rotate-y-180 backface-hidden">
             <EventProfileCardBack
+              email={profile.email}
+              socialLinks={profile.socialLinks}
               content={profile.template}
               fieldValues={fieldValues}
               state={state}
@@ -66,6 +72,8 @@ function EventProfileCard({
               onActionButtonClick={onActionButtonClick}
               onCancelButtonClick={onCancelButtonClick}
               isActionButtonDisabled={isActionButtonDisabled}
+              showLinkIcons={showLinkIcons}
+              showButtons={showButtons}
             />
           </div>
         )}

@@ -6,9 +6,15 @@ interface SpotlightCardProps {
   profile: IEventProfile;
   eventName: string;
   onClose: () => void;
+  showLinkIcons?: boolean;
 }
 
-export default function SpotlightCard({ profile, eventName, onClose }: SpotlightCardProps) {
+export default function SpotlightCard({
+  profile,
+  eventName,
+  onClose,
+  showLinkIcons = false,
+}: SpotlightCardProps) {
   return (
     <div className="background fixed inset-0 z-50 flex flex-col items-center justify-center">
       <div className="fixed inset-0 bg-black bg-opacity-50" onClick={onClose} />
@@ -16,6 +22,7 @@ export default function SpotlightCard({ profile, eventName, onClose }: Spotlight
         state={EventProfileState.READONLY}
         profile={profile}
         eventName={eventName}
+        showLinkIcons={showLinkIcons}
       />
     </div>
   );

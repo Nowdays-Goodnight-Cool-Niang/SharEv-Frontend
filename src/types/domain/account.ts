@@ -8,5 +8,5 @@ export interface IAccount {
   id?: string;
   name: string;
   email: string;
-  socialLinks?: ISocialLinks;
+  socialLinks: ISocialLinks;
 }

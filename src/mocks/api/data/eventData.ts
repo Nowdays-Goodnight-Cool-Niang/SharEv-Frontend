@@ -21,7 +21,7 @@ export const eventProfileData: MyEventProfileResponse = {
 
 export const participantsData: PublicProfileResponse[] = [
   {
-    profileId: 1,
+    type: 'FULL',
     name: '홍길동',
     email: 'hong@test.com',
     linkedinUrl: null,
@@ -34,21 +34,21 @@ export const participantsData: PublicProfileResponse[] = [
     iconNumber: 3,
   },
   {
-    profileId: 2,
+    type: 'MINIMUM',
     name: '이수민',
     proudestExperience: '첫 팀 프로젝트 성공',
     relationFlag: false,
     iconNumber: 2,
   },
   {
-    profileId: 3,
+    type: 'MINIMUM',
     name: '박지윤',
     proudestExperience: 'UI/UX 공모전 수상',
     relationFlag: false,
     iconNumber: 7,
   },
   {
-    profileId: 4,
+    type: 'FULL',
     name: '김재현',
     email: 'jae@test.com',
     linkedinUrl: 'https://linkedin.com/in/jaehyun',
@@ -61,20 +61,21 @@ export const participantsData: PublicProfileResponse[] = [
     iconNumber: 6,
   },
   {
-    profileId: 5,
+    type: 'MINIMUM',
     name: '최민서',
     proudestExperience: 'React Native 앱 출시',
     relationFlag: false,
     iconNumber: 1,
   },
   {
+    type: 'MINIMUM',
     name: '강은우',
     proudestExperience: '웹접근성 개선 경험',
     relationFlag: false,
     iconNumber: 4,
   },
   {
-    profileId: 7,
+    type: 'FULL',
     name: '전유나',
     email: 'yun@test.com',
     linkedinUrl: null,
@@ -87,19 +88,21 @@ export const participantsData: PublicProfileResponse[] = [
     iconNumber: 8,
   },
   {
+    type: 'MINIMUM',
     name: '배성훈',
     proudestExperience: 'CI/CD 구축',
     relationFlag: false,
     iconNumber: 5,
   },
   {
+    type: 'MINIMUM',
     name: '윤세아',
     proudestExperience: '컴퓨터비전 프로젝트',
     relationFlag: false,
     iconNumber: 9,
   },
   {
-    profileId: 10,
+    type: 'FULL',
     name: '임도윤',
     email: 'dy@test.com',
     linkedinUrl: 'https://linkedin.com/in/doyun',
@@ -112,19 +115,21 @@ export const participantsData: PublicProfileResponse[] = [
     iconNumber: 2,
   },
   {
+    type: 'MINIMUM',
     name: '정예진',
     proudestExperience: 'OSS 기여 경험',
     relationFlag: false,
     iconNumber: 12,
   },
   {
+    type: 'MINIMUM',
     name: '한동훈',
     proudestExperience: '서비스 QA 시스템 구축',
     relationFlag: false,
     iconNumber: 11,
   },
   {
-    profileId: 13,
+    type: 'FULL',
     name: '서하린',
     email: 'harin@test.com',
     linkedinUrl: null,
@@ -137,19 +142,21 @@ export const participantsData: PublicProfileResponse[] = [
     iconNumber: 10,
   },
   {
+    type: 'MINIMUM',
     name: '장서윤',
     proudestExperience: '컴공과 졸업 프로젝트',
     relationFlag: false,
     iconNumber: 1,
   },
   {
+    type: 'MINIMUM',
     name: '조태환',
     proudestExperience: '사내 자동화 툴 개발',
     relationFlag: false,
     iconNumber: 3,
   },
   {
-    profileId: 16,
+    type: 'FULL',
     name: '이시은',
     email: 'sieun@test.com',
     linkedinUrl: 'https://linkedin.com/in/sieun',
@@ -162,19 +169,21 @@ export const participantsData: PublicProfileResponse[] = [
     iconNumber: 9,
   },
   {
+    type: 'MINIMUM',
     name: '문수정',
     proudestExperience: '동아리 회장으로 팀 리딩',
     relationFlag: false,
     iconNumber: 4,
   },
   {
+    type: 'MINIMUM',
     name: '오지훈',
     proudestExperience: '안드로이드 앱 배포 경험',
     relationFlag: false,
     iconNumber: 6,
   },
   {
-    profileId: 19,
+    type: 'FULL',
     name: '이채린',
     email: 'chae@test.com',
     linkedinUrl: null,
@@ -187,6 +196,7 @@ export const participantsData: PublicProfileResponse[] = [
     iconNumber: 12,
   },
   {
+    type: 'MINIMUM',
     name: '고예린',
     proudestExperience: '디자인 시스템 도입',
     relationFlag: false,
@@ -199,7 +209,7 @@ export const participationCheckData: ParticipationCheckResponse = {
 };
 
 export const profileByPinData: PublicProfileResponse = {
-  profileId: 4,
+  type: 'FULL',
   name: '이승기',
   email: 'lee@example.com',
   linkedinUrl: null,

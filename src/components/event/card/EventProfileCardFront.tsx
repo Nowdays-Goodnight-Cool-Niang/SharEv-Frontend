@@ -21,14 +21,20 @@ function EventProfileCardFront({
         <div className="w-[36rem] translate-x-48 translate-y-20">
           <img
             src={getGraphicImageByNumber(profile.iconNumber)}
-            className="aspect-square w-full"
+            className={`aspect-square w-full ${state === EventProfileState.LOCKED && 'opacity-20 brightness-75 filter'}`}
             alt=""
           />
         </div>
       </div>
       <div className="absolute inset-0 w-full pl-6 pr-6 pt-10">
-        <p className="mb-2 w-full text-xl leading-7 tracking-tight text-white/50">{eventName}</p>
-        <p className="mb-8 w-full text-3xl font-semibold leading-7 tracking-tight text-white">
+        <p
+          className={`mb-2 w-full text-xl leading-7 tracking-tight ${state === EventProfileState.LOCKED ? 'text-gray-400' : 'text-white/50'}`}
+        >
+          {eventName}
+        </p>
+        <p
+          className={`mb-8 w-full text-3xl font-semibold leading-7 tracking-tight ${state === EventProfileState.LOCKED ? 'text-gray-500' : 'text-white'}`}
+        >
           {profile.name}
         </p>
       </div>

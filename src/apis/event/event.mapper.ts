@@ -1,15 +1,21 @@
 import { placeholders } from '@/constants/event';
-import { MyEventProfileResponse, PublicProfileResponse, ProfileContent } from '@/types/api/event';
+import {
+  MyEventProfileResponse,
+  PublicProfileResponse,
+  ProfileContent,
+  PaginatedEventProfilesResponse,
+} from '@/types/api/event';
 import {
   IInputField,
   TemplateBlock,
   IMyEventProfile,
   IPublicEventProfile,
+  IPaginatedEventProfiles,
 } from '@/types/domain/event';
 
 function mapMyEventProfile(response: MyEventProfileResponse): IMyEventProfile {
   return {
-    type: 'my',
+    type: 'MY',
     id: String(response.profileId),
     name: response.name,
     email: response.email,
@@ -31,10 +37,21 @@ function mapMyEventProfile(response: MyEventProfileResponse): IMyEventProfile {
     registerRequireFlag: response.registerRequireFlag,
   };
 }
+
+function mapPaginatedEventProfilesResponse(
+  response: PaginatedEventProfilesResponse
+): IPaginatedEventProfiles {
+  return {
+    registerCount: response.registerCount,
+    page: response.relationProfiles.page,
+    profiles: response.relationProfiles.content.map(eventMapper.mapPublicEventProfile),
+  };
+}
+
 function mapPublicEventProfile(response: PublicProfileResponse): IPublicEventProfile {
-  return response.type === 'full'
+  return response.type === 'FULL'
     ? {
-        type: 'full',
+        type: 'FULL',
         name: response.name,
         email: response.email,
         socialLinks: {
@@ -54,7 +71,7 @@ function mapPublicEventProfile(response: PublicProfileResponse): IPublicEventPro
         },
       }
     : {
-        type: 'minimum',
+        type: 'MINIMUM',
         name: response.name,
         iconNumber: response.iconNumber,
         relationFlag: response.relationFlag,
@@ -97,4 +114,5 @@ function extractFieldData(data: ProfileContent): Record<string, IInputField> {
 export const eventMapper = {
   mapMyEventProfile,
   mapPublicEventProfile,
+  mapPaginatedEventProfilesResponse,
 };

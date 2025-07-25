@@ -1,13 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
-import { eventAPI } from '@/apis/event/event.api';
-import { eventMapper } from '@/apis/event/event.mapper';
-import { IPublicEventProfile } from '@/types/domain/event';
+import { IFullEventProfile } from '@/types/domain/event';
+import { eventClient } from '@/apis/event/event.client';
 
 export function useMutateGetProfileByPin(eventId: string) {
-  return useMutation<IPublicEventProfile, Error, string>({
+  return useMutation<IFullEventProfile, Error, string>({
     mutationFn: async (pinNumber: string) => {
-      const res = await eventAPI.getProfileByPin(eventId, pinNumber);
-      return eventMapper.mapPublicEventProfile(res);
+      const result = await eventClient.getProfileByPinSafe(eventId, pinNumber);
+      if (!result) {
+        throw new Error('프로필 정보를 불러오지 못했습니다.');
+      }
+      return result;
     },
   });
 }

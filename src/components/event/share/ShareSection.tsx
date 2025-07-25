@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import NoticeInfo from '@/components/common/NoticeInfo';
 import TabSelector from './TabSelector';
@@ -17,6 +17,7 @@ import SpotlightCard from '../card/SpotlightCard';
 
 export default function ShareSection() {
   const qrReader = new BrowserQRCodeReader();
+  const [showSpotlightCard, setShowSpotlightCard] = useState(false);
   const [activeTab, setActiveTab] = useState('share');
   const [receiveMethod, setReceiveMethod] = useState('qr');
   const [pinInput, setPinInput] = useState('');
@@ -55,10 +56,19 @@ export default function ShareSection() {
     }
   };
 
+  useEffect(() => {
+    if (!isGetProfilePending && profile) setShowSpotlightCard(true);
+  }, [isGetProfilePending, profile]);
+
   return (
     <div className="relative">
-      {!isGetProfilePending && profile && (
-        <SpotlightCard profile={profile} eventName="CODE:ME" onClose={() => {}} />
+      {showSpotlightCard && profile && (
+        <SpotlightCard
+          profile={profile}
+          eventName="CODE:ME"
+          onClose={() => setShowSpotlightCard(false)}
+          showLinkIcons
+        />
       )}
       <div className="wrapper">
         <div className="my-2 flex h-12 items-center">

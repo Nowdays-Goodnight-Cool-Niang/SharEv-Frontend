@@ -1,8 +1,9 @@
-import { IMyEventProfile } from '@/types/domain/event';
+import { IFullEventProfile, IMyEventProfile, IPaginatedEventProfiles } from '@/types/domain/event';
 import { withErrorHandler } from '../withErrorHandler';
 import { eventAPI } from './event.api';
 import { eventMapper } from './event.mapper';
 import { ERROR_MESSAGE } from '@/constants/message';
+import { PaginatedEventProfilesResponse } from '@/types/api/event';
 
 async function getMyProfileSafe(eventId: string): Promise<IMyEventProfile | null> {
   return withErrorHandler<IMyEventProfile>({
@@ -10,6 +11,30 @@ async function getMyProfileSafe(eventId: string): Promise<IMyEventProfile | null
   })(async () => {
     const raw = await eventAPI.getMyProfile(eventId);
     return eventMapper.mapMyEventProfile(raw);
+  });
+}
+
+async function getProfileByPinSafe(
+  eventId: string,
+  pinNumber: string
+): Promise<IFullEventProfile | null> {
+  return withErrorHandler<IFullEventProfile>({
+    fallbackMessage: ERROR_MESSAGE.profile.fetch,
+  })(async () => {
+    const raw = await eventAPI.getProfileByPin(eventId, pinNumber);
+    return eventMapper.mapPublicEventProfile(raw) as IFullEventProfile;
+  });
+}
+
+async function getParticipantsSafe(
+  eventId: string,
+  { page, size = 10 }: { page: number; size?: number }
+): Promise<IPaginatedEventProfiles | null> {
+  return withErrorHandler<IPaginatedEventProfiles>({
+    fallbackMessage: ERROR_MESSAGE.profile.fetch,
+  })(async () => {
+    const raw = await eventAPI.getParticipants(eventId, { page, size });
+    return eventMapper.mapPaginatedEventProfilesResponse(raw);
   });
 }
 
@@ -36,4 +61,6 @@ function participateInEventSafe(eventId: string) {
 export const eventClient = {
   getMyProfileSafe,
   participateInEventSafe,
+  getProfileByPinSafe,
+  getParticipantsSafe,
 };

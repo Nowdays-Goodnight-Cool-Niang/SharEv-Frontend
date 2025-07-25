@@ -7,7 +7,7 @@ export interface ProfileContent {
 }
 
 export interface FullProfileResponse extends Partial<ProfileContent> {
-  profileId?: number;
+  type: 'FULL';
   name: string;
   email: string;
   linkedinUrl?: string | null;
@@ -19,6 +19,7 @@ export interface FullProfileResponse extends Partial<ProfileContent> {
 
 export interface MinimalProfileResponse
   extends Omit<ProfileContent, 'introduce' | 'toughExperience'> {
+  type: 'MINIMUM';
   name: string;
   iconNumber: number;
   relationFlag: boolean;

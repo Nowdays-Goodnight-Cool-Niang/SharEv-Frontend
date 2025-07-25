@@ -100,6 +100,7 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
       onActionButtonClick={eventProfileState === EventProfileState.EDIT ? handleSave : handleEdit}
       onCancelButtonClick={eventProfileState === EventProfileState.EDIT ? handleCancel : undefined}
       onFlipChange={onFlipChange}
+      showButtons
     />
   );
 }
