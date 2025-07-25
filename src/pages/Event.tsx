@@ -4,7 +4,7 @@ import { useEventTabsStore } from '@/stores/useEventTabStore';
 import ProfileSection from '@/components/event/profile/ProfileSection';
 import ParticipantsSection from '@/components/event/participants/ParticipantsSection';
 import ShareSection from '@/components/event/share/ShareSection';
-import { EventTabType } from '@/constants/enums';
+import { EventTabType } from '@/constants/event';
 import Header from '@/components/common/Header';
 
 function Event() {

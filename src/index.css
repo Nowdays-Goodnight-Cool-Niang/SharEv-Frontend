@@ -129,11 +129,11 @@
     @apply px-6;
   }
 
-  .scroll-hide {
+  .scrollbar-hide {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
-  .scroll-hide::-webkit-scrollbar {
+  .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
   }
 

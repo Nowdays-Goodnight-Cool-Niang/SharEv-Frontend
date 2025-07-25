@@ -1,12 +1,12 @@
 import Input from '@/components/common/Input';
-import { IProfile } from '@/types';
+import { IAccount } from '@/types/domain/account';
 
 interface IFormProps {
   type: 'default' | 'sns';
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   validationMessages: { [key: string]: string };
-  formAccount: IProfile;
+  formAccount: IAccount;
 }
 
 const defaultFields = [
@@ -58,7 +58,7 @@ function FormSection({
           labelName={data.labelName}
           placeholder={data.placeholder}
           name={data.name}
-          value={formAccount ? (formAccount[data.name as keyof IProfile] as string) || '' : ''}
+          value={formAccount ? (formAccount[data.name as keyof IAccount] as string) || '' : ''}
           required={data.required}
           onChange={handleChange}
           onBlur={handleBlur}

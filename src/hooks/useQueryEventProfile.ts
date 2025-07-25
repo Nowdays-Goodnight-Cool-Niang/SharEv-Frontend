@@ -1,10 +1,10 @@
 import { eventClient } from '@/apis/event/event.client';
-import { IEventProfile } from '@/types';
+import { IMyEventProfile } from '@/types/domain/event';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 export const useSuspenseQueryEventProfile = (eventId: string) => {
-  const { data, error } = useSuspenseQuery<IEventProfile | null>({
-    queryKey: ['eventProfile', eventId, 'mine'],
+  const { data, error } = useSuspenseQuery<IMyEventProfile | null>({
+    queryKey: ['eventProfile', eventId, 'MY'],
     queryFn: () => eventClient.getMyProfileSafe(eventId),
     refetchOnMount: false,
     refetchOnWindowFocus: false,

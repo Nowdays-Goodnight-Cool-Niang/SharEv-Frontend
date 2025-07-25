@@ -1,24 +1,25 @@
-import axios from 'axios';
 import {
-  EventProfileDetailRequest,
-  EventProfileResponse,
+  FullProfileResponse,
+  MyEventProfileResponse,
   ParticipationCheckResponse,
-} from '@/types/api.types';
+  ProfileContent,
+} from '@/types/api/event';
+import axios from 'axios';
 
 export const eventInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/events`,
   withCredentials: true,
 });
 
-// 본인 프로필 조회
-async function getMyProfile(eventId: string): Promise<EventProfileResponse> {
-  const response = await eventInstance.get(`/${eventId}/profiles`);
-  return response.data;
-}
-
 // 행사 참여 여부 확인
 async function checkParticipation(eventId: string): Promise<ParticipationCheckResponse> {
   const response = await eventInstance.get<ParticipationCheckResponse>(`/${eventId}`);
+  return response.data;
+}
+
+// 본인 프로필 조회
+async function getMyProfile(eventId: string): Promise<MyEventProfileResponse> {
+  const response = await eventInstance.get(`/${eventId}/profiles`);
   return response.data;
 }
 
@@ -29,8 +30,14 @@ async function participateInEvent(eventId: string) {
 }
 
 // 본인 프로필 수정
-async function updateMyProfile(eventId: string, data: EventProfileDetailRequest) {
+async function updateMyProfile(eventId: string, data: ProfileContent) {
   const response = await eventInstance.patch(`/${eventId}/profiles`, data);
+  return response.data;
+}
+
+// PIN 번호로 상대 프로필 조회
+async function getProfileByPin(eventId: string, pinNumber: string): Promise<FullProfileResponse> {
+  const response = await eventInstance.get(`/${eventId}/profiles/${pinNumber}`);
   return response.data;
 }
 
@@ -49,13 +56,6 @@ async function getParticipants(
       snapshotTime: today.toISOString(),
     },
   });
-  console.log(response);
-  return response.data;
-}
-
-// PIN 번호로 상대 프로필 조회
-async function getProfileByPin(eventId: string, pinNumber: string): Promise<EventProfileResponse> {
-  const response = await eventInstance.get(`/${eventId}/profiles/${pinNumber}`);
   return response.data;
 }
 
@@ -66,11 +66,11 @@ async function registerParticipant(eventId: string, id: string) {
 }
 
 export const eventAPI = {
-  getMyProfile,
   checkParticipation,
+  getMyProfile,
   participateInEvent,
   updateMyProfile,
-  getParticipants,
   getProfileByPin,
+  getParticipants,
   registerParticipant,
 };

@@ -10,9 +10,13 @@ import { getGraphicImageByNumber } from '@/utils/graphic';
 import { useQueryParticipants } from '@/hooks/useQueryEventParticipants';
 import { EVENT_ID } from '@/constants/eventId';
 import ParticipationInfo from './ParticipationInfo';
+import SpotlightCard from '../card/SpotlightCard';
+import { IEventProfile } from '@/types/domain/event';
+import toast from 'react-hot-toast';
 
 export default function ParticipantsSection() {
   const [viewMode, setViewMode] = useState('grid');
+  const [currentProfile, setCurrentProfile] = useState<IEventProfile | null>(null);
   const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
     useQueryParticipants(EVENT_ID);
   const observerRef = useRef<HTMLLIElement | null>(null);
@@ -33,12 +37,20 @@ export default function ParticipantsSection() {
     return () => observer.disconnect();
   }, [hasNextPage, fetchNextPage, isFetchingNextPage]);
 
-  const profiles = data?.pages.flatMap((page) => page.relationProfiles.content) ?? [];
+  const profiles = data?.pages.flatMap((page) => page.profiles) ?? [];
   const showEmptyView = !isLoading && profiles.length === 0;
 
   return (
     <>
       <div className="w-full">
+        {currentProfile && (
+          <SpotlightCard
+            profile={currentProfile}
+            eventName="CODE:ME"
+            onClose={() => setCurrentProfile(null)}
+            showLinkIcons
+          />
+        )}
         <div className="wrapper sticky top-14 z-20 my-2 flex h-12 w-full items-center justify-between gap-3 bg-white">
           <div className="flex items-center gap-3">
             <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">참가자 명함</h3>
@@ -105,7 +117,15 @@ export default function ParticipantsSection() {
               const isLast = i === arr.length - 1;
               return (
                 <li
-                  key={profile.profileId ?? i}
+                  onClick={() => {
+                    if (profile.relationFlag) setCurrentProfile(profile);
+                    else {
+                      toast.success(
+                        `저의 가장 뿌듯했던 경험은 ${profile.template.fields.proudestExperience.value}입니다.`
+                      );
+                    }
+                  }}
+                  key={i}
                   ref={isLast ? observerRef : null}
                   className={`relative flex aspect-square w-full flex-col items-center gap-4 overflow-hidden rounded-2xl ${profile.relationFlag ? 'bg-gradient-to-br from-blue-500 to-blue-400' : 'bg-gray-50'}`}
                 >
@@ -154,7 +174,7 @@ export default function ParticipantsSection() {
       </div>
       <div className="wrapper fixed bottom-20 z-30 flex flex-col items-center">
         <ParticipationInfo
-          totalCount={data?.pages?.[0]?.relationProfiles.page.totalElements ?? 0}
+          totalCount={data?.pages?.[0]?.page.totalElements ?? 0}
           registerCount={data?.pages?.[0]?.registerCount ?? 0}
         />
       </div>

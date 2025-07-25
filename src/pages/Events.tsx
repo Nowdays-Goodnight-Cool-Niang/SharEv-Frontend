@@ -2,7 +2,7 @@ import Header from '@/components/common/Header';
 import EventCard from '@/components/events/EventCard';
 import { EVENT_ID } from '@/constants/eventId';
 import { useQueryCheckParticipation } from '@/hooks/useQueryCheckParticipation';
-import { IEvent } from '@/types';
+import { IEvent } from '@/types/domain/event';
 
 export const events: IEvent[] = [
   {

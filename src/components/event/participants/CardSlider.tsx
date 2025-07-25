@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import EventProfileCard from '../card/EventProfileCard';
-import { CustomEventProfile } from '@/types/api.types';
 import EventProfileCardSkeleton from '../card/EventProfileCardSkeleton';
+import { IPublicEventProfile } from '@/types/domain/event';
+import { EventProfileState } from '@/constants/event';
 
 export default function CardSlider({
   profiles,
@@ -10,7 +11,7 @@ export default function CardSlider({
   hasNextPage,
   isFetchingNextPage,
 }: {
-  profiles: CustomEventProfile[];
+  profiles: IPublicEventProfile[];
   fetchNextPage: () => void;
   isLoading: boolean;
   hasNextPage: boolean;
@@ -69,7 +70,6 @@ export default function CardSlider({
     };
   }, [isDragging, handleMove, handleEnd]);
 
-  // ✅ infinite scroll trigger
   useEffect(() => {
     if (currentIndex === profiles.length - 1 && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -86,7 +86,7 @@ export default function CardSlider({
                 {[0, 1].map((i) => (
                   <div
                     key={`skeleton-init-${i}`}
-                    className={`absolute w-full max-w-[22rem] rounded-3xl ${i == 0 && 'shadow-2xl'}`}
+                    className={`absolute w-full max-w-[22rem] rounded-3xl`}
                     style={{
                       transform: `translateX(${i * 280}px) scale(${i === 0 ? 1 : 0.9})`,
                       zIndex: i === 0 ? 10 : 5,
@@ -103,29 +103,25 @@ export default function CardSlider({
 
                 return (
                   <div
-                    key={profile.profileId ?? index}
+                    key={index}
                     className={`absolute w-full max-w-[22rem] cursor-grab select-none rounded-3xl transition-all duration-300 active:cursor-grabbing ${
-                      isActive ? 'z-10 shadow-2xl scale-100' : 'z-0 scale-90'
+                      isActive ? 'z-10 scale-100' : 'z-0 scale-90'
                     }`}
                     style={{
                       transform: `translateX(${offset * 280 + translateX}px) scale(${isActive ? 1 : 0.9})`,
-                      opacity: Math.abs(offset) > 1 ? 0 : isActive ? 1 : 0.6,
+                      opacity: Math.abs(offset) > 1 ? 0 : isActive ? 1 : 0.4,
                       zIndex: isActive ? 10 : 5 - Math.abs(offset),
                     }}
                     onMouseDown={handleMouseDown}
                     onTouchStart={handleTouchStart}
                   >
                     <EventProfileCard
-                      profile={{
-                        name: '김주호',
-                        email: 'zuhu@gmail.com',
-                        socialLinks: {
-                          github: 'https://github.com/zuhu',
-                          instagram: 'https://instagram.com/zuhu',
-                        },
-                      }}
+                      state={
+                        profile.relationFlag ? EventProfileState.READONLY : EventProfileState.LOCKED
+                      }
+                      profile={profile}
                       eventName="CODE:ME"
-                      graphicNumber={profile.iconNumber}
+                      showLinkIcons={profile.relationFlag}
                     />
                   </div>
                 );

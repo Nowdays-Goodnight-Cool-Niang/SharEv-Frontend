@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import NoticeInfo from '@/components/common/NoticeInfo';
 import TabSelector from './TabSelector';
@@ -9,15 +9,15 @@ import BaseButton from '@/components/common/BaseButton';
 import Input from '@/components/common/Input';
 import { useMutateGetProfileByPin } from '@/hooks/useQueryGetProfileByPin';
 import { EVENT_ID } from '@/constants/eventId';
-import EventProfileCard from '../card/EventProfileCard';
-import { EventProfileState } from '@/types';
 import { useQueryRegisterParticipant } from '@/hooks/useQueryRegisterParticipant';
 import WebcamCapture from './WebcamCapture';
 import { BrowserQRCodeReader } from '@zxing/browser';
 import toast from 'react-hot-toast';
+import SpotlightCard from '../card/SpotlightCard';
 
 export default function ShareSection() {
   const qrReader = new BrowserQRCodeReader();
+  const [showSpotlightCard, setShowSpotlightCard] = useState(false);
   const [activeTab, setActiveTab] = useState('share');
   const [receiveMethod, setReceiveMethod] = useState('qr');
   const [pinInput, setPinInput] = useState('');
@@ -56,19 +56,19 @@ export default function ShareSection() {
     }
   };
 
+  useEffect(() => {
+    if (!isGetProfilePending && profile) setShowSpotlightCard(true);
+  }, [isGetProfilePending, profile]);
+
   return (
     <div className="relative">
-      {!isGetProfilePending && profile && (
-        <div className="background fixed inset-0 z-50 flex flex-col items-center justify-center">
-          <div className="fixed inset-0 bg-black bg-opacity-50" onClick={() => {}} />
-          <EventProfileCard
-            state={EventProfileState.READONLY}
-            profile={profile.profile}
-            eventName="CODE:ME"
-            graphicNumber={profile.imageIndex}
-            content={profile.content}
-          />
-        </div>
+      {showSpotlightCard && profile && (
+        <SpotlightCard
+          profile={profile}
+          eventName="CODE:ME"
+          onClose={() => setShowSpotlightCard(false)}
+          showLinkIcons
+        />
       )}
       <div className="wrapper">
         <div className="my-2 flex h-12 items-center">
@@ -106,7 +106,7 @@ export default function ShareSection() {
             {activeTab === 'share' && (
               <div className="mt-6 flex w-full flex-col items-center gap-4">
                 <div className="mx-auto flex aspect-square max-h-56 w-full max-w-56 items-center justify-center rounded-2xl bg-white p-4">
-                  <QRCodeSVG value={myPinNumber} className="h-52 w-full" />
+                  <QRCodeSVG value={myPinNumber?.toString()} className="h-52 w-full" />
                 </div>
                 <div className="flex justify-center gap-3">
                   {myPinNumber
@@ -136,7 +136,7 @@ export default function ShareSection() {
                     content: (
                       <div className="my-6 flex flex-col items-center gap-4">
                         <div className="mx-auto w-full max-w-md overflow-hidden rounded-2xl bg-gray-50">
-                          <WebcamCapture onCapture={handleImage} />;
+                          <WebcamCapture onCapture={handleImage} />
                         </div>
                         <NoticeInfo> 상대방의 QR 코드를 카메라로 스캔하세요</NoticeInfo>
                       </div>
