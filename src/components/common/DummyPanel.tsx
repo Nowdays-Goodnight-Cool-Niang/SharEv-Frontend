@@ -33,7 +33,7 @@ export default function DummyPanel() {
   };
 
   return (
-    <div className="fixed -right-4 bottom-20 z-50 w-full text-sm">
+    <div className="fixed left-4 top-16 z-50 text-sm">
       <button
         onClick={() => setOpen((prev) => !prev)}
         className="mb-2 rounded bg-black px-4 py-2 text-white shadow"
