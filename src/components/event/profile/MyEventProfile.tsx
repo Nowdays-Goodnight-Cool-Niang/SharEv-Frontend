@@ -1,12 +1,13 @@
 import EventProfileCard from '../card/EventProfileCard';
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { EventProfileState } from '@/types/common/ui';
 import { EVENT_ID } from '@/constants/eventId';
 import { useSuspenseQueryEventProfile } from '@/hooks/useQueryEventProfile';
 import { useMutateMyEventProfile } from '@/hooks/useMutateMyEventProfile';
-import { EventProfileDetailRequest } from '@/types/api.types';
 import { useEventProfileStore } from '@/stores/useEventProfileStore';
+import { ProfileContent } from '@/types/api/event';
+import { EventProfileStateType } from '@/types/domain/event';
+import { EventProfileState } from '@/constants/event';
 
 interface MyEventProfileProps {
   onFlipChange: (flipped: boolean) => void;
@@ -14,7 +15,7 @@ interface MyEventProfileProps {
 }
 
 export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEventProfileProps) {
-  const [eventProfileState, setEventProfileState] = useState<EventProfileState>(
+  const [eventProfileState, setEventProfileState] = useState<EventProfileStateType>(
     EventProfileState.READONLY
   );
   const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
@@ -34,7 +35,7 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
   // 데이터를 받아온 후 프로필 정보 입력 상태를 전역 상태로 저장
   useEffect(() => {
     if (!eventProfile) return;
-    const isComplete = Object.values(eventProfile.content.fields).every(
+    const isComplete = Object.values(eventProfile.template.fields).every(
       (field) => field.value !== null && field.value.trim() !== ''
     );
     setProfileComplete(isComplete);
@@ -43,9 +44,9 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
   }, [eventProfile]);
 
   useEffect(() => {
-    if (!(eventProfileState === EventProfileState.EDIT) && eventProfile?.content?.fields) {
+    if (!(eventProfileState === EventProfileState.EDIT) && eventProfile?.template?.fields) {
       const newFieldValues = Object.fromEntries(
-        Object.entries(eventProfile.content.fields).map(([key, { value }]) => [key, value])
+        Object.entries(eventProfile.template.fields).map(([key, { value }]) => [key, value])
       );
 
       setFieldValues(newFieldValues);
@@ -63,7 +64,7 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
   };
 
   const handleSave = () => {
-    const payload: EventProfileDetailRequest = {
+    const payload: ProfileContent = {
       introduce: fieldValues.introduce ?? '',
       proudestExperience: fieldValues.proudestExperience ?? '',
       toughExperience: fieldValues.toughExperience ?? '',
@@ -92,10 +93,8 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
   return (
     <EventProfileCard
       state={eventProfileState}
-      profile={eventProfile?.profile}
+      profile={eventProfile}
       eventName="CODE:ME"
-      graphicNumber={eventProfile?.imageIndex}
-      content={eventProfile?.content}
       fieldValues={fieldValues}
       onFieldChange={updateFieldValue}
       onActionButtonClick={eventProfileState === EventProfileState.EDIT ? handleSave : handleEdit}

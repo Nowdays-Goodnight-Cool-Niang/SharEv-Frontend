@@ -1,14 +1,13 @@
 import { useState } from 'react';
-import { EventProfileState, IEventProfileContent, IProfile } from '@/types/common/ui';
 import EventProfileCardFront from './EventProfileCardFront';
 import EventProfileCardBack from './EventProfileCardBack';
+import { EventProfileStateType, IEventProfile } from '@/types/domain/event';
+import { EventProfileState } from '@/constants/event';
 
 interface EventProfileCardProps {
-  state?: EventProfileState;
-  profile: IProfile;
+  state?: EventProfileStateType;
+  profile: IEventProfile;
   eventName: string;
-  graphicNumber: number;
-  content?: IEventProfileContent; // edit | readonly 모드에서 필요
   fieldValues?: Record<string, string>; // edit | readonly 모드에서 필요
   onFieldChange?: (key: string, value: string) => void; // edit 모드에서 필요
   onActionButtonClick?: () => void; // edit 모드에서 필요
@@ -20,8 +19,6 @@ function EventProfileCard({
   state,
   profile,
   eventName,
-  graphicNumber,
-  content,
   fieldValues,
   onFieldChange,
   onActionButtonClick,
@@ -57,17 +54,12 @@ function EventProfileCard({
         }`}
       >
         <div className="absolute inset-0 backface-hidden">
-          <EventProfileCardFront
-            profile={profile}
-            state={state}
-            eventName={eventName}
-            graphicNumber={graphicNumber}
-          />
+          <EventProfileCardFront profile={profile} state={state} eventName={eventName} />
         </div>
-        {state !== EventProfileState.LOCKED && content && (
+        {state !== EventProfileState.LOCKED && profile.template && (
           <div className="absolute inset-0 rotate-y-180 backface-hidden">
             <EventProfileCardBack
-              content={content}
+              content={profile.template}
               fieldValues={fieldValues}
               state={state}
               onFieldChange={onFieldChange}

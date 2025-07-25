@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import EventProfileCard from '../card/EventProfileCard';
-import { CustomEventProfile } from '@/types/api.types';
 import EventProfileCardSkeleton from '../card/EventProfileCardSkeleton';
+import { IPublicEventProfile } from '@/types/domain/event';
+import { EventProfileState } from '@/constants/event';
 
 export default function CardSlider({
   profiles,
@@ -10,7 +11,7 @@ export default function CardSlider({
   hasNextPage,
   isFetchingNextPage,
 }: {
-  profiles: CustomEventProfile[];
+  profiles: IPublicEventProfile[];
   fetchNextPage: () => void;
   isLoading: boolean;
   hasNextPage: boolean;
@@ -103,7 +104,7 @@ export default function CardSlider({
 
                 return (
                   <div
-                    key={profile.profileId ?? index}
+                    key={index}
                     className={`absolute w-full max-w-[22rem] cursor-grab select-none rounded-3xl transition-all duration-300 active:cursor-grabbing ${
                       isActive ? 'z-10 shadow-2xl scale-100' : 'z-0 scale-90'
                     }`}
@@ -116,16 +117,11 @@ export default function CardSlider({
                     onTouchStart={handleTouchStart}
                   >
                     <EventProfileCard
-                      profile={{
-                        name: '김주호',
-                        email: 'zuhu@gmail.com',
-                        socialLinks: {
-                          github: 'https://github.com/zuhu',
-                          instagram: 'https://instagram.com/zuhu',
-                        },
-                      }}
+                      state={
+                        profile.relationFlag ? EventProfileState.READONLY : EventProfileState.LOCKED
+                      }
+                      profile={profile}
                       eventName="CODE:ME"
-                      graphicNumber={profile.iconNumber}
                     />
                   </div>
                 );

@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router';
 import toast from 'react-hot-toast';
-import { IProfile } from '@/types/common/ui';
 import BaseButton from '@/components/common/BaseButton';
 import Checkbox from '@/components/common/Checkbox';
 import FormSection from '@/components/profile/FormSection';
 import { useQueryAccount } from '@/hooks/useQueryAccount';
 import { validateInput } from '@/utils/form';
-import { TOAST_MESSAGE } from '@/utils/labels';
+import { IAccount } from '@/types/domain/account';
+import { TOAST_MESSAGE } from '@/constants/message';
 
 interface IContentProps {
   variant: 'setup' | 'edit';
@@ -32,7 +32,7 @@ function Content({ variant }: IContentProps) {
   const navigate = useNavigate();
   const { profile, isLoading, patchProfileInfo } = useQueryAccount();
 
-  const [formAccount, setFormAccount] = useState<IProfile>(profile || ({} as IProfile));
+  const [formAccount, setFormAccount] = useState<IAccount>(profile || ({} as IAccount));
   const [validationMessages, setValidationMessages] = useState<{ [key: string]: string }>({});
   const [isModified, setIsModified] = useState(false);
   const [agreements, setAgreements] = useState({
@@ -43,7 +43,7 @@ function Content({ variant }: IContentProps) {
   useEffect(() => {
     if (variant === 'edit' && profile) {
       const isChanged = Object.keys(profile).some(
-        (key) => formAccount[key as keyof IProfile] !== profile[key as keyof IProfile]
+        (key) => formAccount[key as keyof IAccount] !== profile[key as keyof IAccount]
       );
       setIsModified(isChanged);
     }
@@ -93,7 +93,7 @@ function Content({ variant }: IContentProps) {
 
     const validationMessages = Object.keys(formAccount).reduce(
       (acc, key) => {
-        const value = formAccount[key as keyof IProfile];
+        const value = formAccount[key as keyof IAccount];
         if (typeof value === 'string') {
           const validationMessage = validateInput(key, value);
           if (validationMessage) acc[key] = validationMessage;
@@ -108,7 +108,7 @@ function Content({ variant }: IContentProps) {
       return;
     }
 
-    patchProfileInfo(formAccount as Omit<IProfile, 'id'>, {
+    patchProfileInfo(formAccount as Omit<IAccount, 'id'>, {
       onSuccess: () => {
         if (variant === 'setup') {
           navigate('/events');

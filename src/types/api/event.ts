@@ -7,7 +7,6 @@ export interface ProfileContent {
 }
 
 export interface FullProfileResponse extends Partial<ProfileContent> {
-  type: 'full';
   profileId?: number;
   name: string;
   email: string;
@@ -20,7 +19,6 @@ export interface FullProfileResponse extends Partial<ProfileContent> {
 
 export interface MinimalProfileResponse
   extends Omit<ProfileContent, 'introduce' | 'toughExperience'> {
-  type: 'minimum';
   name: string;
   iconNumber: number;
   relationFlag: boolean;
@@ -37,7 +35,6 @@ export interface PaginatedEventProfilesResponse {
 }
 
 export interface MyEventProfileResponse extends ProfileContent {
-  type: 'my';
   profileId: number;
   name: string;
   email: string;

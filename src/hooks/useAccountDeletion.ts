@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { accountAPI } from '@/apis/accounts';
-import { TOAST_MESSAGE } from '@/utils/labels';
+import { TOAST_MESSAGE } from '@/constants/message';
 
 export function useAccountDeletion() {
   const navigate = useNavigate();

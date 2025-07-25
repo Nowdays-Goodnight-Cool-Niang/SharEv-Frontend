@@ -44,7 +44,7 @@ export type IPublicEventProfile = IFullEventProfile | IMinimumEventProfile;
 export type IEventProfile = IMyEventProfile | IPublicEventProfile;
 export type EventProfileType = 'my' | 'shared' | 'unshared';
 
-export type EventProfileState = (typeof EventProfileState)[keyof typeof EventProfileState];
+export type EventProfileStateType = (typeof EventProfileState)[keyof typeof EventProfileState];
 
 export interface IEvent {
   id: number;

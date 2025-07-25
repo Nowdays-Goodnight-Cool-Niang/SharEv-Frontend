@@ -1,12 +1,13 @@
 import ExpandableInput from './ExpandableInput';
-import { EventProfileState, IEventProfileContent } from '@/types/common/ui';
+import { EventProfileStateType, TemplateContent } from '@/types/domain/event';
+import { EventProfileState } from '@/constants/event';
 // import GithubSvg from '@/assets/icons/ic_github.svg?react';
 // import LinkedInSvg from '@/assets/icons/ic_linkedin.svg?react';
 // import InstagramSvg from '@/assets/icons/ic_instagram.svg?react';
 
 interface EventProfileCardBack {
-  content: IEventProfileContent;
-  state?: EventProfileState;
+  content: TemplateContent;
+  state?: EventProfileStateType;
   fieldValues?: Record<string, string>;
   onFieldChange?: (key: string, value: string) => void;
   onActionButtonClick?: () => void;

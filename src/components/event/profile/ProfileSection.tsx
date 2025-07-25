@@ -7,8 +7,8 @@ import ToolTip from '@/components/common/ToolTip';
 import { useEventProfileStore } from '@/stores/useEventProfileStore';
 import toast from 'react-hot-toast';
 import html2canvas from 'html2canvas';
-import EventProfileGuideModal from '../EventProfileGuideModal';
-import IdeaModal from '../EventProfileIdeaModal';
+import EventProfileGuideModal from '../modal/EventProfileGuideModal';
+import IdeaModal from '../modal/EventProfileIdeaModal';
 
 const NOTICE_TEXT = {
   flip: '카드를 눌러 뒤집어 보세요!',

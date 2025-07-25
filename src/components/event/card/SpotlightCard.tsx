@@ -1,5 +1,6 @@
-import { EventProfileState, IEventProfile } from '@/types/common/ui';
+import { IEventProfile } from '@/types/domain/event';
 import EventProfileCard from './EventProfileCard';
+import { EventProfileState } from '@/constants/event';
 
 interface SpotlightCardProps {
   profile: IEventProfile;
@@ -15,8 +16,6 @@ export default function SpotlightCard({ profile, eventName, onClose }: Spotlight
         state={EventProfileState.READONLY}
         profile={profile}
         eventName={eventName}
-        graphicNumber={profile.imageIndex}
-        content={profile.content}
       />
     </div>
   );

@@ -1,18 +1,17 @@
-import { EventProfileState, IProfile } from '@/types/common/ui';
+import { EventProfileState } from '@/constants/event';
+import { EventProfileStateType, IEventProfile } from '@/types/domain/event';
 import { getGraphicImageByNumber } from '@/utils/graphic';
 
 interface EventProfileCardFrontProps {
-  state?: EventProfileState;
-  profile: IProfile;
+  state?: EventProfileStateType;
+  profile: IEventProfile;
   eventName: string;
-  graphicNumber: number;
 }
 
 function EventProfileCardFront({
   state = EventProfileState.LOCKED,
-  profile,
   eventName,
-  graphicNumber,
+  profile,
 }: EventProfileCardFrontProps) {
   return (
     <div
@@ -21,7 +20,7 @@ function EventProfileCardFront({
       <div className="absolute -bottom-10 flex aspect-square w-full flex-col items-end justify-end">
         <div className="w-[36rem] translate-x-48 translate-y-20">
           <img
-            src={getGraphicImageByNumber(graphicNumber)}
+            src={getGraphicImageByNumber(profile.iconNumber)}
             className="aspect-square w-full"
             alt=""
           />

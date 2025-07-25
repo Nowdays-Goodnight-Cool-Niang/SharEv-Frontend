@@ -9,8 +9,6 @@ import BaseButton from '@/components/common/BaseButton';
 import Input from '@/components/common/Input';
 import { useMutateGetProfileByPin } from '@/hooks/useQueryGetProfileByPin';
 import { EVENT_ID } from '@/constants/eventId';
-import EventProfileCard from '../card/EventProfileCard';
-import { EventProfileState } from '@/types/common/ui';
 import { useQueryRegisterParticipant } from '@/hooks/useQueryRegisterParticipant';
 import WebcamCapture from './WebcamCapture';
 import { BrowserQRCodeReader } from '@zxing/browser';
@@ -60,7 +58,7 @@ export default function ShareSection() {
   return (
     <div className="relative">
       {!isGetProfilePending && profile && (
-        <SpotlightCard profile={profile.profile} eventName="CODE:ME" />
+        <SpotlightCard profile={profile} eventName="CODE:ME" onClose={() => {}} />
       )}
       <div className="wrapper">
         <div className="my-2 flex h-12 items-center">

@@ -1,10 +1,10 @@
 import {
-  CustomEventProfile,
-  EventProfileResponse,
+  MyEventProfileResponse,
   ParticipationCheckResponse,
-} from '@/types/api.types';
+  PublicProfileResponse,
+} from '@/types/api/event';
 
-export const eventProfileData: EventProfileResponse = {
+export const eventProfileData: MyEventProfileResponse = {
   profileId: 1,
   name: '홍길동',
   email: 'hong@example.com',
@@ -19,7 +19,7 @@ export const eventProfileData: EventProfileResponse = {
   pinNumber: 3512,
 };
 
-export const participantsData: CustomEventProfile[] = [
+export const participantsData: PublicProfileResponse[] = [
   {
     profileId: 1,
     name: '홍길동',
@@ -198,7 +198,7 @@ export const participationCheckData: ParticipationCheckResponse = {
   isParticipant: true,
 };
 
-export const profileByPinData: CustomEventProfile = {
+export const profileByPinData: PublicProfileResponse = {
   profileId: 4,
   name: '이승기',
   email: 'lee@example.com',

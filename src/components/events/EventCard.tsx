@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router';
 import ClockSvg from '@/assets/icons/ic_clock.svg?react';
 import LocationSvg from '@/assets/icons/ic_location.svg?react';
 import ToolTip from '@/components/common/ToolTip';
-import { IEvent } from '@/types/common/ui';
 import { formatKoreanDate } from '@/utils/format';
 import {
   getEventStatus,
@@ -16,6 +15,7 @@ import {
   isButtonDisabled,
 } from '@/utils/eventStatus';
 import { useQueryClient } from '@tanstack/react-query';
+import { IEvent } from '@/types/domain/event';
 
 interface EventCardProps {
   event: IEvent;

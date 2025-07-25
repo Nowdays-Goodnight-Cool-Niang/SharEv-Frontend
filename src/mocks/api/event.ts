@@ -5,7 +5,8 @@ import {
   participationCheckData,
   profileByPinData,
 } from './data/eventData';
-import { EventProfileResponse, ParticipantsResponse } from '@/types/api.types';
+import { PaginatedEventProfilesResponse } from '@/types/api/event';
+import { IMyEventProfile } from '@/types/domain/event';
 
 export const eventHandler = [
   // 본인 프로필 조회
@@ -35,7 +36,7 @@ export const eventHandler = [
       const totalElements = participantsData.length;
       const totalPages = Math.ceil(totalElements / size);
 
-      const response: ParticipantsResponse = {
+      const response: PaginatedEventProfilesResponse = {
         registerCount: participantsData.filter((card) => card.relationFlag).length,
         relationProfiles: {
           content,
@@ -77,7 +78,7 @@ export const eventHandler = [
   http.patch(
     `${import.meta.env.VITE_API_BASE_URL}/events/:eventId/profiles`,
     async ({ request }) => {
-      const body = (await request.json()) as Partial<EventProfileResponse>;
+      const body = (await request.json()) as Partial<IMyEventProfile>;
       return HttpResponse.json({ ...eventProfileData, ...body });
     }
   ),

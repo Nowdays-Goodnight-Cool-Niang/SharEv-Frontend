@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import MyProfile from '@/components/mypage/MyProfile';
 import { authAPI } from '@/apis/auth';
-import { TOAST_MESSAGE } from '@/utils/labels';
 import { Link } from 'react-router';
 import MessageCircleSvg from '@/assets/icons/ic_message_circle.svg?react';
 import LogOutSvg from '@/assets/icons/ic_logout.svg?react';
 import UserMinusSvg from '@/assets/icons/ic_user_minus.svg?react';
+import { TOAST_MESSAGE } from '@/constants/message';
 
 function MySection() {
   const navigate = useNavigate();
