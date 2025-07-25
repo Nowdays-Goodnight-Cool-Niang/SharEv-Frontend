@@ -59,6 +59,7 @@ function EventProfileCard({
         <div className="absolute inset-0 backface-hidden">
           <EventProfileCardFront
             profile={profile}
+            state={state}
             eventName={eventName}
             graphicNumber={graphicNumber}
           />

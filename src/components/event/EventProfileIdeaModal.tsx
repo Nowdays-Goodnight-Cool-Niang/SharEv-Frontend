@@ -44,16 +44,22 @@ interface IdeaModalProps {
 export default function IdeaModal({ isOpen, onClose }: IdeaModalProps) {
   return (
     <BottomModal isOpen={isOpen} onClose={onClose}>
-      <BottomModal.Title>무엇을 써야 할지 막막하다면? 🤔</BottomModal.Title>
-      <BottomModal.Description>
-        아래 내용을 참고해서 명함을 작성해도 좋아요!
-      </BottomModal.Description>
-      <BottomModal.Box>
-        {tips.map((tip, idx) => (
-          <TipSection key={idx} tip={tip} />
-        ))}
-      </BottomModal.Box>
-      <BottomModal.Button onClick={onClose}>알겠습니다!</BottomModal.Button>
+      <BottomModal.Header>
+        <BottomModal.Title>무엇을 써야 할지 막막하다면? 🤔</BottomModal.Title>
+        <BottomModal.Description>
+          아래 내용을 참고해서 명함을 작성해도 좋아요!
+        </BottomModal.Description>
+      </BottomModal.Header>
+      <BottomModal.Body>
+        <BottomModal.Box>
+          {tips.map((tip, idx) => (
+            <TipSection key={idx} tip={tip} />
+          ))}
+        </BottomModal.Box>
+      </BottomModal.Body>
+      <BottomModal.Footer>
+        <BottomModal.Button onClick={onClose}>알겠습니다!</BottomModal.Button>
+      </BottomModal.Footer>
     </BottomModal>
   );
 }

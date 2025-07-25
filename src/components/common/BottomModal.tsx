@@ -36,7 +36,7 @@ function BottomModal({
         onClick={closeOnOverlayClick ? onClose : undefined}
       />
       <div
-        className={`absolute bottom-0 z-10 h-4/5 w-full animate-modal-enter overflow-y-auto rounded-t-3xl bg-white px-6 pb-14 pt-10 shadow-xl backdrop-blur-lg`}
+        className={`absolute bottom-0 z-10 h-2/3 w-full animate-modal-enter rounded-t-3xl bg-white`}
         onClick={(e) => e.stopPropagation()}
       >
         {children}
@@ -45,6 +45,22 @@ function BottomModal({
     document.body
   );
 }
+
+BottomModal.Header = function Header({ children }: PropsWithChildren) {
+  return <div className="wrapper pt-10">{children}</div>;
+};
+
+BottomModal.Body = function Body({ children }: PropsWithChildren) {
+  return <div className="wrapper h-full overflow-y-auto pb-60 pt-2">{children}</div>;
+};
+
+BottomModal.Footer = function Footer({ children }: PropsWithChildren) {
+  return (
+    <div className="wrapper absolute bottom-0 left-0 w-full bg-gradient-to-t from-white via-white/80 to-white/0 pb-8 pt-4">
+      {children}
+    </div>
+  );
+};
 
 BottomModal.Title = function Title({ children }: PropsWithChildren) {
   return (
@@ -55,7 +71,7 @@ BottomModal.Title = function Title({ children }: PropsWithChildren) {
 };
 
 BottomModal.Description = function Description({ children }: PropsWithChildren) {
-  return <div className="mb-6 leading-7 tracking-tight text-gray-600">{children}</div>;
+  return <div className="mb-4 leading-7 tracking-tight text-gray-600">{children}</div>;
 };
 
 BottomModal.Box = function Box({ children }: PropsWithChildren) {
@@ -67,11 +83,7 @@ interface BottomModalButtonProps extends PropsWithChildren {
 }
 
 BottomModal.Button = function Button({ children, onClick }: BottomModalButtonProps) {
-  return (
-    <div className="absolute bottom-0 left-0 w-full border-t bg-white px-6 py-4 shadow-inner">
-      <BaseButton onClick={onClick}> {children}</BaseButton>
-    </div>
-  );
+  return <BaseButton onClick={onClick}> {children}</BaseButton>;
 };
 
 export default BottomModal;

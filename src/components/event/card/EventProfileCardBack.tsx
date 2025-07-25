@@ -87,7 +87,7 @@ function EventProfileCardBack({
       <div className="absolute bottom-0 z-20 flex w-full gap-2 bg-gradient-to-t from-gray-100 via-gray-100/90 to-gray-100/0 px-6 pb-8">
         {onCancelButtonClick && (
           <button
-            className={`duration-400 h-14 w-full min-w-20 flex-1 rounded-2xl bg-gray-300 font-semibold tracking-tight text-gray-500 transition-all disabled:pointer-events-none disabled:cursor-not-allowed`}
+            className={`duration-400 h-14 w-full min-w-20 flex-1 rounded-2xl bg-gray-400 font-semibold tracking-tight text-gray-200 transition-all disabled:pointer-events-none disabled:cursor-not-allowed`}
             onClick={(e) => {
               e.stopPropagation();
               onCancelButtonClick();

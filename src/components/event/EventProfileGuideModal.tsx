@@ -27,15 +27,20 @@ export default function EventProfileGuideModal({ isProfileComplete }: EventProfi
 
   return (
     <BottomModal isOpen={isOpen} onClose={handleClose}>
-      <BottomModal.Title>이제 나만의 명함을 만들어 볼까요?</BottomModal.Title>
-      <BottomModal.Description>
-        이번 행사에서 나를 가장 잘 보여줄 수 있는
-        <br /> 명함을 만들어보세요.
-      </BottomModal.Description>
-      <BottomModal.Box>
-        <GuideContent />
-      </BottomModal.Box>
-      <BottomModal.Button onClick={handleClose}>확인했어요</BottomModal.Button>
+      <BottomModal.Header>
+        <BottomModal.Title>무엇을 써야 할지 막막하다면? 🤔</BottomModal.Title>
+        <BottomModal.Description>
+          아래 내용을 참고해서 명함을 작성해도 좋아요!
+        </BottomModal.Description>
+      </BottomModal.Header>
+      <BottomModal.Body>
+        <BottomModal.Box>
+          <GuideContent />
+        </BottomModal.Box>
+      </BottomModal.Body>
+      <BottomModal.Footer>
+        <BottomModal.Button onClick={handleClose}>확인했어요</BottomModal.Button>
+      </BottomModal.Footer>
     </BottomModal>
   );
 }
