@@ -28,11 +28,11 @@ function Input({
   return (
     <label className="mt-2 block md:mt-6">
       <div className="flex items-center">
-        <span className="text-body-4 font-medium leading-6 tracking-tight text-gray-700 md:text-sm">
+        <span className="text-sm font-medium leading-6 tracking-tight text-gray-700">
           {labelName}
         </span>
         {required && (
-          <div className="ml-1 rounded-md bg-orange-100 px-1.5 py-0.5 text-sm font-semibold text-orange-500">
+          <div className="ml-1 rounded-md bg-orange-100 px-1.5 py-0.5 text-xs font-semibold text-orange-500">
             필수
           </div>
         )}

@@ -25,7 +25,7 @@ function Events() {
         )}
       </div>
       <div className="wrapper space-y-5">
-        {!isLoading
+        {!isLoading && data
           ? events.map((event) => (
               <EventCard key={event.id} event={event} isParticipating={data.isParticipant} />
             ))

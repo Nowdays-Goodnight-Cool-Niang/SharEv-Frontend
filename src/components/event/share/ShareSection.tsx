@@ -37,10 +37,21 @@ export default function ShareSection() {
   };
 
   const handleRegisterAndShowProfile = (pinNumber: string) => {
-    mutateGetProfile(pinNumber);
-    mutateRegisterParticipant(pinNumber);
-    toast.success('명함을 교환에 성공했습니다!');
-    setPinInput('');
+    mutateRegisterParticipant(pinNumber, {
+      onSuccess: () => {
+        toast.success('명함 교환에 성공했습니다!');
+        mutateGetProfile(pinNumber);
+        setPinInput('');
+      },
+      onError: (error: any) => {
+        console.log(error);
+        if (error?.status === 400) {
+          toast.error(error?.response.data);
+        } else {
+          toast.error('명함 교환에 실패했습니다. 다시 시도해주세요.');
+        }
+      },
+    });
   };
 
   const handleImage = async (imageSrc: string) => {
