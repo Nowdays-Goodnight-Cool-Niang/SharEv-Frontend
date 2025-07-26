@@ -90,8 +90,8 @@ function EventProfileCardBack({
       className={`relative top-0 flex h-full w-full flex-col gap-2 overflow-hidden rounded-3xl bg-gray-50 transition-transform duration-700 transform-style-3d`}
     >
       <div className="z-10 flex-1 overflow-auto px-8 pt-8">
-        <div className="mb-4 flex items-center justify-between">
-          <h1 className="text-xl tracking-tight text-gray-900">About Me</h1>
+        <div className="mb-6 flex items-center justify-between">
+          <h1 className="font-museo text-xl tracking-tight text-gray-900">About Me</h1>
           {showLinkIcons && (
             <ul className="flex flex-wrap items-center gap-2">
               {renderLinkButtons({
