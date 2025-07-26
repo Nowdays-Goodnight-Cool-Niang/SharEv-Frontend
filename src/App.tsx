@@ -15,6 +15,8 @@ import TermsOfService from '@/pages/TermsOfService';
 import NotFound from '@/pages/NotFound';
 import { setupAxiosInterceptors } from '@/apis/responseInterceptor';
 import Events from './pages/Events';
+import GlobalErrorBoundary from './components/common/GlobalErrorBoundary';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 function App() {
   const queryClient = new QueryClient();
@@ -27,46 +29,57 @@ function App() {
     {
       path: '/',
       element: <Home />,
+      errorElement: <ErrorBoundary />,
     },
     {
       path: '/kakao',
       element: <LoginRedirect />,
+      errorElement: <ErrorBoundary />,
     },
     {
       path: '/privacy',
       element: <PrivacyPolicy />,
+      errorElement: <ErrorBoundary />,
     },
     {
       path: '/privacy-consent',
       element: <PrivacyConsent />,
+      errorElement: <ErrorBoundary />,
     },
     {
       path: '/terms',
       element: <TermsOfService />,
+      errorElement: <ErrorBoundary />,
     },
     {
       path: '/profile-setup',
       element: <ProfileSetup />,
+      errorElement: <ErrorBoundary />,
     },
     {
       path: '/events',
       element: <Events />,
+      errorElement: <ErrorBoundary />,
     },
     {
       path: '/event',
       element: <Event />,
+      errorElement: <ErrorBoundary />,
     },
     {
       path: '/setting',
       element: <MyPage />,
+      errorElement: <ErrorBoundary />,
     },
     {
       path: '/profile-edit',
       element: <ProfileEdit />,
+      errorElement: <ErrorBoundary />,
     },
     {
       path: '/account-deletion',
       element: <AccountDeletion />,
+      errorElement: <ErrorBoundary />,
     },
     {
       path: '*',
@@ -75,11 +88,13 @@ function App() {
   ]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {/* <DummyPanel /> */}
-      <Toaster />
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <GlobalErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        {/* <DummyPanel /> */}
+        <Toaster />
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </GlobalErrorBoundary>
   );
 }
 
