@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { validateInput } from './form';
+import { validateInput } from '../utils/form';
 
 type Case = [field: string, value: string, expected: string | undefined];
 
@@ -21,6 +21,7 @@ describe('validateInput', () => {
       '올바른 형식의 링크를 입력해주세요. (예: linkedin.com/in/3~30자의 문자, 숫자, 하이픈만 허용)',
     ],
     ['linkedinUrl', 'linkedin.com/in/abc123', undefined],
+    ['linkedinUrl', 'linkedin.com/in/123', undefined],
 
     ['githubUrl', '', undefined],
     [
@@ -29,6 +30,7 @@ describe('validateInput', () => {
       '올바른 형식의 링크를 입력해주세요. (예: github.com/1~39자의 문자, 숫자, 하이픈만 허용)',
     ],
     ['githubUrl', 'github.com/abc-123', undefined],
+    ['githubUrl', 'github.com/123', undefined],
 
     ['instagramUrl', '', undefined],
     [
