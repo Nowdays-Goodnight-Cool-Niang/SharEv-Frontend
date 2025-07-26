@@ -5,6 +5,7 @@ interface ExpandableInputProps {
   onChange: (val: string) => void;
   placeholder?: string;
   editMode?: boolean;
+  maxLength?: number;
 }
 
 function ExpandableInput({
@@ -12,6 +13,7 @@ function ExpandableInput({
   onChange,
   placeholder = '',
   editMode = false,
+  maxLength = 250,
 }: ExpandableInputProps) {
   const spanRef = useRef<HTMLSpanElement>(null);
 
@@ -22,7 +24,22 @@ function ExpandableInput({
   }, [value]);
 
   const handleInput = (e: React.FormEvent<HTMLSpanElement>) => {
-    onChange(e.currentTarget.textContent || '');
+    const text = e.currentTarget.textContent || '';
+    if (maxLength && text.length > maxLength) {
+      const trimmed = text.slice(0, maxLength);
+      e.currentTarget.textContent = trimmed;
+
+      const range = document.createRange();
+      const sel = window.getSelection();
+      range.selectNodeContents(e.currentTarget);
+      range.collapse(false);
+      sel?.removeAllRanges();
+      sel?.addRange(range);
+
+      onChange(trimmed);
+    } else {
+      onChange(text);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
