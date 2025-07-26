@@ -12,7 +12,7 @@ export default function ParticipationInfo({ totalCount, registerCount }: Partici
 
   const isNoneExchanged = registerCount === 0;
   const isAllExchanged = registerCount === totalCount;
-
+  console.log(registerCount, totalCount, isNoneExchanged, isAllExchanged);
   return (
     <div
       onClick={() => {
@@ -32,10 +32,10 @@ export default function ParticipationInfo({ totalCount, registerCount }: Partici
       {isOpen && (
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
-            <UsersSvg width={24} height={24} />
+            <UsersSvg width={24} height={24} className="shrink-0" />
             <p className="tracking-tight text-gray-500">
               {isNoneExchanged && <span>아직 명함을 교환하지 않았어요</span>}
-              {isAllExchanged && <span>모든 참가자와 명함을 교환했어요!</span>}
+              {totalCount !== 0 && isAllExchanged && <span>모든 참가자와 명함을 교환했어요!</span>}
               {!isNoneExchanged && !isAllExchanged && (
                 <span>
                   <span className="font-medium text-gray-500">{totalCount}</span>명 중{' '}
@@ -68,7 +68,7 @@ export default function ParticipationInfo({ totalCount, registerCount }: Partici
       {isOpen && (
         <button
           onClick={() => close()}
-          className="h-fit w-fit rounded-lg bg-gray-100 px-2.5 py-1.5 text-sm font-medium tracking-tight text-gray-500"
+          className="h-fit w-fit shrink-0 rounded-lg bg-gray-100 px-2.5 py-1.5 text-sm font-medium tracking-tight text-gray-500"
         >
           접기
         </button>
