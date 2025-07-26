@@ -12,9 +12,9 @@ import AccountDeletion from '@/pages/AccountDeletion';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import PrivacyConsent from '@/pages/PrivacyConsent';
 import TermsOfService from '@/pages/TermsOfService';
+import NotFound from '@/pages/NotFound';
 import { setupAxiosInterceptors } from '@/apis/responseInterceptor';
 import Events from './pages/Events';
-import DummyPanel from './components/common/DummyPanel';
 import GlobalErrorBoundary from './components/common/GlobalErrorBoundary';
 import ErrorBoundary from './components/common/ErrorBoundary';
 
@@ -81,12 +81,16 @@ function App() {
       element: <AccountDeletion />,
       errorElement: <ErrorBoundary />,
     },
+    {
+      path: '*',
+      element: <NotFound />,
+    },
   ]);
 
   return (
     <GlobalErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        <DummyPanel />
+        {/* <DummyPanel /> */}
         <Toaster />
         <RouterProvider router={router} />
       </QueryClientProvider>

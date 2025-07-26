@@ -5,12 +5,16 @@ import mixpanel from 'mixpanel-browser';
 import * as Sentry from '@sentry/react';
 
 const sentryDsn = import.meta.env.VITE_SENTRY_DSN;
-Sentry.init({
-  dsn: sentryDsn,
-  sendDefaultPii: true,
-  environment: import.meta.env.MODE,
-  sampleRate: import.meta.env.DEV ? 0.1 : 1.0,
-});
+if (sentryDsn) {
+  Sentry.init({
+    dsn: sentryDsn,
+    sendDefaultPii: true,
+    environment: import.meta.env.MODE,
+    sampleRate: import.meta.env.DEV ? 0.1 : 1.0,
+  });
+} else {
+  console.warn('Sentry DSN not found - error tracking disabled');
+}
 
 const mixpanelToken = import.meta.env.VITE_MIXPANEL_TOKEN;
 if (mixpanelToken) {
