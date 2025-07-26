@@ -16,6 +16,7 @@ import {
 } from '@/utils/eventStatus';
 import { useQueryClient } from '@tanstack/react-query';
 import { IEvent } from '@/types/domain/event';
+import { ROUTES } from '@/constants/routes';
 
 interface EventCardProps {
   event: IEvent;
@@ -77,7 +78,7 @@ function EventCard({ event, isParticipating }: EventCardProps) {
                       onSuccess: () => {
                         toast.success('행사에 참여하였습니다!');
                         queryClient.invalidateQueries({ queryKey: ['participation', EVENT_ID] });
-                        navigate('/event');
+                        navigate(ROUTES.EVENT.ROOT);
                       },
                       onError: () => {
                         toast.error('문제가 발생했습니다. 잠시 후에 다시 시도해 주세요.');
@@ -85,7 +86,7 @@ function EventCard({ event, isParticipating }: EventCardProps) {
                     });
                   }
                 : () => {
-                    navigate('/event');
+                    navigate(ROUTES.EVENT.ROOT);
                   }
             }
             disabled={isButtonDisabled(eventStatus)}

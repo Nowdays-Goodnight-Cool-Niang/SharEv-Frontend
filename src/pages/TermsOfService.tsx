@@ -44,7 +44,7 @@ function TermsOfService() {
 
   return (
     <div className="background flex flex-col bg-white dark:bg-gray-950">
-      <Header title="이용약관" />
+      <Header title="이용약관" showBackButton />
 
       <div className="wrapper pb-14 pt-6">
         <div className="space-y-6">
