@@ -1,6 +1,6 @@
 import UsersSvg from '@/assets/icons/ic_users.svg?react';
 import CardSvg from '@/assets/icons/ic_card.svg?react';
-import { useState } from 'react';
+import { useParticipationInfoStore } from '@/stores/useParticipationInfoStore';
 
 interface ParticipationInfoProps {
   totalCount: number;
@@ -8,31 +8,41 @@ interface ParticipationInfoProps {
 }
 
 export default function ParticipationInfo({ totalCount, registerCount }: ParticipationInfoProps) {
-  const [open, setOpen] = useState(true);
+  const { isOpen, open, close } = useParticipationInfoStore();
+
+  const isNoneExchanged = registerCount === 0;
+  const isAllExchanged = registerCount === totalCount;
+
   return (
     <div
       onClick={() => {
-        if (!open) setOpen(true);
+        if (!isOpen) open();
       }}
-      className={`flex items-center rounded-2xl transition-all duration-300 ${open ? 'justify-between gap-7 py-4 pl-5 pr-4' : 'h-16 w-16 justify-center'} bg-white shadow-md`}
+      className={`flex items-center rounded-2xl transition-all duration-300 ${isOpen ? 'justify-between gap-7 py-4 pl-5 pr-4' : 'justify-center px-5 py-3 hover:cursor-pointer'} bg-white shadow-md`}
     >
-      {!open && (
-        <div className="flex flex-col">
-          <UsersSvg width={28} height={28} />
+      {!isOpen && (
+        <div className="flex flex-col items-center gap-0.5">
+          <UsersSvg width={32} height={32} />
           <div className="flex">
             <span className="text-sm font-medium text-blue-500">{registerCount}</span>
-            <span className="text-sm font-medium text-gray-500">/{totalCount}</span>
+            <span className="text-sm font-medium text-gray-500">/{totalCount}명</span>
           </div>
         </div>
       )}
-      {open && (
+      {isOpen && (
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
             <UsersSvg width={24} height={24} />
             <p className="tracking-tight text-gray-500">
-              <span className="font-medium text-gray-500">{totalCount}</span>명 중{' '}
-              <span className="font-medium text-blue-500">{registerCount}</span>명과 명함을
-              교환했어요
+              {isNoneExchanged && <span>아직 명함을 교환하지 않았어요</span>}
+              {isAllExchanged && <span>모든 참가자와 명함을 교환했어요!</span>}
+              {!isNoneExchanged && !isAllExchanged && (
+                <span>
+                  <span className="font-medium text-gray-500">{totalCount}</span>명 중{' '}
+                  <span className="font-medium text-blue-500">{registerCount}</span>명과 명함을
+                  교환했어요
+                </span>
+              )}
             </p>
           </div>
           <div className="relative">
@@ -55,9 +65,9 @@ export default function ParticipationInfo({ totalCount, registerCount }: Partici
           </div>
         </div>
       )}
-      {open && (
+      {isOpen && (
         <button
-          onClick={() => setOpen(false)}
+          onClick={() => close()}
           className="h-fit w-fit rounded-lg bg-gray-100 px-2.5 py-1.5 text-sm font-medium tracking-tight text-gray-500"
         >
           접기

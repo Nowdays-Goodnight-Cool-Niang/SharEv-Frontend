@@ -2,7 +2,6 @@ import GridSvg from '@/assets/icons/ic_grid.svg?react';
 import StackSvg from '@/assets/icons/ic_stack.svg?react';
 import GridGraySvg from '@/assets/icons/ic_grid_gray.svg?react';
 import StackGraySvg from '@/assets/icons/ic_stack_gray.svg?react';
-import EmptyWallet from '@/assets/icons/ic_empty_wallet.svg?react';
 import ViewTabs from './ViewTabs';
 import { useEffect, useRef, useState } from 'react';
 import CardSlider from './CardSlider';
@@ -13,6 +12,7 @@ import ParticipationInfo from './ParticipationInfo';
 import SpotlightCard from '../card/SpotlightCard';
 import { IEventProfile } from '@/types/domain/event';
 import toast from 'react-hot-toast';
+import ParticipantsEmptyView from './ParticipantsEmptyView';
 
 export default function ParticipantsSection() {
   const [viewMode, setViewMode] = useState('grid');
@@ -86,20 +86,7 @@ export default function ParticipantsSection() {
 
         {showEmptyView && (
           <div className="wrapper">
-            <div className="flex flex-col items-center rounded-3xl bg-gray-50 py-10">
-              <EmptyWallet width={60} height={60} className="mb-7 mt-4" />
-              <div className="flex flex-col gap-2 text-center">
-                <p className="text-lg font-medium leading-7 tracking-tight text-gray-600">
-                  앗! 아직 이벤트에 참가한 <br />
-                  다른 참가자가 없어요
-                </p>
-                <p className="leading-6 tracking-tight text-gray-400">
-                  곧 다른 참가자들도 이벤트에 참여할 거예요
-                  <br />
-                  조금만 기다려 주세요
-                </p>
-              </div>
-            </div>
+            <ParticipantsEmptyView />
           </div>
         )}
 
