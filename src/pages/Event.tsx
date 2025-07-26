@@ -13,7 +13,7 @@ function Event() {
   return (
     <>
       <div className="background scroll-hide relative flex min-h-full flex-col bg-white dark:bg-gray-900">
-        <Header title="이벤트" />
+        <Header title="이벤트" showBackButton />
         {selected == EventTabType.profile && <ProfileSection />}
         {selected == EventTabType.participant && <ParticipantsSection />}
         {selected == EventTabType.QRCamera && <ShareSection />}
