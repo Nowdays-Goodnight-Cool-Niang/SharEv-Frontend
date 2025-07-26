@@ -6,6 +6,7 @@ import EmailSvg from '@/assets/icons/ic_email.svg?react';
 import GithubSvg from '@/assets/icons/ic_github.svg?react';
 import LinkedInSvg from '@/assets/icons/ic_linkedin.svg?react';
 import InstagramSvg from '@/assets/icons/ic_instagram.svg?react';
+import BaseButton from '@/components/common/BaseButton';
 
 interface EventProfileCardBack {
   email: string;
@@ -90,8 +91,8 @@ function EventProfileCardBack({
       className={`relative top-0 flex h-full w-full flex-col gap-2 overflow-hidden rounded-3xl bg-gray-50 transition-transform duration-700 transform-style-3d`}
     >
       <div className="z-10 flex-1 overflow-auto px-8 pt-8">
-        <div className="mb-4 flex items-center justify-between">
-          <h1 className="text-xl tracking-tight text-gray-900">About Me</h1>
+        <div className="mb-6 flex items-center justify-between">
+          <h1 className="font-museo text-xl tracking-tight text-gray-900">About Me</h1>
           {showLinkIcons && (
             <ul className="flex flex-wrap items-center gap-2">
               {renderLinkButtons({
@@ -101,7 +102,7 @@ function EventProfileCardBack({
             </ul>
           )}
         </div>
-        <span className="break-all text-base font-normal leading-[2.6rem] tracking-tight text-gray-500 dark:text-gray-50/70">
+        <span className="break-all text-base font-normal leading-[2.6rem] tracking-tight text-gray-500">
           {content.blocks.map((block, index) => {
             if (block.type === 'text') {
               return <span key={index}>{block.value}</span>;
@@ -133,7 +134,7 @@ function EventProfileCardBack({
         <div className="absolute bottom-0 z-20 flex w-full gap-2 bg-gradient-to-t from-gray-50 via-gray-50/90 to-gray-50/0 px-6 pb-8">
           {onCancelButtonClick && (
             <button
-              className={`duration-400 h-14 w-full min-w-20 flex-1 rounded-2xl bg-gray-400 font-semibold tracking-tight text-gray-200 transition-all disabled:pointer-events-none disabled:cursor-not-allowed`}
+              className={`duration-400 h-14 w-full min-w-20 flex-1 rounded-2xl bg-gray-200 font-semibold tracking-tight text-gray-400 transition-all disabled:pointer-events-none disabled:cursor-not-allowed`}
               onClick={(e) => {
                 e.stopPropagation();
                 onCancelButtonClick();
@@ -143,16 +144,15 @@ function EventProfileCardBack({
             </button>
           )}
           {onActionButtonClick && (
-            <button
-              disabled={isActionButtonDisabled}
-              className={`${state === EventProfileState.EDIT ? 'bg-white text-gray-900 disabled:bg-gray-200 disabled:text-gray-400' : 'bg-white text-gray-900'} duration-400 flex-2 h-14 w-full rounded-2xl font-semibold tracking-tight transition-all disabled:pointer-events-none disabled:cursor-not-allowed`}
+            <BaseButton
+              isDisabled={state === EventProfileState.EDIT && isActionButtonDisabled}
               onClick={(e) => {
                 e.stopPropagation();
                 onActionButtonClick();
               }}
             >
               {state === EventProfileState.EDIT ? '저장하기' : '편집하기'}
-            </button>
+            </BaseButton>
           )}
         </div>
       )}
