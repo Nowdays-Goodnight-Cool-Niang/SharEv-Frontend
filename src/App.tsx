@@ -12,9 +12,9 @@ import AccountDeletion from '@/pages/AccountDeletion';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import PrivacyConsent from '@/pages/PrivacyConsent';
 import TermsOfService from '@/pages/TermsOfService';
+import NotFound from '@/pages/NotFound';
 import { setupAxiosInterceptors } from '@/apis/responseInterceptor';
 import Events from './pages/Events';
-import DummyPanel from './components/common/DummyPanel';
 
 function App() {
   const queryClient = new QueryClient();
@@ -68,11 +68,15 @@ function App() {
       path: '/account-deletion',
       element: <AccountDeletion />,
     },
+    {
+      path: '*',
+      element: <NotFound />,
+    },
   ]);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <DummyPanel />
+      {/* <DummyPanel /> */}
       <Toaster />
       <RouterProvider router={router} />
     </QueryClientProvider>
