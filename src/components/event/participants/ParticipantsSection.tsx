@@ -51,7 +51,7 @@ export default function ParticipantsSection() {
             showLinkIcons
           />
         )}
-        <div className="wrapper sticky top-14 z-20 my-2 flex h-12 w-full items-center justify-between gap-3 bg-white">
+        <div className="wrapper sticky top-14 z-20 my-2 flex h-12 w-full items-center justify-between gap-3 bg-white dark:bg-gray-900">
           <div className="flex items-center gap-3">
             <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">참가자 명함</h3>
           </div>
@@ -63,7 +63,7 @@ export default function ParticipantsSection() {
                   key: 'grid',
                   icon: {
                     active: <GridSvg width={20} height={20} />,
-                    inactive: <GridGraySvg width={20} height={20} />,
+                    inactive: <GridGraySvg className="dark:opacity-35" width={20} height={20} />,
                   },
                   label: '전체',
                   value: 'grid',
@@ -72,7 +72,7 @@ export default function ParticipantsSection() {
                   key: 'slide',
                   icon: {
                     active: <StackSvg width={20} height={20} />,
-                    inactive: <StackGraySvg width={20} height={20} />,
+                    inactive: <StackGraySvg className="dark:opacity-35" width={20} height={20} />,
                   },
                   label: '하나씩',
                   value: 'slide',

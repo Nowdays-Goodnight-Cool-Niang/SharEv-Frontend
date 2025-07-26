@@ -19,7 +19,7 @@ export function getStatusText(status: 'ongoing' | 'upcoming' | 'ended') {
 export function getStatusColor(status: string) {
   switch (status) {
     case 'ongoing':
-      return 'bg-blue-500 text-blue-50 dark:text-blue-400/10 dark:bg-blue-300';
+      return 'bg-blue-500 text-blue-50 dark:text-blue-200 dark:bg-blue-500/40';
     case 'upcoming':
       return 'bg-gray-50 text-gray-600 dark:bg-gray-400/10 dark:text-gray-300';
     case 'ended':

@@ -64,10 +64,10 @@ function ProfileSection() {
         <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">내 명함</h3>
         <button
           onClick={() => setIsIdeaModalOpen(true)}
-          className="flex items-center justify-center gap-1 rounded-lg bg-blue-50 py-1 pl-2 pr-2.5"
+          className="flex items-center justify-center gap-1 rounded-lg bg-blue-50 py-1 pl-2 pr-2.5 dark:bg-blue-200/50"
         >
           <BulbSvg width={18} height={18} />
-          <span className="text font-medium tracking-tight text-blue-500">TIP</span>
+          <span className="text font-medium tracking-tight text-blue-500 dark:text-white">TIP</span>
         </button>
       </div>
 
@@ -86,7 +86,7 @@ function ProfileSection() {
         </div>
         <button
           onClick={() => toast.success('아직 준비 중이에요')}
-          className="flex items-center justify-center gap-2 rounded-full bg-gray-100 px-5 py-3 font-medium tracking-tight text-gray-600 transition-colors duration-300 hover:bg-gray-200"
+          className="flex items-center justify-center gap-2 rounded-full bg-gray-100 px-5 py-3 font-medium tracking-tight text-gray-600 transition-colors duration-300 hover:bg-gray-200 dark:opacity-70"
         >
           <DownloadSvg width={20} height={20} className="" />
           <span>저장하기</span>

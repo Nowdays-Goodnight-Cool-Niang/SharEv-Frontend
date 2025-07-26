@@ -47,8 +47,8 @@ export default function EventProfileGuideModal({ isProfileComplete }: EventProfi
 
 function GuideContent() {
   return (
-    <div className="flex flex-col items-center gap-4 text-sm font-medium leading-6 tracking-tight text-gray-500">
-      <div className="flex aspect-square w-24 items-center justify-center rounded-full bg-white">
+    <div className="flex flex-col items-center gap-4 text-sm font-medium leading-6 tracking-tight text-gray-500 dark:text-gray-300">
+      <div className="flex aspect-square w-24 items-center justify-center rounded-full bg-white dark:bg-blue-50">
         <BulbSvg width={60} height={60} />
       </div>
       <div className="text-center">

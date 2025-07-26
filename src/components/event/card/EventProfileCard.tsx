@@ -50,7 +50,7 @@ function EventProfileCard({
         if (state === EventProfileState.READONLY || (state === EventProfileState.EDIT && !flipped))
           handleFlip();
       }}
-      className="w-full max-w-[22rem] perspective-1000"
+      className="w-full max-w-[22rem] perspective-1000 hover:cursor-pointer"
     >
       <div
         className={`relative aspect-[5/7] w-full transition-transform duration-700 transform-style-3d ${

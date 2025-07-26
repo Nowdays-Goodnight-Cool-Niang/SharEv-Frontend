@@ -12,7 +12,7 @@ export default function EventTabs() {
   const { selected, setSelected } = useEventTabsStore();
 
   return (
-    <div className="flex h-14 w-full gap-2 rounded-t-2xl border-t border-gray-100 bg-white dark:bg-gray-800">
+    <div className="flex h-14 w-full gap-2 rounded-t-2xl border-t border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800">
       <EventTab
         isSelected={selected === EventTabType.profile}
         onClick={() => setSelected(EventTabType.profile)}
@@ -20,7 +20,7 @@ export default function EventTabs() {
         {selected === EventTabType.profile ? (
           <IdentificationSvg width={24} height={24} />
         ) : (
-          <IdentificationGraySvg width={24} height={24} />
+          <IdentificationGraySvg className="dark:opacity-40" width={24} height={24} />
         )}
         <span>내 명함</span>
       </EventTab>
@@ -31,7 +31,7 @@ export default function EventTabs() {
         {selected === EventTabType.participant ? (
           <WallerSvg width={24} height={24} />
         ) : (
-          <WallerGraySvg width={24} height={24} />
+          <WallerGraySvg className="dark:opacity-40" width={24} height={24} />
         )}
         <span>참가자 명함</span>
       </EventTab>
@@ -42,7 +42,7 @@ export default function EventTabs() {
         {selected === EventTabType.QRCamera ? (
           <QRSvg width={24} height={24} />
         ) : (
-          <QRGraySvg width={24} height={24} />
+          <QRGraySvg className="dark:opacity-40" width={24} height={24} />
         )}
         <span>명함 공유</span>
       </EventTab>

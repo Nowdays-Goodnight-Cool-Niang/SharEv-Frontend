@@ -34,13 +34,13 @@ function ExpandableInput({
     <span
       ref={spanRef}
       contentEditable={editMode}
-      onClick={(e) => e.stopPropagation()}
+      onClick={editMode ? (e) => e.stopPropagation() : undefined}
       onKeyDown={handleKeyDown}
       onInput={handleInput}
       suppressContentEditableWarning
       data-placeholder={placeholder}
       data-has-placeholder={!value}
-      className={`relative mx-1 select-text rounded-lg px-2 py-1.5 ${editMode ? 'bg-white text-gray-800' : 'bg-gray-100 text-gray-700'} leading-10 before:text-gray-300 before:content-[attr(data-placeholder)] focus:outline-none focus:ring-1 focus:ring-gray-300 data-[has-placeholder=false]:before:content-none dark:border-gray-100/10 dark:text-gray-100 dark:before:text-gray-400/40`}
+      className={`relative mx-1 select-text rounded-lg px-2 py-1.5 ${editMode ? 'border border-gray-200 bg-white text-gray-800' : 'bg-gray-100 text-gray-700'} leading-10 transition-all duration-300 before:text-gray-300 before:content-[attr(data-placeholder)] focus:outline-none focus:ring-1 focus:ring-gray-400 data-[has-placeholder=false]:before:content-none`}
     />
   );
 }
