@@ -37,18 +37,27 @@ export default function ShareSection() {
   };
 
   const handleRegisterAndShowProfile = (pinNumber: string) => {
+    console.log(pinNumber);
     mutateRegisterParticipant(pinNumber, {
       onSuccess: () => {
-        toast.success('명함 교환에 성공했습니다!');
+        toast.success('명함 교환에 성공했어요!');
         mutateGetProfile(pinNumber);
         setPinInput('');
       },
       onError: (error: any) => {
-        console.log(error);
-        if (error?.status === 400) {
-          toast.error(error?.response.data);
+        if (
+          error.response.data.code === 'REGISTER_ALREADY' ||
+          error.response.data.code === 'REGISTER_MYSELF'
+        ) {
+          mutateGetProfile(pinNumber);
+          setPinInput('');
+          return;
+        }
+
+        if (error.response.data.code === 'PROFILE_NOT_FOUND') {
+          toast.error('핀 번호에 해당하는 참여자가 없어요!');
         } else {
-          toast.error('명함 교환에 실패했습니다. 다시 시도해주세요.');
+          toast.error('명함 교환에 실패했어요. 다시 시도해주세요.');
         }
       },
     });
