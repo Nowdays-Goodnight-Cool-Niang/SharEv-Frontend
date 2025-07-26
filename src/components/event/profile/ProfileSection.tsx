@@ -60,7 +60,7 @@ function ProfileSection() {
     <div ref={domRef} className="">
       <EventProfileGuideModal isProfileComplete={isProfileComplete} />
       <IdeaModal isOpen={isIdeaModalOpen} onClose={() => setIsIdeaModalOpen(false)} />
-      <div className="wrapper sticky top-14 z-20 my-2 flex h-12 items-center justify-between gap-3 bg-white">
+      <div className="wrapper sticky top-14 z-20 my-2 flex h-12 items-center justify-between gap-3">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">내 명함</h3>
         <button
           onClick={() => setIsIdeaModalOpen(true)}
