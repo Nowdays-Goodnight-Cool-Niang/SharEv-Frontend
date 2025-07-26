@@ -21,7 +21,7 @@ function AccountDeletion() {
 
   return (
     <div className="background flex flex-col bg-gray-50">
-      <Header title="회원 탈퇴" />
+      <Header title="회원 탈퇴" showBackButton />
       <div className="wrapper pb-6">
         <div className="mt-4 space-y-4">
           <div className="rounded-xl bg-white p-6 shadow-sm">

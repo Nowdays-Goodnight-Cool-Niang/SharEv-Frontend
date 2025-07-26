@@ -29,7 +29,7 @@
 
   body {
     font-family: 'Pretendard Variable', serif;
-    @apply flex justify-center bg-gray-900;
+    @apply flex justify-center bg-white;
   }
 
   #root {
@@ -118,15 +118,22 @@
     }
   }
 
+  .background-min {
+    @apply mx-auto w-full;
+    @media (min-width: 720px) {
+      max-width: 720px;
+    }
+  }
+
   .wrapper {
     @apply px-6;
   }
 
-  .scroll-hide {
+  .scrollbar-hide {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
-  .scroll-hide::-webkit-scrollbar {
+  .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
   }
 

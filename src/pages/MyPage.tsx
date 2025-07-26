@@ -5,7 +5,7 @@ function MyPage() {
   return (
     <>
       <main className="background min-h-screen bg-gray-50">
-        <Header title="마이페이지" />
+        <Header title="마이페이지" showBackButton />
         <MySection />
       </main>
     </>

@@ -21,10 +21,15 @@ if (mixpanelToken) {
   });
 }
 
-// if (process.env.NODE_ENV === 'development') {
-//   import('./mocks/browser').then(({ worker }) => {
-//     worker.start();
-//   });
-// }
+async function enableMocking() {
+  if (import.meta.env.VITE_MOCKING === 'true') {
+    const { worker } = await import('./mocks/browser');
+    await worker.start({
+      onUnhandledRequest: 'warn',
+    });
+  }
+}
 
-createRoot(document.getElementById('root')!).render(<App />);
+enableMocking().then(() => {
+  createRoot(document.getElementById('root')!).render(<App />);
+});

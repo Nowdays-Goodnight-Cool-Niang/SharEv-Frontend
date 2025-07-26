@@ -7,7 +7,7 @@ function PrivacyPolicy() {
 
   return (
     <div className="background flex flex-col bg-gray-50">
-      <Header title="개인정보 처리방침" />
+      <Header title="개인정보 처리방침" showBackButton />
 
       <div className="wrapper py-6">
         <div className="rounded-xl bg-white p-6 shadow-sm">

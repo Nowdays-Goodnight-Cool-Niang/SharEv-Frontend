@@ -5,7 +5,7 @@ import FormContent from '@/components/profile/FormContent';
 function ProfileEdit() {
   return (
     <div className="background flex flex-col bg-gray-50">
-      <Header title="프로필 수정" />
+      <Header title="프로필 수정" showBackButton />
       <div className="wrapper pb-6">
         <div className="mt-4">
           <NoticeInfo>모든 정보는 다른 사람에게 공개돼요</NoticeInfo>
