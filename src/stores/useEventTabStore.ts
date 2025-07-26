@@ -1,5 +1,5 @@
+import { EventTabType } from '@/constants/event';
 import { create } from 'zustand';
-import { EventTabType } from '@/enums';
 
 interface IEventTabsStore {
   selected: EventTabType;

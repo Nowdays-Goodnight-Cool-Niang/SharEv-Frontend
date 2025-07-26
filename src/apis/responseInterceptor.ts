@@ -1,11 +1,10 @@
 import toast from 'react-hot-toast';
-import { AxiosError } from 'axios';
 import { accountInstance } from './accounts';
-import { participantInstance } from './participants';
-import { shareCardInstance } from './shareCards';
-import { kakaoAuthInstance } from './kakaoAuth';
+import { eventInstance } from './event/event.api';
+import { kakaoAuthInstance } from './kakao';
 import { authInstance } from './auth';
-import { TOAST_MESSAGE } from '@/utils/labels';
+import { AxiosError } from 'axios';
+import { TOAST_MESSAGE } from '@/constants/message';
 
 export const setupAxiosInterceptors = () => {
   const handleResponseError = (error: AxiosError) => {
@@ -29,16 +28,13 @@ export const setupAxiosInterceptors = () => {
       toast.error(TOAST_MESSAGE.ERROR_SERVER);
     }
 
+    if (error.config) {
+      error.config._handledByInterceptor = true;
+    }
     return Promise.reject(error);
   };
 
-  [
-    accountInstance,
-    participantInstance,
-    shareCardInstance,
-    kakaoAuthInstance,
-    authInstance,
-  ].forEach((instance) => {
+  [accountInstance, eventInstance, kakaoAuthInstance, authInstance].forEach((instance) => {
     instance.interceptors.response.use((response) => response, handleResponseError);
   });
 };

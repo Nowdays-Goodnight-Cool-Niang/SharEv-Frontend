@@ -1,42 +1,50 @@
 import BaseButton from '@/components/common/BaseButton';
+import LogoImg from '@/assets/images/img_logo.png';
 import KakaoSvg from '@/assets/icons/ic_kakao.svg?react';
-import geometricGraphic from '@/assets/images/img_geometric_graphic.png';
+import { Link } from 'react-router';
 
 function Home() {
   const handleKakaoLogin = () => {
-    // TODO: 서버가 껴져 있을 경우 사용자에게 알려주기
     const url = `${import.meta.env.VITE_API_BASE_URL}/oauth2/authorization/kakao`;
     window.location.assign(url);
   };
 
   return (
-    <div className="background relative bg-gray-900">
-      <div className="absolute top-0 h-full w-full overflow-hidden">
-        <img
-          src={geometricGraphic}
-          alt="Geometric Graphic"
-          className="absolute bottom-[15%] w-full"
-        />
-        ;
+    <div className="background wrapper flex h-screen flex-col gap-[5%] overflow-hidden bg-white py-14 dark:bg-gray-950">
+      <div className="flex w-full flex-1 animate-fade-in flex-col items-center justify-center gap-8">
+        <img src={LogoImg} className="w-36" />
+        <div className="flex flex-col items-center gap-3">
+          <h1 className="font-museo text-5xl font-semibold italic tracking-tight text-gray-900 dark:text-gray-50">
+            SharE<span className="text-blue-500 dark:text-blue-400">:</span>v
+          </h1>
+          <p className="text-center text-lg leading-7 tracking-tight text-gray-700 dark:text-gray-200">
+            나만의 디지털 명함을 공유해
+            <br />
+            새로운 연결을 만들어봐요
+          </p>
+        </div>
       </div>
-      <div className="absolute bottom-0 h-screen w-full overflow-hidden">
-        <div className="flex h-full flex-col items-center justify-between">
-          <div className="wrapper flex w-full animate-fade-in flex-col items-center justify-center gap-4 bg-gradient-to-b from-gray-900 to-gray-900/0 pb-20 pt-40 opacity-0 translate-y-5">
-            <h1 className="font-museo text-5xl text-gray-50">SharE:v</h1>
-            <p className="text-title-1 text-center text-gray-50">
-              프로필을 등록하고
-              <br />
-              간편하게 네트워킹하세요
-            </p>
-          </div>
-          <div className="wrapper mb-11 w-full">
-            <BaseButton variant="kakao" onClick={handleKakaoLogin}>
-              <span className="flex items-center justify-center gap-2">
-                <KakaoSvg />
-                카카오 로그인
-              </span>
-            </BaseButton>
-          </div>
+      <div className="space-y-8">
+        <BaseButton size="large" variant="kakao" onClick={handleKakaoLogin}>
+          <span className="flex items-center justify-center gap-2">
+            <KakaoSvg />
+            카카오 로그인
+          </span>
+        </BaseButton>
+        <div className="flex justify-center space-x-3 text-xs text-gray-400 dark:text-gray-500">
+          <Link
+            to="/terms"
+            className="transition-colors duration-300 hover:text-gray-500 hover:dark:text-gray-400"
+          >
+            이용약관
+          </Link>
+          <span>|</span>
+          <Link
+            to="/privacy"
+            className="transition-colors duration-300 hover:text-gray-500 hover:dark:text-gray-400"
+          >
+            개인정보처리방침
+          </Link>
         </div>
       </div>
     </div>

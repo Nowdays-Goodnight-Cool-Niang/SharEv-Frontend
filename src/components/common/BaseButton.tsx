@@ -1,8 +1,9 @@
 interface IBaseButtonProps {
   children: React.ReactNode;
-  variant?: 'default' | 'kakao';
-  size?: 'default' | 'small';
+  variant?: 'default' | 'kakao' | 'white';
+  size?: 'default' | 'large';
   isDisabled?: boolean;
+  animate?: boolean;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -11,21 +12,23 @@ function BaseButton({
   variant = 'default',
   size = 'default',
   isDisabled = false,
+  animate = false,
   onClick,
 }: IBaseButtonProps) {
   const bgClasses = {
-    default: 'bg-orange-500 text-gray-50 hover:bg-orange-700',
+    default: 'bg-blue-500 text-white hover:bg-blue-400',
+    white: 'bg-white text-gray-800 hover:bg-gray-100',
     kakao: 'bg-[#FEE500] text-[#000000]/85 hover:bg-[#eecc0d]',
   };
 
   const sizeClasses = {
-    default: 'text-button-1 rounded-lg p-4',
-    small: 'text-button-5 rounded px-3 py-2',
+    default: 'h-14',
+    large: 'h-16',
   };
 
   return (
     <button
-      className={`${bgClasses[variant]} duration-400 w-full transition-colors disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-25 ${sizeClasses[size]}`}
+      className={`${animate && 'animate-button-in'} ${bgClasses[variant]} w-full rounded-2xl px-5 font-semibold tracking-tight transition-all duration-300 active:scale-95 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 ${sizeClasses[size]}`}
       disabled={isDisabled}
       onClick={onClick}
     >

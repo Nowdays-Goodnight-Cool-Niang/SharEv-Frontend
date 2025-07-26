@@ -1,0 +1,14 @@
+import { KakaoLoginResponse } from '@/types/api/auth';
+import axios from 'axios';
+
+export const kakaoAuthInstance = axios.create({
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}/login/oauth2/code/kakao`,
+  withCredentials: true,
+});
+
+export const kakaoAuthAPI = {
+  loginWithKakao: async (params: { code: string; state: string }): Promise<KakaoLoginResponse> => {
+    const response = await kakaoAuthInstance.get('', { params });
+    return response.data;
+  },
+};

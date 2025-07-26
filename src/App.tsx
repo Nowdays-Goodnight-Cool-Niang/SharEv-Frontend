@@ -8,8 +8,13 @@ import LoginRedirect from '@/pages/LoginRedirect';
 import ProfileSetup from '@/pages/ProfileSetup';
 import ProfileEdit from '@/pages/ProfileEdit';
 import MyPage from '@/pages/MyPage';
-import LayoutWithHeader from '@/components/common/LayoutWithHeader';
+import AccountDeletion from '@/pages/AccountDeletion';
+import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import PrivacyConsent from '@/pages/PrivacyConsent';
+import TermsOfService from '@/pages/TermsOfService';
 import { setupAxiosInterceptors } from '@/apis/responseInterceptor';
+import Events from './pages/Events';
+import DummyPanel from './components/common/DummyPanel';
 
 function App() {
   const queryClient = new QueryClient();
@@ -28,31 +33,46 @@ function App() {
       element: <LoginRedirect />,
     },
     {
-      path: '/',
-      element: <LayoutWithHeader />,
-      children: [
-        {
-          path: '/profile-setup',
-          element: <ProfileSetup />,
-        },
-        {
-          path: '/event',
-          element: <Event />,
-        },
-        {
-          path: '/setting',
-          element: <MyPage />,
-        },
-        {
-          path: '/profile-edit',
-          element: <ProfileEdit />,
-        },
-      ],
+      path: '/privacy',
+      element: <PrivacyPolicy />,
+    },
+    {
+      path: '/privacy-consent',
+      element: <PrivacyConsent />,
+    },
+    {
+      path: '/terms',
+      element: <TermsOfService />,
+    },
+    {
+      path: '/profile-setup',
+      element: <ProfileSetup />,
+    },
+    {
+      path: '/events',
+      element: <Events />,
+    },
+    {
+      path: '/event',
+      element: <Event />,
+    },
+    {
+      path: '/setting',
+      element: <MyPage />,
+    },
+    {
+      path: '/profile-edit',
+      element: <ProfileEdit />,
+    },
+    {
+      path: '/account-deletion',
+      element: <AccountDeletion />,
     },
   ]);
 
   return (
     <QueryClientProvider client={queryClient}>
+      <DummyPanel />
       <Toaster />
       <RouterProvider router={router} />
     </QueryClientProvider>

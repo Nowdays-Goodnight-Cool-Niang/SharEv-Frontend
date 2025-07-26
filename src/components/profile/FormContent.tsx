@@ -1,38 +1,58 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import toast from 'react-hot-toast';
-import { IProfile } from '@/types';
 import BaseButton from '@/components/common/BaseButton';
+import Checkbox from '@/components/common/Checkbox';
 import FormSection from '@/components/profile/FormSection';
 import { useQueryAccount } from '@/hooks/useQueryAccount';
 import { validateInput } from '@/utils/form';
-import { TOAST_MESSAGE } from '@/utils/labels';
+import { IAccount } from '@/types/domain/account';
+import { TOAST_MESSAGE } from '@/constants/message';
 
 interface IContentProps {
   variant: 'setup' | 'edit';
 }
 
+const agreementItems = [
+  {
+    key: 'terms' as const,
+    label: '이용약관 동의',
+    linkTo: '/terms',
+    linkText: '보기',
+  },
+  {
+    key: 'privacy' as const,
+    label: '개인정보 수집·이용 동의',
+    linkTo: '/privacy-consent',
+    linkText: '보기',
+  },
+];
+
 function Content({ variant }: IContentProps) {
   const navigate = useNavigate();
   const { profile, isLoading, patchProfileInfo } = useQueryAccount();
 
-  const [formAccount, setFormAccount] = useState<IProfile>(profile || {});
+  const [formAccount, setFormAccount] = useState<IAccount>(profile || ({} as IAccount));
   const [validationMessages, setValidationMessages] = useState<{ [key: string]: string }>({});
   const [isModified, setIsModified] = useState(false);
+  const [agreements, setAgreements] = useState({
+    terms: false,
+    privacy: false,
+  });
 
   useEffect(() => {
     if (variant === 'edit' && profile) {
       const isChanged = Object.keys(profile).some(
-        (key) => formAccount[key as keyof IProfile] !== profile[key as keyof IProfile]
+        (key) => formAccount[key as keyof IAccount] !== profile[key as keyof IAccount]
       );
       setIsModified(isChanged);
     }
-  }, [formAccount]);
+  }, [formAccount, profile, variant]);
 
   useEffect(() => {
-    if (!isLoading && profile) {
+    if (!isLoading && profile && variant === 'edit') {
       setFormAccount((prevFormAccount) => {
-        if (JSON.stringify(prevFormAccount) !== JSON.stringify(profile)) {
+        if (JSON.stringify(prevFormAccount) === JSON.stringify({})) {
           return { ...profile };
         }
         return prevFormAccount;
@@ -41,7 +61,7 @@ function Content({ variant }: IContentProps) {
       const loadingToastId = toast.loading(TOAST_MESSAGE.PROFILE_LOADING);
       return () => toast.dismiss(loadingToastId);
     }
-  }, [isLoading]);
+  }, [isLoading, profile, variant]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -61,13 +81,23 @@ function Content({ variant }: IContentProps) {
     }));
   };
 
+  const handleAgreementChange = (type: 'terms' | 'privacy') => {
+    setAgreements((prev) => ({
+      ...prev,
+      [type]: !prev[type],
+    }));
+  };
+
   const handleProfileSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const validationMessages = Object.keys(formAccount).reduce(
       (acc, key) => {
-        const validationMessage = validateInput(key, formAccount[key as keyof IProfile] || '');
-        if (validationMessage) acc[key] = validationMessage;
+        const value = formAccount[key as keyof IAccount];
+        if (typeof value === 'string') {
+          const validationMessage = validateInput(key, value);
+          if (validationMessage) acc[key] = validationMessage;
+        }
         return acc;
       },
       {} as { [key: string]: string }
@@ -78,10 +108,10 @@ function Content({ variant }: IContentProps) {
       return;
     }
 
-    patchProfileInfo(formAccount, {
+    patchProfileInfo(formAccount as Omit<IAccount, 'id'>, {
       onSuccess: () => {
         if (variant === 'setup') {
-          navigate('/event');
+          navigate('/events');
         } else {
           navigate('/setting');
           toast.success(TOAST_MESSAGE.PROFILE_SAVE_SUCCESS, { icon: '🎉' });
@@ -97,27 +127,61 @@ function Content({ variant }: IContentProps) {
   const isFormValid =
     Object.values(validationMessages).every((validationMessage) => !validationMessage) &&
     !!formAccount.name &&
-    !!formAccount.email;
+    !!formAccount.email &&
+    (variant === 'edit' || (agreements.terms && agreements.privacy));
 
   return (
     <form>
-      <FormSection
-        type="default"
-        handleChange={handleChange}
-        handleBlur={handleBlur}
-        validationMessages={validationMessages}
-        formAccount={formAccount}
-      />
-      <FormSection
-        type="sns"
-        handleChange={handleChange}
-        handleBlur={handleBlur}
-        validationMessages={validationMessages}
-        formAccount={formAccount}
-      />
+      <div className="mt-4 rounded-xl bg-white p-6 shadow-sm">
+        <FormSection
+          type="default"
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          validationMessages={validationMessages}
+          formAccount={formAccount}
+        />
+      </div>
 
-      <div className="mt-10 w-full">
-        {/* TOOD: 아래 margin(44px)보다는 큰 제목 간격(40px)으로 맞췄는데 괜찮은지 유진님께 여쭤보기 */}
+      <div className="mt-4 rounded-xl bg-white p-6 shadow-sm">
+        <FormSection
+          type="sns"
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          validationMessages={validationMessages}
+          formAccount={formAccount}
+        />
+      </div>
+
+      {variant === 'setup' && (
+        <div className="mt-4 rounded-xl bg-white p-6 shadow-sm">
+          <h3 className="text-title-3 text-gray-800">서비스 이용 동의</h3>
+
+          <div className="mt-4 space-y-2">
+            {agreementItems.map((item) => (
+              <Checkbox
+                key={item.key}
+                checked={agreements[item.key]}
+                onChange={() => handleAgreementChange(item.key)}
+              >
+                <div className="text-body-4 flex items-center">
+                  <span className="text-overflow-x-scroll mr-1">[필수]</span>
+                  <span className="md:text-body-3">{item.label}</span>
+                  <Link
+                    to={item.linkTo}
+                    className="md:text-body-4 ml-2 text-orange-500 underline hover:text-orange-600"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {item.linkText}
+                  </Link>
+                </div>
+              </Checkbox>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="mt-6 w-full pb-4 md:mt-10 md:pb-0">
         <BaseButton
           isDisabled={!isFormValid || (variant === 'edit' && !isModified)}
           onClick={(e) => handleProfileSubmit(e)}

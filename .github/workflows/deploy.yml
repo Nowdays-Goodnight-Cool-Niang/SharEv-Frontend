@@ -1,56 +1,75 @@
-name: Release Frontend Build
+name: Deploy React App to GCS
 
 on:
   push:
     branches:
-      - main
+      - main # main 브랜치에 push될 때마다 워크플로우 실행
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }} # GCP 프로젝트 ID
+  PROJECT_NUMBER: ${{ secrets.GCP_PROJECT_NUMBER }} # GCP 프로젝트 넘버
+  GCS_BUCKET_NAME: ${{ secrets.GCS_BUCKET_NAME }} # GCS 버킷 이름
 
 jobs:
-  build-and-upload:
+  deploy:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: 'read'
+      id-token: 'write' # OIDC 토큰을 발행하기 위해 필요
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
 
-      - name: env 설정 로드
+      - name: PROD_ENV 설정 로드
         run: echo "${{ secrets.PROD_ENV }}" > ./.env
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Build React App
         run: npm run build
 
-      - name: Deploy to Instance
-        uses: appleboy/scp-action@master
+      - name: Authenticate to Google Cloud
+        id: 'auth'
+        uses: 'google-github-actions/auth@v2'
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          source: 'dist/*'
-          target: '/tmp/build'
-          strip_components: 1
+          workload_identity_provider: 'projects/${{ env.PROJECT_NUMBER }}/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
+          service_account: 'github-actions-gcs-deployer@theta-anchor-465201-q4.iam.gserviceaccount.com'
 
-      - name: Configure Instance
-        uses: appleboy/ssh-action@master
+      - name: Upload build files to GCS
+        uses: 'google-github-actions/upload-cloud-storage@v2'
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
+          path: './dist'
+          destination: ${{ env.GCS_BUCKET_NAME }} # 업로드할 GCS 버킷 이름
+          parent: false # 'path'에 지정된 폴더 자체가 아닌, 그 안의 내용만 업로드
 
-            # 새 빌드 파일 복사
-            # sudo rm -rf /var/www/html/*
-            sudo cp -r /tmp/build/* /var/www/html/
+      - name: Discord Notification (Success)
+        if: success() # 이전 단계가 모두 성공했을 때만 실행
+        uses: rjstone/discord-webhook-notify@v2
+        with:
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }} # 전체 웹훅 URL 사용
+          username: 'GCP Deploy Bot'
+          avatarUrl: 'https://avatars.githubusercontent.com/u/9919?s=200&v=4'
+          severity: info
+          title: '✅ React App 배포 성공!'
+          description: 'GCS 버킷 `${{ env.GCS_BUCKET_NAME }}`에 React 앱 배포가 성공적으로 완료되었습니다.'
+          details: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
 
-            # 권한 설정
-            sudo chown -R www-data:www-data /var/www/html
-
-            # Nginx 설정 파일의 유효성 검사 및 리로드(기존 연결을 끊지 않고 새로운 설정 적용)
-            sudo nginx -t && sudo systemctl reload nginx
+      - name: Discord Notification (Failure)
+        if: failure() # 이전 단계 중 하나라도 실패했을 때 실행
+        uses: rjstone/discord-webhook-notify@v2
+        with:
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }} # 전체 웹훅 URL 사용
+          username: 'GCP Deploy Bot'
+          avatarUrl: 'https://avatars.githubusercontent.com/u/9919?s=200&v=4'
+          severity: error
+          title: '❌ React App 배포 실패!'
+          description: 'GCS 버킷 `${{ env.GCS_BUCKET_NAME }}`에 React 앱 배포가 실패했습니다. 로그를 확인해주세요.'
+          details: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
