@@ -4,6 +4,12 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      height: {
+        'real-screen': 'calc(var(--vh) * 100)',
+      },
+      minHeight: {
+        'real-screen': 'calc(var(--vh) * 100)',
+      },
       animation: {
         'fade-in': 'fade-in 1s ease-out forwards',
         'bounce-delay-1': 'bounce-y 0.8s infinite ease-in-out',
