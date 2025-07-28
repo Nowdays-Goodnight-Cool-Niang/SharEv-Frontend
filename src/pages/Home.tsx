@@ -10,7 +10,7 @@ function Home() {
   };
 
   return (
-    <div className="background wrapper flex h-screen flex-col gap-[5%] overflow-hidden bg-white py-14 dark:bg-gray-950">
+    <div className="background wrapper flex flex-col gap-[5%] overflow-hidden bg-white py-14 dark:bg-gray-950">
       <div className="flex w-full flex-1 animate-fade-in flex-col items-center justify-center gap-8">
         <img src={LogoImg} className="w-36" />
         <div className="flex flex-col items-center gap-3">
