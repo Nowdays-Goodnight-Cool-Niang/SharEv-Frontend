@@ -12,7 +12,6 @@ import ParticipationInfo from './ParticipationInfo';
 import SpotlightCard from '../card/SpotlightCard';
 import { IEventProfile } from '@/types/domain/event';
 import ParticipantsEmptyView from './ParticipantsEmptyView';
-import { showCustomToast } from '@/utils/showToast';
 import { showPreview } from '@/utils/showPreview';
 
 export default function ParticipantsSection() {
