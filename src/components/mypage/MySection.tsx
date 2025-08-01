@@ -86,7 +86,7 @@ function MySection() {
           )}
         </div>
       ))}
-      <div className="text-body-4 mt-4 flex justify-center space-x-4 text-gray-400">
+      <div className="text-body-4 mt-4 flex justify-center space-x-4 tracking-tight text-gray-400">
         <Link to="/terms" className="hover:text-gray-300">
           이용약관
         </Link>

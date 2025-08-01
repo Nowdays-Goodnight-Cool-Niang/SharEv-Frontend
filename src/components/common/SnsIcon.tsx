@@ -6,16 +6,15 @@ interface ISnsIconProps {
 }
 
 function SnsIcon({ children, size = 'default', hasUrl, onClick }: ISnsIconProps) {
-  const defaultClasses =
-    'flex items-center justify-center rounded-lg bg-gray-50 text-gray-700 border border-gray-200';
+  const defaultClasses = 'flex items-center justify-center rounded-lg ';
   const sizeClasses = {
     default: 'h-9 w-9',
-    small: 'h-8 w-8',
+    small: 'h-7 w-7',
   };
 
   return (
     <button
-      className={`${defaultClasses} ${sizeClasses[size]} ${hasUrl ? '' : 'opacity-20'} ${onClick || 'pointer-events-none'}`}
+      className={`${defaultClasses} ${sizeClasses[size]} ${hasUrl ? 'bg-gray-50 text-gray-700' : 'bg-gray-100 text-gray-300'} ${onClick || 'pointer-events-none'}`}
       onClick={onClick}
     >
       {children}

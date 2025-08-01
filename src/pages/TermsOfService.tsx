@@ -69,7 +69,7 @@ function TermsOfService() {
               <li>시행일자: 2025.08.02</li>
             </ul>
 
-            <BaseButton onClick={() => navigate(-1)}>홈으로 돌아가기</BaseButton>
+            <BaseButton onClick={() => navigate(-1)}>뒤로가기</BaseButton>
           </div>
         </div>
       </div>
