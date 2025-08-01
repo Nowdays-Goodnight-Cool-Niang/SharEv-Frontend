@@ -17,19 +17,19 @@ const defaultFields = [
 const snsFields = [
   {
     labelName: 'LinkedIn',
-    placeholder: '프로필 링크를 붙여넣어주세요.',
+    placeholder: '프로필 링크를 붙여넣어 주세요.',
     name: 'linkedinUrl',
     required: false,
   },
   {
     labelName: 'Github',
-    placeholder: '프로필 링크를 붙여넣어주세요.',
+    placeholder: '프로필 링크를 붙여넣어 주세요.',
     name: 'githubUrl',
     required: false,
   },
   {
     labelName: 'Instagram',
-    placeholder: '프로필 링크를 붙여넣어주세요.',
+    placeholder: '프로필 링크를 붙여넣어 주세요.',
     name: 'instagramUrl',
     required: false,
   },

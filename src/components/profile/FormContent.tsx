@@ -32,7 +32,16 @@ function Content({ variant }: IContentProps) {
   const navigate = useNavigate();
   const { profile, isLoading, patchProfileInfo } = useQueryAccount();
 
-  const [formAccount, setFormAccount] = useState<IAccount>(profile || ({} as IAccount));
+  const [formAccount, setFormAccount] = useState<IAccount>(
+    profile ||
+      ({
+        name: '',
+        email: '',
+        linkedinUrl: '',
+        githubUrl: '',
+        instagramUrl: '',
+      } as IAccount)
+  );
   const [validationMessages, setValidationMessages] = useState<{ [key: string]: string }>({});
   const [isModified, setIsModified] = useState(false);
   const [agreements, setAgreements] = useState({
@@ -52,7 +61,10 @@ function Content({ variant }: IContentProps) {
   useEffect(() => {
     if (!isLoading && profile && variant === 'edit') {
       setFormAccount((prevFormAccount) => {
-        if (JSON.stringify(prevFormAccount) === JSON.stringify({})) {
+        if (
+          JSON.stringify(prevFormAccount) ===
+          JSON.stringify({ name: '', email: '', linkedinUrl: '', githubUrl: '', instagramUrl: '' })
+        ) {
           return { ...profile };
         }
         return prevFormAccount;
