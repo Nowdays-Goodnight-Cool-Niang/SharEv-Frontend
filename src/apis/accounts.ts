@@ -17,8 +17,10 @@ export const accountAPI = {
     return response.data;
   },
 
-  deleteAccount: async () => {
-    const response = await accountInstance.delete('');
+  deleteAccount: async (reason: string) => {
+    const response = await accountInstance.delete('', {
+      data: reason ? { feedback: reason } : undefined,
+    });
     return response.data;
   },
 };
