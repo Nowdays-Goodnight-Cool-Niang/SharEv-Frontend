@@ -32,7 +32,8 @@ export function useAccountDeletion() {
     );
 
     if (finalConfirm) {
-      performAccountDeletion();
+      const reason = selectedReason === '직접 입력할래요' ? customReason : selectedReason;
+      performAccountDeletion(reason);
     }
   };
 

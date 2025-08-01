@@ -1,5 +1,5 @@
-import { IAccount } from '@/types/domain/account';
 import axios from 'axios';
+import { IAccountUpdateRequest } from '@/types/domain/account';
 
 export const accountInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/accounts`,
@@ -12,13 +12,15 @@ export const accountAPI = {
     return response.data;
   },
 
-  patchProfileInfo: async (data: Omit<IAccount, 'id'>) => {
+  patchProfileInfo: async (data: IAccountUpdateRequest) => {
     const response = await accountInstance.patch('', data, { withCredentials: true });
     return response.data;
   },
 
-  deleteAccount: async () => {
-    const response = await accountInstance.delete('');
+  deleteAccount: async (reason: string) => {
+    const response = await accountInstance.delete('', {
+      data: reason ? { feedback: reason } : undefined,
+    });
     return response.data;
   },
 };

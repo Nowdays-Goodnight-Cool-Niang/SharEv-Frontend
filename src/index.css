@@ -112,7 +112,7 @@
   }
 
   .background {
-    @apply mx-auto min-h-lvh w-full;
+    @apply mx-auto min-h-svh w-full;
     @media (min-width: 720px) {
       max-width: 720px;
     }
@@ -143,5 +143,19 @@
     background-size: 14px;
     background-position: center;
     background-repeat: no-repeat;
+  }
+}
+
+/* Sentry 피드백 버튼 위치 */
+#custom-feedback-widget {
+  --inset: 50% 16px auto auto !important;
+  --page-margin: 16px !important;
+  --z-index: 1000 !important;
+}
+
+@media (max-width: 768px) {
+  #custom-feedback-widget {
+    --inset: 50% 12px auto auto !important;
+    --page-margin: 12px !important;
   }
 }

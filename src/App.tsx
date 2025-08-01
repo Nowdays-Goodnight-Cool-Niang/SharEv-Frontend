@@ -17,8 +17,8 @@ import { setupAxiosInterceptors } from '@/apis/responseInterceptor';
 import Events from './pages/Events';
 import GlobalErrorBoundary from './components/common/GlobalErrorBoundary';
 import ErrorBoundary from './components/common/ErrorBoundary';
-import { setScreenHeight } from './utils/viewport';
 import DummyPanel from './components/common/DummyPanel';
+import { setScreenHeight } from './utils/viewport';
 
 function App() {
   const queryClient = new QueryClient();
