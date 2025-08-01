@@ -37,9 +37,11 @@ function Content({ variant }: IContentProps) {
       ({
         name: '',
         email: '',
-        linkedinUrl: '',
-        githubUrl: '',
-        instagramUrl: '',
+        socialLinks: {
+          githubUrl: '',
+          linkedinUrl: '',
+          instagramUrl: '',
+        },
       } as IAccount)
   );
   const [validationMessages, setValidationMessages] = useState<{ [key: string]: string }>({});
@@ -63,7 +65,15 @@ function Content({ variant }: IContentProps) {
       setFormAccount((prevFormAccount) => {
         if (
           JSON.stringify(prevFormAccount) ===
-          JSON.stringify({ name: '', email: '', linkedinUrl: '', githubUrl: '', instagramUrl: '' })
+          JSON.stringify({
+            name: '',
+            email: '',
+            socialLinks: {
+              githubUrl: '',
+              linkedinUrl: '',
+              instagramUrl: '',
+            },
+          })
         ) {
           return { ...profile };
         }
@@ -77,10 +87,22 @@ function Content({ variant }: IContentProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormAccount((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+
+    // SNS URL 필드들은 socialLinks 객체 내부에 저장
+    if (name === 'linkedinUrl' || name === 'githubUrl' || name === 'instagramUrl') {
+      setFormAccount((prevData) => ({
+        ...prevData,
+        socialLinks: {
+          ...prevData.socialLinks,
+          [name]: value,
+        },
+      }));
+    } else {
+      setFormAccount((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -120,7 +142,16 @@ function Content({ variant }: IContentProps) {
       return;
     }
 
-    patchProfileInfo(formAccount as Omit<IAccount, 'id'>, {
+    // 서버에 전송할 형태로 변환
+    const submitData = {
+      name: formAccount.name,
+      email: formAccount.email,
+      linkedinUrl: formAccount.socialLinks.linkedinUrl,
+      githubUrl: formAccount.socialLinks.githubUrl,
+      instagramUrl: formAccount.socialLinks.instagramUrl,
+    };
+
+    patchProfileInfo(submitData, {
       onSuccess: () => {
         if (variant === 'setup') {
           navigate('/events');

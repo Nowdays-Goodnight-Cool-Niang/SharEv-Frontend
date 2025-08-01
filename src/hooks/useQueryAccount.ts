@@ -1,26 +1,28 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { accountAPI } from '@/apis/accounts';
-import { IAccount } from '@/types/domain/account';
+import { IAccountApiResponse, IAccount } from '@/types/domain/account';
 
 export const useQueryAccount = () => {
   const {
     data: rawProfile,
     isLoading,
     error,
-  } = useQuery<IAccount>({
+  } = useQuery<IAccountApiResponse>({
     queryKey: ['account'],
     queryFn: accountAPI.getProfile,
   });
 
   const profile = rawProfile
-    ? {
-        ...rawProfile,
+    ? ({
+        id: rawProfile.id,
         name: rawProfile.name ?? '',
         email: rawProfile.email ?? '',
-        linkedinUrl: rawProfile.linkedinUrl ?? '',
-        githubUrl: rawProfile.githubUrl ?? '',
-        instagramUrl: rawProfile.instagramUrl ?? '',
-      }
+        socialLinks: {
+          githubUrl: rawProfile.githubUrl ?? '',
+          linkedinUrl: rawProfile.linkedinUrl ?? '',
+          instagramUrl: rawProfile.instagramUrl ?? '',
+        },
+      } as IAccount)
     : undefined;
 
   const mutation = useMutation({

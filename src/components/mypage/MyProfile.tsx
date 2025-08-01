@@ -22,13 +22,13 @@ function MyProfile() {
           <span className="text-sm leading-5 tracking-tight text-gray-500">{profile?.email}</span>
         </div>
         <ul className="flex gap-2">
-          <SnsIcon size="small" hasUrl={!!profile?.linkedinUrl}>
+          <SnsIcon size="small" hasUrl={!!profile?.socialLinks.linkedinUrl}>
             <LinkedinSvg />
           </SnsIcon>
-          <SnsIcon size="small" hasUrl={!!profile?.githubUrl}>
+          <SnsIcon size="small" hasUrl={!!profile?.socialLinks.githubUrl}>
             <GtihubSvg />
           </SnsIcon>
-          <SnsIcon size="small" hasUrl={!!profile?.instagramUrl}>
+          <SnsIcon size="small" hasUrl={!!profile?.socialLinks.instagramUrl}>
             <InstagramSvg />
           </SnsIcon>
         </ul>

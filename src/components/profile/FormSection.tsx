@@ -52,19 +52,33 @@ function FormSection({
       <h2 className="text-title-3 mb-3 font-semibold tracking-tight text-gray-700 md:mb-4 md:text-base">
         {datas[type].title}
       </h2>
-      {datas[type].field.map((data) => (
-        <Input
-          key={data.name}
-          labelName={data.labelName}
-          placeholder={data.placeholder}
-          name={data.name}
-          value={formAccount ? (formAccount[data.name as keyof IAccount] as string) || '' : ''}
-          required={data.required}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          validationMessage={validationMessages[data.name] || ''}
-        />
-      ))}
+      {datas[type].field.map((data) => {
+        let value = '';
+        if (formAccount) {
+          if (type === 'sns') {
+            value =
+              (formAccount.socialLinks?.[
+                data.name as keyof typeof formAccount.socialLinks
+              ] as string) || '';
+          } else {
+            value = (formAccount[data.name as keyof IAccount] as string) || '';
+          }
+        }
+
+        return (
+          <Input
+            key={data.name}
+            labelName={data.labelName}
+            placeholder={data.placeholder}
+            name={data.name}
+            value={value}
+            required={data.required}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            validationMessage={validationMessages[data.name] || ''}
+          />
+        );
+      })}
     </>
   );
 }
