@@ -17,9 +17,9 @@ export const useQueryAccount = () => {
         ...rawProfile,
         name: rawProfile.name ?? '',
         email: rawProfile.email ?? '',
-        linkedinUrl: rawProfile.socialLinks?.linkedIn ?? '',
-        githubUrl: rawProfile.socialLinks?.github ?? '',
-        instagramUrl: rawProfile.socialLinks?.instagram ?? '',
+        linkedinUrl: rawProfile.linkedinUrl ?? '',
+        githubUrl: rawProfile.githubUrl ?? '',
+        instagramUrl: rawProfile.instagramUrl ?? '',
       }
     : undefined;
 

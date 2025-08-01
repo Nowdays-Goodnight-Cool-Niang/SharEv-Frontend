@@ -8,5 +8,7 @@ export interface IAccount {
   id?: string;
   name: string;
   email: string;
-  socialLinks: ISocialLinks;
+  linkedinUrl?: string;
+  githubUrl?: string;
+  instagramUrl?: string;
 }
