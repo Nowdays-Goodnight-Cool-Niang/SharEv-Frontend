@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 import { accountAPI } from '@/apis/accounts';
 import { TOAST_MESSAGE } from '@/constants/message';
+import { showCustomToast } from '@/utils/showToast';
 
 export function useAccountDeletion() {
   const navigate = useNavigate();
@@ -18,11 +18,11 @@ export function useAccountDeletion() {
     onSuccess: () => {
       queryClient.clear();
       navigate('/');
-      toast.success(TOAST_MESSAGE.ACCOUNT_DELETION_SUCCESS, { icon: '🙇🏻‍♀️' });
+      showCustomToast({ message: TOAST_MESSAGE.ACCOUNT_DELETION_SUCCESS });
     },
     onError: (error) => {
       console.error('Account deletion error:', error.message);
-      toast.error('탈퇴 처리 중 오류가 발생했습니다. 다시 시도해주세요.');
+      showCustomToast({ message: '탈퇴 처리 중 오류가 발생했습니다. 다시 시도해주세요.' });
     },
   });
 

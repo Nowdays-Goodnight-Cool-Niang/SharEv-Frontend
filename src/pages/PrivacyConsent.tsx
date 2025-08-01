@@ -1,7 +1,10 @@
 import { Link } from 'react-router';
 import Header from '@/components/common/Header';
+import useScrollToTop from '@/hooks/useScrollToTop';
 
 function PrivacyConsent() {
+  useScrollToTop();
+
   return (
     <div className="background flex flex-col bg-gray-50">
       <Header title="개인정보 수집 및 이용 동의서" />

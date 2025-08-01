@@ -1,7 +1,9 @@
 import { Link } from 'react-router';
 import Header from '@/components/common/Header';
+import useScrollToTop from '@/hooks/useScrollToTop';
 
 function PrivacyPolicy() {
+  useScrollToTop();
   const tocLinkClass =
     'text-body-3 block text-gray-600 hover:text-gray-800 hover:underline transition-colors duration-200';
 

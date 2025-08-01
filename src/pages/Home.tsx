@@ -2,15 +2,17 @@ import BaseButton from '@/components/common/BaseButton';
 import LogoImg from '@/assets/images/img_logo.png';
 import KakaoSvg from '@/assets/icons/ic_kakao.svg?react';
 import { Link } from 'react-router';
+import useScrollToTop from '@/hooks/useScrollToTop';
 
 function Home() {
+  useScrollToTop();
   const handleKakaoLogin = () => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/oauth2/authorization/kakao`;
     window.location.assign(url);
   };
 
   return (
-    <div className="background wrapper flex h-screen flex-col gap-[5%] overflow-hidden bg-white py-14 dark:bg-gray-950">
+    <div className="background wrapper flex flex-col gap-[5%] overflow-hidden bg-white py-14 dark:bg-gray-950">
       <div className="flex w-full flex-1 animate-fade-in flex-col items-center justify-center gap-8">
         <img src={LogoImg} className="w-36" />
         <div className="flex flex-col items-center gap-3">
