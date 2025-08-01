@@ -32,8 +32,8 @@ export default function ShareSection() {
 
   const [showSpotlightCard, setShowSpotlightCard] = useState(false);
   const [fetchedProfile, setFetchedProfile] = useState<IFullEventProfile | null>(null);
-  const [activeTab, setActiveTab] = useState<'share' | 'receive'>('share');
-  const [receiveMethod, setReceiveMethod] = useState<'qr' | 'pin'>('qr');
+  const [activeTab, setActiveTab] = useState<string>('share');
+  const [receiveMethod, setReceiveMethod] = useState<string>('qr');
   const [pinInput, setPinInput] = useState('');
   const [qrText, setQrText] = useState('');
 
