@@ -12,8 +12,8 @@ import { EVENT_ID } from '@/constants/eventId';
 import { useQueryRegisterParticipant } from '@/hooks/useQueryRegisterParticipant';
 import WebcamCapture from './WebcamCapture';
 import { BrowserQRCodeReader } from '@zxing/browser';
-import toast from 'react-hot-toast';
 import SpotlightCard from '../card/SpotlightCard';
+import { showCustomToast } from '@/utils/showToast';
 
 export default function ShareSection() {
   const qrReader = new BrowserQRCodeReader();
@@ -40,7 +40,7 @@ export default function ShareSection() {
     console.log(pinNumber);
     mutateRegisterParticipant(pinNumber, {
       onSuccess: () => {
-        toast.success('명함 교환에 성공했어요!');
+        showCustomToast({ message: '명함 교환에 성공했어요!' });
         mutateGetProfile(pinNumber);
         setPinInput('');
       },
@@ -55,9 +55,9 @@ export default function ShareSection() {
         }
 
         if (error.response.data.code === 'PROFILE_NOT_FOUND') {
-          toast.error('핀 번호에 해당하는 참여자가 없어요!');
+          showCustomToast({ message: '핀 번호에 해당하는 참여자가 없어요!' });
         } else {
-          toast.error('명함 교환에 실패했어요. 다시 시도해주세요.');
+          showCustomToast({ message: '명함 교환에 실패했어요. 다시 시도해주세요.' });
         }
       },
     });

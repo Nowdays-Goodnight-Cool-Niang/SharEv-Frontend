@@ -6,8 +6,10 @@ import ParticipantsSection from '@/components/event/participants/ParticipantsSec
 import ShareSection from '@/components/event/share/ShareSection';
 import { EventTabType } from '@/constants/event';
 import Header from '@/components/common/Header';
+import useScrollToTop from '@/hooks/useScrollToTop';
 
 function Event() {
+  useScrollToTop();
   const { selected } = useEventTabsStore();
 
   return (

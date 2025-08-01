@@ -19,11 +19,21 @@ export default {
         'character-enter': 'character-enter 0.6s 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards',
         'tooltip-pop': 'tooltip-pop 0.5s ease-in-out forwards',
         'button-in': 'fade-in 0.2s ease-out forwards',
+        'toast-in': 'toast-enter 0.2s ease-out forwards',
+        'toast-out': 'toast-leave 0.2s ease-in forwards',
       },
       keyframes: {
         'fade-in': {
           from: { opacity: 0, transform: 'translateY(20px)' },
           to: { opacity: 1, transform: 'translateY(0)' },
+        },
+        'toast-enter': {
+          from: { opacity: 0, transform: 'translateY(20px)' },
+          to: { opacity: 1, transform: 'translateY(0)' },
+        },
+        'toast-leave': {
+          from: { opacity: 1, transform: 'translateY(0)' },
+          to: { opacity: 0, transform: 'translateY(20px)' },
         },
         'character-enter': {
           '0%': {

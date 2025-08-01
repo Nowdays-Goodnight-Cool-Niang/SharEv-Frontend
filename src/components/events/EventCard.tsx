@@ -1,6 +1,5 @@
 import { EVENT_ID } from '@/constants/eventId';
 import { useQueryParticipateInEvent } from '@/hooks/useQueryParticipateInEventMutation';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
 import ClockSvg from '@/assets/icons/ic_clock.svg?react';
 import LocationSvg from '@/assets/icons/ic_location.svg?react';
@@ -17,6 +16,7 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { IEvent } from '@/types/domain/event';
 import { ROUTES } from '@/constants/routes';
+import { showCustomToast } from '@/utils/showToast';
 
 interface EventCardProps {
   event: IEvent;
@@ -76,12 +76,14 @@ function EventCard({ event, isParticipating }: EventCardProps) {
                 ? () => {
                     mutate(EVENT_ID, {
                       onSuccess: () => {
-                        toast.success('행사에 참여하였습니다!');
+                        showCustomToast({ message: '행사에 참여하였습니다!' });
                         queryClient.invalidateQueries({ queryKey: ['participation', EVENT_ID] });
                         navigate(ROUTES.EVENT.ROOT);
                       },
                       onError: () => {
-                        toast.error('문제가 발생했습니다. 잠시 후에 다시 시도해 주세요.');
+                        showCustomToast({
+                          message: '문제가 발생했습니다. 잠시 후에 다시 시도해 주세요.',
+                        });
                       },
                     });
                   }

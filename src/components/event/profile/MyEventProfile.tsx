@@ -1,6 +1,5 @@
 import EventProfileCard from '../card/EventProfileCard';
 import { useEffect, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
 import { EVENT_ID } from '@/constants/eventId';
 import { useSuspenseQueryEventProfile } from '@/hooks/useQueryEventProfile';
 import { useMutateMyEventProfile } from '@/hooks/useMutateMyEventProfile';
@@ -8,6 +7,7 @@ import { useEventProfileStore } from '@/stores/useEventProfileStore';
 import { ProfileContent } from '@/types/api/event';
 import { EventProfileStateType } from '@/types/domain/event';
 import { EventProfileState } from '@/constants/event';
+import { showCustomToast } from '@/utils/showToast';
 
 interface MyEventProfileProps {
   onFlipChange: (flipped: boolean) => void;
@@ -72,12 +72,12 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
 
     mutate(payload, {
       onSuccess: () => {
-        toast.success('저장되었습니다');
+        showCustomToast({ message: '저장했어요!' });
         setEventProfileState(EventProfileState.READONLY);
         initialFieldValues.current = fieldValues;
       },
       onError: () => {
-        toast.error('저장에 실패했습니다');
+        showCustomToast({ message: '저장에 실패했어요! 잠시 후 다시 시도해 주세요.' });
       },
     });
   };
@@ -85,7 +85,7 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
   const handleCancel = () => {
     setFieldValues(initialFieldValues.current);
     setEventProfileState(EventProfileState.READONLY);
-    toast('변경사항이 취소되었습니다');
+    showCustomToast({ message: '변경사항이 취소되었어요' });
   };
 
   if (eventProfileError || !eventProfile) return <div>에러 발생</div>;

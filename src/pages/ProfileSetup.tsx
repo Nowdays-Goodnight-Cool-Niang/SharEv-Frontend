@@ -1,9 +1,10 @@
 import NoticeInfo from '@/components/common/NoticeInfo';
 import FormContent from '@/components/profile/FormContent';
 import Header from '@/components/common/Header';
+import useScrollToTop from '@/hooks/useScrollToTop';
 
 function ProfileSetup() {
-  console.log('도착');
+  useScrollToTop();
   return (
     <div className="background flex flex-col bg-gray-50">
       <Header title="프로필 생성" />
