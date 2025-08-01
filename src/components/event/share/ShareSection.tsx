@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import NoticeInfo from '@/components/common/NoticeInfo';
 import TabSelector from './TabSelector';
@@ -29,6 +29,9 @@ export default function ShareSection() {
 
   const myPinNumber = eventProfile?.pinNumber;
   const qrReader = new BrowserQRCodeReader();
+  const [cameraPermissionState, setCameraPermissionState] = useState<
+    'granted' | 'denied' | 'prompt' | null
+  >(null);
 
   const [showSpotlightCard, setShowSpotlightCard] = useState(false);
   const [fetchedProfile, setFetchedProfile] = useState<IFullEventProfile | null>(null);
@@ -39,6 +42,13 @@ export default function ShareSection() {
 
   const { mutate: mutateGetProfile } = useMutateGetProfileByPin(EVENT_ID);
   const { mutate: mutateRegisterParticipant } = useQueryRegisterParticipant(EVENT_ID);
+
+  useEffect(() => {
+    navigator.permissions.query({ name: 'camera' as PermissionName }).then((result) => {
+      setCameraPermissionState(result.state);
+      result.onchange = () => setCameraPermissionState(result.state);
+    });
+  }, []);
 
   const handlePinSubmit = () => {
     if (pinInput.length === 4) {
@@ -180,7 +190,7 @@ export default function ShareSection() {
                       </div>
                     ))}
                 </div>
-                <NoticeInfo>상대방이 스캔할 수 있도록 보여주세요</NoticeInfo>
+                <NoticeInfo>상대방에게 QR이나 PIN 번호를 보여주세요</NoticeInfo>
               </div>
             )}
 
@@ -198,7 +208,12 @@ export default function ShareSection() {
                         <div className="mx-auto w-full max-w-md overflow-hidden rounded-2xl bg-gray-50">
                           <WebcamCapture onCapture={handleImage} />
                         </div>
-                        <NoticeInfo>상대방의 QR 코드를 카메라로 스캔하세요</NoticeInfo>
+                        {cameraPermissionState === 'denied' && (
+                          <NoticeInfo type="error">
+                            카메라 접근 권한이 차단되어 있어 QR 코드를 인식할 수 없어요. 브라우저
+                            설정에서 카메라 권한을 허용해주세요.
+                          </NoticeInfo>
+                        )}
                       </div>
                     ),
                   },
@@ -220,9 +235,6 @@ export default function ShareSection() {
                             ? '명함 가져오기'
                             : `${4 - pinInput.length}자리 더 입력하세요`}
                         </BaseButton>
-                        <div className="mt-4 flex flex-col items-center">
-                          <NoticeInfo>상대방이 알려준 PIN 번호를 입력하세요</NoticeInfo>
-                        </div>
                       </div>
                     ),
                   },

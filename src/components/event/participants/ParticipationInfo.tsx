@@ -12,7 +12,6 @@ export default function ParticipationInfo({ totalCount, registerCount }: Partici
 
   const isNoneExchanged = registerCount === 0;
   const isAllExchanged = registerCount === totalCount;
-  console.log(registerCount, totalCount, isNoneExchanged, isAllExchanged);
   return (
     <div
       onClick={() => {
