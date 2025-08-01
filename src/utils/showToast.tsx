@@ -30,7 +30,7 @@ export function showCustomToast({ icon, message }: { icon?: string; message: str
     ),
     {
       duration: 2000,
-      position: 'top-center',
+      position: 'bottom-center',
     }
   );
 }
