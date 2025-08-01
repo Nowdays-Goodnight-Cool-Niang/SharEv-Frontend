@@ -112,7 +112,7 @@
   }
 
   .background {
-    @apply mx-auto min-h-svh w-full;
+    @apply min-h-real-screen mx-auto w-full;
     @media (min-width: 720px) {
       max-width: 720px;
     }

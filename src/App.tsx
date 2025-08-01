@@ -17,12 +17,20 @@ import { setupAxiosInterceptors } from '@/apis/responseInterceptor';
 import Events from './pages/Events';
 import GlobalErrorBoundary from './components/common/GlobalErrorBoundary';
 import ErrorBoundary from './components/common/ErrorBoundary';
+import { setScreenHeight } from './utils/viewport';
 
 function App() {
   const queryClient = new QueryClient();
 
   useEffect(() => {
     setupAxiosInterceptors();
+  }, []);
+
+  useEffect(() => {
+    setScreenHeight();
+
+    window.addEventListener('resize', setScreenHeight);
+    return () => window.removeEventListener('resize', setScreenHeight);
   }, []);
 
   const router = createBrowserRouter([
