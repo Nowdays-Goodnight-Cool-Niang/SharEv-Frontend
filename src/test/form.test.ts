@@ -39,7 +39,7 @@ describe('validateInput', () => {
       '올바른 형식의 링크를 입력해주세요. (예: instagram.com/1~30자의 영문, 숫자, 밑줄, 마침표만 허용)',
     ],
     ['instagramUrl', 'instagram.com/cool_niang', undefined],
-  ])('%s: "%s"', (field, value, expected) => {
+  ])('%s: "%s"', (field: string, value: string, expected: string | undefined) => {
     test(`=> ${expected === undefined ? 'no error' : expected}`, () => {
       expect(validateInput(field, value)).toBe(expected);
     });
