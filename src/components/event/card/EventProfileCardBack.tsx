@@ -31,25 +31,25 @@ const LinkIcons = [
 
 const renderLinkButtons = ({
   email,
-  github,
-  linkedIn,
-  instagram,
+  githubUrl,
+  linkedinUrl,
+  instagramUrl,
 }: {
   email?: string;
-  github?: string;
-  linkedIn?: string;
-  instagram?: string;
+  githubUrl?: string;
+  linkedinUrl?: string;
+  instagramUrl?: string;
 }) => {
   return LinkIcons.map(({ name, icon }) => {
     const url =
       name === 'email'
         ? `mailto:${email}`
-        : github && name === 'github'
-          ? github
-          : linkedIn && name === 'linkedIn'
-            ? linkedIn
-            : instagram && name === 'instagram'
-              ? instagram
+        : githubUrl && name === 'github'
+          ? githubUrl
+          : linkedinUrl && name === 'linkedIn'
+            ? linkedinUrl
+            : instagramUrl && name === 'instagram'
+              ? instagramUrl
               : undefined;
     const IconComponent = icon;
     const fixedUrl = url?.startsWith('http') || url?.startsWith('mailto') ? url : `https://${url}`;
