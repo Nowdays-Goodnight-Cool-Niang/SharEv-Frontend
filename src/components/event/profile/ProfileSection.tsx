@@ -5,10 +5,10 @@ import EventProfileCardSkeleton from '../card/EventProfileCardSkeleton';
 import MyEventProfile from './MyEventProfile';
 import ToolTip from '@/components/common/ToolTip';
 import { useEventProfileStore } from '@/stores/useEventProfileStore';
-import toast from 'react-hot-toast';
 // import html2canvas from 'html2canvas';
 import EventProfileGuideModal from '../modal/EventProfileGuideModal';
 import IdeaModal from '../modal/EventProfileIdeaModal';
+import { showCustomToast } from '@/utils/showToast';
 
 const NOTICE_TEXT = {
   flip: '카드를 눌러 뒤집어 보세요!',
@@ -85,7 +85,7 @@ function ProfileSection() {
           </div>
         </div>
         <button
-          onClick={() => toast.success('아직 준비 중이에요')}
+          onClick={() => showCustomToast({ message: '아직 준비 중이에요' })}
           className="flex items-center justify-center gap-2 rounded-full bg-gray-100 px-5 py-3 font-medium tracking-tight text-gray-600 transition-colors duration-300 hover:bg-gray-200 dark:opacity-70"
         >
           <DownloadSvg width={20} height={20} className="" />

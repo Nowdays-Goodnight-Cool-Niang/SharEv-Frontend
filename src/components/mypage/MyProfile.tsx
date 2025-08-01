@@ -23,13 +23,13 @@ function MyProfile() {
         </div>
         <ul className="flex gap-2">
           <SnsIcon size="small" hasUrl={!!profile?.socialLinks.linkedinUrl}>
-            <LinkedinSvg />
+            <LinkedinSvg width={20} height={20} />
           </SnsIcon>
           <SnsIcon size="small" hasUrl={!!profile?.socialLinks.githubUrl}>
-            <GtihubSvg />
+            <GtihubSvg width={20} height={20} />
           </SnsIcon>
           <SnsIcon size="small" hasUrl={!!profile?.socialLinks.instagramUrl}>
-            <InstagramSvg />
+            <InstagramSvg width={20} height={20} />
           </SnsIcon>
         </ul>
       </div>

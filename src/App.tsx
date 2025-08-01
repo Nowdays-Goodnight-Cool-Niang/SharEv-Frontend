@@ -1,9 +1,8 @@
-import { createBrowserRouter, RouterProvider } from 'react-router';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import Home from '@/pages/Home';
-import Event from '@/pages/Event';
 import LoginRedirect from '@/pages/LoginRedirect';
 import ProfileSetup from '@/pages/ProfileSetup';
 import ProfileEdit from '@/pages/ProfileEdit';
@@ -17,8 +16,12 @@ import { setupAxiosInterceptors } from '@/apis/responseInterceptor';
 import Events from './pages/Events';
 import GlobalErrorBoundary from './components/common/GlobalErrorBoundary';
 import ErrorBoundary from './components/common/ErrorBoundary';
-// import DummyPanel from './components/common/DummyPanel';
+import DummyPanel from './components/common/DummyPanel';
 import { setScreenHeight } from './utils/viewport';
+import ProfileSection from './components/event/profile/ProfileSection';
+import ParticipantsSection from './components/event/participants/ParticipantsSection';
+import ShareSection from './components/event/share/ShareSection';
+import EventLayout from '@/pages/EventLayout';
 
 function App() {
   const queryClient = new QueryClient();
@@ -72,8 +75,26 @@ function App() {
     },
     {
       path: '/event',
-      element: <Event />,
+      element: <EventLayout />,
       errorElement: <ErrorBoundary />,
+      children: [
+        {
+          path: 'profile',
+          element: <ProfileSection />,
+        },
+        {
+          path: 'participant',
+          element: <ParticipantsSection />,
+        },
+        {
+          path: 'share',
+          element: <ShareSection />,
+        },
+        {
+          index: true,
+          element: <Navigate to="profile" replace />,
+        },
+      ],
     },
     {
       path: '/setting',
@@ -99,8 +120,12 @@ function App() {
   return (
     <GlobalErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        {/* <DummyPanel /> */}
-        <Toaster />
+        <DummyPanel />
+        <Toaster
+          containerStyle={{
+            bottom: '7rem',
+          }}
+        />
         <RouterProvider router={router} />
       </QueryClientProvider>
     </GlobalErrorBoundary>

@@ -2,9 +2,11 @@ import BaseButton from '@/components/common/BaseButton';
 import LogoImg from '@/assets/images/img_logo.png';
 import KakaoSvg from '@/assets/icons/ic_kakao.svg?react';
 import { Link } from 'react-router';
+import useScrollToTop from '@/hooks/useScrollToTop';
 import { openFeedbackForm } from '@/utils/feedback';
 
 function Home() {
+  useScrollToTop();
   const handleKakaoLogin = () => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/oauth2/authorization/kakao`;
     window.location.assign(url);
@@ -15,7 +17,7 @@ function Home() {
   };
 
   return (
-    <div className="background wrapper flex h-screen flex-col gap-[5%] overflow-hidden bg-white py-14 dark:bg-gray-950">
+    <div className="background wrapper flex flex-col gap-[5%] overflow-hidden bg-white py-14 dark:bg-gray-950">
       <button
         onClick={handleFeedbackClick}
         className="fixed right-4 top-4 z-50 flex h-8 items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-500 shadow-lg transition-colors hover:bg-gray-200"

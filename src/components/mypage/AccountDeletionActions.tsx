@@ -16,14 +16,14 @@ function AccountDeletionActions({
       <button
         onClick={onCancel}
         disabled={isPending}
-        className="text-button-2 flex-1 rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 font-medium text-gray-300 transition-colors hover:bg-gray-700 disabled:opacity-50"
+        className="h-14 w-full min-w-24 flex-1 rounded-2xl bg-gray-200 font-semibold tracking-tight text-gray-400 transition-all duration-300 active:scale-95 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400"
       >
         취소
       </button>
       <button
         onClick={onConfirm}
         disabled={isDisabled || isPending}
-        className="text-button-2 flex-1 rounded-lg bg-orange-500 px-4 py-3 font-medium text-white transition-colors hover:bg-orange-600 disabled:cursor-not-allowed disabled:bg-gray-700 disabled:text-gray-500"
+        className="flex-2 h-14 w-full rounded-2xl bg-blue-500 font-semibold tracking-tight text-white transition-all duration-300 active:scale-95 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400"
       >
         {isPending ? '처리 중...' : '탈퇴하기'}
       </button>

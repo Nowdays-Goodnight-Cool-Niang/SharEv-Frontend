@@ -16,9 +16,9 @@ function BaseButton({
   onClick,
 }: IBaseButtonProps) {
   const bgClasses = {
-    default: 'bg-blue-500 text-white hover:bg-blue-400',
-    white: 'bg-white text-gray-800 hover:bg-gray-100',
-    kakao: 'bg-[#FEE500] text-[#000000]/85 hover:bg-[#eecc0d]',
+    default: 'bg-blue-500 text-white',
+    white: 'bg-white text-gray-800',
+    kakao: 'bg-[#FEE500] text-[#000000]/85',
   };
 
   const sizeClasses = {

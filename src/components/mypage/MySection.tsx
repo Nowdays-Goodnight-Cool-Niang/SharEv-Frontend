@@ -1,4 +1,3 @@
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import MyProfile from '@/components/mypage/MyProfile';
@@ -8,6 +7,7 @@ import MessageCircleSvg from '@/assets/icons/ic_message_circle.svg?react';
 import LogOutSvg from '@/assets/icons/ic_logout.svg?react';
 import UserMinusSvg from '@/assets/icons/ic_user_minus.svg?react';
 import { TOAST_MESSAGE } from '@/constants/message';
+import { showCustomToast } from '@/utils/showToast';
 
 function MySection() {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ function MySection() {
     onSuccess: () => {
       queryClient.clear();
       navigate('/');
-      toast(TOAST_MESSAGE.LOGOUT_SUCCESS, { icon: '👋🏻' });
+      showCustomToast({ message: TOAST_MESSAGE.LOGOUT_SUCCESS });
     },
     onError: (error) => {
       console.error('Account logout error:', error.message);
@@ -26,9 +26,7 @@ function MySection() {
   });
 
   const handleInquiry = () => {
-    toast(TOAST_MESSAGE.INQUIRY_UNDER_CONSTRUCTION, {
-      icon: '🙏🏻',
-    });
+    showCustomToast({ message: TOAST_MESSAGE.INQUIRY_UNDER_CONSTRUCTION });
   };
 
   const handleAccountDeletion = () => {
@@ -88,7 +86,7 @@ function MySection() {
           )}
         </div>
       ))}
-      <div className="text-body-4 mt-4 flex justify-center space-x-4 text-gray-400">
+      <div className="text-body-4 mt-4 flex justify-center space-x-4 tracking-tight text-gray-400">
         <Link to="/terms" className="hover:text-gray-300">
           이용약관
         </Link>
