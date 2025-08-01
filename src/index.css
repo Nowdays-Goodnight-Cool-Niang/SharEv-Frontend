@@ -146,17 +146,3 @@
     background-repeat: no-repeat;
   }
 }
-
-/* Sentry 피드백 버튼 위치 */
-#custom-feedback-widget {
-  --inset: 50% 16px auto auto !important;
-  --page-margin: 16px !important;
-  --z-index: 1000 !important;
-}
-
-@media (max-width: 768px) {
-  #custom-feedback-widget {
-    --inset: 50% 12px auto auto !important;
-    --page-margin: 12px !important;
-  }
-}

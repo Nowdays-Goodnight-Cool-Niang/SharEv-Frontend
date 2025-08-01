@@ -5,7 +5,6 @@ import mixpanel from 'mixpanel-browser';
 import * as Sentry from '@sentry/react';
 
 const sentryDsn = import.meta.env.VITE_SENTRY_DSN;
-
 const enableSentryForTesting = import.meta.env.VITE_ENABLE_SENTRY_TEST === 'true';
 
 if (sentryDsn && (!import.meta.env.DEV || enableSentryForTesting)) {
@@ -27,6 +26,7 @@ if (sentryDsn && (!import.meta.env.DEV || enableSentryForTesting)) {
         showBranding: false,
         showEmail: false,
         showName: true,
+        autoInject: false, // 기본 버튼 생성 비활성화 - 커스텀 버튼만 사용
 
         buttonLabel: '💬 피드백',
         submitButtonLabel: '제보하기',
@@ -40,6 +40,12 @@ if (sentryDsn && (!import.meta.env.DEV || enableSentryForTesting)) {
           username: 'Anonymous User',
         },
         successMessageText: '감사합니다',
+        themeLight: {
+          submitBackground: '#3B82F6',
+          submitBackgroundHover: '#2563EB',
+          submitBorder: '#3B82F6',
+          submitOutlineFocus: '#93C5FD',
+        },
       }),
       // 세션 재생 (매우 유용하지만 용량 많이 사용)
       Sentry.replayIntegration({
