@@ -19,7 +19,5 @@ export interface IAccount {
   id?: string;
   name: string;
   email: string;
-  linkedinUrl?: string;
-  githubUrl?: string;
-  instagramUrl?: string;
+  socialLinks: ISocialLinks;
 }
