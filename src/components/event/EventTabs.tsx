@@ -1,5 +1,6 @@
 import { EventTabType } from '@/constants/event';
 import { useEventTabsStore } from '@/stores/useEventTabStore';
+import { trackTabClick } from '@/utils/analytics';
 import EventTab from './EventTab';
 import IdentificationSvg from '@/assets/icons/ic_identification.svg?react';
 import QRSvg from '@/assets/icons/ic_qr.svg?react';
@@ -11,11 +12,22 @@ import WallerGraySvg from '@/assets/icons/ic_wallet_gray.svg?react';
 export default function EventTabs() {
   const { selected, setSelected } = useEventTabsStore();
 
+  const handleTabClick = (tabType: EventTabType, tabName: string) => {
+    if (selected !== tabType) {
+      trackTabClick(tabName, {
+        tab_type: tabType,
+        previous_tab: selected,
+        event_page: 'event_detail',
+      });
+    }
+    setSelected(tabType);
+  };
+
   return (
     <div className="flex h-14 w-full gap-2 rounded-t-2xl border-t border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800">
       <EventTab
         isSelected={selected === EventTabType.profile}
-        onClick={() => setSelected(EventTabType.profile)}
+        onClick={() => handleTabClick(EventTabType.profile, '내 명함')}
       >
         {selected === EventTabType.profile ? (
           <IdentificationSvg width={24} height={24} />
@@ -26,7 +38,7 @@ export default function EventTabs() {
       </EventTab>
       <EventTab
         isSelected={selected === EventTabType.participant}
-        onClick={() => setSelected(EventTabType.participant)}
+        onClick={() => handleTabClick(EventTabType.participant, '참가자 명함')}
       >
         {selected === EventTabType.participant ? (
           <WallerSvg width={24} height={24} />
@@ -37,7 +49,7 @@ export default function EventTabs() {
       </EventTab>
       <EventTab
         isSelected={selected === EventTabType.QRCamera}
-        onClick={() => setSelected(EventTabType.QRCamera)}
+        onClick={() => handleTabClick(EventTabType.QRCamera, '명함 공유')}
       >
         {selected === EventTabType.QRCamera ? (
           <QRSvg width={24} height={24} />
