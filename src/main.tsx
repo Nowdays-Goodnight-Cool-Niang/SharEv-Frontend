@@ -33,7 +33,8 @@ if (sentryDsn && (!import.meta.env.DEV || enableSentryForTesting)) {
         cancelButtonLabel: '취소하기',
         formTitle: '의견을 들려주세요! 🎯',
         nameLabel: '이름',
-        messageLabel: '어떤 점이 불편하셨나요? 개선사항이나 버그를 알려주세요!',
+        messageLabel:
+          '어떤 점이 불편하셨나요? 개선사항이나 버그를 상세하게 적어주시면 큰 힘이 됩니다!',
         enableScreenshot: true,
         useSentryUser: {
           email: 'user@example.com',
