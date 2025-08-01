@@ -121,11 +121,7 @@ function App() {
     <GlobalErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <DummyPanel />
-        <Toaster
-          containerStyle={{
-            bottom: '7rem',
-          }}
-        />
+        <Toaster />
         <RouterProvider router={router} />
       </QueryClientProvider>
     </GlobalErrorBoundary>

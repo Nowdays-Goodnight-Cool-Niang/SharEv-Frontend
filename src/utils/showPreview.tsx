@@ -20,7 +20,7 @@ export function showPreview({ message }: { message: string }) {
     ),
     {
       duration: 2000,
-      position: 'bottom-center',
+      position: 'top-center',
     }
   );
 }
