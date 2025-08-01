@@ -3,6 +3,7 @@ import LogoImg from '@/assets/images/img_logo.png';
 import KakaoSvg from '@/assets/icons/ic_kakao.svg?react';
 import { Link } from 'react-router';
 import useScrollToTop from '@/hooks/useScrollToTop';
+import { openFeedbackForm } from '@/utils/feedback';
 
 function Home() {
   useScrollToTop();
@@ -11,8 +12,20 @@ function Home() {
     window.location.assign(url);
   };
 
+  const handleFeedbackClick = () => {
+    openFeedbackForm();
+  };
+
   return (
     <div className="background wrapper flex flex-col gap-[5%] overflow-hidden bg-white py-14 dark:bg-gray-950">
+      <button
+        onClick={handleFeedbackClick}
+        className="fixed right-4 top-4 z-50 flex h-8 items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-500 shadow-lg transition-colors hover:bg-gray-200"
+        aria-label="피드백 제보하기"
+      >
+        💬 피드백
+      </button>
+
       <div className="flex w-full flex-1 animate-fade-in flex-col items-center justify-center gap-8">
         <img src={LogoImg} className="w-36" />
         <div className="flex flex-col items-center gap-3">
