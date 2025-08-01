@@ -112,7 +112,7 @@
   }
 
   .background {
-    @apply min-h-real-screen mx-auto w-full;
+    @apply mx-auto min-h-lvh w-full;
     @media (min-width: 720px) {
       max-width: 720px;
     }
@@ -138,8 +138,7 @@
   }
 
   input[type='checkbox']:checked {
-    background-color: #f97316;
-    border-color: #f97316;
+    @apply border-blue-500 bg-blue-500 ring-blue-500;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m13 5-7 7-3-3 1-1 2 2 6-6 1 1z'/%3E%3C/svg%3E");
     background-size: 14px;
     background-position: center;

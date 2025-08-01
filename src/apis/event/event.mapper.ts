@@ -92,7 +92,7 @@ function getDefaultProfileBlocks(): TemplateBlock[] {
     { type: 'input', fieldKey: 'introduce' },
     { type: 'text', value: ' 개발자입니다. 가장 힘들었던 경험은 ' },
     { type: 'input', fieldKey: 'toughExperience' },
-    { type: 'text', value: ' 고, 가장 뿌듯했던 경험은 ' },
+    { type: 'text', value: ' 입니다. 가장 뿌듯했던 경험은 ' },
     { type: 'input', fieldKey: 'proudestExperience' },
     { type: 'text', value: ' 입니다.' },
   ];

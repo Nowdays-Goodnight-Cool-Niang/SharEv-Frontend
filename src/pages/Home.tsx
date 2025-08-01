@@ -2,8 +2,10 @@ import BaseButton from '@/components/common/BaseButton';
 import LogoImg from '@/assets/images/img_logo.png';
 import KakaoSvg from '@/assets/icons/ic_kakao.svg?react';
 import { Link } from 'react-router';
+import useScrollToTop from '@/hooks/useScrollToTop';
 
 function Home() {
+  useScrollToTop();
   const handleKakaoLogin = () => {
     const url = `${import.meta.env.VITE_API_BASE_URL}/oauth2/authorization/kakao`;
     window.location.assign(url);

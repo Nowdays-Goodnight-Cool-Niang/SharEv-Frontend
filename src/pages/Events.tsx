@@ -5,8 +5,10 @@ import EventCardSkeleton from '@/components/events/EventCardSkeleton';
 import { events } from '@/constants/event';
 import { EVENT_ID } from '@/constants/eventId';
 import { useQueryCheckParticipation } from '@/hooks/useQueryCheckParticipation';
+import useScrollToTop from '@/hooks/useScrollToTop';
 
 function Events() {
+  useScrollToTop();
   const { data, isLoading } = useQueryCheckParticipation(EVENT_ID);
 
   if (!isLoading && !data) throw new Error();

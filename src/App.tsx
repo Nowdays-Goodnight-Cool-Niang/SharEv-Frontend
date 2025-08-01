@@ -18,6 +18,7 @@ import Events from './pages/Events';
 import GlobalErrorBoundary from './components/common/GlobalErrorBoundary';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import { setScreenHeight } from './utils/viewport';
+import DummyPanel from './components/common/DummyPanel';
 
 function App() {
   const queryClient = new QueryClient();
@@ -98,8 +99,12 @@ function App() {
   return (
     <GlobalErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        {/* <DummyPanel /> */}
-        <Toaster />
+        <DummyPanel />
+        <Toaster
+          containerStyle={{
+            bottom: '7rem',
+          }}
+        />
         <RouterProvider router={router} />
       </QueryClientProvider>
     </GlobalErrorBoundary>

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router';
-import toast from 'react-hot-toast';
 import BaseButton from '@/components/common/BaseButton';
 import Checkbox from '@/components/common/Checkbox';
 import FormSection from '@/components/profile/FormSection';
@@ -8,6 +7,8 @@ import { useQueryAccount } from '@/hooks/useQueryAccount';
 import { validateInput } from '@/utils/form';
 import { IAccount } from '@/types/domain/account';
 import { TOAST_MESSAGE } from '@/constants/message';
+import { showCustomToast } from '@/utils/showToast';
+import toast from 'react-hot-toast';
 
 interface IContentProps {
   variant: 'setup' | 'edit';
@@ -58,7 +59,7 @@ function Content({ variant }: IContentProps) {
         return prevFormAccount;
       });
     } else if (isLoading) {
-      const loadingToastId = toast.loading(TOAST_MESSAGE.PROFILE_LOADING);
+      const loadingToastId = showCustomToast({ message: TOAST_MESSAGE.PROFILE_LOADING });
       return () => toast.dismiss(loadingToastId);
     }
   }, [isLoading, profile, variant]);
@@ -114,11 +115,11 @@ function Content({ variant }: IContentProps) {
           navigate('/events');
         } else {
           navigate('/setting');
-          toast.success(TOAST_MESSAGE.PROFILE_SAVE_SUCCESS, { icon: '🎉' });
+          showCustomToast({ message: TOAST_MESSAGE.PROFILE_SAVE_SUCCESS });
         }
       },
       onError: (error) => {
-        toast.error(TOAST_MESSAGE.PROFILE_SAVE_FAILURE);
+        showCustomToast({ message: TOAST_MESSAGE.PROFILE_SAVE_FAILURE });
         console.error('Profile Edit error:', error);
       },
     });
@@ -168,7 +169,7 @@ function Content({ variant }: IContentProps) {
                   <span className="md:text-body-3">{item.label}</span>
                   <Link
                     to={item.linkTo}
-                    className="md:text-body-4 ml-2 text-orange-500 underline hover:text-orange-600"
+                    className="md:text-body-4 ml-2 text-blue-500 underline hover:text-blue-600"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
