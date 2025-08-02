@@ -29,7 +29,31 @@ function EventCard({ event, isParticipating }: EventCardProps) {
   const { mutate } = useQueryParticipateInEvent();
 
   const eventStatus = getEventStatus(event.startDate, event.endDate);
+  const handleEnterEventClick = () => {
+    if (isParticipating) {
+      navigate(ROUTES.EVENT.ROOT);
+      return;
+    }
 
+    if (eventStatus === 'ongoing') {
+      mutate(EVENT_ID, {
+        onSuccess: () => {
+          showCustomToast({ message: '행사에 참여하였습니다!' });
+          queryClient.invalidateQueries({ queryKey: ['participation', EVENT_ID] });
+          navigate(ROUTES.EVENT.ROOT);
+        },
+        onError: () => {
+          showCustomToast({
+            message: '문제가 발생했습니다. 잠시 후에 다시 시도해 주세요.',
+          });
+        },
+      });
+    } else if (eventStatus === 'ended') {
+      showCustomToast({
+        message: '종료된 행사에요.',
+      });
+    }
+  };
   return (
     <div className="rounded-3xl bg-white px-4 py-5 dark:bg-gray-800">
       <ul className="mb-4 flex gap-1.5">
@@ -71,26 +95,7 @@ function EventCard({ event, isParticipating }: EventCardProps) {
 
         <div className="relative">
           <button
-            onClick={
-              !isParticipating
-                ? () => {
-                    mutate(EVENT_ID, {
-                      onSuccess: () => {
-                        showCustomToast({ message: '행사에 참여하였습니다!' });
-                        queryClient.invalidateQueries({ queryKey: ['participation', EVENT_ID] });
-                        navigate(ROUTES.EVENT.ROOT);
-                      },
-                      onError: () => {
-                        showCustomToast({
-                          message: '문제가 발생했습니다. 잠시 후에 다시 시도해 주세요.',
-                        });
-                      },
-                    });
-                  }
-                : () => {
-                    showCustomToast({ message: '종료된 행사입니다.' });
-                  }
-            }
+            onClick={handleEnterEventClick}
             disabled={isButtonDisabled(eventStatus)}
             className={`h-14 w-full rounded-2xl px-5 font-medium transition-colors ${getParticipationButtonStyle(
               eventStatus
