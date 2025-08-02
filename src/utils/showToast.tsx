@@ -11,7 +11,7 @@ export function showCustomToast({ icon, message }: { icon?: string; message: str
   return toast.custom(
     (t) => (
       <div
-        className={`flex items-center gap-2 rounded-2xl bg-gray-50 px-4 py-3 backdrop-blur-sm transition-all duration-300 transform ${t.visible ? 'animate-toast-in' : 'animate-toast-out'}`}
+        className={`flex items-center gap-2 rounded-full border border-gray-100/50 bg-gray-50 px-4 py-3 backdrop-blur-sm transition-all duration-300 transform ${t.visible ? 'animate-toast-in' : 'animate-toast-out'}`}
       >
         {icon && (
           <div className="flex h-6 w-6 flex-col items-center justify-center rounded-full bg-white text-sm text-gray-700">

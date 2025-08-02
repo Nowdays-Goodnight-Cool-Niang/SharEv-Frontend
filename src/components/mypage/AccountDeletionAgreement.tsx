@@ -9,7 +9,7 @@ function AccountDeletionAgreement({ isAgreed, onAgreementChange }: AccountDeleti
   return (
     <div className="flex justify-end">
       <Checkbox checked={isAgreed} onChange={() => onAgreementChange(!isAgreed)}>
-        위 유의사항을 모두 확인하였으며 동의합니다.
+        <div className="mt-1">위 유의사항을 모두 확인하였으며 동의합니다.</div>
       </Checkbox>
     </div>
   );

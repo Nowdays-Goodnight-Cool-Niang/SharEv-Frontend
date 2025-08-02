@@ -16,7 +16,7 @@ import { setupAxiosInterceptors } from '@/apis/responseInterceptor';
 import Events from './pages/Events';
 import GlobalErrorBoundary from './components/common/GlobalErrorBoundary';
 import ErrorBoundary from './components/common/ErrorBoundary';
-import DummyPanel from './components/common/DummyPanel';
+// import DummyPanel from './components/common/DummyPanel';
 import { setScreenHeight } from './utils/viewport';
 import ProfileSection from './components/event/profile/ProfileSection';
 import ParticipantsSection from './components/event/participants/ParticipantsSection';
@@ -120,7 +120,7 @@ function App() {
   return (
     <GlobalErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        <DummyPanel />
+        {/* <DummyPanel /> */}
         <Toaster
           containerStyle={{
             bottom: '7rem',

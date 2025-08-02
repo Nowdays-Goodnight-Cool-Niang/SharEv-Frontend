@@ -23,7 +23,7 @@ export default function ViewTabs({ tabs, value, onChange, className }: ViewTabsP
       {tabs.map((tab) => (
         <button
           key={tab.key}
-          className={`z-10 flex h-8 items-center justify-center gap-1.5 px-2 font-medium transition-colors duration-300 ${
+          className={`z-10 flex h-8 items-center justify-center gap-1.5 overflow-hidden px-2 font-medium transition-colors duration-300 ${
             value === tab.value
               ? 'rounded-lg bg-white text-gray-700 shadow-md shadow-gray-500/10 dark:bg-gray-700 dark:text-gray-100'
               : 'text-gray-400 dark:text-gray-500'
