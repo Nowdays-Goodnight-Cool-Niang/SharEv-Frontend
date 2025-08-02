@@ -70,7 +70,7 @@ function ProfileSection() {
           <span className="text font-medium tracking-tight text-blue-500 dark:text-white">TIP</span>
         </button>
       </div>
-      <div className="h-8"></div>
+      <div className="h-14"></div>
       <div className="wrapper flex h-full w-full flex-col items-center gap-5">
         <div className="flex h-full w-full flex-col items-center gap-3">
           <div className="relative flex w-full flex-col items-center">
