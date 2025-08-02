@@ -15,6 +15,7 @@ interface EventProfileCardProps {
   onFlipChange?: (flipped: boolean) => void;
   showLinkIcons?: boolean;
   showButtons?: boolean;
+  isActionButtonLoading?: boolean;
 }
 
 function EventProfileCard({
@@ -28,6 +29,7 @@ function EventProfileCard({
   onFlipChange,
   showLinkIcons = false,
   showButtons = false,
+  isActionButtonLoading = false,
 }: EventProfileCardProps) {
   const [flipped, setFlipped] = useState(false);
 
@@ -72,6 +74,7 @@ function EventProfileCard({
               onActionButtonClick={onActionButtonClick}
               onCancelButtonClick={onCancelButtonClick}
               isActionButtonDisabled={isActionButtonDisabled}
+              isActionButtonLoading={isActionButtonLoading}
               showLinkIcons={showLinkIcons}
               showButtons={showButtons}
             />

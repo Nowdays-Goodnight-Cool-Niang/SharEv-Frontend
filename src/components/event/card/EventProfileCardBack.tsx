@@ -20,6 +20,7 @@ interface EventProfileCardBack {
   isActionButtonDisabled?: boolean;
   showButtons?: boolean;
   showLinkIcons?: boolean;
+  isActionButtonLoading?: boolean;
 }
 
 const LinkIcons = [
@@ -85,6 +86,7 @@ function EventProfileCardBack({
   isActionButtonDisabled = false,
   showButtons = false,
   showLinkIcons = false,
+  isActionButtonLoading = false,
 }: EventProfileCardBack) {
   return (
     <div
@@ -148,10 +150,14 @@ function EventProfileCardBack({
               isDisabled={state === EventProfileState.EDIT && isActionButtonDisabled}
               onClick={(e) => {
                 e.stopPropagation();
-                onActionButtonClick();
+                if (!isActionButtonLoading) onActionButtonClick();
               }}
             >
-              {state === EventProfileState.EDIT ? '저장하기' : '편집하기'}
+              {isActionButtonLoading
+                ? '저장 중...'
+                : state === EventProfileState.EDIT
+                  ? '저장하기'
+                  : '편집하기'}
             </BaseButton>
           )}
         </div>
