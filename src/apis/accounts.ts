@@ -13,7 +13,7 @@ export const accountAPI = {
   },
 
   checkAuthenticated: async () => {
-    const response = await accountInstance.get('');
+    const response = await accountInstance.get('/authenticated');
     return response.data;
   },
 
