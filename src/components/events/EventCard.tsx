@@ -88,7 +88,7 @@ function EventCard({ event, isParticipating }: EventCardProps) {
                     });
                   }
                 : () => {
-                    navigate(ROUTES.EVENT.ROOT);
+                    showCustomToast({ message: '종료된 행사입니다.' });
                   }
             }
             disabled={isButtonDisabled(eventStatus)}
