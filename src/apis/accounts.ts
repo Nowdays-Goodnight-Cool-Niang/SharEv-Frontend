@@ -12,6 +12,11 @@ export const accountAPI = {
     return response.data;
   },
 
+  checkAuthenticated: async () => {
+    const response = await accountInstance.get('');
+    return response.data;
+  },
+
   patchProfileInfo: async (data: IAccountUpdateRequest) => {
     const response = await accountInstance.patch('', data, { withCredentials: true });
     return response.data;
