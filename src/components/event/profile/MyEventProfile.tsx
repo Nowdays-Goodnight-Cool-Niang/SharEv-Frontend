@@ -18,6 +18,7 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
   const [eventProfileState, setEventProfileState] = useState<EventProfileStateType>(
     EventProfileState.READONLY
   );
+  const [loading, setLoading] = useState(false);
   const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
   const initialFieldValues = useRef<Record<string, string>>({});
 
@@ -43,17 +44,6 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
     if (eventProfile.pinNumber) setMyPinNumber(eventProfile.pinNumber);
   }, [eventProfile]);
 
-  useEffect(() => {
-    if (!(eventProfileState === EventProfileState.EDIT) && eventProfile?.template?.fields) {
-      const newFieldValues = Object.fromEntries(
-        Object.entries(eventProfile.template.fields).map(([key, { value }]) => [key, value])
-      );
-
-      setFieldValues(newFieldValues);
-      initialFieldValues.current = newFieldValues;
-    }
-  }, [eventProfile, eventProfileState]);
-
   const updateFieldValue = (key: string, newValue: string) => {
     setFieldValues((prev) => ({ ...prev, [key]: newValue }));
   };
@@ -63,21 +53,44 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
     setEventProfileState(EventProfileState.EDIT);
   };
 
+  useEffect(() => {
+    if (
+      !(eventProfileState === EventProfileState.EDIT) &&
+      eventProfile?.template?.fields &&
+      !loading
+    ) {
+      if (Object.keys(fieldValues).length === 0) {
+        const newFieldValues = Object.fromEntries(
+          Object.entries(eventProfile.template.fields).map(([key, { value }]) => [key, value])
+        );
+        setFieldValues(newFieldValues);
+        initialFieldValues.current = newFieldValues;
+      }
+    }
+  }, [eventProfile, eventProfileState, loading]);
+
   const handleSave = () => {
+    const prevFieldValues = { ...fieldValues };
+
     const payload: ProfileContent = {
       introduce: fieldValues.introduce ?? '',
       proudestExperience: fieldValues.proudestExperience ?? '',
       toughExperience: fieldValues.toughExperience ?? '',
     };
 
+    setLoading(true);
+
     mutate(payload, {
       onSuccess: () => {
         showCustomToast({ message: '저장했어요!' });
         setEventProfileState(EventProfileState.READONLY);
         initialFieldValues.current = fieldValues;
+        setLoading(false);
       },
       onError: () => {
+        setFieldValues(prevFieldValues);
         showCustomToast({ message: '저장에 실패했어요! 잠시 후 다시 시도해 주세요.' });
+        setLoading(false);
       },
     });
   };
@@ -101,6 +114,7 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
       onCancelButtonClick={eventProfileState === EventProfileState.EDIT ? handleCancel : undefined}
       onFlipChange={onFlipChange}
       showButtons
+      isActionButtonLoading={loading}
     />
   );
 }
