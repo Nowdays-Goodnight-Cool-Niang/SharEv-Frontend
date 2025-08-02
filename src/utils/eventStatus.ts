@@ -30,7 +30,7 @@ export function getStatusColor(status: string) {
 }
 
 export function isButtonDisabled(status: 'ongoing' | 'upcoming' | 'ended') {
-  return status === 'upcoming' || status === 'ended';
+  return status === 'upcoming';
 }
 
 export function getParticipationText(
@@ -43,7 +43,7 @@ export function getParticipationText(
 }
 
 export function getParticipationButtonStyle(status: 'ongoing' | 'upcoming' | 'ended') {
-  if (status === 'ended' || status === 'upcoming') {
+  if (status === 'upcoming') {
     return 'cursor-not-allowed bg-gray-100 text-gray-400 dark:bg-gray-700 dark:text-gray-500';
   }
 
