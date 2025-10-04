@@ -35,8 +35,10 @@ QR 기반의 디지털 명함 서비스로, 네트워킹을 더 간편하고 즐
 | 가입 및 프로필 생성                                               | 행사 참여 및 카드 생성               | 참가자 명함 조회 (명함 공유 전)        |
 | -------------------------------------------------- | --------------------------- | ------------------- |
 | ![쉐어브_가입+프로필생성](https://github.com/user-attachments/assets/8f6e9637-c634-4387-a15b-81656482c8a4)| ![쉐어브_행사참여+명함생성](https://github.com/user-attachments/assets/03490536-c6b1-4d86-8f70-8ed35f638512)| ![쉐어브_카드공유전](https://github.com/user-attachments/assets/b383582b-2eed-4ed9-a579-e94072a3ef2e)|
-| 참가자 명함 받기 (PIN 번호)                                            | 참가자 명함 조회 (명함 공유 후) 및 피드백 제보            | 마이페이지/ 프로필         |
-| ![쉐어브_카드공유](https://github.com/user-attachments/assets/3ffcd590-9e1b-43ed-9783-0d556c24578e)|![쉐어브_명함조회_공유완료](https://github.com/user-attachments/assets/5c097046-b254-4073-9a0b-1af8d226ceff) | |
+| 참가자 명함 받기 (PIN 번호)                                            | 참가자 명함 조회 (명함 공유 후) 및 피드백 제보            | 프로필 수정 및 로그아웃         |
+| ![쉐어브_카드공유](https://github.com/user-attachments/assets/3ffcd590-9e1b-43ed-9783-0d556c24578e)|![쉐어브_명함조회_공유완료](https://github.com/user-attachments/assets/5c097046-b254-4073-9a0b-1af8d226ceff) |  ![쉐어브_프로필수정](https://github.com/user-attachments/assets/2a6f69e8-8510-480f-8c58-50fceaa60450) |
+| 탈퇴 및 약관 조회                                         | 예외처리 (존재하지 않는 페이지)           | 예외처리 (네트워크 연결 끊김)    |
+![쉐어브_탈퇴 및 약관](https://github.com/user-attachments/assets/998c072b-3c87-4ecd-88ab-4832bbf27a3d) |![쉐어브_예외처리1](https://github.com/user-attachments/assets/a21b3ebf-32ba-4699-8354-e29d8819a2f3)|![쉐어브_예외처리_서버](https://github.com/user-attachments/assets/2e756707-9375-4b69-a59c-a3fae5d2280e)
 
 
 
