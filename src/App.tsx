@@ -22,6 +22,8 @@ import ProfileSection from './components/event/profile/ProfileSection';
 import ParticipantsSection from './components/event/participants/ParticipantsSection';
 import ShareSection from './components/event/share/ShareSection';
 import EventLayout from '@/pages/EventLayout';
+import ParticipatedEvents from '@/pages/ParticipatedEvents';
+import ParticipatedTeams from '@/pages/ParticipatedTeams';
 
 function App() {
   const queryClient = new QueryClient();
@@ -109,6 +111,16 @@ function App() {
     {
       path: '/account-deletion',
       element: <AccountDeletion />,
+      errorElement: <ErrorBoundary />,
+    },
+    {
+      path: '/participated-events',
+      element: <ParticipatedEvents />,
+      errorElement: <ErrorBoundary />,
+    },
+    {
+      path: '/participated-teams',
+      element: <ParticipatedTeams />,
       errorElement: <ErrorBoundary />,
     },
     {
