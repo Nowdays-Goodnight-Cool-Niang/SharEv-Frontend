@@ -1,0 +1,7 @@
+- Prefer functional components with hooks.
+- Keep components small and focused on one responsibility.
+- Extract reusable UI into /src/components.
+- Prefer composition over props drilling; use context only for truly global data.
+- Follow existing naming patterns in this repo.
+- Always handle loading, error, and empty states for async UI.
+- Write pure functions and avoid side effects inside render.
