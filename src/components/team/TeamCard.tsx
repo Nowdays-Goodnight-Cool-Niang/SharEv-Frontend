@@ -1,7 +1,7 @@
 import type { Team } from '@/types/domain/team';
 import { isVerifiedTeam } from '@/types/domain/team';
-import UserIcon from '@/components/common/icons/UserIcon';
-import CalendarIcon from '@/components/common/icons/CalendarIcon';
+import UserSvg from '@/assets/icons/ic_user.svg?react';
+import CalendarSvg from '@/assets/icons/ic_calendar.svg?react';
 import { formatDate } from '@/utils/format';
 
 interface TeamCardProps {
@@ -56,11 +56,11 @@ function TeamCard({ team, onClick }: TeamCardProps) {
 
       <div className="flex items-center gap-4 text-xs text-gray-500">
         <div className="flex items-center gap-1">
-          <UserIcon width={16} height={16} />
+          <UserSvg width={16} height={16} className="text-gray-500" />
           <span>{team.participantCount}명</span>
         </div>
         <div className="flex items-center gap-1">
-          <CalendarIcon width={16} height={16} />
+          <CalendarSvg width={16} height={16} className="text-gray-500" />
           <span>{formatDate(team.createAt)}</span>
         </div>
       </div>
