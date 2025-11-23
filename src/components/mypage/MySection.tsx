@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import MyProfile from '@/components/mypage/MyProfile';
 import { authAPI } from '@/apis/auth';
 import { Link } from 'react-router';
-import MessageCircleSvg from '@/assets/icons/ic_message_circle.svg?react';
 import LogOutSvg from '@/assets/icons/ic_logout.svg?react';
 import UserMinusSvg from '@/assets/icons/ic_user_minus.svg?react';
 import CardSvg from '@/assets/icons/ic_card.svg?react';
@@ -26,10 +25,6 @@ function MySection() {
       console.error('Account logout error:', error.message);
     },
   });
-
-  const handleInquiry = () => {
-    showCustomToast({ message: TOAST_MESSAGE.INQUIRY_UNDER_CONSTRUCTION });
-  };
 
   const handleAccountDeletion = () => {
     navigate('/account-deletion');
@@ -57,11 +52,6 @@ function MySection() {
   ];
 
   const accountButtons = [
-    {
-      title: '문의하기',
-      onClick: handleInquiry,
-      icon: MessageCircleSvg,
-    },
     {
       title: '로그아웃',
       onClick: () => performLogout(),
