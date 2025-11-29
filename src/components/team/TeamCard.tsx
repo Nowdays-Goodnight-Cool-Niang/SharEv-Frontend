@@ -14,15 +14,11 @@ function TeamCard({ team, onClick }: TeamCardProps) {
     if (isVerifiedTeam(team)) {
       return (
         <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600">
-          인증됨
+          공식
         </span>
       );
     }
-    return (
-      <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
-        미인증
-      </span>
-    );
+    return <></>;
   };
 
   const getTeamInitials = (title: string) => {
@@ -48,10 +44,10 @@ function TeamCard({ team, onClick }: TeamCardProps) {
         >
           {getTeamInitials(team.title)}
         </div>
+        <h3 className="mb-2 text-lg font-bold text-gray-900">{team.title}</h3>
         <div className="flex gap-2">{getStatusBadge()}</div>
       </div>
 
-      <h3 className="mb-2 text-lg font-bold text-gray-900">{team.title}</h3>
       <p className="mb-4 text-sm text-gray-600">{team.content}</p>
 
       <div className="flex items-center gap-4 text-xs text-gray-500">
