@@ -19,6 +19,8 @@ export const eventProfileData: MyEventProfileResponse = {
   pinNumber: 3512,
 };
 
+// participantsData는 이제 factories.ts의 createMockParticipants로 대체되었습니다.
+// 하위 호환성을 위해 유지하지만, 새로운 코드에서는 factories 사용을 권장합니다.
 export const participantsData: PublicProfileResponse[] = [
   {
     type: 'FULL',
