@@ -37,14 +37,16 @@ function TeamCard({ team, onClick }: TeamCardProps) {
       onClick={() => onClick?.(team)}
       className="w-full rounded-xl border border-gray-100 bg-white p-5 text-left shadow-sm transition-shadow hover:shadow-md"
     >
-      <div className="mb-4 flex items-start justify-between">
-        <div
-          className="flex h-12 w-12 items-center justify-center rounded-xl text-lg font-bold text-white"
-          style={{ backgroundColor: getRandomColor(team.id) }}
-        >
-          {getTeamInitials(team.title)}
+      <div className="mb-4 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-lg font-bold text-white"
+            style={{ backgroundColor: getRandomColor(team.id) }}
+          >
+            {getTeamInitials(team.title)}
+          </div>
+          <h3 className="text-lg font-bold text-gray-900">{team.title}</h3>
         </div>
-        <h3 className="mb-2 text-lg font-bold text-gray-900">{team.title}</h3>
         <div className="flex gap-2">{getStatusBadge()}</div>
       </div>
 
