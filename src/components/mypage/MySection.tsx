@@ -3,9 +3,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import MyProfile from '@/components/mypage/MyProfile';
 import { authAPI } from '@/apis/auth';
 import { Link } from 'react-router';
-import MessageCircleSvg from '@/assets/icons/ic_message_circle.svg?react';
 import LogOutSvg from '@/assets/icons/ic_logout.svg?react';
 import UserMinusSvg from '@/assets/icons/ic_user_minus.svg?react';
+import CardSvg from '@/assets/icons/ic_card.svg?react';
+import UsersSvg from '@/assets/icons/ic_users.svg?react';
 import { TOAST_MESSAGE } from '@/constants/message';
 import { showCustomToast } from '@/utils/showToast';
 
@@ -25,20 +26,32 @@ function MySection() {
     },
   });
 
-  const handleInquiry = () => {
-    showCustomToast({ message: TOAST_MESSAGE.INQUIRY_UNDER_CONSTRUCTION });
-  };
-
   const handleAccountDeletion = () => {
     navigate('/account-deletion');
   };
 
-  const settingButtons = [
+  const handleParticipatedEvents = () => {
+    navigate('/participated-events');
+  };
+
+  const handleParticipatedTeams = () => {
+    navigate('/participated-teams');
+  };
+
+  const eventButtons = [
     {
-      title: '문의하기',
-      onClick: handleInquiry,
-      icon: MessageCircleSvg,
+      title: '참여 행사',
+      onClick: handleParticipatedEvents,
+      icon: CardSvg,
     },
+    {
+      title: '참여 팀',
+      onClick: handleParticipatedTeams,
+      icon: UsersSvg,
+    },
+  ];
+
+  const accountButtons = [
     {
       title: '로그아웃',
       onClick: () => performLogout(),
@@ -53,7 +66,8 @@ function MySection() {
 
   const datas = [
     { title: '프로필', content: <MyProfile /> },
-    { title: '계정', buttons: settingButtons },
+    { title: '이벤트', buttons: eventButtons },
+    { title: '계정', buttons: accountButtons },
   ];
 
   return (
