@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IAccountUpdateRequest } from '@/types/domain/account';
+import { IAccountUpdateRequest, ILink } from '@/types/domain/account';
 
 export const accountInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/accounts`,
@@ -12,11 +12,6 @@ export const accountAPI = {
     return response.data;
   },
 
-  checkAuthenticated: async () => {
-    const response = await accountInstance.get('/authenticated');
-    return response.data;
-  },
-
   patchProfileInfo: async (data: IAccountUpdateRequest) => {
     const response = await accountInstance.patch('', data, { withCredentials: true });
     return response.data;
@@ -26,6 +21,21 @@ export const accountAPI = {
     const response = await accountInstance.delete('', {
       data: reason ? { feedback: reason } : undefined,
     });
+    return response.data;
+  },
+
+  getLinks: async (): Promise<ILink[]> => {
+    const response = await accountInstance.get('/links');
+    return response.data;
+  },
+
+  addLink: async (url: string): Promise<ILink> => {
+    const response = await accountInstance.post('/links', { url });
+    return response.data;
+  },
+
+  deleteLink: async (linkId: number) => {
+    const response = await accountInstance.delete(`/links/${linkId}`);
     return response.data;
   },
 };
