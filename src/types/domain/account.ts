@@ -1,23 +1,19 @@
 export interface IAccountApiResponse {
-  id?: string;
+  id?: number;
   name: string;
   email: string;
-  linkedinUrl?: string;
-  githubUrl?: string;
-  instagramUrl?: string;
 }
 
 export type IAccountUpdateRequest = Omit<IAccountApiResponse, 'id'>;
 
-export interface ISocialLinks {
-  githubUrl?: string;
-  linkedinUrl?: string;
-  instagramUrl?: string;
+export interface ILink {
+  id: number;
+  url: string;
 }
 
 export interface IAccount {
-  id?: string;
+  id?: number;
   name: string;
   email: string;
-  socialLinks: ISocialLinks;
+  linkUrls: string[];
 }
