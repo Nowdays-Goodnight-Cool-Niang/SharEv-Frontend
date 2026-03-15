@@ -1,8 +1,8 @@
-import { eventClient } from '@/apis/event/event.client';
+import { gatheringClient } from '@/apis/gathering/gathering.client';
 import { useMutation } from '@tanstack/react-query';
 
 export const useQueryParticipateInEvent = () => {
   return useMutation({
-    mutationFn: eventClient.participateInEventSafe,
+    mutationFn: gatheringClient.participateInGatheringSafe,
   });
 };
