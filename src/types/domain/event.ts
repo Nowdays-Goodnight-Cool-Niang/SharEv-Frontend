@@ -24,20 +24,19 @@ interface WithTemplate {
 
 export interface IMyEventProfile extends IBaseEventProfile, WithTemplate {
   type: 'MY';
-  pinNumber: number;
-  registerRequireFlag: boolean;
+  cardId: number;
+  lastIntroduceTemplateVersion: number;
+  nowIntroduceTemplateVersion: number;
 }
 
 export interface IFullEventProfile extends IBaseEventProfile, WithTemplate {
   type: 'FULL';
-  relationFlag: boolean;
 }
 
 export interface IMinimumEventProfile
-  extends Omit<IBaseEventProfile, 'email' | 'socialLinks'>,
+  extends Omit<IBaseEventProfile, 'email' | 'linkUrls'>,
     WithTemplate {
   type: 'MINIMUM';
-  relationFlag: boolean;
 }
 
 export type IPublicEventProfile = IFullEventProfile | IMinimumEventProfile;
@@ -47,7 +46,6 @@ export type EventProfileType = 'MY' | 'FULL' | 'MINIMUM';
 export type EventProfileStateType = (typeof EventProfileState)[keyof typeof EventProfileState];
 
 export interface IPaginatedEventProfiles {
-  registerCount: number;
   page: PageInfo;
   profiles: IPublicEventProfile[];
 }

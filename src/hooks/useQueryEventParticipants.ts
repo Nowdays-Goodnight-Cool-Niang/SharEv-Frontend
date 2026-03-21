@@ -1,15 +1,23 @@
 import { useInfiniteQuery, UseInfiniteQueryResult, InfiniteData } from '@tanstack/react-query';
 import { IPaginatedEventProfiles } from '@/types/domain/event';
-import { eventClient } from '@/apis/event/event.client';
+import { gatheringClient } from '@/apis/gathering/gathering.client';
+import { useRef } from 'react';
 
 export const useQueryParticipants = (
-  eventId: string
+  gatheringId: string
 ): UseInfiniteQueryResult<InfiniteData<IPaginatedEventProfiles>, Error> => {
+  const snapshotTimeRef = useRef<string>('');
+
   return useInfiniteQuery<IPaginatedEventProfiles, Error>({
-    queryKey: ['participants', eventId],
+    queryKey: ['participants', gatheringId],
     queryFn: async ({ pageParam = 0 }) => {
-      const result = await eventClient.getParticipantsSafe(eventId, {
+      if (pageParam === 0 || !snapshotTimeRef.current) {
+        snapshotTimeRef.current = new Date().toISOString();
+      }
+
+      const result = await gatheringClient.getCardsSafe(gatheringId, {
         page: pageParam as number,
+        snapshotTime: snapshotTimeRef.current,
       });
       if (!result) throw new Error('참여자 목록을 불러오지 못했습니다');
       return result;

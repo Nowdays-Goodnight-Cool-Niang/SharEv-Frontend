@@ -45,6 +45,27 @@ export interface Team {
 /**
  * 팀 인증 여부 확인 헬퍼 함수
  */
+export interface TeamGathering {
+  id: string;
+  title: string;
+  teamName: string;
+  startAt: string;
+  endAt: string;
+  place: string;
+}
+
+export interface TeamMember {
+  name: string;
+  email: string;
+  role: TeamRole;
+}
+
+export interface TeamDetail extends Team {
+  inviteLink: string;
+  gatherings: TeamGathering[];
+  members: TeamMember[];
+}
+
 export const isVerifiedTeam = (team: Team): boolean => {
   return team.certificationCode === 'CERTIFICATED';
 };

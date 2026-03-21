@@ -1,11 +1,11 @@
-import { eventAPI } from '@/apis/event/event.api';
+import { gatheringAPI } from '@/apis/gathering/gathering.api';
 import { useQuery } from '@tanstack/react-query';
 
-export function useQueryCheckParticipation(eventId: string) {
+export function useQueryCheckParticipation(gatheringId: string) {
   return useQuery({
-    queryKey: ['participation', eventId],
-    queryFn: () => eventAPI.checkParticipation(eventId),
-    enabled: !!eventId,
+    queryKey: ['participation', gatheringId],
+    queryFn: () => gatheringAPI.checkParticipation(gatheringId),
+    enabled: !!gatheringId,
     staleTime: 1000 * 60 * 5,
   });
 }
