@@ -4,10 +4,12 @@ import LoadingSpinner from '@/components/common/LoadingSpinner';
 import TeamHeader from '@/components/team/TeamHeader';
 import TeamList from '@/components/team/TeamList';
 import { useTeams } from '@/hooks/useTeams';
+import { useNavigate } from 'react-router';
 import { showCustomToast } from '@/utils/showToast';
 import type { Team } from '@/types/domain/team';
 
 function ParticipatedTeams() {
+  const navigate = useNavigate();
   const { teams, isLoading, error } = useTeams();
 
   const handleCreateTeam = () => {
@@ -15,8 +17,7 @@ function ParticipatedTeams() {
   };
 
   const handleTeamClick = (team: Team) => {
-    // TODO: 팀 상세 페이지로 이동
-    showCustomToast({ message: `${team.title} 팀 상세 페이지로 이동` });
+    navigate(`/teams/${team.id}`);
   };
 
   if (error) {
