@@ -66,7 +66,7 @@ function EventProfileCard({
           <div className="absolute inset-0 rotate-y-180 backface-hidden">
             <EventProfileCardBack
               email={profile.email}
-              socialLinks={profile.socialLinks}
+              linkUrls={profile.linkUrls}
               content={profile.template}
               fieldValues={fieldValues}
               state={state}

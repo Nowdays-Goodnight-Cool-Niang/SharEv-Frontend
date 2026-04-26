@@ -7,7 +7,7 @@ import {
 import axios from 'axios';
 
 export const gatheringInstance = axios.create({
-  baseURL: `${import.meta.env.VITE_API_BASE_URL}/gathering`,
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}/gatherings`,
   withCredentials: true,
 });
 

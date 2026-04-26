@@ -4,7 +4,7 @@ import { EVENT_ID } from '@/constants/eventId';
 import { useSuspenseQueryEventProfile } from '@/hooks/useQueryEventProfile';
 import { useMutateMyEventProfile } from '@/hooks/useMutateMyEventProfile';
 import { useEventProfileStore } from '@/stores/useEventProfileStore';
-import { ProfileContent } from '@/types/api/event';
+import { CardUpdateRequest } from '@/types/api/event';
 import { EventProfileStateType } from '@/types/domain/event';
 import { EventProfileState } from '@/constants/event';
 import { showCustomToast } from '@/utils/showToast';
@@ -25,7 +25,8 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
   const { data: eventProfile, error: eventProfileError } = useSuspenseQueryEventProfile(EVENT_ID);
   const { mutate } = useMutateMyEventProfile();
   const setProfileComplete = useEventProfileStore((state) => state.setProfileComplete);
-  const setMyPinNumber = useEventProfileStore((state) => state.setMyPinNumber);
+  // TODO: PIN 번호 조회 API 연동 후 활성화
+  // const setMyPinNumber = useEventProfileStore((state) => state.setMyPinNumber);
 
   useEffect(() => {
     if (onEditStateChange) {
@@ -33,15 +34,14 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
     }
   }, [eventProfileState]);
 
-  // 데이터를 받아온 후 프로필 정보 입력 상태를 전역 상태로 저장
   useEffect(() => {
     if (!eventProfile) return;
     const isComplete = Object.values(eventProfile.template.fields).every(
       (field) => field.value !== null && field.value.trim() !== ''
     );
     setProfileComplete(isComplete);
-
-    if (eventProfile.pinNumber) setMyPinNumber(eventProfile.pinNumber);
+    // TODO: PIN 번호 조회 API 연동 후 활성화
+    // if (eventProfile.pinNumber) setMyPinNumber(eventProfile.pinNumber);
   }, [eventProfile]);
 
   const updateFieldValue = (key: string, newValue: string) => {
@@ -72,10 +72,9 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
   const handleSave = () => {
     const prevFieldValues = { ...fieldValues };
 
-    const payload: ProfileContent = {
-      introduce: fieldValues.introduce ?? '',
-      proudestExperience: fieldValues.proudestExperience ?? '',
-      toughExperience: fieldValues.toughExperience ?? '',
+    const payload: CardUpdateRequest = {
+      version: eventProfile?.lastIntroduceTemplateVersion ?? 1,
+      introductionText: fieldValues,
     };
 
     setLoading(true);
