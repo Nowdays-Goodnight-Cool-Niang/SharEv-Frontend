@@ -6,6 +6,7 @@ import {
   IPublicEventProfile,
   IPaginatedEventProfiles,
 } from '@/types/domain/event';
+import { placeholders } from '@/constants/event';
 
 function parseTemplateBlocks(templateText: string): TemplateBlock[] {
   const blocks: TemplateBlock[] = [];
@@ -38,7 +39,7 @@ function extractFieldData(
     (acc, key) => {
       acc[key] = {
         value: introductionText[key] ?? '',
-        placeholder: '',
+        placeholder: placeholders[key] ?? '', // TODO: BE에서 placeholder 내려주면 교체
       };
       return acc;
     },

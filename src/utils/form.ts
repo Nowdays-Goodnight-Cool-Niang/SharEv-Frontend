@@ -9,24 +9,11 @@ export const validateInput = (name: string, value: string) => {
       if (!value.trim()) return '이메일을 입력해주세요.';
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return '올바른 형식의 이메일이어야 합니다.';
       break;
-    case 'linkedinUrl':
+    case 'url':
       if (value && !/^https?:\/\/.+/.test(value)) {
         return '올바른 형식의 URL을 입력해주세요.';
       }
       break;
-
-    case 'githubUrl':
-      if (value && !/^https?:\/\/.+/.test(value)) {
-        return '올바른 형식의 URL을 입력해주세요.';
-      }
-      break;
-
-    case 'instagramUrl':
-      if (value && !/^https?:\/\/.+/.test(value)) {
-        return '올바른 형식의 URL을 입력해주세요.';
-      }
-      break;
-
     default:
       return '';
   }
