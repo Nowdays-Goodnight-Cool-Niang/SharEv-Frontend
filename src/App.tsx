@@ -24,6 +24,7 @@ import ShareSection from './components/event/share/ShareSection';
 import EventLayout from '@/pages/EventLayout';
 import ParticipatedEvents from '@/pages/ParticipatedEvents';
 import ParticipatedTeams from '@/pages/ParticipatedTeams';
+import TeamCreate from '@/pages/TeamCreate';
 
 function App() {
   const queryClient = new QueryClient();
@@ -121,6 +122,11 @@ function App() {
     {
       path: '/participated-teams',
       element: <ParticipatedTeams />,
+      errorElement: <ErrorBoundary />,
+    },
+    {
+      path: '/teams/create',
+      element: <TeamCreate />,
       errorElement: <ErrorBoundary />,
     },
     {
