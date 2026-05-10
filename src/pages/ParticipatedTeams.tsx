@@ -4,14 +4,17 @@ import LoadingSpinner from '@/components/common/LoadingSpinner';
 import TeamHeader from '@/components/team/TeamHeader';
 import TeamList from '@/components/team/TeamList';
 import { useTeams } from '@/hooks/useTeams';
+import { useNavigate } from 'react-router';
+import { ROUTES } from '@/constants/routes';
 import { showCustomToast } from '@/utils/showToast';
 import type { Team } from '@/types/domain/team';
 
 function ParticipatedTeams() {
+  const navigate = useNavigate();
   const { teams, isLoading, error } = useTeams();
 
   const handleCreateTeam = () => {
-    showCustomToast({ message: '팀 생성 기능은 준비 중입니다.' });
+    navigate(ROUTES.TEAM_CREATE);
   };
 
   const handleTeamClick = (team: Team) => {

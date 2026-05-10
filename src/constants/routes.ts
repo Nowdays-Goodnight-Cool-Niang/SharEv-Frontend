@@ -13,4 +13,5 @@ export const ROUTES = {
   ACCOUNT_DELETON: '/account-deletion',
   PARTICIPATED_EVENTS: '/participated-events',
   PARTICIPATED_TEAMS: '/participated-teams',
+  TEAM_CREATE: '/teams/create',
 } as const;
