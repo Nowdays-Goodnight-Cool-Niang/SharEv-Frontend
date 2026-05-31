@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import CardSlider from './CardSlider';
 import { getGraphicImageByNumber } from '@/utils/graphic';
 import { useQueryParticipants } from '@/hooks/useQueryEventParticipants';
-import { EVENT_ID } from '@/constants/eventId';
+import { useParams } from 'react-router';
 import ParticipationInfo from './ParticipationInfo';
 import SpotlightCard from '../card/SpotlightCard';
 import { IEventProfile } from '@/types/domain/event';
@@ -15,10 +15,11 @@ import ParticipantsEmptyView from './ParticipantsEmptyView';
 import { showPreview } from '@/utils/showPreview';
 
 export default function ParticipantsSection() {
+  const { gatheringId } = useParams<{ gatheringId: string }>();
   const [viewMode, setViewMode] = useState('grid');
   const [currentProfile, setCurrentProfile] = useState<IEventProfile | null>(null);
   const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
-    useQueryParticipants(EVENT_ID);
+    useQueryParticipants(gatheringId!);
   const observerRef = useRef<HTMLLIElement | null>(null);
 
   useEffect(() => {

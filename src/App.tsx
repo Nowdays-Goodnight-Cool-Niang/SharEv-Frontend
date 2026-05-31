@@ -77,7 +77,7 @@ function App() {
       errorElement: <ErrorBoundary />,
     },
     {
-      path: '/event',
+      path: '/event/:gatheringId',
       element: <EventLayout />,
       errorElement: <ErrorBoundary />,
       children: [

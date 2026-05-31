@@ -8,7 +8,7 @@ import ErrorSvg from '@/assets/icons/ic_error.svg?react';
 import BaseButton from '@/components/common/BaseButton';
 import Input from '@/components/common/Input';
 import { useMutateGetProfileByPin } from '@/hooks/useQueryGetProfileByPin';
-import { EVENT_ID } from '@/constants/eventId';
+import { useParams } from 'react-router';
 import WebcamCapture from './WebcamCapture';
 import { BrowserQRCodeReader } from '@zxing/browser';
 import SpotlightCard from '../card/SpotlightCard';
@@ -17,7 +17,8 @@ import { useQueryEventProfile } from '@/hooks/useQueryEventProfile';
 import { IFullEventProfile } from '@/types/domain/event';
 
 export default function ShareSection() {
-  const { data: eventProfile, isLoading, error } = useQueryEventProfile(EVENT_ID);
+  const { gatheringId } = useParams<{ gatheringId: string }>();
+  const { data: eventProfile, isLoading, error } = useQueryEventProfile(gatheringId!);
 
   const isProfileComplete = useMemo(() => {
     if (!eventProfile) return false;
@@ -38,7 +39,7 @@ export default function ShareSection() {
   const [pinInput, setPinInput] = useState('');
   const [qrText, setQrText] = useState('');
 
-  const { mutate: mutateGetProfile } = useMutateGetProfileByPin(EVENT_ID);
+  const { mutate: mutateGetProfile } = useMutateGetProfileByPin(gatheringId!);
 
   useEffect(() => {
     navigator.permissions.query({ name: 'camera' as PermissionName }).then((result) => {

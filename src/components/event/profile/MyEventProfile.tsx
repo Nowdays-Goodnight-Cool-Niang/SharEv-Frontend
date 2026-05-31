@@ -1,6 +1,6 @@
 import EventProfileCard from '../card/EventProfileCard';
 import { useEffect, useRef, useState } from 'react';
-import { EVENT_ID } from '@/constants/eventId';
+import { useParams } from 'react-router';
 import { useSuspenseQueryEventProfile } from '@/hooks/useQueryEventProfile';
 import { useMutateMyEventProfile } from '@/hooks/useMutateMyEventProfile';
 import { useEventProfileStore } from '@/stores/useEventProfileStore';
@@ -15,6 +15,7 @@ interface MyEventProfileProps {
 }
 
 export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEventProfileProps) {
+  const { gatheringId } = useParams<{ gatheringId: string }>();
   const [eventProfileState, setEventProfileState] = useState<EventProfileStateType>(
     EventProfileState.READONLY
   );
@@ -22,8 +23,8 @@ export default function MyEventProfile({ onFlipChange, onEditStateChange }: MyEv
   const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
   const initialFieldValues = useRef<Record<string, string>>({});
 
-  const { data: eventProfile, error: eventProfileError } = useSuspenseQueryEventProfile(EVENT_ID);
-  const { mutate } = useMutateMyEventProfile();
+  const { data: eventProfile, error: eventProfileError } = useSuspenseQueryEventProfile(gatheringId!);
+  const { mutate } = useMutateMyEventProfile(gatheringId!);
   const setProfileComplete = useEventProfileStore((state) => state.setProfileComplete);
   // TODO: PIN 번호 조회 API 연동 후 활성화
   // const setMyPinNumber = useEventProfileStore((state) => state.setMyPinNumber);

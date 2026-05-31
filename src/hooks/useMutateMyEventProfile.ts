@@ -1,15 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { EVENT_ID } from '@/constants/eventId';
 import { gatheringAPI } from '@/apis/gathering/gathering.api';
 import { CardUpdateRequest } from '@/types/api/event';
 
-export const useMutateMyEventProfile = () => {
+export const useMutateMyEventProfile = (gatheringId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: CardUpdateRequest) => gatheringAPI.updateMyCard(EVENT_ID, data),
+    mutationFn: (data: CardUpdateRequest) => gatheringAPI.updateMyCard(gatheringId, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['eventProfile', EVENT_ID, 'MY'] });
+      queryClient.invalidateQueries({ queryKey: ['eventProfile', gatheringId, 'MY'] });
     },
   });
 };
