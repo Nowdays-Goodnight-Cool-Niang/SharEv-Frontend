@@ -48,8 +48,6 @@ function TeamGatheringCard({ gathering, onParticipate, onDelete }: TeamGathering
         )}
       </div>
 
-      <p className="mb-3 text-sm text-gray-400">{gathering.teamName}</p>
-
       <div className="mb-1 flex items-start gap-2 text-sm text-gray-500">
         <ClockSvg width={16} height={16} className="mt-0.5 shrink-0 text-gray-400" />
         <span className="leading-5">{formatDateRange()}</span>

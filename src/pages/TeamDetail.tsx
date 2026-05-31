@@ -70,7 +70,7 @@ function TeamDetail() {
         ) : (
           <>
             <TeamInfoSection team={teamDetail} />
-            <TeamInviteLink inviteLink={teamDetail.inviteLink} />
+            {teamDetail.inviteLink && <TeamInviteLink inviteLink={teamDetail.inviteLink} />}
             <TeamGatheringList
               gatherings={teamDetail.gatherings}
               onParticipate={handleParticipate}

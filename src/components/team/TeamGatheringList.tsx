@@ -16,9 +16,9 @@ function TeamGatheringList({ gatherings, onParticipate, onDelete }: TeamGatherin
       </div>
 
       <div className="flex flex-col gap-3">
-        {gatherings.map((gathering) => (
+        {gatherings.map((gathering, index) => (
           <TeamGatheringCard
-            key={gathering.id}
+            key={index}
             gathering={gathering}
             onParticipate={onParticipate}
             onDelete={onDelete}
