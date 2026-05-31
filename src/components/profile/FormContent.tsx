@@ -9,7 +9,6 @@ import { ILink } from '@/types/domain/account';
 import { TOAST_MESSAGE } from '@/constants/message';
 import { showCustomToast } from '@/utils/showToast';
 import toast from 'react-hot-toast';
-import { accountAPI } from '@/apis/accounts';
 import { useQueryClient } from '@tanstack/react-query';
 import Input from '@/components/common/Input';
 
@@ -129,37 +128,34 @@ function Content({ variant }: IContentProps) {
       return;
     }
 
-    try {
-      // 링크 변경사항 처리: 삭제된 링크 제거, 새 링크 추가
-      const existingIds = new Set(formLinks.map((l) => l.id));
-      const deletedLinks = (links ?? []).filter((l) => !existingIds.has(l.id));
-      const newLinks = formLinks.filter((l) => l.id < 0);
+    // 링크 변경사항 계산
+    const existingIds = new Set(formLinks.map((l) => l.id));
+    const deletedLinkIds = (links ?? []).filter((l) => !existingIds.has(l.id)).map((l) => l.id);
+    const addLinkUrls = formLinks.filter((l) => l.id < 0).map((l) => l.url);
 
-      await Promise.all(deletedLinks.map((l) => accountAPI.deleteLink(l.id)));
-      await Promise.all(newLinks.map((l) => accountAPI.addLink(l.url)));
-
-      // 프로필 정보 저장
-      patchProfileInfo(
-        { name: formName, email: formEmail },
-        {
-          onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['accountLinks'] });
-            if (variant === 'setup') {
-              navigate('/events');
-            } else {
-              navigate('/setting');
-              showCustomToast({ message: TOAST_MESSAGE.PROFILE_SAVE_SUCCESS });
-            }
-          },
-          onError: (error) => {
-            showCustomToast({ message: TOAST_MESSAGE.PROFILE_SAVE_FAILURE });
-            console.error('Profile Edit error:', error);
-          },
-        }
-      );
-    } catch {
-      showCustomToast({ message: TOAST_MESSAGE.PROFILE_SAVE_FAILURE });
-    }
+    patchProfileInfo(
+      {
+        name: formName,
+        email: formEmail,
+        ...(addLinkUrls.length > 0 && { addLinkUrls }),
+        ...(deletedLinkIds.length > 0 && { deleteLinkIds: deletedLinkIds }),
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['accountLinks'] });
+          if (variant === 'setup') {
+            navigate('/events');
+          } else {
+            navigate('/setting');
+            showCustomToast({ message: TOAST_MESSAGE.PROFILE_SAVE_SUCCESS });
+          }
+        },
+        onError: (error) => {
+          showCustomToast({ message: TOAST_MESSAGE.PROFILE_SAVE_FAILURE });
+          console.error('Profile Edit error:', error);
+        },
+      }
+    );
   };
 
   const isFormValid =

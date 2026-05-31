@@ -28,14 +28,4 @@ export const accountAPI = {
     const response = await accountInstance.get('/links');
     return response.data;
   },
-
-  addLink: async (url: string): Promise<ILink> => {
-    const response = await accountInstance.post('/links', { url });
-    return response.data;
-  },
-
-  deleteLink: async (linkId: number) => {
-    const response = await accountInstance.delete(`/links/${linkId}`);
-    return response.data;
-  },
 };

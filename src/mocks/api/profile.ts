@@ -21,6 +21,32 @@ export const profileHandler = [
     return response;
   }),
 
+  http.patch(`${baseUrl}/accounts`, async ({ request }) => {
+    const body = (await request.json()) as {
+      name: string;
+      email: string;
+      addLinkUrls?: string[];
+      deleteLinkIds?: number[];
+    };
+    mockLogger.request('PATCH', '/accounts', body);
+
+    await delay(mockConfig.delays.fast);
+
+    if (body.deleteLinkIds) {
+      mockLinks = mockLinks.filter((l) => !body.deleteLinkIds!.includes(l.id));
+    }
+    if (body.addLinkUrls) {
+      for (const url of body.addLinkUrls) {
+        mockLinks.push({ id: nextLinkId++, url });
+      }
+    }
+
+    const response = { id: 1, name: body.name, email: body.email, updatedAt: new Date().toISOString() };
+    mockLogger.response('PATCH', '/accounts', 200, response);
+
+    return HttpResponse.json(response);
+  }),
+
   http.get(`${baseUrl}/accounts/links`, async () => {
     mockLogger.request('GET', '/accounts/links');
 
@@ -29,32 +55,5 @@ export const profileHandler = [
     mockLogger.response('GET', '/accounts/links', 200, mockLinks);
 
     return HttpResponse.json(mockLinks);
-  }),
-
-  http.post(`${baseUrl}/accounts/links`, async ({ request }) => {
-    const body = (await request.json()) as { url: string };
-    mockLogger.request('POST', '/accounts/links', body);
-
-    await delay(mockConfig.delays.fast);
-
-    const newLink = { id: nextLinkId++, url: body.url };
-    mockLinks.push(newLink);
-
-    mockLogger.response('POST', '/accounts/links', 200, newLink);
-
-    return HttpResponse.json(newLink);
-  }),
-
-  http.delete(`${baseUrl}/accounts/links/:linkId`, async ({ params }) => {
-    const linkId = Number(params.linkId);
-    mockLogger.request('DELETE', `/accounts/links/${linkId}`);
-
-    await delay(mockConfig.delays.fast);
-
-    mockLinks = mockLinks.filter((l) => l.id !== linkId);
-
-    mockLogger.response('DELETE', `/accounts/links/${linkId}`, 200);
-
-    return new HttpResponse(null, { status: 200 });
   }),
 ];

@@ -4,7 +4,12 @@ export interface IAccountApiResponse {
   email: string;
 }
 
-export type IAccountUpdateRequest = Omit<IAccountApiResponse, 'id'>;
+export interface IAccountUpdateRequest {
+  name: string;
+  email: string;
+  addLinkUrls?: string[];
+  deleteLinkIds?: number[];
+}
 
 export interface ILink {
   id: number;
