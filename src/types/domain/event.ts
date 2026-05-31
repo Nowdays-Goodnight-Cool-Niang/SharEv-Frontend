@@ -50,12 +50,18 @@ export interface IPaginatedEventProfiles {
   profiles: IPublicEventProfile[];
 }
 
-export interface IEvent {
-  id: number;
-  eventName: string;
-  status: 'ongoing' | 'upcoming' | 'ended';
-  organizer: string;
-  startDate: Date;
-  endDate: Date;
-  location: string;
+/** BE: GatheringDetailResponse */
+export interface IGathering {
+  id: string;
+  visible: 'PUBLIC' | 'PRIVATE';
+  title: string;
+  content: string;
+  startAt: string;
+  endAt: string;
+  place: string;
+  imageUrl?: string;
+  gatheringUrl?: string;
+  contact?: string;
+  registerStartAt: string;
+  registerEndAt: string;
 }

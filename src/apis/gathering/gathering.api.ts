@@ -5,12 +5,25 @@ import {
   ParticipationCheckResponse,
   TemplateResponse,
 } from '@/types/api/event';
+import { IGathering } from '@/types/domain/event';
 import axios from 'axios';
 
 export const gatheringInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/gatherings`,
   withCredentials: true,
 });
+
+// 모든 행사 목록 조회
+async function getGatherings(): Promise<IGathering[]> {
+  const response = await gatheringInstance.get<IGathering[]>('');
+  return response.data;
+}
+
+// 내 참여 행사 목록 조회
+async function getMyGatherings(): Promise<IGathering[]> {
+  const response = await gatheringInstance.get<IGathering[]>('/me');
+  return response.data;
+}
 
 // 행사 참여 여부 확인
 async function checkParticipation(gatheringId: string): Promise<ParticipationCheckResponse> {
@@ -64,6 +77,8 @@ async function getTemplate(gatheringId: string): Promise<TemplateResponse> {
 }
 
 export const gatheringAPI = {
+  getGatherings,
+  getMyGatherings,
   checkParticipation,
   getMyCard,
   participateInGathering,
