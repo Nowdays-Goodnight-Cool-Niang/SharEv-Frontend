@@ -57,6 +57,27 @@ export const gatheringHandler = [
     return response;
   }),
 
+  // 자기소개 템플릿 조회
+  http.get(`${baseUrl}/gatherings/:gatheringId/template`, async ({ params }) => {
+    const { gatheringId } = params;
+    mockLogger.request('GET', `/gatherings/${gatheringId}/template`);
+
+    await delay(mockConfig.delays.fast);
+
+    const templateResponse = {
+      version: 1,
+      text: '저의 자기소개입니다: ${introduce}\n가장 뿌듯했던 경험은 ${proudestExperience}\n가장 힘들었던 경험은 ${toughExperience}',
+      fieldPlaceholders: {
+        introduce: '자기소개를 입력하세요',
+        proudestExperience: '가장 뿌듯했던 경험을 입력하세요',
+        toughExperience: '가장 힘들었던 경험을 입력하세요',
+      },
+    };
+
+    mockLogger.response('GET', `/gatherings/${gatheringId}/template`, 200, templateResponse);
+    return HttpResponse.json(templateResponse);
+  }),
+
   // 참여 여부 조회
   http.get(`${baseUrl}/gatherings/:gatheringId`, async ({ params }) => {
     const { gatheringId } = params;

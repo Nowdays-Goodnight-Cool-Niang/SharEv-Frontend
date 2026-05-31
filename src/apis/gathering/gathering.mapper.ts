@@ -6,7 +6,6 @@ import {
   IPublicEventProfile,
   IPaginatedEventProfiles,
 } from '@/types/domain/event';
-import { placeholders } from '@/constants/event';
 
 function parseTemplateBlocks(templateText: string): TemplateBlock[] {
   const blocks: TemplateBlock[] = [];
@@ -31,7 +30,8 @@ function parseTemplateBlocks(templateText: string): TemplateBlock[] {
 
 function extractFieldData(
   introductionText: Record<string, string>,
-  templateText: string
+  templateText: string,
+  fieldPlaceholders?: Record<string, string>
 ): Record<string, IInputField> {
   const fieldKeys = [...templateText.matchAll(/\$\{(\w+)\}/g)].map((m) => m[1]);
 
@@ -39,7 +39,7 @@ function extractFieldData(
     (acc, key) => {
       acc[key] = {
         value: introductionText[key] ?? '',
-        placeholder: placeholders[key] ?? '', // TODO: BE에서 placeholder 내려주면 교체
+        placeholder: fieldPlaceholders?.[key] ?? '',
       };
       return acc;
     },
@@ -47,7 +47,10 @@ function extractFieldData(
   );
 }
 
-function mapMyCard(response: MyCardResponse): IMyEventProfile {
+function mapMyCard(
+  response: MyCardResponse,
+  fieldPlaceholders?: Record<string, string>
+): IMyEventProfile {
   return {
     type: 'MY',
     cardId: response.cardId,
@@ -59,12 +62,19 @@ function mapMyCard(response: MyCardResponse): IMyEventProfile {
     nowIntroduceTemplateVersion: response.nowIntroduceTemplateVersion,
     template: {
       blocks: parseTemplateBlocks(response.introduceTemplateContentText),
-      fields: extractFieldData(response.introductionText, response.introduceTemplateContentText),
+      fields: extractFieldData(
+        response.introductionText,
+        response.introduceTemplateContentText,
+        fieldPlaceholders
+      ),
     },
   };
 }
 
-function mapCard(response: CardResponse): IPublicEventProfile {
+function mapCard(
+  response: CardResponse,
+  fieldPlaceholders?: Record<string, string>
+): IPublicEventProfile {
   return response.type === 'FULL'
     ? {
         type: 'FULL',
@@ -76,7 +86,8 @@ function mapCard(response: CardResponse): IPublicEventProfile {
           blocks: parseTemplateBlocks(response.introduceTemplateContentText),
           fields: extractFieldData(
             response.introductionText,
-            response.introduceTemplateContentText
+            response.introduceTemplateContentText,
+            fieldPlaceholders
           ),
         },
       }
@@ -88,16 +99,20 @@ function mapCard(response: CardResponse): IPublicEventProfile {
           blocks: parseTemplateBlocks(response.introduceTemplateContentText),
           fields: extractFieldData(
             response.introductionText,
-            response.introduceTemplateContentText
+            response.introduceTemplateContentText,
+            fieldPlaceholders
           ),
         },
       };
 }
 
-function mapPaginatedCards(response: PaginatedCardsResponse): IPaginatedEventProfiles {
+function mapPaginatedCards(
+  response: PaginatedCardsResponse,
+  fieldPlaceholders?: Record<string, string>
+): IPaginatedEventProfiles {
   return {
     page: response.page,
-    profiles: response.content.map(gatheringMapper.mapCard),
+    profiles: response.content.map((card) => gatheringMapper.mapCard(card, fieldPlaceholders)),
   };
 }
 

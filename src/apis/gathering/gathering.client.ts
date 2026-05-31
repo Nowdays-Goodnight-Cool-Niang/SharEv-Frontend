@@ -4,12 +4,24 @@ import { gatheringAPI } from './gathering.api';
 import { gatheringMapper } from './gathering.mapper';
 import { ERROR_MESSAGE } from '@/constants/message';
 
+async function fetchFieldPlaceholders(gatheringId: string): Promise<Record<string, string>> {
+  try {
+    const template = await gatheringAPI.getTemplate(gatheringId);
+    return template.fieldPlaceholders;
+  } catch {
+    return {};
+  }
+}
+
 async function getMyCardSafe(gatheringId: string): Promise<IMyEventProfile | null> {
   return withErrorHandler<IMyEventProfile>({
     fallbackMessage: ERROR_MESSAGE.card.fetch,
   })(async () => {
-    const raw = await gatheringAPI.getMyCard(gatheringId);
-    return gatheringMapper.mapMyCard(raw);
+    const [raw, fieldPlaceholders] = await Promise.all([
+      gatheringAPI.getMyCard(gatheringId),
+      fetchFieldPlaceholders(gatheringId),
+    ]);
+    return gatheringMapper.mapMyCard(raw, fieldPlaceholders);
   });
 }
 
@@ -20,8 +32,11 @@ async function getCardByPinSafe(
   return withErrorHandler<IFullEventProfile>({
     fallbackMessage: ERROR_MESSAGE.card.fetch,
   })(async () => {
-    const raw = await gatheringAPI.getCardByPin(gatheringId, pinNumber);
-    return gatheringMapper.mapCard(raw) as IFullEventProfile;
+    const [raw, fieldPlaceholders] = await Promise.all([
+      gatheringAPI.getCardByPin(gatheringId, pinNumber),
+      fetchFieldPlaceholders(gatheringId),
+    ]);
+    return gatheringMapper.mapCard(raw, fieldPlaceholders) as IFullEventProfile;
   });
 }
 
@@ -32,8 +47,11 @@ async function getCardsSafe(
   return withErrorHandler<IPaginatedEventProfiles>({
     fallbackMessage: ERROR_MESSAGE.card.fetch,
   })(async () => {
-    const raw = await gatheringAPI.getCards(gatheringId, { page, size, snapshotTime });
-    return gatheringMapper.mapPaginatedCards(raw);
+    const [raw, fieldPlaceholders] = await Promise.all([
+      gatheringAPI.getCards(gatheringId, { page, size, snapshotTime }),
+      fetchFieldPlaceholders(gatheringId),
+    ]);
+    return gatheringMapper.mapPaginatedCards(raw, fieldPlaceholders);
   });
 }
 
