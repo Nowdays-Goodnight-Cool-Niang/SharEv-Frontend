@@ -3,6 +3,7 @@ import {
   CardUpdateRequest,
   MyCardResponse,
   ParticipationCheckResponse,
+  TemplateResponse,
 } from '@/types/api/event';
 import axios from 'axios';
 
@@ -56,6 +57,12 @@ async function getCards(
   return response.data;
 }
 
+// 자기소개 템플릿 조회
+async function getTemplate(gatheringId: string): Promise<TemplateResponse> {
+  const response = await gatheringInstance.get<TemplateResponse>(`/${gatheringId}/template`);
+  return response.data;
+}
+
 export const gatheringAPI = {
   checkParticipation,
   getMyCard,
@@ -63,4 +70,5 @@ export const gatheringAPI = {
   updateMyCard,
   getCardByPin,
   getCards,
+  getTemplate,
 };

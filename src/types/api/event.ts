@@ -27,3 +27,10 @@ export interface PaginatedCardsResponse {
 export interface ParticipationCheckResponse {
   isParticipant: boolean;
 }
+
+/** BE: ResponseIntroduceTemplateDto */
+export interface TemplateResponse {
+  version: number;
+  text: string;
+  fieldPlaceholders: Record<string, string>;
+}
