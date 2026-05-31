@@ -25,6 +25,11 @@ function TeamMemberItem({ member }: TeamMemberItemProps) {
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <span className="font-semibold text-gray-900">{member.name}</span>
+          {member.role === 'ADMIN' && (
+            <span className="rounded bg-blue-500 px-1.5 py-0.5 text-[10px] font-medium text-white">
+              관리자
+            </span>
+          )}
         </div>
         <p className="truncate text-sm text-gray-400">{member.email}</p>
       </div>

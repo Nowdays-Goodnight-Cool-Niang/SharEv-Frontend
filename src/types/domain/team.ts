@@ -13,7 +13,7 @@ export interface Team {
   title: string;
   content: string;
   createdAt: string;
-  memberRoleType: MemberRoleType;
+  memberRole: MemberRoleType;
   headcount: number;
 }
 
@@ -28,11 +28,12 @@ export interface TeamGathering {
 }
 
 /**
- * 팀 상세 내 멤버 정보 (BE: TeamMemberInfoDto)
+ * 팀 상세 내 멤버 정보 (BE: TeamMemberInfoResponse)
  */
 export interface TeamMember {
   name: string;
   email: string;
+  role: MemberRoleType;
 }
 
 /**

@@ -29,7 +29,7 @@ function TeamCard({ team, onClick }: TeamCardProps) {
           </div>
           <h3 className="text-lg font-bold text-gray-900">{team.title}</h3>
         </div>
-        {team.memberRoleType === 'ADMIN' && (
+        {team.memberRole === 'ADMIN' && (
           <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600">
             관리자
           </span>

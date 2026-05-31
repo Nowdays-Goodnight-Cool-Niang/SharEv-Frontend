@@ -11,7 +11,7 @@ const mockTeams: Team[] = [
     title: 'GDC Campus Korea',
     content: '개발자 커뮤니티를 위한 다양한 행사를 기획하고 운영합니다.',
     createdAt: '2024-01-15T00:00:00',
-    memberRoleType: 'ADMIN',
+    memberRole: 'ADMIN',
     headcount: 24,
   },
   {
@@ -19,7 +19,7 @@ const mockTeams: Team[] = [
     title: 'Tech Valley Seoul',
     content: '서울의 스타트업과 개발자들을 위한 네트워킹 공간',
     createdAt: '2024-06-10T00:00:00',
-    memberRoleType: 'COMMON',
+    memberRole: 'COMMON',
     headcount: 18,
   },
   {
@@ -27,7 +27,7 @@ const mockTeams: Team[] = [
     title: 'Startup Korea',
     content: '한국 스타트업 생태계를 만들어가는 사람들',
     createdAt: '2023-12-01T00:00:00',
-    memberRoleType: 'COMMON',
+    memberRole: 'COMMON',
     headcount: 42,
   },
 ];
@@ -54,9 +54,9 @@ const mockTeamDetails: Record<string, TeamDetail> = {
       },
     ],
     members: [
-      { name: '권나연', email: 'chichoc.dev@gmail.com' },
-      { name: '김개발', email: 'dev@example.com' },
-      { name: '이디자인', email: 'design@example.com' },
+      { name: '권나연', email: 'chichoc.dev@gmail.com', role: 'ADMIN' },
+      { name: '김개발', email: 'dev@example.com', role: 'COMMON' },
+      { name: '이디자인', email: 'design@example.com', role: 'COMMON' },
     ],
   },
 };
