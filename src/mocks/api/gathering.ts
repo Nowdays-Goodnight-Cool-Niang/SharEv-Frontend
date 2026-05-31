@@ -10,39 +10,39 @@ const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export const gatheringHandler = [
   // 내 카드 조회
-  http.get(`${baseUrl}/gathering/:gatheringId/cards/me`, async ({ params }) => {
+  http.get(`${baseUrl}/gatherings/:gatheringId/cards/me`, async ({ params }) => {
     const { gatheringId } = params;
-    mockLogger.request('GET', `/gathering/${gatheringId}/cards/me`);
+    mockLogger.request('GET', `/gatherings/${gatheringId}/cards/me`);
 
     await delay(mockConfig.delays.normal);
 
     const response = getScenarioResponse(myCardData);
-    mockLogger.response('GET', `/gathering/${gatheringId}/cards/me`, 200, myCardData);
+    mockLogger.response('GET', `/gatherings/${gatheringId}/cards/me`, 200, myCardData);
 
     return response;
   }),
 
   // 참여 여부 조회
-  http.get(`${baseUrl}/gathering/:gatheringId`, async ({ params }) => {
+  http.get(`${baseUrl}/gatherings/:gatheringId`, async ({ params }) => {
     const { gatheringId } = params;
-    mockLogger.request('GET', `/gathering/${gatheringId}`);
+    mockLogger.request('GET', `/gatherings/${gatheringId}`);
 
     await delay(mockConfig.delays.fast);
 
     const response = getScenarioResponse(participationCheckData);
-    mockLogger.response('GET', `/gathering/${gatheringId}`, 200);
+    mockLogger.response('GET', `/gatherings/${gatheringId}`, 200);
 
     return response;
   }),
 
   // 카드 목록 조회 (페이지네이션)
-  http.get(`${baseUrl}/gathering/:gatheringId/cards`, async ({ request, params }) => {
+  http.get(`${baseUrl}/gatherings/:gatheringId/cards`, async ({ request, params }) => {
     const { gatheringId } = params;
     const url = new URL(request.url);
     const page = Number(url.searchParams.get('page') || '0');
     const size = Number(url.searchParams.get('size') || '20');
 
-    mockLogger.request('GET', `/gathering/${gatheringId}/cards?page=${page}&size=${size}`);
+    mockLogger.request('GET', `/gatherings/${gatheringId}/cards?page=${page}&size=${size}`);
 
     const allCards = createMockCards(100);
 
@@ -64,7 +64,7 @@ export const gatheringHandler = [
 
     await delay(randomDelay(300, 1000));
 
-    mockLogger.response('GET', `/gathering/${gatheringId}/cards`, 200, {
+    mockLogger.response('GET', `/gatherings/${gatheringId}/cards`, 200, {
       page,
       size,
       totalElements,
@@ -75,42 +75,42 @@ export const gatheringHandler = [
 
   // PIN으로 카드 조회
   http.get(
-    `${baseUrl}/gathering/:gatheringId/cards/by-pin/:pinNumber`,
+    `${baseUrl}/gatherings/:gatheringId/cards/by-pin/:pinNumber`,
     async ({ params }) => {
       const { gatheringId, pinNumber } = params;
-      mockLogger.request('GET', `/gathering/${gatheringId}/cards/by-pin/${pinNumber}`);
+      mockLogger.request('GET', `/gatherings/${gatheringId}/cards/by-pin/${pinNumber}`);
 
       await delay(mockConfig.delays.normal);
 
       const response = getScenarioResponse(cardByPinData);
-      mockLogger.response('GET', `/gathering/${gatheringId}/cards/by-pin/${pinNumber}`, 200);
+      mockLogger.response('GET', `/gatherings/${gatheringId}/cards/by-pin/${pinNumber}`, 200);
 
       return response;
     }
   ),
 
   // 카드 생성 (행사 참여)
-  http.post(`${baseUrl}/gathering/:gatheringId/cards`, async ({ params }) => {
+  http.post(`${baseUrl}/gatherings/:gatheringId/cards`, async ({ params }) => {
     const { gatheringId } = params;
-    mockLogger.request('POST', `/gathering/${gatheringId}/cards`);
+    mockLogger.request('POST', `/gatherings/${gatheringId}/cards`);
 
     await delay(mockConfig.delays.fast);
 
-    mockLogger.response('POST', `/gathering/${gatheringId}/cards`, 201);
+    mockLogger.response('POST', `/gatherings/${gatheringId}/cards`, 201);
 
     return new HttpResponse(null, { status: 201 });
   }),
 
   // 카드 수정
-  http.patch(`${baseUrl}/gathering/:gatheringId/cards`, async ({ request, params }) => {
+  http.patch(`${baseUrl}/gatherings/:gatheringId/cards`, async ({ request, params }) => {
     const { gatheringId } = params;
     const body = await request.json();
-    mockLogger.request('PATCH', `/gathering/${gatheringId}/cards`, body);
+    mockLogger.request('PATCH', `/gatherings/${gatheringId}/cards`, body);
 
     await delay(mockConfig.delays.normal);
 
     const response = getScenarioResponse(body);
-    mockLogger.response('PATCH', `/gathering/${gatheringId}/cards`, 200, body);
+    mockLogger.response('PATCH', `/gatherings/${gatheringId}/cards`, 200, body);
 
     return response;
   }),
