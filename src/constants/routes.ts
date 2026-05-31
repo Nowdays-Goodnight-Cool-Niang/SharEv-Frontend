@@ -3,7 +3,7 @@ export const ROUTES = {
   EVENTS: '/events',
   EVENT: {
     ROOT: '/event',
-    WITH_ID: (eventId: string = ':eventId') => `${ROUTES.EVENT.ROOT}/${eventId}`,
+    WITH_ID: (gatheringId: string) => `/event/${gatheringId}`,
   },
   SETTING: '/setting',
   PRIVACY: '/privacy',

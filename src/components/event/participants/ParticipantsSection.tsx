@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import CardSlider from './CardSlider';
 import { getGraphicImageByNumber } from '@/utils/graphic';
 import { useQueryParticipants } from '@/hooks/useQueryEventParticipants';
-import { EVENT_ID } from '@/constants/eventId';
+import { useParams } from 'react-router';
 import ParticipationInfo from './ParticipationInfo';
 import SpotlightCard from '../card/SpotlightCard';
 import { IEventProfile } from '@/types/domain/event';
@@ -15,10 +15,11 @@ import ParticipantsEmptyView from './ParticipantsEmptyView';
 import { showPreview } from '@/utils/showPreview';
 
 export default function ParticipantsSection() {
+  const { gatheringId } = useParams<{ gatheringId: string }>();
   const [viewMode, setViewMode] = useState('grid');
   const [currentProfile, setCurrentProfile] = useState<IEventProfile | null>(null);
   const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
-    useQueryParticipants(EVENT_ID);
+    useQueryParticipants(gatheringId!);
   const observerRef = useRef<HTMLLIElement | null>(null);
 
   useEffect(() => {
@@ -39,6 +40,8 @@ export default function ParticipantsSection() {
 
   const profiles = data?.pages.flatMap((page) => page.profiles) ?? [];
   const showEmptyView = !isLoading && profiles.length === 0;
+  const connectedCount = profiles.filter((p) => p.type === 'FULL').length;
+  const totalCount = data?.pages?.[0]?.page.totalElements ?? 0;
 
   return (
     <>
@@ -102,29 +105,37 @@ export default function ParticipantsSection() {
               ))}
             {profiles.map((profile, i, arr) => {
               const isLast = i === arr.length - 1;
+              const isConnected = profile.type === 'FULL';
               return (
                 <li
                   onClick={() => {
-                    if (profile.relationFlag) setCurrentProfile(profile);
+                    if (isConnected) setCurrentProfile(profile);
                     else {
-                      showPreview({
-                        message: `저의 가장 뿌듯했던 경험은 ${profile.template.fields.proudestExperience.value}입니다.`,
-                      });
+                      const previewText = profile.template.blocks
+                        .map((block) =>
+                          block.type === 'text'
+                            ? block.value
+                            : profile.template.fields[block.fieldKey]?.value ?? ''
+                        )
+                        .join('');
+                      if (previewText.trim()) {
+                        showPreview({ message: previewText });
+                      }
                     }
                   }}
                   key={i}
                   ref={isLast ? observerRef : null}
-                  className={`relative flex aspect-square w-full flex-col items-center gap-4 overflow-hidden rounded-2xl ${profile.relationFlag ? 'bg-gradient-to-br from-blue-500 to-blue-400' : 'bg-gray-50'}`}
+                  className={`relative flex aspect-square w-full flex-col items-center gap-4 overflow-hidden rounded-2xl ${isConnected ? 'bg-gradient-to-br from-blue-500 to-blue-400' : 'bg-gray-50'}`}
                 >
                   <div className="z-10 flex h-full w-full flex-col gap-1 px-4 pb-5 pt-5">
                     <div className="flex flex-col">
                       <p
-                        className={`w-full text-xl font-semibold leading-7 tracking-tight ${profile.relationFlag ? 'text-white' : 'text-gray-500'}`}
+                        className={`w-full text-xl font-semibold leading-7 tracking-tight ${isConnected ? 'text-white' : 'text-gray-500'}`}
                       >
                         {profile.name}
                       </p>
                     </div>
-                    {!profile.relationFlag && (
+                    {!isConnected && (
                       <button className="flex w-fit flex-col items-center justify-center rounded-lg text-sm tracking-tight text-gray-400">
                         미리보기 →
                       </button>
@@ -133,7 +144,7 @@ export default function ParticipantsSection() {
                   <div className="absolute bottom-0 flex aspect-square w-full flex-col items-center justify-center">
                     <img
                       src={getGraphicImageByNumber(profile.iconNumber)}
-                      className={`${!profile.relationFlag && 'opacity-20 brightness-75 filter'} translate-x-14 translate-y-16 scale-125`}
+                      className={`${!isConnected && 'opacity-20 brightness-75 filter'} translate-x-14 translate-y-16 scale-125`}
                     />
                   </div>
                 </li>
@@ -160,10 +171,7 @@ export default function ParticipantsSection() {
         )}
       </div>
       <div className="wrapper fixed bottom-20 z-30 flex flex-col items-center">
-        <ParticipationInfo
-          totalCount={data?.pages?.[0]?.page.totalElements ?? 0}
-          registerCount={data?.pages?.[0]?.registerCount ?? 0}
-        />
+        <ParticipationInfo totalCount={totalCount} connectedCount={connectedCount} />
       </div>
     </>
   );

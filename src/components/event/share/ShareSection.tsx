@@ -8,8 +8,7 @@ import ErrorSvg from '@/assets/icons/ic_error.svg?react';
 import BaseButton from '@/components/common/BaseButton';
 import Input from '@/components/common/Input';
 import { useMutateGetProfileByPin } from '@/hooks/useQueryGetProfileByPin';
-import { EVENT_ID } from '@/constants/eventId';
-import { useQueryRegisterParticipant } from '@/hooks/useQueryRegisterParticipant';
+import { useParams } from 'react-router';
 import WebcamCapture from './WebcamCapture';
 import { BrowserQRCodeReader } from '@zxing/browser';
 import SpotlightCard from '../card/SpotlightCard';
@@ -18,7 +17,8 @@ import { useQueryEventProfile } from '@/hooks/useQueryEventProfile';
 import { IFullEventProfile } from '@/types/domain/event';
 
 export default function ShareSection() {
-  const { data: eventProfile, isLoading, error } = useQueryEventProfile(EVENT_ID);
+  const { gatheringId } = useParams<{ gatheringId: string }>();
+  const { data: eventProfile, isLoading, error } = useQueryEventProfile(gatheringId!);
 
   const isProfileComplete = useMemo(() => {
     if (!eventProfile) return false;
@@ -27,7 +27,6 @@ export default function ShareSection() {
     );
   }, [eventProfile]);
 
-  const myPinNumber = eventProfile?.pinNumber;
   const qrReader = new BrowserQRCodeReader();
   const [cameraPermissionState, setCameraPermissionState] = useState<
     'granted' | 'denied' | 'prompt' | null
@@ -40,8 +39,7 @@ export default function ShareSection() {
   const [pinInput, setPinInput] = useState('');
   const [qrText, setQrText] = useState('');
 
-  const { mutate: mutateGetProfile } = useMutateGetProfileByPin(EVENT_ID);
-  const { mutate: mutateRegisterParticipant } = useQueryRegisterParticipant(EVENT_ID);
+  const { mutate: mutateGetProfile } = useMutateGetProfileByPin(gatheringId!);
 
   useEffect(() => {
     navigator.permissions.query({ name: 'camera' as PermissionName }).then((result) => {
@@ -52,37 +50,24 @@ export default function ShareSection() {
 
   const handlePinSubmit = () => {
     if (pinInput.length === 4) {
-      handleRegisterAndShowProfile(pinInput);
+      handleFetchProfile(pinInput);
     }
   };
 
-  const handleRegisterAndShowProfile = (pinNumber: string) => {
-    mutateRegisterParticipant(pinNumber, {
-      onSuccess: () => {
+  const handleFetchProfile = (pinNumber: string) => {
+    mutateGetProfile(pinNumber, {
+      onSuccess: (data) => {
         showCustomToast({ message: '명함 교환에 성공했어요!' });
-        mutateGetProfile(pinNumber, {
-          onSuccess: (data) => {
-            setFetchedProfile(data);
-            setShowSpotlightCard(true);
-          },
-        });
+        setFetchedProfile(data);
+        setShowSpotlightCard(true);
         setPinInput('');
       },
       onError: (error: any) => {
         const code = error?.response?.data?.code;
-        if (code === 'REGISTER_ALREADY' || code === 'REGISTER_MYSELF') {
-          mutateGetProfile(pinNumber, {
-            onSuccess: (data) => {
-              setFetchedProfile(data);
-              setShowSpotlightCard(true);
-            },
-          });
-          setPinInput('');
-          return;
-        }
-
-        if (code === 'PROFILE_NOT_FOUND') {
+        if (code === 'CARD_NOT_FOUND') {
           showCustomToast({ message: '핀 번호에 해당하는 참여자가 없어요!' });
+        } else if (code === 'CARD_UNCOMPLETED') {
+          showCustomToast({ message: '카드를 먼저 완성해주세요!' });
         } else {
           showCustomToast({ message: '명함 교환에 실패했어요. 다시 시도해주세요.' });
         }
@@ -96,7 +81,7 @@ export default function ShareSection() {
       const pinNumber = result?.getText();
       if (pinNumber && pinNumber !== qrText) {
         setQrText(pinNumber);
-        handleRegisterAndShowProfile(pinNumber);
+        handleFetchProfile(pinNumber);
       }
     } catch (err) {
       console.log(err);
@@ -175,8 +160,9 @@ export default function ShareSection() {
             {activeTab === 'share' && (
               <div className="mt-6 flex w-full flex-col items-center gap-4">
                 <div className="mx-auto flex aspect-square max-h-56 w-full max-w-56 items-center justify-center rounded-2xl bg-white p-4">
-                  <QRCodeSVG value={myPinNumber?.toString()} className="h-52 w-full" />
+                  <QRCodeSVG value={String(eventProfile.cardId)} className="h-52 w-full" />
                 </div>
+                {/* TODO: PIN 번호 조회 API 연동 후 활성화
                 <div className="flex justify-center gap-3">
                   {myPinNumber
                     ?.toString()
@@ -190,6 +176,7 @@ export default function ShareSection() {
                       </div>
                     ))}
                 </div>
+                */}
                 <NoticeInfo>상대방에게 QR이나 PIN 번호를 보여주세요</NoticeInfo>
               </div>
             )}

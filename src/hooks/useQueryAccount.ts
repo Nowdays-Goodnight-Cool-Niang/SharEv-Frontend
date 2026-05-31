@@ -1,29 +1,35 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { accountAPI } from '@/apis/accounts';
-import { IAccountApiResponse, IAccount } from '@/types/domain/account';
+import { IAccountApiResponse, IAccount, ILink } from '@/types/domain/account';
 
 export const useQueryAccount = () => {
   const {
     data: rawProfile,
-    isLoading,
-    error,
+    isLoading: isProfileLoading,
+    error: profileError,
   } = useQuery<IAccountApiResponse>({
     queryKey: ['account'],
     queryFn: accountAPI.getProfile,
   });
 
-  const profile = rawProfile
-    ? ({
-        id: rawProfile.id,
-        name: rawProfile.name ?? '',
-        email: rawProfile.email ?? '',
-        socialLinks: {
-          githubUrl: rawProfile.githubUrl ?? '',
-          linkedinUrl: rawProfile.linkedinUrl ?? '',
-          instagramUrl: rawProfile.instagramUrl ?? '',
-        },
-      } as IAccount)
-    : undefined;
+  const {
+    data: links,
+    isLoading: isLinksLoading,
+    error: linksError,
+  } = useQuery<ILink[]>({
+    queryKey: ['accountLinks'],
+    queryFn: accountAPI.getLinks,
+  });
+
+  const profile =
+    rawProfile && links
+      ? ({
+          id: rawProfile.id,
+          name: rawProfile.name ?? '',
+          email: rawProfile.email ?? '',
+          linkUrls: links.map((link) => link.url),
+        } as IAccount)
+      : undefined;
 
   const mutation = useMutation({
     mutationFn: accountAPI.patchProfileInfo,
@@ -31,8 +37,9 @@ export const useQueryAccount = () => {
 
   return {
     profile,
-    isLoading,
-    error,
+    links: links ?? [],
+    isLoading: isProfileLoading || isLinksLoading,
+    error: profileError || linksError,
     patchProfileInfo: mutation.mutate,
   };
 };

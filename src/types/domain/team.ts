@@ -1,50 +1,52 @@
 /**
- * 팀 역할
- * - admin: 관리자 (팀 설정, 멤버 관리, 행사 개최 가능)
- * - member: 일반 멤버 (행사 참여 가능)
+ * 팀 멤버 역할 (BE: MemberRoleType)
+ * - ADMIN: 관리자 (팀 설정, 멤버 관리, 행사 개최 가능)
+ * - COMMON: 일반 멤버 (행사 참여 가능)
  */
-export type TeamRole = 'admin' | 'member';
+export type MemberRoleType = 'ADMIN' | 'COMMON';
 
 /**
- * 팀 인증 상태
- * - NONE: 미인증 (내부 행사만 개최 가능)
- * - CERTIFICATED: 인증됨 (공개 행사 개최 가능)
- * - ETC: 기타
- */
-export type TeamCertificationStatus = 'NONE' | 'CERTIFICATED' | 'ETC';
-
-/**
- * 팀 정보
+ * 팀 정보 (BE: ResponseTeamInfoDto)
  */
 export interface Team {
-  /** 팀 고유 ID */
-  id: string;
-
-  /** 팀 인증 코드 */
-  certificationCode: TeamCertificationStatus;
-
-  /** 팀 이름 */
+  id: number;
   title: string;
-
-  /** 팀 설명 */
   content: string;
-
-  /** 팀원 수 */
-  participantCount: number;
-
-  /** 팀 활성화 여부 */
-  activateFlag: boolean;
-
-  /** 팀 생성일 */
-  createAt: string;
-
-  /** 팀 수정일 */
-  updateAt: string;
+  createdAt: string;
+  memberRole: MemberRoleType;
+  headcount: number;
 }
 
 /**
- * 팀 인증 여부 확인 헬퍼 함수
+ * 팀 상세 내 행사 정보 (BE: GatheringInfoDto)
  */
-export const isVerifiedTeam = (team: Team): boolean => {
-  return team.certificationCode === 'CERTIFICATED';
-};
+export interface TeamGathering {
+  title: string;
+  startAt: string;
+  endAt: string;
+  place: string;
+}
+
+/**
+ * 팀 상세 내 멤버 정보 (BE: TeamMemberInfoResponse)
+ */
+export interface TeamMember {
+  name: string;
+  email: string;
+  role: MemberRoleType;
+}
+
+/**
+ * 팀 상세 정보 (BE: ResponseTeamDetailInfoDto)
+ * TODO: inviteLink는 BE에 아직 없음 — 추후 BE 추가 시 연동
+ */
+export interface TeamDetail {
+  id: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  headcount: number;
+  inviteLink?: string;
+  gatherings: TeamGathering[];
+  members: TeamMember[];
+}

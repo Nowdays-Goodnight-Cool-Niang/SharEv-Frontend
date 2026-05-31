@@ -1,7 +1,6 @@
 import ExpandableInput from './ExpandableInput';
 import { EventProfileStateType, TemplateContent } from '@/types/domain/event';
 import { EventProfileState } from '@/constants/event';
-import { ISocialLinks } from '@/types/domain/account';
 import EmailSvg from '@/assets/icons/ic_email.svg?react';
 import GithubSvg from '@/assets/icons/ic_github.svg?react';
 import LinkedInSvg from '@/assets/icons/ic_linkedin.svg?react';
@@ -10,7 +9,7 @@ import BaseButton from '@/components/common/BaseButton';
 
 interface EventProfileCardBack {
   email: string;
-  socialLinks: ISocialLinks;
+  linkUrls: string[];
   content: TemplateContent;
   state?: EventProfileStateType;
   fieldValues?: Record<string, string>;
@@ -23,47 +22,36 @@ interface EventProfileCardBack {
   isActionButtonLoading?: boolean;
 }
 
-const LinkIcons = [
-  { name: 'email', icon: EmailSvg },
-  { name: 'linkedIn', icon: LinkedInSvg },
-  { name: 'github', icon: GithubSvg },
-  { name: 'instagram', icon: InstagramSvg },
-] as const;
+function getLinkIcon(url: string) {
+  if (url.includes('github.com')) return GithubSvg;
+  if (url.includes('linkedin.com')) return LinkedInSvg;
+  if (url.includes('instagram.com')) return InstagramSvg;
+  return null;
+}
 
-const renderLinkButtons = ({
-  email,
-  githubUrl,
-  linkedinUrl,
-  instagramUrl,
-}: {
-  email?: string;
-  githubUrl?: string;
-  linkedinUrl?: string;
-  instagramUrl?: string;
-}) => {
-  return LinkIcons.map(({ name, icon }) => {
-    const url =
-      name === 'email'
-        ? `mailto:${email}`
-        : githubUrl && name === 'github'
-          ? githubUrl
-          : linkedinUrl && name === 'linkedIn'
-            ? linkedinUrl
-            : instagramUrl && name === 'instagram'
-              ? instagramUrl
-              : undefined;
-    const IconComponent = icon;
-    const fixedUrl = url?.startsWith('http') || url?.startsWith('mailto') ? url : `https://${url}`;
+const renderLinkButtons = ({ email, linkUrls }: { email?: string; linkUrls: string[] }) => {
+  const items: { key: string; url: string; icon: React.ComponentType<any> }[] = [];
+
+  if (email) {
+    items.push({ key: 'email', url: `mailto:${email}`, icon: EmailSvg });
+  }
+
+  linkUrls.forEach((url, i) => {
+    const icon = getLinkIcon(url);
+    if (icon) {
+      items.push({ key: `link-${i}`, url, icon });
+    }
+  });
+
+  return items.map(({ key, url, icon: IconComponent }) => {
+    const fixedUrl = url.startsWith('http') || url.startsWith('mailto') ? url : `https://${url}`;
 
     return (
       <a
-        key={name}
-        href={fixedUrl ?? '#'}
+        key={key}
+        href={fixedUrl}
         target="_blank"
-        onClick={(e) => {
-          e.stopPropagation();
-          if (!url) e.preventDefault();
-        }}
+        onClick={(e) => e.stopPropagation()}
         className={`flex h-6 w-6 items-center justify-center rounded-lg ${
           url ? 'text-gray-600 opacity-90' : 'text-gray-300 opacity-90'
         }`}
@@ -76,7 +64,7 @@ const renderLinkButtons = ({
 
 function EventProfileCardBack({
   email,
-  socialLinks,
+  linkUrls,
   content,
   state = EventProfileState.LOCKED,
   fieldValues,
@@ -97,10 +85,7 @@ function EventProfileCardBack({
           <h1 className="font-museo text-xl tracking-tight text-gray-900">About Me</h1>
           {showLinkIcons && (
             <ul className="flex flex-wrap items-center gap-2">
-              {renderLinkButtons({
-                email,
-                ...socialLinks,
-              })}
+              {renderLinkButtons({ email, linkUrls })}
             </ul>
           )}
         </div>
