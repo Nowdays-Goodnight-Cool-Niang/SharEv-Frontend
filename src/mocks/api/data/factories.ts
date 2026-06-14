@@ -1,37 +1,36 @@
-import { PublicProfileResponse } from '@/types/api/event';
+import { CardResponse } from '@/types/api/event';
 
-/**
- * 테스트 데이터 팩토리
- * 동적으로 mock 데이터 생성
- */
+const templateText =
+  '안녕하세요. 저는 ${introduce} 개발자입니다. 가장 뿌듯했던 경험은 ${proudestExperience} 입니다.';
 
-export const createMockProfile = (
-  overrides?: Partial<PublicProfileResponse>
-): PublicProfileResponse => ({
+export const createMockCard = (overrides?: Partial<CardResponse>): CardResponse => ({
   type: 'FULL',
+  cardId: 1,
   name: '테스트 유저',
   email: 'test@example.com',
-  linkedinUrl: 'https://linkedin.com/in/test',
-  githubUrl: 'https://github.com/test',
-  instagramUrl: 'https://instagram.com/test',
-  introduce: '안녕하세요!',
-  proudestExperience: '프로젝트 완성',
-  toughExperience: '버그 디버깅',
-  relationFlag: false,
-  iconNumber: 1,
+  linkUrls: ['https://github.com/test'],
+  lastIntroduceTemplateVersion: 1,
+  nowIntroduceTemplateVersion: 1,
+  introduceTemplateContentText: templateText,
+  introductionText: {
+    introduce: '백엔드',
+    proudestExperience: '프로젝트 완성',
+  },
   ...overrides,
 });
 
-/**
- * 참여자 목록 생성 (페이지네이션 테스트용)
- */
-export const createMockParticipants = (count: number): PublicProfileResponse[] => {
+export const createMockCards = (count: number): CardResponse[] => {
   return Array.from({ length: count }, (_, i) =>
-    createMockProfile({
+    createMockCard({
+      cardId: i + 1,
       name: `유저 ${i + 1}`,
-      email: `user${i + 1}@example.com`,
-      iconNumber: (i % 10) + 1,
-      relationFlag: i % 3 === 0, // 3명 중 1명은 등록됨
+      email: i % 3 === 0 ? `user${i + 1}@example.com` : '',
+      type: i % 3 === 0 ? 'FULL' : 'MINIMUM',
+      linkUrls: i % 3 === 0 ? [`https://github.com/user${i + 1}`] : [],
+      introductionText:
+        i % 3 === 0
+          ? { introduce: `개발자 ${i + 1}`, proudestExperience: `경험 ${i + 1}` }
+          : {},
     })
   );
 };

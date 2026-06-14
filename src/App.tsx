@@ -24,6 +24,7 @@ import ShareSection from './components/event/share/ShareSection';
 import EventLayout from '@/pages/EventLayout';
 import ParticipatedEvents from '@/pages/ParticipatedEvents';
 import ParticipatedTeams from '@/pages/ParticipatedTeams';
+import TeamDetail from '@/pages/TeamDetail';
 import TeamCreate from '@/pages/TeamCreate';
 
 function App() {
@@ -77,7 +78,7 @@ function App() {
       errorElement: <ErrorBoundary />,
     },
     {
-      path: '/event',
+      path: '/event/:gatheringId',
       element: <EventLayout />,
       errorElement: <ErrorBoundary />,
       children: [
@@ -122,6 +123,11 @@ function App() {
     {
       path: '/participated-teams',
       element: <ParticipatedTeams />,
+      errorElement: <ErrorBoundary />,
+    },
+    {
+      path: '/teams/:teamId',
+      element: <TeamDetail />,
       errorElement: <ErrorBoundary />,
     },
     {

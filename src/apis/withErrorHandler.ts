@@ -13,10 +13,10 @@ export function withErrorHandler<T>(
       if (error?.config?._handledByInterceptor) {
         throw error;
       }
-      const errorCode = error?.response?.data?.errorCode;
-      const message = (errorCode && options.codeMap?.[errorCode]) || options.fallbackMessage;
+      const code = error?.response?.data?.code;
+      const message = (code && options.codeMap?.[code]) || options.fallbackMessage;
 
-      console.error(`[API ERROR] ${errorCode ?? 'Unknown'}: ${message}`, error);
+      console.error(`[API ERROR] ${code ?? 'Unknown'}: ${message}`, error);
       throw new Error(message);
     }
   };

@@ -6,6 +6,13 @@ import LinkedinSvg from '@/assets/icons/ic_linkedin.svg?react';
 import InstagramSvg from '@/assets/icons/ic_instagram.svg?react';
 import { useQueryAccount } from '@/hooks/useQueryAccount';
 
+function getLinkIcon(url: string) {
+  if (url.includes('github.com')) return GtihubSvg;
+  if (url.includes('linkedin.com')) return LinkedinSvg;
+  if (url.includes('instagram.com')) return InstagramSvg;
+  return null;
+}
+
 function MyProfile() {
   const navigate = useNavigate();
   const { profile } = useQueryAccount();
@@ -22,15 +29,15 @@ function MyProfile() {
           <span className="text-sm leading-5 tracking-tight text-gray-500">{profile?.email}</span>
         </div>
         <ul className="flex gap-2">
-          <SnsIcon size="small" hasUrl={!!profile?.socialLinks.linkedinUrl}>
-            <LinkedinSvg width={20} height={20} />
-          </SnsIcon>
-          <SnsIcon size="small" hasUrl={!!profile?.socialLinks.githubUrl}>
-            <GtihubSvg width={20} height={20} />
-          </SnsIcon>
-          <SnsIcon size="small" hasUrl={!!profile?.socialLinks.instagramUrl}>
-            <InstagramSvg width={20} height={20} />
-          </SnsIcon>
+          {profile?.linkUrls.map((url, i) => {
+            const Icon = getLinkIcon(url);
+            if (!Icon) return null;
+            return (
+              <SnsIcon key={i} size="small" hasUrl>
+                <Icon width={20} height={20} />
+              </SnsIcon>
+            );
+          })}
         </ul>
       </div>
       <BaseButton onClick={moveProfileEdit}>프로필 수정</BaseButton>

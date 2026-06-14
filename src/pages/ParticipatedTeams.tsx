@@ -18,8 +18,7 @@ function ParticipatedTeams() {
   };
 
   const handleTeamClick = (team: Team) => {
-    // TODO: 팀 상세 페이지로 이동
-    showCustomToast({ message: `${team.title} 팀 상세 페이지로 이동` });
+    navigate(`/teams/${team.id}`);
   };
 
   if (error) {

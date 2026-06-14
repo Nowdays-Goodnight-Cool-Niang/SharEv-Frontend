@@ -1,12 +1,14 @@
 export const ERROR_MESSAGE = {
-  profile: {
-    fetch: '프로필 정보를 불러오지 못했어요.',
-    create: '프로필 생성에 실패했어요.',
-    update: '프로필 수정에 실패했어요.',
-    fetchByPin: '상대방 프로필을 불러오지 못했어요.',
+  card: {
+    fetch: '카드 정보를 불러오지 못했어요.',
+    create: '카드 생성에 실패했어요.',
+    update: '카드 수정에 실패했어요.',
+    fetchByPin: '상대방 카드를 불러오지 못했어요.',
     codeMap: {
-      PROFILE_ALREADY_EXISTS: '이미 존재하는 프로필입니다.',
-      INVALID_EVENT_ID: '잘못된 이벤트입니다.',
+      JOIN_ALREADY: '이미 참여한 행사입니다.',
+      CARD_NOT_FOUND: '카드를 찾을 수 없습니다.',
+      CARD_UNCOMPLETED: '카드를 먼저 완성해주세요.',
+      WRONG_TEMPLATE: '템플릿 정보가 일치하지 않습니다.',
     },
   },
 };

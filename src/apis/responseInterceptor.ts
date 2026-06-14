@@ -1,5 +1,6 @@
 import { accountInstance } from './accounts';
-import { eventInstance } from './event/event.api';
+import { gatheringInstance } from './gathering/gathering.api';
+import { teamInstance } from './teams';
 import { kakaoAuthInstance } from './kakao';
 import { authInstance } from './auth';
 import { AxiosError } from 'axios';
@@ -31,7 +32,7 @@ export const setupAxiosInterceptors = () => {
     return Promise.reject(error);
   };
 
-  [accountInstance, eventInstance, kakaoAuthInstance, authInstance].forEach((instance) => {
+  [accountInstance, gatheringInstance, teamInstance, kakaoAuthInstance, authInstance].forEach((instance) => {
     instance.interceptors.response.use((response) => response, handleResponseError);
   });
 };

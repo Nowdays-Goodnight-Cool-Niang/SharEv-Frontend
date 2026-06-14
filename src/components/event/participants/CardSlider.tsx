@@ -100,6 +100,7 @@ export default function CardSlider({
               profiles.map((profile, index) => {
                 const offset = index - currentIndex;
                 const isActive = index === currentIndex;
+                const isConnected = profile.type === 'FULL';
 
                 return (
                   <div
@@ -117,11 +118,11 @@ export default function CardSlider({
                   >
                     <EventProfileCard
                       state={
-                        profile.relationFlag ? EventProfileState.READONLY : EventProfileState.LOCKED
+                        isConnected ? EventProfileState.READONLY : EventProfileState.LOCKED
                       }
                       profile={profile}
                       eventName="CODE:ME"
-                      showLinkIcons={profile.relationFlag}
+                      showLinkIcons={isConnected}
                     />
                   </div>
                 );

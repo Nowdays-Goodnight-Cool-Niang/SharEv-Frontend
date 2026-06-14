@@ -1,11 +1,11 @@
-import { eventClient } from '@/apis/event/event.client';
+import { gatheringClient } from '@/apis/gathering/gathering.client';
 import { IMyEventProfile } from '@/types/domain/event';
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
-export const useSuspenseQueryEventProfile = (eventId: string) => {
+export const useSuspenseQueryEventProfile = (gatheringId: string) => {
   const { data, error } = useSuspenseQuery<IMyEventProfile | null>({
-    queryKey: ['eventProfile', eventId, 'MY'],
-    queryFn: () => eventClient.getMyProfileSafe(eventId),
+    queryKey: ['eventProfile', gatheringId, 'MY'],
+    queryFn: () => gatheringClient.getMyCardSafe(gatheringId),
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
@@ -16,10 +16,10 @@ export const useSuspenseQueryEventProfile = (eventId: string) => {
   };
 };
 
-export const useQueryEventProfile = (eventId: string) => {
+export const useQueryEventProfile = (gatheringId: string) => {
   const { data, isLoading, error } = useQuery<IMyEventProfile | null>({
-    queryKey: ['eventProfile', eventId, 'MY'],
-    queryFn: () => eventClient.getMyProfileSafe(eventId),
+    queryKey: ['eventProfile', gatheringId, 'MY'],
+    queryFn: () => gatheringClient.getMyCardSafe(gatheringId),
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });

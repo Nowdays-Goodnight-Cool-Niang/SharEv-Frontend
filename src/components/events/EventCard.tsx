@@ -1,4 +1,3 @@
-import { EVENT_ID } from '@/constants/eventId';
 import { useQueryParticipateInEvent } from '@/hooks/useQueryParticipateInEventMutation';
 import { useNavigate } from 'react-router';
 import ClockSvg from '@/assets/icons/ic_clock.svg?react';
@@ -14,33 +13,36 @@ import {
   isButtonDisabled,
 } from '@/utils/eventStatus';
 import { useQueryClient } from '@tanstack/react-query';
-import { IEvent } from '@/types/domain/event';
+import { IGathering } from '@/types/domain/event';
 import { ROUTES } from '@/constants/routes';
 import { showCustomToast } from '@/utils/showToast';
 
 interface EventCardProps {
-  event: IEvent;
+  gathering: IGathering;
   isParticipating: boolean;
 }
 
-function EventCard({ event, isParticipating }: EventCardProps) {
+function EventCard({ gathering, isParticipating }: EventCardProps) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutate } = useQueryParticipateInEvent();
 
-  const eventStatus = getEventStatus(event.startDate, event.endDate);
+  const startDate = new Date(gathering.startAt);
+  const endDate = new Date(gathering.endAt);
+  const eventStatus = getEventStatus(startDate, endDate);
+
   const handleEnterEventClick = () => {
     if (isParticipating) {
-      navigate(ROUTES.EVENT.ROOT);
+      navigate(ROUTES.EVENT.WITH_ID(gathering.id));
       return;
     }
 
     if (eventStatus === 'ongoing') {
-      mutate(EVENT_ID, {
+      mutate(gathering.id, {
         onSuccess: () => {
           showCustomToast({ message: '행사에 참여하였습니다!' });
-          queryClient.invalidateQueries({ queryKey: ['participation', EVENT_ID] });
-          navigate(ROUTES.EVENT.ROOT);
+          queryClient.invalidateQueries({ queryKey: ['gatherings', 'me'] });
+          navigate(ROUTES.EVENT.WITH_ID(gathering.id));
         },
         onError: () => {
           showCustomToast({
@@ -54,6 +56,7 @@ function EventCard({ event, isParticipating }: EventCardProps) {
       });
     }
   };
+
   return (
     <div className="rounded-3xl bg-white px-4 py-5 dark:bg-gray-800">
       <ul className="mb-4 flex gap-1.5">
@@ -74,22 +77,22 @@ function EventCard({ event, isParticipating }: EventCardProps) {
       <div>
         <div className="mb-4">
           <h3 className="line-clamp-2 text-lg font-medium leading-7 tracking-tight text-gray-900 dark:text-white">
-            {event.eventName}
+            {gathering.title}
           </h3>
           <p className="line-clamp-1 text-sm leading-6 tracking-tight text-gray-500 dark:text-gray-400">
-            {event.organizer}
+            {gathering.content}
           </p>
         </div>
 
         <div className="mb-6 space-y-2.5 rounded-xl bg-gray-50 px-5 py-4 dark:bg-gray-700">
           <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-300">
             <ClockSvg className="shrink-0" width={16} height={16} />
-            <div className="line-clamp-1">{`${formatKoreanDate(event.startDate)} ~ ${formatKoreanDate(event.endDate)}`}</div>
+            <div className="line-clamp-1">{`${formatKoreanDate(startDate)} ~ ${formatKoreanDate(endDate)}`}</div>
           </div>
           <hr className="border-gray-100 dark:border-gray-600" />
           <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-300">
             <LocationSvg className="shrink-0" width={16} height={16} />
-            <span className="line-clamp-1">{event.location}</span>
+            <span className="line-clamp-1">{gathering.place}</span>
           </div>
         </div>
 

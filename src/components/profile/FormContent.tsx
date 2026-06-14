@@ -5,10 +5,12 @@ import Checkbox from '@/components/common/Checkbox';
 import FormSection from '@/components/profile/FormSection';
 import { useQueryAccount } from '@/hooks/useQueryAccount';
 import { validateInput } from '@/utils/form';
-import { IAccount } from '@/types/domain/account';
+import { ILink } from '@/types/domain/account';
 import { TOAST_MESSAGE } from '@/constants/message';
 import { showCustomToast } from '@/utils/showToast';
 import toast from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
+import Input from '@/components/common/Input';
 
 interface IContentProps {
   variant: 'setup' | 'edit';
@@ -31,20 +33,13 @@ const agreementItems = [
 
 function Content({ variant }: IContentProps) {
   const navigate = useNavigate();
-  const { profile, isLoading, patchProfileInfo } = useQueryAccount();
+  const queryClient = useQueryClient();
+  const { profile, links, isLoading, patchProfileInfo } = useQueryAccount();
 
-  const [formAccount, setFormAccount] = useState<IAccount>(
-    profile ||
-      ({
-        name: '',
-        email: '',
-        socialLinks: {
-          githubUrl: '',
-          linkedinUrl: '',
-          instagramUrl: '',
-        },
-      } as IAccount)
-  );
+  const [formName, setFormName] = useState('');
+  const [formEmail, setFormEmail] = useState('');
+  const [formLinks, setFormLinks] = useState<ILink[]>([]);
+  const [newLinkUrl, setNewLinkUrl] = useState('');
   const [validationMessages, setValidationMessages] = useState<{ [key: string]: string }>({});
   const [isModified, setIsModified] = useState(false);
   const [agreements, setAgreements] = useState({
@@ -54,64 +49,43 @@ function Content({ variant }: IContentProps) {
 
   useEffect(() => {
     if (variant === 'edit' && profile) {
-      const isChanged = Object.keys(profile).some(
-        (key) => formAccount[key as keyof IAccount] !== profile[key as keyof IAccount]
-      );
-      setIsModified(isChanged);
+      const isProfileChanged = formName !== profile.name || formEmail !== profile.email;
+      const isLinksChanged =
+        formLinks.length !== (links?.length ?? 0) ||
+        formLinks.some((fl, i) => fl.id !== links?.[i]?.id);
+      setIsModified(isProfileChanged || isLinksChanged);
     }
-  }, [formAccount, profile, variant]);
+  }, [formName, formEmail, formLinks, links, profile, variant]);
 
   useEffect(() => {
     if (!isLoading && profile && variant === 'edit') {
-      setFormAccount((prevFormAccount) => {
-        if (
-          JSON.stringify(prevFormAccount) ===
-          JSON.stringify({
-            name: '',
-            email: '',
-            socialLinks: {
-              githubUrl: '',
-              linkedinUrl: '',
-              instagramUrl: '',
-            },
-          })
-        ) {
-          return { ...profile };
-        }
-        return prevFormAccount;
-      });
-    } else if (isLoading) {
+      if (!formName && !formEmail) {
+        setFormName(profile.name);
+        setFormEmail(profile.email);
+      }
+    }
+    if (!isLoading && links) {
+      if (formLinks.length === 0 && links.length > 0) {
+        setFormLinks([...links]);
+      }
+    }
+    if (isLoading) {
       const loadingToastId = showCustomToast({ message: TOAST_MESSAGE.PROFILE_LOADING });
       return () => toast.dismiss(loadingToastId);
     }
-  }, [isLoading, profile, variant]);
+  }, [isLoading, profile, links, variant]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
-    // SNS URL 필드들은 socialLinks 객체 내부에 저장
-    if (name === 'linkedinUrl' || name === 'githubUrl' || name === 'instagramUrl') {
-      setFormAccount((prevData) => ({
-        ...prevData,
-        socialLinks: {
-          ...prevData.socialLinks,
-          [name]: value,
-        },
-      }));
-    } else {
-      setFormAccount((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
+    if (name === 'name') setFormName(value);
+    else if (name === 'email') setFormEmail(value);
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     const validationMessage = validateInput(name, value);
-    setValidationMessages((prevMessages) => ({
-      ...prevMessages,
+    setValidationMessages((prev) => ({
+      ...prev,
       [name]: validationMessage || '',
     }));
   };
@@ -123,77 +97,123 @@ function Content({ variant }: IContentProps) {
     }));
   };
 
+  let nextTempId = -1;
+
+  const handleAddLink = () => {
+    if (!newLinkUrl.trim()) return;
+    const urlValidation = validateInput('url', newLinkUrl);
+    if (urlValidation) {
+      showCustomToast({ message: urlValidation });
+      return;
+    }
+    setFormLinks((prev) => [...prev, { id: nextTempId--, url: newLinkUrl }]);
+    setNewLinkUrl('');
+  };
+
+  const handleDeleteLink = (linkId: number) => {
+    setFormLinks((prev) => prev.filter((l) => l.id !== linkId));
+  };
+
   const handleProfileSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const validationMessages = Object.keys(formAccount).reduce(
-      (acc, key) => {
-        const value = formAccount[key as keyof IAccount];
-        if (typeof value === 'string') {
-          const validationMessage = validateInput(key, value);
-          if (validationMessage) acc[key] = validationMessage;
-        }
-        return acc;
-      },
-      {} as { [key: string]: string }
-    );
+    const messages: { [key: string]: string } = {};
+    const nameMsg = validateInput('name', formName);
+    if (nameMsg) messages.name = nameMsg;
+    const emailMsg = validateInput('email', formEmail);
+    if (emailMsg) messages.email = emailMsg;
 
-    if (Object.keys(validationMessages).length > 0) {
-      setValidationMessages(validationMessages);
+    if (Object.keys(messages).length > 0) {
+      setValidationMessages(messages);
       return;
     }
 
-    // 서버에 전송할 형태로 변환
-    const submitData = {
-      name: formAccount.name,
-      email: formAccount.email,
-      linkedinUrl: formAccount.socialLinks.linkedinUrl,
-      githubUrl: formAccount.socialLinks.githubUrl,
-      instagramUrl: formAccount.socialLinks.instagramUrl,
-    };
+    // 링크 변경사항 계산
+    const existingIds = new Set(formLinks.map((l) => l.id));
+    const deletedLinkIds = (links ?? []).filter((l) => !existingIds.has(l.id)).map((l) => l.id);
+    const addLinkUrls = formLinks.filter((l) => l.id < 0).map((l) => l.url);
 
-    patchProfileInfo(submitData, {
-      onSuccess: () => {
-        if (variant === 'setup') {
-          navigate('/events');
-        } else {
-          navigate('/setting');
-          showCustomToast({ message: TOAST_MESSAGE.PROFILE_SAVE_SUCCESS });
-        }
+    patchProfileInfo(
+      {
+        name: formName,
+        email: formEmail,
+        ...(addLinkUrls.length > 0 && { addLinkUrls }),
+        ...(deletedLinkIds.length > 0 && { deleteLinkIds: deletedLinkIds }),
       },
-      onError: (error) => {
-        showCustomToast({ message: TOAST_MESSAGE.PROFILE_SAVE_FAILURE });
-        console.error('Profile Edit error:', error);
-      },
-    });
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['accountLinks'] });
+          if (variant === 'setup') {
+            navigate('/events');
+          } else {
+            navigate('/setting');
+            showCustomToast({ message: TOAST_MESSAGE.PROFILE_SAVE_SUCCESS });
+          }
+        },
+        onError: (error) => {
+          showCustomToast({ message: TOAST_MESSAGE.PROFILE_SAVE_FAILURE });
+          console.error('Profile Edit error:', error);
+        },
+      }
+    );
   };
 
   const isFormValid =
-    Object.values(validationMessages).every((validationMessage) => !validationMessage) &&
-    !!formAccount.name &&
-    !!formAccount.email &&
+    Object.values(validationMessages).every((msg) => !msg) &&
+    !!formName &&
+    !!formEmail &&
     (variant === 'edit' || (agreements.terms && agreements.privacy));
 
   return (
     <form>
       <div className="mt-4 rounded-xl bg-white p-6 shadow-sm">
         <FormSection
-          type="default"
           handleChange={handleChange}
           handleBlur={handleBlur}
           validationMessages={validationMessages}
-          formAccount={formAccount}
+          formName={formName}
+          formEmail={formEmail}
         />
       </div>
 
       <div className="mt-4 rounded-xl bg-white p-6 shadow-sm">
-        <FormSection
-          type="sns"
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-          validationMessages={validationMessages}
-          formAccount={formAccount}
-        />
+        <h2 className="text-title-3 mb-1 font-semibold tracking-tight text-gray-700 md:mb-2 md:text-base">
+          SNS
+        </h2>
+        {formLinks.length === 0 && (
+          <p className="mb-1 text-sm tracking-tight text-gray-400">
+            GitHub, LinkedIn 등 SNS 링크를 추가해보세요
+          </p>
+        )}
+        <ul className="space-y-2">
+          {formLinks.map((link) => (
+            <li key={link.id} className="flex items-center gap-2">
+              <span className="flex-1 truncate text-sm text-gray-600">{link.url}</span>
+              <button
+                type="button"
+                onClick={() => handleDeleteLink(link.id)}
+                className="shrink-0 rounded-lg bg-gray-100 px-3 py-1.5 text-sm text-gray-500"
+              >
+                삭제
+              </button>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-3 flex items-end gap-2">
+          <Input
+            placeholder="링크를 입력하세요 (https://...)"
+            name="newLink"
+            value={newLinkUrl}
+            onChange={(e) => setNewLinkUrl(e.target.value)}
+          />
+          <button
+            type="button"
+            onClick={handleAddLink}
+            className="shrink-0 rounded-xl bg-blue-500 px-4 py-3 text-sm font-medium leading-7 text-white"
+          >
+            추가
+          </button>
+        </div>
       </div>
 
       {variant === 'setup' && (

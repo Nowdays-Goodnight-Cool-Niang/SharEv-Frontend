@@ -4,14 +4,14 @@ import { useParticipationInfoStore } from '@/stores/useParticipationInfoStore';
 
 interface ParticipationInfoProps {
   totalCount: number;
-  registerCount: number;
+  connectedCount: number;
 }
 
-export default function ParticipationInfo({ totalCount, registerCount }: ParticipationInfoProps) {
+export default function ParticipationInfo({ totalCount, connectedCount }: ParticipationInfoProps) {
   const { isOpen, open, close } = useParticipationInfoStore();
 
-  const isNoneExchanged = registerCount === 0;
-  const isAllExchanged = registerCount === totalCount;
+  const isNoneExchanged = connectedCount === 0;
+  const isAllExchanged = connectedCount === totalCount;
   return (
     <div
       onClick={() => {
@@ -23,7 +23,7 @@ export default function ParticipationInfo({ totalCount, registerCount }: Partici
         <div className="flex flex-col items-center gap-0.5">
           <UsersSvg width={32} height={32} />
           <div className="flex">
-            <span className="text-sm font-medium text-blue-500">{registerCount}</span>
+            <span className="text-sm font-medium text-blue-500">{connectedCount}</span>
             <span className="text-sm font-medium text-gray-500">/{totalCount}명</span>
           </div>
         </div>
@@ -38,7 +38,7 @@ export default function ParticipationInfo({ totalCount, registerCount }: Partici
               {!isNoneExchanged && !isAllExchanged && (
                 <span>
                   <span className="font-medium text-gray-500">{totalCount}</span>명 중{' '}
-                  <span className="font-medium text-blue-500">{registerCount}</span>명과 명함을
+                  <span className="font-medium text-blue-500">{connectedCount}</span>명과 명함을
                   교환했어요
                 </span>
               )}
@@ -49,7 +49,7 @@ export default function ParticipationInfo({ totalCount, registerCount }: Partici
               <div
                 className="h-full w-0 rounded-full bg-blue-500 transition-all duration-300"
                 style={{
-                  width: `${(registerCount / totalCount) * 100 || 0}%`,
+                  width: `${(connectedCount / totalCount) * 100 || 0}%`,
                 }}
               ></div>
             </div>
@@ -58,7 +58,7 @@ export default function ParticipationInfo({ totalCount, registerCount }: Partici
               height={26}
               className="absolute -top-1.5 transition-all duration-300"
               style={{
-                left: `calc(${(registerCount / totalCount) * 100 || 0}% - 13px)`,
+                left: `calc(${(connectedCount / totalCount) * 100 || 0}% - 13px)`,
               }}
             />
           </div>
