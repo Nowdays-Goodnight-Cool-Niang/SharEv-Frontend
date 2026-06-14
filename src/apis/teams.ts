@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Team, TeamDetail } from '@/types/domain/team';
+import type { Team, TeamDetail, CreateTeamRequest, CreateTeamResponse } from '@/types/domain/team';
 
 export const teamInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/teams`,
@@ -14,6 +14,11 @@ export const teamAPI = {
 
   getTeamDetail: async (teamId: string): Promise<TeamDetail> => {
     const response = await teamInstance.get<TeamDetail>(`/${teamId}`);
+    return response.data;
+  },
+
+  createTeam: async (data: CreateTeamRequest): Promise<CreateTeamResponse> => {
+    const response = await teamInstance.post<CreateTeamResponse>('', data);
     return response.data;
   },
 };

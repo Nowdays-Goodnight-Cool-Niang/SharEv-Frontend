@@ -37,6 +37,20 @@ export interface TeamMember {
 }
 
 /**
+ * 팀 생성 요청 (BE: CreateTeamRequest)
+ */
+export interface CreateTeamRequest {
+  title: string;
+}
+
+/**
+ * 팀 생성 응답 (BE: CreateTeamResponse)
+ */
+export interface CreateTeamResponse {
+  teamId: number;
+}
+
+/**
  * 팀 상세 정보 (BE: ResponseTeamDetailInfoDto)
  * TODO: inviteLink는 BE에 아직 없음 — 추후 BE 추가 시 연동
  */

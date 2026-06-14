@@ -6,7 +6,6 @@ import TeamList from '@/components/team/TeamList';
 import { useTeams } from '@/hooks/useTeams';
 import { useNavigate } from 'react-router';
 import { ROUTES } from '@/constants/routes';
-import { showCustomToast } from '@/utils/showToast';
 import type { Team } from '@/types/domain/team';
 
 function ParticipatedTeams() {

@@ -4,6 +4,7 @@ import Header from '@/components/common/Header';
 import BottomSpace from '@/components/common/BottomSpace';
 import UsersSvg from '@/assets/icons/ic_users.svg?react';
 import { showCustomToast } from '@/utils/showToast';
+import { useMutateCreateTeam } from '@/hooks/useMutateCreateTeam';
 
 type TeamType = 'GENERAL' | 'CERTIFICATED';
 
@@ -21,13 +22,26 @@ function TeamCreate() {
   const [teamType, setTeamType] = useState<TeamType>('GENERAL');
   const [isTypeOpen, setIsTypeOpen] = useState(false);
 
+  const { mutate: createTeam, isPending } = useMutateCreateTeam();
+
   const isValid = title.trim().length > 0;
   const selectedType = TEAM_TYPE_OPTIONS.find((opt) => opt.value === teamType)!;
 
   const handleSubmit = () => {
-    if (!isValid) return;
-    // TODO: 팀 생성 API 연동
-    showCustomToast({ message: '팀 생성 기능은 준비 중입니다.' });
+    if (!isValid || isPending) return;
+
+    createTeam(
+      { title: title.trim() },
+      {
+        onSuccess: (data) => {
+          showCustomToast({ message: '팀이 생성되었습니다.' });
+          navigate(`/teams/${data.teamId}`);
+        },
+        onError: () => {
+          showCustomToast({ message: '팀 생성에 실패했습니다. 다시 시도해주세요.' });
+        },
+      },
+    );
   };
 
   return (
@@ -191,10 +205,10 @@ function TeamCreate() {
         <button
           type="button"
           onClick={handleSubmit}
-          disabled={!isValid}
+          disabled={!isValid || isPending}
           className="flex-1 rounded-xl bg-blue-500 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-600 active:bg-blue-700 disabled:bg-gray-200 disabled:text-gray-400"
         >
-          팀 생성
+          {isPending ? '생성 중...' : '팀 생성'}
         </button>
       </div>
       <BottomSpace />

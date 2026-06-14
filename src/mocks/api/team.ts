@@ -1,9 +1,11 @@
 import { http, delay, HttpResponse } from 'msw';
 import { mockConfig } from '../config';
 import { mockLogger } from '../utils/logger';
-import type { Team, TeamDetail } from '@/types/domain/team';
+import type { Team, TeamDetail, CreateTeamRequest } from '@/types/domain/team';
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
+let nextTeamId = 100;
 
 const mockTeams: Team[] = [
   {
@@ -62,6 +64,40 @@ const mockTeamDetails: Record<string, TeamDetail> = {
 };
 
 export const teamHandler = [
+  // 팀 생성
+  http.post(`${baseUrl}/teams`, async ({ request }) => {
+    const body = (await request.json()) as CreateTeamRequest;
+    mockLogger.request('POST', '/teams', body);
+
+    await delay(mockConfig.delays.fast);
+
+    const teamId = nextTeamId++;
+    const now = new Date().toISOString();
+    const newTeam: Team = {
+      id: teamId,
+      title: body.title,
+      content: '',
+      createdAt: now,
+      memberRole: 'ADMIN',
+      headcount: 1,
+    };
+    mockTeams.unshift(newTeam);
+
+    mockTeamDetails[String(teamId)] = {
+      id: teamId,
+      title: body.title,
+      content: '',
+      createdAt: now,
+      headcount: 1,
+      gatherings: [],
+      members: [{ name: '나', email: 'me@example.com', role: 'ADMIN' }],
+    };
+
+    const responseData = { teamId };
+    mockLogger.response('POST', '/teams', 201, responseData);
+    return HttpResponse.json(responseData, { status: 201 });
+  }),
+
   // 팀 목록 조회
   http.get(`${baseUrl}/teams`, async () => {
     mockLogger.request('GET', '/teams');
