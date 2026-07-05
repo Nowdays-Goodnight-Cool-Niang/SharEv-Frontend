@@ -61,12 +61,14 @@ const mockTeamDetails: Record<string, TeamDetail> = {
     headcount: 24,
     gatherings: [
       {
+        id: 'd8f1e6c3-9a7b-4d4f-b6e1-5c8e3b7d2e0a',
         title: 'CODE:ME - 개발자 퍼스널 브랜딩 with AI',
         startAt: '2025-08-02T10:00:00',
         endAt: '2025-10-01T00:00:00',
         place: '구글 스타트업 캠퍼스',
       },
       {
+        id: 'e9a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c',
         title: 'AI와 함께하는 스타트업 워크샵',
         startAt: '2025-09-15T14:00:00',
         endAt: '2025-09-15T18:00:00',
@@ -88,6 +90,7 @@ const mockTeamDetails: Record<string, TeamDetail> = {
     headcount: 18,
     gatherings: [
       {
+        id: 'f0b1c2d3-e4f5-6a7b-8c9d-0e1f2a3b4c5d',
         title: '스타트업 네트워킹 밋업',
         startAt: '2025-07-20T19:00:00',
         endAt: '2025-07-20T21:00:00',

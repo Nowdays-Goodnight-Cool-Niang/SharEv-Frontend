@@ -4,10 +4,10 @@ import TeamGatheringCard from './TeamGatheringCard';
 interface TeamGatheringListProps {
   gatherings: TeamGathering[];
   onParticipate?: (gathering: TeamGathering) => void;
-  onDelete?: (gathering: TeamGathering) => void;
+  onEdit?: (gathering: TeamGathering) => void;
 }
 
-function TeamGatheringList({ gatherings, onParticipate, onDelete }: TeamGatheringListProps) {
+function TeamGatheringList({ gatherings, onParticipate, onEdit }: TeamGatheringListProps) {
   return (
     <div className="mb-6">
       <div className="mb-3 flex items-center justify-between">
@@ -21,7 +21,7 @@ function TeamGatheringList({ gatherings, onParticipate, onDelete }: TeamGatherin
             key={index}
             gathering={gathering}
             onParticipate={onParticipate}
-            onDelete={onDelete}
+            onEdit={onEdit}
           />
         ))}
       </div>

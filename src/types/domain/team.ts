@@ -31,6 +31,7 @@ export interface Team {
  * 팀 상세 내 행사 정보 (BE: GatheringInfoDto)
  */
 export interface TeamGathering {
+  id: string;
   title: string;
   startAt: string;
   endAt: string;

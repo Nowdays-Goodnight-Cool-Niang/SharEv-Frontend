@@ -14,6 +14,7 @@ import { useMutateInviteMember } from '@/hooks/useMutateInviteMember';
 import { useMutateRemoveMember } from '@/hooks/useMutateRemoveMember';
 import { useMutateUpdateMemberRole } from '@/hooks/useMutateUpdateMemberRole';
 import { showCustomToast } from '@/utils/showToast';
+import { ROUTES } from '@/constants/routes';
 import type { TeamGathering, MemberRoleType } from '@/types/domain/team';
 
 function TeamDetail() {
@@ -37,8 +38,8 @@ function TeamDetail() {
     showCustomToast({ message: `${gathering.title} 참여하기` });
   };
 
-  const handleDeleteGathering = (gathering: TeamGathering) => {
-    showCustomToast({ message: `${gathering.title} 삭제 기능은 준비 중입니다.` });
+  const handleEditGathering = (gathering: TeamGathering) => {
+    navigate(ROUTES.EVENT.EDIT(gathering.id));
   };
 
   const handleEditSave = (data: { title: string; content: string }) => {
@@ -151,7 +152,7 @@ function TeamDetail() {
             <TeamGatheringList
               gatherings={teamDetail.gatherings}
               onParticipate={handleParticipate}
-              onDelete={handleDeleteGathering}
+              onEdit={isAdmin ? handleEditGathering : undefined}
             />
             <TeamMemberList
               members={teamDetail.members}
