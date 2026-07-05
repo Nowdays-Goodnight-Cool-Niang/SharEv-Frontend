@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { TEAM_TYPE_OPTIONS } from '@/types/domain/team';
 import type { TeamDetail } from '@/types/domain/team';
 import UserSvg from '@/assets/icons/ic_user.svg?react';
 import CalendarSvg from '@/assets/icons/ic_calendar.svg?react';
@@ -9,7 +11,9 @@ interface TeamInfoSectionProps {
 
 const AVATAR_COLORS = ['#4CAF50', '#FFA726', '#EC407A', '#42A5F5', '#AB47BC', '#26A69A'];
 
+
 function TeamInfoSection({ team }: TeamInfoSectionProps) {
+  const [showTypeTooltip, setShowTypeTooltip] = useState(false);
   const initials = team.title.substring(0, 2);
   const avatarColor = AVATAR_COLORS[team.id % AVATAR_COLORS.length];
 
@@ -23,6 +27,47 @@ function TeamInfoSection({ team }: TeamInfoSectionProps) {
       </div>
 
       <h2 className="text-xl font-bold text-gray-900">{team.title}</h2>
+
+      <div className="relative mt-2 flex items-center gap-1">
+        <span
+          className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${
+            team.certification === 'CERTIFICATED'
+              ? 'bg-blue-50 text-blue-600'
+              : 'bg-gray-100 text-gray-500'
+          }`}
+        >
+          {TEAM_TYPE_OPTIONS[team.certification].label}
+        </span>
+        <button
+          onClick={() => setShowTypeTooltip((prev) => !prev)}
+          className="text-gray-400 hover:text-gray-600"
+        >
+          <svg
+            width={14}
+            height={14}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="16" x2="12" y2="12" />
+            <line x1="12" y1="8" x2="12.01" y2="8" />
+          </svg>
+        </button>
+
+        {showTypeTooltip && (
+          <>
+            <div className="fixed inset-0 z-10" onClick={() => setShowTypeTooltip(false)} />
+            <div className="absolute left-1/2 top-full z-20 mt-2 -translate-x-1/2 whitespace-nowrap animate-tooltip-pop rounded-xl bg-gray-700 px-3 py-2 text-xs text-white shadow-lg">
+              {TEAM_TYPE_OPTIONS[team.certification].description}
+              <div className="absolute bottom-full left-1/2 h-2 w-2 -translate-x-1/2 translate-y-1/2 rotate-45 bg-gray-700" />
+            </div>
+          </>
+        )}
+      </div>
 
       <p className="mt-2 text-center text-sm text-gray-500">{team.content}</p>
 

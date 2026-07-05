@@ -14,7 +14,7 @@ import { useMutateInviteMember } from '@/hooks/useMutateInviteMember';
 import { useMutateRemoveMember } from '@/hooks/useMutateRemoveMember';
 import { useMutateUpdateMemberRole } from '@/hooks/useMutateUpdateMemberRole';
 import { showCustomToast } from '@/utils/showToast';
-import type { TeamGathering, TeamType, MemberRoleType } from '@/types/domain/team';
+import type { TeamGathering, MemberRoleType } from '@/types/domain/team';
 
 function TeamDetail() {
   const { teamId } = useParams<{ teamId: string }>();
@@ -41,9 +41,9 @@ function TeamDetail() {
     showCustomToast({ message: `${gathering.title} 삭제 기능은 준비 중입니다.` });
   };
 
-  const handleEditSave = (data: { title: string; content: string; teamType: TeamType }) => {
+  const handleEditSave = (data: { title: string; content: string }) => {
     updateTeam(
-      { title: data.title, content: data.content, teamType: data.teamType },
+      { title: data.title, content: data.content },
       {
         onSuccess: () => {
           showCustomToast({ message: '팀 정보가 수정되었습니다.' });

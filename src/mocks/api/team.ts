@@ -56,7 +56,7 @@ const mockTeamDetails: Record<string, TeamDetail> = {
     id: 1,
     title: 'GDC Campus Korea',
     content: '개발자 커뮤니티를 위한 다양한 행사를 기획하고 운영합니다.',
-    teamType: 'CERTIFICATED',
+    certification: 'CERTIFICATED',
     createdAt: '2024-01-15T00:00:00',
     headcount: 24,
     gatherings: [
@@ -77,6 +77,40 @@ const mockTeamDetails: Record<string, TeamDetail> = {
       { name: '권나연', email: 'chichoc.dev@gmail.com', role: 'ADMIN' },
       { name: '김개발', email: 'dev@example.com', role: 'COMMON' },
       { name: '이디자인', email: 'design@example.com', role: 'COMMON' },
+    ],
+  },
+  '2': {
+    id: 2,
+    title: 'Tech Valley Seoul',
+    content: '서울의 스타트업과 개발자들을 위한 네트워킹 공간',
+    certification: 'NONE',
+    createdAt: '2024-06-10T00:00:00',
+    headcount: 18,
+    gatherings: [
+      {
+        title: '스타트업 네트워킹 밋업',
+        startAt: '2025-07-20T19:00:00',
+        endAt: '2025-07-20T21:00:00',
+        place: '위워크 강남점',
+      },
+    ],
+    members: [
+      { name: '박대표', email: 'ceo@techvalley.com', role: 'ADMIN' },
+      { name: '권나연', email: 'chichoc.dev@gmail.com', role: 'COMMON' },
+    ],
+  },
+  '3': {
+    id: 3,
+    title: 'Startup Korea',
+    content: '한국 스타트업 생태계를 만들어가는 사람들',
+    certification: 'CERTIFICATED',
+    createdAt: '2023-12-01T00:00:00',
+    headcount: 42,
+    gatherings: [],
+    members: [
+      { name: '김창업', email: 'founder@startup.kr', role: 'ADMIN' },
+      { name: '권나연', email: 'chichoc.dev@gmail.com', role: 'COMMON' },
+      { name: '이투자', email: 'invest@vc.com', role: 'COMMON' },
     ],
   },
 };
@@ -105,7 +139,7 @@ export const teamHandler = [
       id: teamId,
       title: body.title,
       content: '',
-      teamType: 'NONE',
+      certification: 'NONE',
       createdAt: now,
       headcount: 1,
       gatherings: [],
@@ -143,7 +177,7 @@ export const teamHandler = [
 
     detail.title = body.title;
     if (body.content !== undefined) detail.content = body.content;
-    if (body.teamType !== undefined) detail.teamType = body.teamType;
+    if (body.certification !== undefined) detail.certification = body.certification;
 
     const team = mockTeams.find((t) => t.id === detail.id);
     if (team) {

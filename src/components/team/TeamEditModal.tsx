@@ -1,45 +1,36 @@
 import { useState, useEffect } from 'react';
 import BottomModal from '@/components/common/BottomModal';
-import type { TeamDetail, TeamType } from '@/types/domain/team';
+import { TEAM_TYPE_OPTIONS } from '@/types/domain/team';
+import type { TeamDetail } from '@/types/domain/team';
 
 interface TeamEditModalProps {
   isOpen: boolean;
   onClose: () => void;
   team: TeamDetail;
-  onSave: (data: { title: string; content: string; teamType: TeamType }) => void;
+  onSave: (data: { title: string; content: string }) => void;
   isPending: boolean;
 }
 
 const MAX_CONTENT_LENGTH = 500;
 
-const TEAM_TYPE_OPTIONS: { value: TeamType; label: string; description: string }[] = [
-  { value: 'NONE', label: '일반 팀', description: '팀 내부 행사만 생성 가능' },
-  { value: 'CERTIFICATED', label: '공식 팀', description: '공개 행사를 생성할 수 있어요' },
-];
 
 function TeamEditModal({ isOpen, onClose, team, onSave, isPending }: TeamEditModalProps) {
   const [title, setTitle] = useState(team.title);
   const [content, setContent] = useState(team.content);
-  const [teamType, setTeamType] = useState<TeamType>(team.teamType);
-  const [isTypeOpen, setIsTypeOpen] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       setTitle(team.title);
       setContent(team.content);
-      setTeamType(team.teamType);
-      setIsTypeOpen(false);
     }
-  }, [isOpen, team.title, team.content, team.teamType]);
+  }, [isOpen, team.title, team.content]);
 
   const isValid = title.trim().length > 0;
-  const hasChanges =
-    title.trim() !== team.title || content !== team.content || teamType !== team.teamType;
-  const selectedType = TEAM_TYPE_OPTIONS.find((opt) => opt.value === teamType)!;
+  const hasChanges = title.trim() !== team.title || content !== team.content;
 
   const handleSave = () => {
     if (!isValid || !hasChanges || isPending) return;
-    onSave({ title: title.trim(), content, teamType });
+    onSave({ title: title.trim(), content });
   };
 
   return (
@@ -63,8 +54,24 @@ function TeamEditModal({ isOpen, onClose, team, onSave, isPending }: TeamEditMod
           />
         </div>
 
-        {/* 팀 소개 */}
+        {/* 팀 타입 (읽기 전용) */}
         <div className="mb-5">
+          <label className="mb-2 block text-sm font-medium text-gray-700">팀 타입</label>
+          <div className="rounded-xl border border-gray-200 bg-gray-100 px-4 py-3">
+            <p className="text-sm font-medium text-gray-500">
+              {TEAM_TYPE_OPTIONS[team.certification].label}
+            </p>
+            <p className="mt-0.5 text-xs text-gray-400">
+              {TEAM_TYPE_OPTIONS[team.certification].description}
+            </p>
+          </div>
+          <p className="mt-1.5 text-xs text-gray-400">
+            팀 타입 변경은 서비스 관리자에게 문의해주세요.
+          </p>
+        </div>
+
+        {/* 팀 소개 */}
+        <div>
           <label className="mb-2 block text-sm font-medium text-gray-700">팀 소개</label>
           <textarea
             value={content}
@@ -76,56 +83,6 @@ function TeamEditModal({ isOpen, onClose, team, onSave, isPending }: TeamEditMod
           />
           <div className="mt-1 text-right text-xs text-gray-400">
             {content.length} / {MAX_CONTENT_LENGTH}
-          </div>
-        </div>
-
-        {/* 팀 타입 */}
-        <div>
-          <label className="mb-2 block text-sm font-medium text-gray-700">팀 타입</label>
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setIsTypeOpen((prev) => !prev)}
-              className="flex w-full items-center justify-between rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-left focus:border-blue-500 focus:bg-white focus:outline-none"
-            >
-              <div>
-                <p className="text-sm font-medium text-gray-900">{selectedType.label}</p>
-                <p className="text-xs text-gray-400">{selectedType.description}</p>
-              </div>
-              <svg
-                width={16}
-                height={16}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className={`shrink-0 text-gray-400 transition-transform ${isTypeOpen ? 'rotate-180' : ''}`}
-              >
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </button>
-
-            {isTypeOpen && (
-              <ul className="absolute left-0 right-0 top-full z-10 mt-1 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
-                {TEAM_TYPE_OPTIONS.map((option) => (
-                  <li key={option.value}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setTeamType(option.value);
-                        setIsTypeOpen(false);
-                      }}
-                      className={`w-full px-4 py-3 text-left transition-colors hover:bg-gray-50 ${teamType === option.value ? 'bg-blue-50' : ''}`}
-                    >
-                      <p className="text-sm font-medium text-gray-900">{option.label}</p>
-                      <p className="text-xs text-gray-400">{option.description}</p>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
           </div>
         </div>
       </BottomModal.Body>

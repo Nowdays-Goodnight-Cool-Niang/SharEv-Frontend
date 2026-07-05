@@ -5,13 +5,8 @@ import BottomSpace from '@/components/common/BottomSpace';
 import UsersSvg from '@/assets/icons/ic_users.svg?react';
 import { showCustomToast } from '@/utils/showToast';
 import { useMutateCreateTeam } from '@/hooks/useMutateCreateTeam';
+import { TEAM_TYPE_OPTIONS } from '@/types/domain/team';
 
-type TeamType = 'GENERAL' | 'CERTIFICATED';
-
-const TEAM_TYPE_OPTIONS: { value: TeamType; label: string; description: string }[] = [
-  { value: 'GENERAL', label: '일반 팀', description: '팀 내부 행사만 생성 가능' },
-  { value: 'CERTIFICATED', label: '공식 팀', description: '공개 행사를 생성할 수 있어요' },
-];
 
 const MAX_CONTENT_LENGTH = 500;
 
@@ -19,13 +14,10 @@ function TeamCreate() {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [teamType, setTeamType] = useState<TeamType>('GENERAL');
-  const [isTypeOpen, setIsTypeOpen] = useState(false);
 
   const { mutate: createTeam, isPending } = useMutateCreateTeam();
 
   const isValid = title.trim().length > 0;
-  const selectedType = TEAM_TYPE_OPTIONS.find((opt) => opt.value === teamType)!;
 
   const handleSubmit = () => {
     if (!isValid || isPending) return;
@@ -117,78 +109,39 @@ function TeamCreate() {
           </div>
         </section>
 
-        {/* 섹션 2: 팀 설정 */}
+        {/* 섹션 2: 팀 타입 안내 */}
         <section className="mb-6 rounded-2xl border border-gray-100 bg-white p-5">
-          <SectionTitle step={2} title="팀 설정" />
+          <SectionTitle step={2} title="팀 타입 안내" />
 
-          <FieldLabel
-            icon={
-              <svg
-                width={16}
-                height={16}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-gray-500"
+          <div className="space-y-2">
+            {Object.entries(TEAM_TYPE_OPTIONS).map(([key, { label, description }]) => (
+              <div
+                key={key}
+                className={`rounded-xl border px-4 py-3 ${
+                  key === 'NONE'
+                    ? 'border-blue-200 bg-blue-50'
+                    : 'border-gray-200 bg-gray-50'
+                }`}
               >
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              </svg>
-            }
-            label="팀 타입"
-            required
-          />
-
-          <div className="relative mt-2">
-            <button
-              type="button"
-              onClick={() => setIsTypeOpen((prev) => !prev)}
-              className="flex w-full items-center justify-between rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-left focus:border-blue-500 focus:bg-white focus:outline-none"
-            >
-              <div>
-                <p className="text-sm font-medium text-gray-900">{selectedType.label}</p>
-                <p className="text-xs text-gray-400">{selectedType.description}</p>
+                <div className="flex items-center gap-2">
+                  <p className={`text-sm font-medium ${key === 'NONE' ? 'text-blue-600' : 'text-gray-500'}`}>
+                    {label}
+                  </p>
+                  {key === 'NONE' && (
+                    <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-medium text-blue-600">
+                      기본
+                    </span>
+                  )}
+                </div>
+                <p className={`mt-0.5 text-xs ${key === 'NONE' ? 'text-blue-400' : 'text-gray-400'}`}>
+                  {description}
+                </p>
               </div>
-              <svg
-                width={16}
-                height={16}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className={`shrink-0 text-gray-400 transition-transform ${isTypeOpen ? 'rotate-180' : ''}`}
-              >
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </button>
-
-            {isTypeOpen && (
-              <ul className="absolute left-0 right-0 top-full z-10 mt-1 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
-                {TEAM_TYPE_OPTIONS.map((option) => (
-                  <li key={option.value}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setTeamType(option.value);
-                        setIsTypeOpen(false);
-                      }}
-                      className={`w-full px-4 py-3 text-left transition-colors hover:bg-gray-50 ${teamType === option.value ? 'bg-blue-50' : ''}`}
-                    >
-                      <p className="text-sm font-medium text-gray-900">{option.label}</p>
-                      <p className="text-xs text-gray-400">{option.description}</p>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
+            ))}
           </div>
 
-          <p className="mt-1.5 text-xs text-gray-400">
-            인증된 팀은 공개 행사를 생성할 수 있습니다.
+          <p className="mt-3 text-xs text-gray-400">
+            팀은 일반 팀으로 생성되며, 공식 팀 전환은 서비스 관리자에게 문의해주세요.
           </p>
         </section>
       </div>

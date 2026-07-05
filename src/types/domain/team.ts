@@ -7,10 +7,13 @@ export type MemberRoleType = 'ADMIN' | 'COMMON';
 
 /**
  * 팀 타입 (BE: TeamCertification)
- * - NONE: 일반 팀 (팀 내부 행사만 생성 가능)
- * - CERTIFICATED: 공식 팀 (공개 행사 생성 가능)
  */
 export type TeamType = 'NONE' | 'CERTIFICATED';
+
+export const TEAM_TYPE_OPTIONS: Record<TeamType, { label: string; description: string }> = {
+  NONE: { label: '일반 팀', description: '팀 내부 행사만 생성할 수 있어요' },
+  CERTIFICATED: { label: '공식 팀', description: '공개 행사를 생성할 수 있어요' },
+};
 
 /**
  * 팀 정보 (BE: ResponseTeamInfoDto)
@@ -71,12 +74,12 @@ export interface CreateTeamResponse {
 }
 
 /**
- * 팀 수정 요청 (BE: UpdateTeamRequest — 현재 title만 지원, content/teamType 추가 예정)
+ * 팀 수정 요청 (BE: UpdateTeamRequest)
  */
 export interface UpdateTeamRequest {
   title: string;
   content?: string;
-  teamType?: TeamType;
+  certification?: TeamType;
 }
 
 /**
@@ -108,7 +111,7 @@ export interface TeamDetail {
   id: number;
   title: string;
   content: string;
-  teamType: TeamType;
+  certification: TeamType;
   createdAt: string;
   headcount: number;
   inviteLink?: string;
