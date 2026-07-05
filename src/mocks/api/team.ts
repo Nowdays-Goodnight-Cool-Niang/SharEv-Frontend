@@ -1,11 +1,28 @@
 import { http, delay, HttpResponse } from 'msw';
 import { mockConfig } from '../config';
 import { mockLogger } from '../utils/logger';
-import type { Team, TeamDetail, CreateTeamRequest } from '@/types/domain/team';
+import type {
+  Team,
+  TeamDetail,
+  CreateTeamRequest,
+  UpdateTeamRequest,
+  Member,
+  InviteMemberRequest,
+  UpdateMemberRoleRequest,
+} from '@/types/domain/team';
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 let nextTeamId = 100;
+let nextMemberId = 100;
+
+const mockMembers: Record<string, Member[]> = {
+  '1': [
+    { memberId: 1, name: '권나연', email: 'chichoc.dev@gmail.com', role: 'ADMIN', status: 'ACTIVATE' },
+    { memberId: 2, name: '김개발', email: 'dev@example.com', role: 'COMMON', status: 'ACTIVATE' },
+    { memberId: 3, name: '이디자인', email: 'design@example.com', role: 'COMMON', status: 'ACTIVATE' },
+  ],
+};
 
 const mockTeams: Team[] = [
   {
@@ -39,6 +56,7 @@ const mockTeamDetails: Record<string, TeamDetail> = {
     id: 1,
     title: 'GDC Campus Korea',
     content: '개발자 커뮤니티를 위한 다양한 행사를 기획하고 운영합니다.',
+    teamType: 'CERTIFICATED',
     createdAt: '2024-01-15T00:00:00',
     headcount: 24,
     gatherings: [
@@ -87,6 +105,7 @@ export const teamHandler = [
       id: teamId,
       title: body.title,
       content: '',
+      teamType: 'NONE',
       createdAt: now,
       headcount: 1,
       gatherings: [],
@@ -108,6 +127,35 @@ export const teamHandler = [
     return HttpResponse.json(mockTeams);
   }),
 
+  // 팀 수정
+  http.patch(`${baseUrl}/teams/:teamId`, async ({ params, request }) => {
+    const teamId = params.teamId as string;
+    const body = (await request.json()) as UpdateTeamRequest;
+    mockLogger.request('PATCH', `/teams/${teamId}`, body);
+
+    await delay(mockConfig.delays.fast);
+
+    const detail = mockTeamDetails[teamId];
+    if (!detail) {
+      mockLogger.response('PATCH', `/teams/${teamId}`, 404);
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    detail.title = body.title;
+    if (body.content !== undefined) detail.content = body.content;
+    if (body.teamType !== undefined) detail.teamType = body.teamType;
+
+    const team = mockTeams.find((t) => t.id === detail.id);
+    if (team) {
+      team.title = body.title;
+      if (body.content !== undefined) team.content = body.content;
+    }
+
+    const responseData = { title: detail.title };
+    mockLogger.response('PATCH', `/teams/${teamId}`, 200, responseData);
+    return HttpResponse.json(responseData);
+  }),
+
   // 팀 상세 조회
   http.get(`${baseUrl}/teams/:teamId`, async ({ params }) => {
     const teamId = params.teamId as string;
@@ -123,5 +171,92 @@ export const teamHandler = [
 
     mockLogger.response('GET', `/teams/${teamId}`, 200, team);
     return HttpResponse.json(team);
+  }),
+
+  // 멤버 목록 조회
+  http.get(`${baseUrl}/teams/:teamId/members`, async ({ params }) => {
+    const teamId = params.teamId as string;
+    mockLogger.request('GET', `/teams/${teamId}/members`);
+
+    await delay(mockConfig.delays.fast);
+
+    const members = mockMembers[teamId] ?? [];
+    mockLogger.response('GET', `/teams/${teamId}/members`, 200, members);
+    return HttpResponse.json(members);
+  }),
+
+  // 멤버 초대
+  http.post(`${baseUrl}/teams/:teamId/members`, async ({ params, request }) => {
+    const teamId = params.teamId as string;
+    const body = (await request.json()) as InviteMemberRequest;
+    mockLogger.request('POST', `/teams/${teamId}/members`, body);
+
+    await delay(mockConfig.delays.fast);
+
+    if (!mockMembers[teamId]) mockMembers[teamId] = [];
+
+    const existing = mockMembers[teamId].find((m) => m.email === body.email);
+    if (existing) {
+      mockLogger.response('POST', `/teams/${teamId}/members`, 409);
+      return HttpResponse.json({ message: '이미 초대된 멤버입니다.' }, { status: 409 });
+    }
+
+    const memberId = nextMemberId++;
+    const newMember: Member = {
+      memberId,
+      name: body.email.split('@')[0],
+      email: body.email,
+      role: 'COMMON',
+      status: 'INVITE',
+    };
+    mockMembers[teamId].push(newMember);
+
+    const responseData = { memberId, role: 'COMMON' as const, status: 'INVITE' };
+    mockLogger.response('POST', `/teams/${teamId}/members`, 201, responseData);
+    return HttpResponse.json(responseData, { status: 201 });
+  }),
+
+  // 멤버 역할 변경
+  http.patch(`${baseUrl}/teams/:teamId/members/:memberId/role`, async ({ params, request }) => {
+    const teamId = params.teamId as string;
+    const memberId = Number(params.memberId);
+    const body = (await request.json()) as UpdateMemberRoleRequest;
+    mockLogger.request('PATCH', `/teams/${teamId}/members/${memberId}/role`, body);
+
+    await delay(mockConfig.delays.fast);
+
+    const members = mockMembers[teamId];
+    const member = members?.find((m) => m.memberId === memberId);
+    if (!member) {
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    member.role = body.role;
+    const responseData = { memberId, role: body.role };
+    mockLogger.response('PATCH', `/teams/${teamId}/members/${memberId}/role`, 200, responseData);
+    return HttpResponse.json(responseData);
+  }),
+
+  // 멤버 제거
+  http.delete(`${baseUrl}/teams/:teamId/members/:memberId`, async ({ params }) => {
+    const teamId = params.teamId as string;
+    const memberId = Number(params.memberId);
+    mockLogger.request('DELETE', `/teams/${teamId}/members/${memberId}`);
+
+    await delay(mockConfig.delays.fast);
+
+    const members = mockMembers[teamId];
+    if (!members) {
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    const index = members.findIndex((m) => m.memberId === memberId);
+    if (index === -1) {
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    members.splice(index, 1);
+    mockLogger.response('DELETE', `/teams/${teamId}/members/${memberId}`, 200);
+    return HttpResponse.json({ memberId });
   }),
 ];

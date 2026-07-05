@@ -6,6 +6,13 @@
 export type MemberRoleType = 'ADMIN' | 'COMMON';
 
 /**
+ * 팀 타입 (BE: TeamCertification)
+ * - NONE: 일반 팀 (팀 내부 행사만 생성 가능)
+ * - CERTIFICATED: 공식 팀 (공개 행사 생성 가능)
+ */
+export type TeamType = 'NONE' | 'CERTIFICATED';
+
+/**
  * 팀 정보 (BE: ResponseTeamInfoDto)
  */
 export interface Team {
@@ -37,6 +44,19 @@ export interface TeamMember {
 }
 
 /**
+ * 멤버 관리용 멤버 정보 (BE: MemberResponse)
+ */
+export type MemberStatus = 'INVITE' | 'ACTIVATE';
+
+export interface Member {
+  memberId: number;
+  name: string;
+  email: string;
+  role: MemberRoleType;
+  status: MemberStatus;
+}
+
+/**
  * 팀 생성 요청 (BE: CreateTeamRequest)
  */
 export interface CreateTeamRequest {
@@ -51,6 +71,36 @@ export interface CreateTeamResponse {
 }
 
 /**
+ * 팀 수정 요청 (BE: UpdateTeamRequest — 현재 title만 지원, content/teamType 추가 예정)
+ */
+export interface UpdateTeamRequest {
+  title: string;
+  content?: string;
+  teamType?: TeamType;
+}
+
+/**
+ * 팀 수정 응답 (BE: TeamUpdateInfoResponse)
+ */
+export interface UpdateTeamResponse {
+  title: string;
+}
+
+/**
+ * 멤버 초대 요청 (BE: InviteMemberRequest)
+ */
+export interface InviteMemberRequest {
+  email: string;
+}
+
+/**
+ * 멤버 역할 변경 요청 (BE: UpdateMemberRoleRequest)
+ */
+export interface UpdateMemberRoleRequest {
+  role: MemberRoleType;
+}
+
+/**
  * 팀 상세 정보 (BE: ResponseTeamDetailInfoDto)
  * TODO: inviteLink는 BE에 아직 없음 — 추후 BE 추가 시 연동
  */
@@ -58,6 +108,7 @@ export interface TeamDetail {
   id: number;
   title: string;
   content: string;
+  teamType: TeamType;
   createdAt: string;
   headcount: number;
   inviteLink?: string;
