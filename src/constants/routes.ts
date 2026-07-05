@@ -4,6 +4,8 @@ export const ROUTES = {
   EVENT: {
     ROOT: '/event',
     WITH_ID: (gatheringId: string) => `/event/${gatheringId}`,
+    DETAIL: (gatheringId: string) => `/event/${gatheringId}/detail`,
+    EDIT: (gatheringId: string) => `/event/${gatheringId}/edit`,
   },
   SETTING: '/setting',
   PRIVACY: '/privacy',

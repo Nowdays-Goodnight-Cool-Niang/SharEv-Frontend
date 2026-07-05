@@ -70,6 +70,12 @@ async function getCards(
   return response.data;
 }
 
+// 행사 수정
+async function updateGathering(gatheringId: string, data: Partial<IGathering>) {
+  const response = await gatheringInstance.patch(`/${gatheringId}`, data);
+  return response.data;
+}
+
 // 자기소개 템플릿 조회
 async function getTemplate(gatheringId: string): Promise<TemplateResponse> {
   const response = await gatheringInstance.get<TemplateResponse>(`/${gatheringId}/template`);
@@ -83,6 +89,7 @@ export const gatheringAPI = {
   getMyCard,
   participateInGathering,
   updateMyCard,
+  updateGathering,
   getCardByPin,
   getCards,
   getTemplate,

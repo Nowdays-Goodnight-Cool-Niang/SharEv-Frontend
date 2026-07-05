@@ -26,6 +26,8 @@ import ParticipatedEvents from '@/pages/ParticipatedEvents';
 import ParticipatedTeams from '@/pages/ParticipatedTeams';
 import TeamDetail from '@/pages/TeamDetail';
 import TeamCreate from '@/pages/TeamCreate';
+import EventDetail from '@/pages/EventDetail';
+import EventEdit from '@/pages/EventEdit';
 
 function App() {
   const queryClient = new QueryClient();
@@ -75,6 +77,16 @@ function App() {
     {
       path: '/events',
       element: <Events />,
+      errorElement: <ErrorBoundary />,
+    },
+    {
+      path: '/event/:gatheringId/detail',
+      element: <EventDetail />,
+      errorElement: <ErrorBoundary />,
+    },
+    {
+      path: '/event/:gatheringId/edit',
+      element: <EventEdit />,
       errorElement: <ErrorBoundary />,
     },
     {
