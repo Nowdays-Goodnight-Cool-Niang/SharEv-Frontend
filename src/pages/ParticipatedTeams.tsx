@@ -5,7 +5,7 @@ import TeamHeader from '@/components/team/TeamHeader';
 import TeamList from '@/components/team/TeamList';
 import { useTeams } from '@/hooks/useTeams';
 import { useNavigate } from 'react-router';
-import { showCustomToast } from '@/utils/showToast';
+import { ROUTES } from '@/constants/routes';
 import type { Team } from '@/types/domain/team';
 
 function ParticipatedTeams() {
@@ -13,7 +13,7 @@ function ParticipatedTeams() {
   const { teams, isLoading, error } = useTeams();
 
   const handleCreateTeam = () => {
-    showCustomToast({ message: '팀 생성 기능은 준비 중입니다.' });
+    navigate(ROUTES.TEAM_CREATE);
   };
 
   const handleTeamClick = (team: Team) => {

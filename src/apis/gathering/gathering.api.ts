@@ -15,14 +15,14 @@ export const gatheringInstance = axios.create({
 
 // 모든 행사 목록 조회
 async function getGatherings(): Promise<IGathering[]> {
-  const response = await gatheringInstance.get<IGathering[]>('');
-  return response.data;
+  const response = await gatheringInstance.get<{ content: IGathering[] }>('');
+  return response.data.content;
 }
 
 // 내 참여 행사 목록 조회
 async function getMyGatherings(): Promise<IGathering[]> {
-  const response = await gatheringInstance.get<IGathering[]>('/me');
-  return response.data;
+  const response = await gatheringInstance.get<{ content: IGathering[] }>('/me');
+  return response.data.content;
 }
 
 // 행사 참여 여부 확인
@@ -70,6 +70,12 @@ async function getCards(
   return response.data;
 }
 
+// 행사 수정
+async function updateGathering(gatheringId: string, data: Partial<IGathering>) {
+  const response = await gatheringInstance.patch(`/${gatheringId}`, data);
+  return response.data;
+}
+
 // 자기소개 템플릿 조회
 async function getTemplate(gatheringId: string): Promise<TemplateResponse> {
   const response = await gatheringInstance.get<TemplateResponse>(`/${gatheringId}/template`);
@@ -83,6 +89,7 @@ export const gatheringAPI = {
   getMyCard,
   participateInGathering,
   updateMyCard,
+  updateGathering,
   getCardByPin,
   getCards,
   getTemplate,

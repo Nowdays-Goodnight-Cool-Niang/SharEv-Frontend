@@ -4,6 +4,8 @@ export const ROUTES = {
   EVENT: {
     ROOT: '/event',
     WITH_ID: (gatheringId: string) => `/event/${gatheringId}`,
+    DETAIL: (gatheringId: string) => `/event/${gatheringId}/detail`,
+    EDIT: (gatheringId: string) => `/event/${gatheringId}/edit`,
   },
   SETTING: '/setting',
   PRIVACY: '/privacy',
@@ -13,4 +15,5 @@ export const ROUTES = {
   ACCOUNT_DELETON: '/account-deletion',
   PARTICIPATED_EVENTS: '/participated-events',
   PARTICIPATED_TEAMS: '/participated-teams',
+  TEAM_CREATE: '/teams/create',
 } as const;

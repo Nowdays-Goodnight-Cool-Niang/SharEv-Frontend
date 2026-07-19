@@ -46,6 +46,9 @@ export function getParticipationButtonStyle(status: 'ongoing' | 'upcoming' | 'en
   if (status === 'upcoming') {
     return 'cursor-not-allowed bg-gray-100 text-gray-400 dark:bg-gray-700 dark:text-gray-500';
   }
+  if (status === 'ended') {
+    return 'bg-gray-200 text-gray-500 dark:bg-gray-700 dark:text-gray-400';
+  }
 
   return 'bg-blue-500 text-white hover:bg-blue-400';
 }

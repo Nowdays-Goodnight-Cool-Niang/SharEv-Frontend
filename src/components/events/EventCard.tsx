@@ -20,9 +20,10 @@ import { showCustomToast } from '@/utils/showToast';
 interface EventCardProps {
   gathering: IGathering;
   isParticipating: boolean;
+  hideButton?: boolean;
 }
 
-function EventCard({ gathering, isParticipating }: EventCardProps) {
+function EventCard({ gathering, isParticipating, hideButton = false }: EventCardProps) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutate } = useQueryParticipateInEvent();
@@ -57,8 +58,13 @@ function EventCard({ gathering, isParticipating }: EventCardProps) {
     }
   };
 
+  const handleCardClick = () => {
+    navigate(ROUTES.EVENT.DETAIL(gathering.id));
+  };
+
   return (
     <div className="rounded-3xl bg-white px-4 py-5 dark:bg-gray-800">
+      <div className="cursor-pointer" onClick={handleCardClick}>
       <ul className="mb-4 flex gap-1.5">
         <div
           className={`flex h-8 w-fit flex-col items-center justify-center rounded-lg px-3 text-sm font-medium ${getStatusColor(
@@ -95,24 +101,27 @@ function EventCard({ gathering, isParticipating }: EventCardProps) {
             <span className="line-clamp-1">{gathering.place}</span>
           </div>
         </div>
+      </div>
 
-        <div className="relative">
-          <button
-            onClick={handleEnterEventClick}
-            disabled={isButtonDisabled(eventStatus)}
-            className={`h-14 w-full rounded-2xl px-5 font-medium transition-colors ${getParticipationButtonStyle(
-              eventStatus
-            )}`}
-          >
-            {getParticipationText(eventStatus, isParticipating)}
-          </button>
+        {!hideButton && (
+          <div className="relative">
+            <button
+              onClick={handleEnterEventClick}
+              disabled={isButtonDisabled(eventStatus)}
+              className={`h-14 w-full rounded-2xl px-5 font-medium transition-colors ${getParticipationButtonStyle(
+                eventStatus
+              )}`}
+            >
+              {getParticipationText(eventStatus, isParticipating)}
+            </button>
 
-          {eventStatus === 'ongoing' && !isParticipating && (
-            <div className="absolute -bottom-10 z-10 flex w-full justify-center">
-              <ToolTip>네트워킹을 시작해 볼까요?</ToolTip>
-            </div>
-          )}
-        </div>
+            {eventStatus === 'ongoing' && !isParticipating && (
+              <div className="absolute -bottom-10 z-10 flex w-full justify-center">
+                <ToolTip>네트워킹을 시작해 볼까요?</ToolTip>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

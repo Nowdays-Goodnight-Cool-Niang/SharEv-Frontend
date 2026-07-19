@@ -34,7 +34,9 @@ const agreementItems = [
 function Content({ variant }: IContentProps) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { profile, links, isLoading, patchProfileInfo } = useQueryAccount();
+  const { profile, links, isLoading, patchProfileInfo } = useQueryAccount({
+    enabled: variant === 'edit',
+  });
 
   const [formName, setFormName] = useState('');
   const [formEmail, setFormEmail] = useState('');
@@ -146,7 +148,7 @@ function Content({ variant }: IContentProps) {
           if (variant === 'setup') {
             navigate('/events');
           } else {
-            navigate('/setting');
+            navigate(-1);
             showCustomToast({ message: TOAST_MESSAGE.PROFILE_SAVE_SUCCESS });
           }
         },
