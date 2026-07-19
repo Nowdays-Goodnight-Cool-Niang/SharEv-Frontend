@@ -82,7 +82,10 @@ export const gatheringHandler = [
     mockLogger.request('GET', '/gatherings');
     await delay(mockConfig.delays.fast);
     mockLogger.response('GET', '/gatherings', 200, mockGatherings);
-    return HttpResponse.json(mockGatherings);
+    return HttpResponse.json({
+      content: mockGatherings,
+      page: { size: 20, number: 0, totalElements: mockGatherings.length, totalPages: 1 },
+    });
   }),
 
   // 내 참여 행사 목록 조회
@@ -90,7 +93,15 @@ export const gatheringHandler = [
     mockLogger.request('GET', '/gatherings/me');
     await delay(mockConfig.delays.fast);
     mockLogger.response('GET', '/gatherings/me', 200, myParticipatedGatherings);
-    return HttpResponse.json(myParticipatedGatherings);
+    return HttpResponse.json({
+      content: myParticipatedGatherings,
+      page: {
+        size: 20,
+        number: 0,
+        totalElements: myParticipatedGatherings.length,
+        totalPages: 1,
+      },
+    });
   }),
 
   // 내 카드 조회
