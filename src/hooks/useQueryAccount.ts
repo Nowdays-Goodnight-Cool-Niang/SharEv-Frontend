@@ -2,7 +2,9 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { accountAPI } from '@/apis/accounts';
 import { IAccountApiResponse, IAccount, ILink } from '@/types/domain/account';
 
-export const useQueryAccount = () => {
+export const useQueryAccount = (options?: { enabled?: boolean }) => {
+  const enabled = options?.enabled ?? true;
+
   const {
     data: rawProfile,
     isLoading: isProfileLoading,
@@ -10,6 +12,7 @@ export const useQueryAccount = () => {
   } = useQuery<IAccountApiResponse>({
     queryKey: ['account'],
     queryFn: accountAPI.getProfile,
+    enabled,
   });
 
   const {
@@ -19,6 +22,7 @@ export const useQueryAccount = () => {
   } = useQuery<ILink[]>({
     queryKey: ['accountLinks'],
     queryFn: accountAPI.getLinks,
+    enabled,
   });
 
   const profile =

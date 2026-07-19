@@ -34,7 +34,9 @@ const agreementItems = [
 function Content({ variant }: IContentProps) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { profile, links, isLoading, patchProfileInfo } = useQueryAccount();
+  const { profile, links, isLoading, patchProfileInfo } = useQueryAccount({
+    enabled: variant === 'edit',
+  });
 
   const [formName, setFormName] = useState('');
   const [formEmail, setFormEmail] = useState('');
