@@ -148,7 +148,7 @@ function Content({ variant }: IContentProps) {
           if (variant === 'setup') {
             navigate('/events');
           } else {
-            navigate('/setting');
+            navigate(-1);
             showCustomToast({ message: TOAST_MESSAGE.PROFILE_SAVE_SUCCESS });
           }
         },
