@@ -15,14 +15,14 @@ export const gatheringInstance = axios.create({
 
 // 모든 행사 목록 조회
 async function getGatherings(): Promise<IGathering[]> {
-  const response = await gatheringInstance.get<IGathering[]>('');
-  return response.data;
+  const response = await gatheringInstance.get<{ content: IGathering[] }>('');
+  return response.data.content;
 }
 
 // 내 참여 행사 목록 조회
 async function getMyGatherings(): Promise<IGathering[]> {
-  const response = await gatheringInstance.get<IGathering[]>('/me');
-  return response.data;
+  const response = await gatheringInstance.get<{ content: IGathering[] }>('/me');
+  return response.data.content;
 }
 
 // 행사 참여 여부 확인
