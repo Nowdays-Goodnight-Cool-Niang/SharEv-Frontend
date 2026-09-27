@@ -1,3 +1,4 @@
+import type { ComponentType, SVGProps } from 'react';
 import ExpandableInput from './ExpandableInput';
 import { EventProfileStateType, TemplateContent } from '@/types/domain/event';
 import { EventProfileState } from '@/constants/event';
@@ -30,7 +31,7 @@ function getLinkIcon(url: string) {
 }
 
 const renderLinkButtons = ({ email, linkUrls }: { email?: string; linkUrls: string[] }) => {
-  const items: { key: string; url: string; icon: React.ComponentType<any> }[] = [];
+  const items: { key: string; url: string; icon: ComponentType<SVGProps<SVGSVGElement>> }[] = [];
 
   if (email) {
     items.push({ key: 'email', url: `mailto:${email}`, icon: EmailSvg });

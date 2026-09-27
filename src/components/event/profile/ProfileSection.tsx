@@ -17,7 +17,7 @@ const NOTICE_TEXT = {
 
 function ProfileSection() {
   const [isIdeaModalOpen, setIsIdeaModalOpen] = useState(false);
-  const [_, setIsEditing] = useState(false);
+  const [, setIsEditing] = useState(false);
   const [noticeText, setNoticeText] = useState(NOTICE_TEXT.flip);
   const domRef = useRef<HTMLDivElement>(null);
   const isProfileComplete = useEventProfileStore((state) => state.isProfileComplete);
