@@ -28,7 +28,8 @@ export const useKakaoLogin = () => {
         } else {
           navigate(ROUTES.PROFILE_SETUP, { replace: true });
         }
-      } catch (error) {
+      } catch {
+        // TODO: 인증 장애 추적을 위한 카카오 로그인 오류 Sentry 기록 검토
         showCustomToast({ message: TOAST_MESSAGE.LOGIN_FAILURE });
         navigate(ROUTES.ROOT, { replace: true });
       }

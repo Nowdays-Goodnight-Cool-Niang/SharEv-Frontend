@@ -1,3 +1,5 @@
+import { isAxiosError } from 'axios';
+
 interface IErrorHandlerOptions {
   codeMap?: Record<string, string>; // 에러코드: 메시지
   fallbackMessage: string; // 기본 메시지
@@ -9,11 +11,11 @@ export function withErrorHandler<T>(
   return async (fn) => {
     try {
       return await fn();
-    } catch (error: any) {
-      if (error?.config?._handledByInterceptor) {
+    } catch (error: unknown) {
+      if (isAxiosError(error) && error.config?._handledByInterceptor) {
         throw error;
       }
-      const code = error?.response?.data?.code;
+      const code = isAxiosError<{ code?: string }>(error) ? error.response?.data?.code : undefined;
       const message = (code && options.codeMap?.[code]) || options.fallbackMessage;
 
       console.error(`[API ERROR] ${code ?? 'Unknown'}: ${message}`, error);

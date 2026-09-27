@@ -15,6 +15,7 @@ import SpotlightCard from '../card/SpotlightCard';
 import { showCustomToast } from '@/utils/showToast';
 import { useQueryEventProfile } from '@/hooks/useQueryEventProfile';
 import { IFullEventProfile } from '@/types/domain/event';
+import { isAxiosError } from 'axios';
 
 export default function ShareSection() {
   const { gatheringId } = useParams<{ gatheringId: string }>();
@@ -62,8 +63,10 @@ export default function ShareSection() {
         setShowSpotlightCard(true);
         setPinInput('');
       },
-      onError: (error: any) => {
-        const code = error?.response?.data?.code;
+      onError: (error: unknown) => {
+        const code = isAxiosError<{ code?: string }>(error)
+          ? error.response?.data?.code
+          : undefined;
         if (code === 'CARD_NOT_FOUND') {
           showCustomToast({ message: '핀 번호에 해당하는 참여자가 없어요!' });
         } else if (code === 'CARD_UNCOMPLETED') {

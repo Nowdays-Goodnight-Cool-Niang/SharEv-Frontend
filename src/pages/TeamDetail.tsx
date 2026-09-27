@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
+import { useQuery } from '@tanstack/react-query';
 import ArrowLeftSvg from '@/assets/icons/ic_arrow_left.svg?react';
 import BottomSpace from '@/components/common/BottomSpace';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
@@ -15,6 +16,7 @@ import { useMutateRemoveMember } from '@/hooks/useMutateRemoveMember';
 import { useMutateUpdateMemberRole } from '@/hooks/useMutateUpdateMemberRole';
 import { showCustomToast } from '@/utils/showToast';
 import { ROUTES } from '@/constants/routes';
+import { teamAPI } from '@/apis/teams';
 import type { TeamGathering, MemberRoleType } from '@/types/domain/team';
 
 function TeamDetail() {
@@ -23,6 +25,10 @@ function TeamDetail() {
   const id = teamId ?? '';
 
   const { teamDetail, isLoading, error } = useTeamDetail(id);
+  const { data: teams } = useQuery({
+    queryKey: ['teams'],
+    queryFn: teamAPI.getTeams,
+  });
   const { mutate: updateTeam, isPending: isUpdatePending } = useMutateUpdateTeam(id);
   const { mutate: inviteMember, isPending: isInviting } = useMutateInviteMember(id);
   const { mutate: removeMember } = useMutateRemoveMember(id);
@@ -30,16 +36,14 @@ function TeamDetail() {
 
   const [isEditOpen, setIsEditOpen] = useState(false);
 
-  const isAdmin = teamDetail?.members.some(
-    (m) => m.role === 'ADMIN' && m.email === 'chichoc.dev@gmail.com',
-  );
+  const isAdmin = teams?.find((team) => team.id === Number(id))?.memberRole === 'ADMIN';
 
   const handleParticipate = (gathering: TeamGathering) => {
     showCustomToast({ message: `${gathering.title} 참여하기` });
   };
 
   const handleEditGathering = (gathering: TeamGathering) => {
-    navigate(ROUTES.EVENT.EDIT(gathering.id));
+    navigate(`${ROUTES.EVENT.EDIT(gathering.id)}?teamId=${id}`);
   };
 
   const handleEditSave = (data: { title: string; content: string }) => {
@@ -53,7 +57,7 @@ function TeamDetail() {
         onError: () => {
           showCustomToast({ message: '팀 정보 수정에 실패했습니다.' });
         },
-      },
+      }
     );
   };
 
@@ -64,7 +68,7 @@ function TeamDetail() {
         onSuccess: () => showCustomToast({ message: '초대가 완료되었습니다.' }),
         onError: () =>
           showCustomToast({ message: '초대에 실패했습니다. 이미 초대된 멤버일 수 있습니다.' }),
-      },
+      }
     );
   };
 
@@ -81,7 +85,7 @@ function TeamDetail() {
             message: `${member.name}님의 역할이 ${newRole === 'ADMIN' ? '관리자' : '일반 멤버'}로 변경되었습니다.`,
           }),
         onError: () => showCustomToast({ message: '역할 변경에 실패했습니다.' }),
-      },
+      }
     );
   };
 

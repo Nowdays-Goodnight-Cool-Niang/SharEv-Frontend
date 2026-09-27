@@ -11,6 +11,7 @@ import type {
   UpdateMemberRoleRequest,
   MemberRoleType,
 } from '@/types/domain/team';
+import type { IGathering } from '@/types/domain/event';
 
 export const teamInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/teams`,
@@ -26,6 +27,45 @@ export const teamAPI = {
   getTeamDetail: async (teamId: string): Promise<TeamDetail> => {
     const response = await teamInstance.get<TeamDetail>(`/${teamId}`);
     return response.data;
+  },
+
+  getTeamGatherings: async (teamId: string): Promise<IGathering[]> => {
+    const response = await teamInstance.get<IGathering[]>(`/${teamId}/gatherings`);
+    return response.data;
+  },
+
+  getTeamGathering: async (teamId: string, gatheringId: string): Promise<IGathering> => {
+    const response = await teamInstance.get<IGathering>(`/${teamId}/gatherings/${gatheringId}`);
+    return { ...response.data, teamId: Number(teamId) };
+  },
+
+  updateTeamGathering: async (
+    teamId: string,
+    gatheringId: string,
+    data: Partial<IGathering>
+  ): Promise<IGathering> => {
+    const response = await teamInstance.patch<IGathering>(
+      `/${teamId}/gatherings/${gatheringId}`,
+      data
+    );
+    return response.data;
+  },
+
+  getManagedGatherings: async (adminTeams: Team[]): Promise<IGathering[]> => {
+    const gatheringsByTeam = await Promise.all(
+      adminTeams.map(async (team) => ({
+        team,
+        gatherings: await teamAPI.getTeamGatherings(team.id.toString()),
+      }))
+    );
+
+    return gatheringsByTeam.flatMap(({ team, gatherings }) =>
+      gatherings.map((gathering) => ({
+        ...gathering,
+        teamId: team.id,
+        teamName: team.title,
+      }))
+    );
   },
 
   createTeam: async (data: CreateTeamRequest): Promise<CreateTeamResponse> => {
@@ -45,7 +85,7 @@ export const teamAPI = {
 
   inviteMember: async (
     teamId: string,
-    data: InviteMemberRequest,
+    data: InviteMemberRequest
   ): Promise<{ memberId: number; role: MemberRoleType; status: string }> => {
     const response = await teamInstance.post(`/${teamId}/members`, data);
     return response.data;
@@ -58,7 +98,7 @@ export const teamAPI = {
   updateMemberRole: async (
     teamId: string,
     memberId: number,
-    data: UpdateMemberRoleRequest,
+    data: UpdateMemberRoleRequest
   ): Promise<{ memberId: number; role: MemberRoleType }> => {
     const response = await teamInstance.patch(`/${teamId}/members/${memberId}/role`, data);
     return response.data;

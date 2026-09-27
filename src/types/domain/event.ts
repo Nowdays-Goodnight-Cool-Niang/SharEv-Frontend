@@ -53,6 +53,8 @@ export interface IPaginatedEventProfiles {
 /** BE: GatheringDetailResponse */
 export interface IGathering {
   id: string;
+  teamId?: number;
+  teamName?: string;
   visible: 'PUBLIC' | 'PRIVATE';
   title: string;
   content: string;

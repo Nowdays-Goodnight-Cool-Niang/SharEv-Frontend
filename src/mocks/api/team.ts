@@ -10,6 +10,8 @@ import type {
   InviteMemberRequest,
   UpdateMemberRoleRequest,
 } from '@/types/domain/team';
+import type { IGathering } from '@/types/domain/event';
+import { getRelativeDateTime } from '../utils/date';
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -18,9 +20,21 @@ let nextMemberId = 100;
 
 const mockMembers: Record<string, Member[]> = {
   '1': [
-    { memberId: 1, name: '권나연', email: 'chichoc.dev@gmail.com', role: 'ADMIN', status: 'ACTIVATE' },
+    {
+      memberId: 1,
+      name: '권나연',
+      email: 'chichoc.dev@gmail.com',
+      role: 'ADMIN',
+      status: 'ACTIVATE',
+    },
     { memberId: 2, name: '김개발', email: 'dev@example.com', role: 'COMMON', status: 'ACTIVATE' },
-    { memberId: 3, name: '이디자인', email: 'design@example.com', role: 'COMMON', status: 'ACTIVATE' },
+    {
+      memberId: 3,
+      name: '이디자인',
+      email: 'design@example.com',
+      role: 'COMMON',
+      status: 'ACTIVATE',
+    },
   ],
 };
 
@@ -38,7 +52,7 @@ const mockTeams: Team[] = [
     title: 'Tech Valley Seoul',
     content: '서울의 스타트업과 개발자들을 위한 네트워킹 공간',
     createdAt: '2024-06-10T00:00:00',
-    memberRole: 'COMMON',
+    memberRole: 'ADMIN',
     headcount: 18,
   },
   {
@@ -63,15 +77,15 @@ const mockTeamDetails: Record<string, TeamDetail> = {
       {
         id: 'd8f1e6c3-9a7b-4d4f-b6e1-5c8e3b7d2e0a',
         title: 'CODE:ME - 개발자 퍼스널 브랜딩 with AI',
-        startAt: '2025-08-02T10:00:00',
-        endAt: '2025-10-01T00:00:00',
+        startAt: getRelativeDateTime(-7, 10),
+        endAt: getRelativeDateTime(7, 18),
         place: '구글 스타트업 캠퍼스',
       },
       {
         id: 'e9a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c',
         title: 'AI와 함께하는 스타트업 워크샵',
-        startAt: '2025-09-15T14:00:00',
-        endAt: '2025-09-15T18:00:00',
+        startAt: getRelativeDateTime(30, 14),
+        endAt: getRelativeDateTime(30, 18),
         place: '강남 D2 스타트업 팩토리',
       },
     ],
@@ -92,14 +106,14 @@ const mockTeamDetails: Record<string, TeamDetail> = {
       {
         id: 'f0b1c2d3-e4f5-6a7b-8c9d-0e1f2a3b4c5d',
         title: '스타트업 네트워킹 밋업',
-        startAt: '2025-07-20T19:00:00',
-        endAt: '2025-07-20T21:00:00',
+        startAt: getRelativeDateTime(-30, 19),
+        endAt: getRelativeDateTime(-30, 21),
         place: '위워크 강남점',
       },
     ],
     members: [
       { name: '박대표', email: 'ceo@techvalley.com', role: 'ADMIN' },
-      { name: '권나연', email: 'chichoc.dev@gmail.com', role: 'COMMON' },
+      { name: '권나연', email: 'chichoc.dev@gmail.com', role: 'ADMIN' },
     ],
   },
   '3': {
@@ -191,6 +205,93 @@ export const teamHandler = [
     const responseData = { title: detail.title };
     mockLogger.response('PATCH', `/teams/${teamId}`, 200, responseData);
     return HttpResponse.json(responseData);
+  }),
+
+  // 팀 행사 목록 조회
+  http.get(`${baseUrl}/teams/:teamId/gatherings`, async ({ params }) => {
+    const teamId = params.teamId as string;
+    mockLogger.request('GET', `/teams/${teamId}/gatherings`);
+
+    await delay(mockConfig.delays.fast);
+
+    const team = mockTeamDetails[teamId];
+    if (!team) {
+      mockLogger.response('GET', `/teams/${teamId}/gatherings`, 404);
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    const gatherings: IGathering[] = team.gatherings.map((gathering) => ({
+      ...gathering,
+      visible: 'PRIVATE',
+      content: `${team.title}에서 운영하는 행사입니다.`,
+      registerStartAt: gathering.startAt,
+      registerEndAt: gathering.endAt,
+    }));
+    mockLogger.response('GET', `/teams/${teamId}/gatherings`, 200, gatherings);
+    return HttpResponse.json(gatherings);
+  }),
+
+  // 팀 행사 상세 조회
+  http.get(`${baseUrl}/teams/:teamId/gatherings/:gatheringId`, async ({ params }) => {
+    const teamId = params.teamId as string;
+    const gatheringId = params.gatheringId as string;
+    mockLogger.request('GET', `/teams/${teamId}/gatherings/${gatheringId}`);
+
+    await delay(mockConfig.delays.fast);
+
+    const team = mockTeamDetails[teamId];
+    const gathering = team?.gatherings.find((item) => item.id === gatheringId);
+    if (!team || !gathering) {
+      mockLogger.response('GET', `/teams/${teamId}/gatherings/${gatheringId}`, 404);
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    const response: IGathering = {
+      ...gathering,
+      teamId: team.id,
+      teamName: team.title,
+      visible: 'PRIVATE',
+      content: `${team.title}에서 운영하는 행사입니다.`,
+      registerStartAt: gathering.startAt,
+      registerEndAt: gathering.endAt,
+    };
+    mockLogger.response('GET', `/teams/${teamId}/gatherings/${gatheringId}`, 200, response);
+    return HttpResponse.json(response);
+  }),
+
+  // 팀 행사 수정
+  http.patch(`${baseUrl}/teams/:teamId/gatherings/:gatheringId`, async ({ params, request }) => {
+    const teamId = params.teamId as string;
+    const gatheringId = params.gatheringId as string;
+    const body = (await request.json()) as Partial<IGathering>;
+    mockLogger.request('PATCH', `/teams/${teamId}/gatherings/${gatheringId}`, body);
+
+    await delay(mockConfig.delays.fast);
+
+    const team = mockTeamDetails[teamId];
+    const gathering = team?.gatherings.find((item) => item.id === gatheringId);
+    if (!team || !gathering) {
+      mockLogger.response('PATCH', `/teams/${teamId}/gatherings/${gatheringId}`, 404);
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    if (body.title !== undefined) gathering.title = body.title;
+    if (body.startAt !== undefined) gathering.startAt = body.startAt;
+    if (body.endAt !== undefined) gathering.endAt = body.endAt;
+    if (body.place !== undefined) gathering.place = body.place;
+
+    const response: IGathering = {
+      ...gathering,
+      ...body,
+      teamId: team.id,
+      teamName: team.title,
+      visible: body.visible ?? 'PRIVATE',
+      content: body.content ?? `${team.title}에서 운영하는 행사입니다.`,
+      registerStartAt: body.registerStartAt ?? gathering.startAt,
+      registerEndAt: body.registerEndAt ?? gathering.endAt,
+    };
+    mockLogger.response('PATCH', `/teams/${teamId}/gatherings/${gatheringId}`, 200, response);
+    return HttpResponse.json(response);
   }),
 
   // 팀 상세 조회

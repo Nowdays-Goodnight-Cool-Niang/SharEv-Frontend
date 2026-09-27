@@ -6,6 +6,7 @@ import { IGathering } from '@/types/domain/event';
 import { mockConfig, randomDelay } from '../config';
 import { mockLogger } from '../utils/logger';
 import { getScenarioResponse } from '../utils/scenarios';
+import { getRelativeDateTime } from '../utils/date';
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -15,33 +16,33 @@ const mockGatherings: IGathering[] = [
     visible: 'PUBLIC',
     title: 'CODE:ME - 개발자 퍼스널 브랜딩 with AI',
     content: 'GDG Campus Korea 주최 개발자 네트워킹 행사',
-    startAt: '2025-08-02T10:00:00',
-    endAt: '2026-08-02T18:00:00',
+    startAt: getRelativeDateTime(-7, 10),
+    endAt: getRelativeDateTime(7, 18),
     place: '구글 스타트업 캠퍼스',
-    registerStartAt: '2025-07-01T00:00:00',
-    registerEndAt: '2025-08-01T23:59:59',
+    registerStartAt: getRelativeDateTime(-30, 0),
+    registerEndAt: getRelativeDateTime(-8, 23),
   },
   {
     id: 'a3b2c1d0-e5f6-4a3b-8c7d-9e0f1a2b3c4d',
     visible: 'PUBLIC',
     title: 'FEConf 2025 - 프론트엔드 개발 컨퍼런스',
     content: '국내 최대 프론트엔드 컨퍼런스. React, Vue, Svelte 등 최신 트렌드 공유',
-    startAt: '2025-10-25T09:00:00',
-    endAt: '2025-10-25T18:00:00',
+    startAt: getRelativeDateTime(30, 9),
+    endAt: getRelativeDateTime(30, 18),
     place: '코엑스 그랜드볼룸',
-    registerStartAt: '2025-09-01T00:00:00',
-    registerEndAt: '2025-10-24T23:59:59',
+    registerStartAt: getRelativeDateTime(-14, 0),
+    registerEndAt: getRelativeDateTime(29, 23),
   },
   {
     id: 'b4c3d2e1-f6a7-5b4c-9d8e-0f1a2b3c4d5e',
     visible: 'PUBLIC',
     title: 'AI x Design Sprint Meetup',
     content: 'AI 도구를 활용한 디자인 스프린트 실습 및 네트워킹',
-    startAt: '2026-03-15T13:00:00',
-    endAt: '2026-03-15T19:00:00',
+    startAt: getRelativeDateTime(-30, 13),
+    endAt: getRelativeDateTime(-30, 19),
     place: '위워크 삼성역점 이벤트홀',
-    registerStartAt: '2026-02-15T00:00:00',
-    registerEndAt: '2026-03-14T23:59:59',
+    registerStartAt: getRelativeDateTime(-60, 0),
+    registerEndAt: getRelativeDateTime(-31, 23),
   },
 ];
 
@@ -53,22 +54,22 @@ const myParticipatedGatherings: IGathering[] = [
     visible: 'PUBLIC',
     title: 'Junction Asia 2025 Hackathon',
     content: '48시간 해커톤! 아시아 최대 규모 해커톤에서 글로벌 팀과 협업하세요',
-    startAt: '2025-08-15T18:00:00',
-    endAt: '2025-08-17T18:00:00',
+    startAt: getRelativeDateTime(-90, 18),
+    endAt: getRelativeDateTime(-88, 18),
     place: '동대문 디자인 플라자(DDP)',
-    registerStartAt: '2025-06-01T00:00:00',
-    registerEndAt: '2025-08-14T23:59:59',
+    registerStartAt: getRelativeDateTime(-120, 0),
+    registerEndAt: getRelativeDateTime(-91, 23),
   },
   {
     id: 'd6e5f4a3-b9c0-7d6e-1f0a-2b3c4d5e6f7a',
     visible: 'PUBLIC',
     title: 'if(kakao)dev 2025',
     content: '카카오 개발자 컨퍼런스. 카카오 서비스의 기술과 개발 문화를 공유합니다',
-    startAt: '2025-09-10T10:00:00',
-    endAt: '2025-09-11T17:00:00',
+    startAt: getRelativeDateTime(-60, 10),
+    endAt: getRelativeDateTime(-59, 17),
     place: '잠실 롯데호텔 크리스탈볼룸',
-    registerStartAt: '2025-08-01T00:00:00',
-    registerEndAt: '2025-09-09T23:59:59',
+    registerStartAt: getRelativeDateTime(-90, 0),
+    registerEndAt: getRelativeDateTime(-61, 23),
   },
 ];
 
