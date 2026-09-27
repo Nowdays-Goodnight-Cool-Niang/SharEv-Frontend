@@ -40,12 +40,14 @@ function MySection() {
 
   const eventButtons = [
     {
-      title: '참여 행사',
+      title: '내 행사',
+      description: '참여하거나 관리하는 행사',
       onClick: handleParticipatedEvents,
       icon: CardSvg,
     },
     {
       title: '참여 팀',
+      description: '내가 속한 팀',
       onClick: handleParticipatedTeams,
       icon: UsersSvg,
     },
@@ -54,11 +56,13 @@ function MySection() {
   const accountButtons = [
     {
       title: '로그아웃',
+      description: undefined,
       onClick: () => performLogout(),
       icon: LogOutSvg,
     },
     {
       title: '탈퇴하기',
+      description: undefined,
       onClick: handleAccountDeletion,
       icon: UserMinusSvg,
     },
@@ -89,7 +93,14 @@ function MySection() {
                       <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-100 bg-gray-50 transition-colors">
                         <IconComponent width={20} height={20} className={'text-gray-600'} />
                       </div>
-                      <span className={`tracking-tight text-gray-600`}>{button.title}</span>
+                      <div className="flex flex-col items-start">
+                        <span className="tracking-tight text-gray-600">{button.title}</span>
+                        {button.description && (
+                          <span className="text-xs tracking-tight text-gray-400">
+                            {button.description}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </button>
                 );

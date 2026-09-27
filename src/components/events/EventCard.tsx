@@ -21,9 +21,15 @@ interface EventCardProps {
   gathering: IGathering;
   isParticipating: boolean;
   hideButton?: boolean;
+  mode?: 'participate' | 'manage';
 }
 
-function EventCard({ gathering, isParticipating, hideButton = false }: EventCardProps) {
+function EventCard({
+  gathering,
+  isParticipating,
+  hideButton = false,
+  mode = 'participate',
+}: EventCardProps) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutate } = useQueryParticipateInEvent();
@@ -62,65 +68,89 @@ function EventCard({ gathering, isParticipating, hideButton = false }: EventCard
     navigate(ROUTES.EVENT.DETAIL(gathering.id));
   };
 
+  const handleEditClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    navigate(ROUTES.EVENT.EDIT(gathering.id));
+  };
+
   return (
     <div className="rounded-3xl bg-white px-4 py-5 dark:bg-gray-800">
       <div className="cursor-pointer" onClick={handleCardClick}>
-      <ul className="mb-4 flex gap-1.5">
-        <div
-          className={`flex h-8 w-fit flex-col items-center justify-center rounded-lg px-3 text-sm font-medium ${getStatusColor(
-            eventStatus
-          )}`}
-        >
-          {getStatusText(eventStatus)}
-        </div>
-        <div
-          className={`flex h-8 w-fit flex-col items-center justify-center rounded-lg ${isParticipating ? 'bg-blue-50 text-blue-500 dark:bg-blue-400/10 dark:text-blue-300' : 'bg-gray-100 text-gray-400 dark:bg-gray-700 dark:text-gray-500'} px-3 text-sm font-medium`}
-        >
-          {isParticipating ? '참여' : '미참여'}
-        </div>
-      </ul>
-
-      <div>
-        <div className="mb-4">
-          <h3 className="line-clamp-2 text-lg font-medium leading-7 tracking-tight text-gray-900 dark:text-white">
-            {gathering.title}
-          </h3>
-          <p className="line-clamp-1 text-sm leading-6 tracking-tight text-gray-500 dark:text-gray-400">
-            {gathering.content}
-          </p>
-        </div>
-
-        <div className="mb-6 space-y-2.5 rounded-xl bg-gray-50 px-5 py-4 dark:bg-gray-700">
-          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-300">
-            <ClockSvg className="shrink-0" width={16} height={16} />
-            <div className="line-clamp-1">{`${formatKoreanDate(startDate)} ~ ${formatKoreanDate(endDate)}`}</div>
-          </div>
-          <hr className="border-gray-100 dark:border-gray-600" />
-          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-300">
-            <LocationSvg className="shrink-0" width={16} height={16} />
-            <span className="line-clamp-1">{gathering.place}</span>
-          </div>
-        </div>
-      </div>
-
-        {!hideButton && (
-          <div className="relative">
-            <button
-              onClick={handleEnterEventClick}
-              disabled={isButtonDisabled(eventStatus)}
-              className={`h-14 w-full rounded-2xl px-5 font-medium transition-colors ${getParticipationButtonStyle(
-                eventStatus
-              )}`}
+        <ul className="mb-4 flex flex-wrap gap-1.5">
+          {mode === 'manage' && gathering.teamName && (
+            <li className="flex h-8 items-center gap-1.5 rounded-lg bg-gray-100 px-3 text-sm font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+              <span className="h-2 w-2 rounded-full bg-blue-400" />
+              {gathering.teamName}
+            </li>
+          )}
+          <li
+            className={`flex h-8 w-fit flex-col items-center justify-center rounded-lg px-3 text-sm font-medium ${getStatusColor(
+              eventStatus
+            )}`}
+          >
+            {getStatusText(eventStatus)}
+          </li>
+          {mode === 'participate' && (
+            <li
+              className={`flex h-8 w-fit flex-col items-center justify-center rounded-lg ${isParticipating ? 'bg-blue-50 text-blue-500 dark:bg-blue-400/10 dark:text-blue-300' : 'bg-gray-100 text-gray-400 dark:bg-gray-700 dark:text-gray-500'} px-3 text-sm font-medium`}
             >
-              {getParticipationText(eventStatus, isParticipating)}
-            </button>
+              {isParticipating ? '참여' : '미참여'}
+            </li>
+          )}
+        </ul>
 
-            {eventStatus === 'ongoing' && !isParticipating && (
-              <div className="absolute -bottom-10 z-10 flex w-full justify-center">
-                <ToolTip>네트워킹을 시작해 볼까요?</ToolTip>
-              </div>
+        <div>
+          <div className="mb-4">
+            <h3 className="line-clamp-2 text-lg font-medium leading-7 tracking-tight text-gray-900 dark:text-white">
+              {gathering.title}
+            </h3>
+            {gathering.content && (
+              <p className="line-clamp-1 text-sm leading-6 tracking-tight text-gray-500 dark:text-gray-400">
+                {gathering.content}
+              </p>
             )}
           </div>
+
+          <div className="mb-6 space-y-2.5 rounded-xl bg-gray-50 px-5 py-4 dark:bg-gray-700">
+            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-300">
+              <ClockSvg className="shrink-0" width={16} height={16} />
+              <div className="line-clamp-1">{`${formatKoreanDate(startDate)} ~ ${formatKoreanDate(endDate)}`}</div>
+            </div>
+            <hr className="border-gray-100 dark:border-gray-600" />
+            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-300">
+              <LocationSvg className="shrink-0" width={16} height={16} />
+              <span className="line-clamp-1">{gathering.place}</span>
+            </div>
+          </div>
+        </div>
+
+        {mode === 'manage' ? (
+          <button
+            onClick={handleEditClick}
+            className="flex h-14 w-full items-center justify-center rounded-2xl border border-gray-200 bg-white px-5 font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+          >
+            행사 수정
+          </button>
+        ) : (
+          !hideButton && (
+            <div className="relative">
+              <button
+                onClick={handleEnterEventClick}
+                disabled={isButtonDisabled(eventStatus)}
+                className={`h-14 w-full rounded-2xl px-5 font-medium transition-colors ${getParticipationButtonStyle(
+                  eventStatus
+                )}`}
+              >
+                {getParticipationText(eventStatus, isParticipating)}
+              </button>
+
+              {eventStatus === 'ongoing' && !isParticipating && (
+                <div className="absolute -bottom-10 z-10 flex w-full justify-center">
+                  <ToolTip>네트워킹을 시작해 볼까요?</ToolTip>
+                </div>
+              )}
+            </div>
+          )
         )}
       </div>
     </div>
