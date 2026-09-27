@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useMemo } from 'react';
+import { useNavigate, useSearchParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import Header from '@/components/common/Header';
 import BottomSpace from '@/components/common/BottomSpace';
@@ -29,8 +29,28 @@ function sortGatherings(gatherings: IGathering[]) {
 function ParticipatedEvents() {
   useScrollToTop();
   const navigate = useNavigate();
-  const [view, setView] = useState<EventView>('participated');
-  const [teamId, setTeamId] = useState<number | 'all'>('all');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const view: EventView = searchParams.get('view') === 'managed' ? 'managed' : 'participated';
+  const teamIdValue = searchParams.get('teamId');
+  const teamIdParam = teamIdValue ? Number(teamIdValue) : NaN;
+  const teamId: number | 'all' = Number.isInteger(teamIdParam) ? teamIdParam : 'all';
+
+  const selectView = (nextView: EventView) => {
+    const nextParams = new URLSearchParams(searchParams);
+    if (nextView === 'managed') nextParams.set('view', 'managed');
+    else {
+      nextParams.delete('view');
+      nextParams.delete('teamId');
+    }
+    setSearchParams(nextParams, { replace: true });
+  };
+
+  const selectTeam = (nextTeamId: number | 'all') => {
+    const nextParams = new URLSearchParams(searchParams);
+    if (nextTeamId === 'all') nextParams.delete('teamId');
+    else nextParams.set('teamId', String(nextTeamId));
+    setSearchParams(nextParams, { replace: true });
+  };
 
   const participatedQuery = useQuery<IGathering[]>({
     queryKey: ['gatherings', 'me'],
@@ -90,7 +110,7 @@ function ParticipatedEvents() {
           ).map(([key, label]) => (
             <button
               key={key}
-              onClick={() => setView(key)}
+              onClick={() => selectView(key)}
               className={`h-10 flex-1 rounded-full text-sm font-medium transition-colors ${
                 view === key
                   ? 'bg-white text-gray-700 shadow-sm dark:bg-gray-700 dark:text-gray-100'
@@ -109,7 +129,7 @@ function ParticipatedEvents() {
             label="전체"
             count={managed.length}
             selected={teamId === 'all'}
-            onClick={() => setTeamId('all')}
+            onClick={() => selectTeam('all')}
           />
           {teams.map((team) => (
             <TeamFilterChip
@@ -117,7 +137,7 @@ function ParticipatedEvents() {
               label={team.name}
               count={managed.filter((gathering) => gathering.teamId === team.id).length}
               selected={teamId === team.id}
-              onClick={() => setTeamId(team.id)}
+              onClick={() => selectTeam(team.id)}
             />
           ))}
         </div>

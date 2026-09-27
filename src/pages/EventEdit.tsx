@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router';
+import { useParams, useNavigate, useSearchParams } from 'react-router';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Header from '@/components/common/Header';
 import BottomSpace from '@/components/common/BottomSpace';
 import ClockSvg from '@/assets/icons/ic_clock.svg?react';
 import LocationSvg from '@/assets/icons/ic_location.svg?react';
-import { gatheringAPI } from '@/apis/gathering/gathering.api';
+import { teamAPI } from '@/apis/teams';
 import { IGathering } from '@/types/domain/event';
 import { showCustomToast } from '@/utils/showToast';
 import useScrollToTop from '@/hooks/useScrollToTop';
@@ -20,23 +20,17 @@ function EventEdit() {
   useScrollToTop();
   const { gatheringId } = useParams<{ gatheringId: string }>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
+  const teamId = searchParams.get('teamId');
 
-  const { data: gatherings } = useQuery<IGathering[]>({
-    queryKey: ['gatherings'],
-    queryFn: gatheringAPI.getGatherings,
+  const gatheringQuery = useQuery<IGathering>({
+    queryKey: ['teams', teamId, 'gatherings', gatheringId],
+    queryFn: () => teamAPI.getTeamGathering(teamId!, gatheringId!),
+    enabled: Boolean(teamId && gatheringId),
     staleTime: 1000 * 60 * 5,
   });
-
-  const { data: myGatherings } = useQuery<IGathering[]>({
-    queryKey: ['gatherings', 'me'],
-    queryFn: gatheringAPI.getMyGatherings,
-    staleTime: 1000 * 60 * 5,
-  });
-
-  const gathering =
-    gatherings?.find((g) => g.id === gatheringId) ??
-    myGatherings?.find((g) => g.id === gatheringId);
+  const gathering = gatheringQuery.data;
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -63,9 +57,10 @@ function EventEdit() {
 
   const { mutate: updateGathering, isPending } = useMutation({
     mutationFn: (data: Partial<IGathering>) =>
-      gatheringAPI.updateGathering(gatheringId!, data),
+      teamAPI.updateTeamGathering(teamId!, gatheringId!, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['gatherings'] });
+      queryClient.invalidateQueries({ queryKey: ['teams', teamId, 'gatherings'] });
+      queryClient.invalidateQueries({ queryKey: ['gatherings', 'managed'] });
       showCustomToast({ message: '행사가 수정되었습니다.' });
       navigate(-1);
     },
@@ -98,7 +93,29 @@ function EventEdit() {
     showCustomToast({ message: '행사 삭제 기능은 준비 중입니다.' });
   };
 
-  if (!gathering) {
+  if (!teamId || !gatheringId || gatheringQuery.isError) {
+    return (
+      <div className="background flex min-h-full flex-col bg-gray-50 dark:bg-gray-950">
+        <Header title="행사 수정" showBackButton />
+        <div className="wrapper flex flex-1 flex-col items-center justify-center gap-4 text-center">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            {!teamId ? '행사를 관리하는 팀 정보가 필요해요' : '행사 정보를 불러오지 못했어요'}
+          </p>
+          {teamId && (
+            <button
+              type="button"
+              onClick={() => gatheringQuery.refetch()}
+              className="rounded-xl border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+            >
+              다시 시도
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (gatheringQuery.isLoading || !gathering) {
     return (
       <div className="background flex min-h-full flex-col bg-gray-50 dark:bg-gray-950">
         <Header title="행사 수정" showBackButton />

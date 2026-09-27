@@ -70,7 +70,8 @@ function EventCard({
 
   const handleEditClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
-    navigate(ROUTES.EVENT.EDIT(gathering.id));
+    const teamQuery = gathering.teamId ? `?teamId=${gathering.teamId}` : '';
+    navigate(`${ROUTES.EVENT.EDIT(gathering.id)}${teamQuery}`);
   };
 
   return (

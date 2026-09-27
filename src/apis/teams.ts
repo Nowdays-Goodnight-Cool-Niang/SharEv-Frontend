@@ -34,6 +34,23 @@ export const teamAPI = {
     return response.data;
   },
 
+  getTeamGathering: async (teamId: string, gatheringId: string): Promise<IGathering> => {
+    const response = await teamInstance.get<IGathering>(`/${teamId}/gatherings/${gatheringId}`);
+    return { ...response.data, teamId: Number(teamId) };
+  },
+
+  updateTeamGathering: async (
+    teamId: string,
+    gatheringId: string,
+    data: Partial<IGathering>
+  ): Promise<IGathering> => {
+    const response = await teamInstance.patch<IGathering>(
+      `/${teamId}/gatherings/${gatheringId}`,
+      data
+    );
+    return response.data;
+  },
+
   getManagedGatherings: async (adminTeams: Team[]): Promise<IGathering[]> => {
     const gatheringsByTeam = await Promise.all(
       adminTeams.map(async (team) => ({

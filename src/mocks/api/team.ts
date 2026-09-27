@@ -231,6 +231,69 @@ export const teamHandler = [
     return HttpResponse.json(gatherings);
   }),
 
+  // 팀 행사 상세 조회
+  http.get(`${baseUrl}/teams/:teamId/gatherings/:gatheringId`, async ({ params }) => {
+    const teamId = params.teamId as string;
+    const gatheringId = params.gatheringId as string;
+    mockLogger.request('GET', `/teams/${teamId}/gatherings/${gatheringId}`);
+
+    await delay(mockConfig.delays.fast);
+
+    const team = mockTeamDetails[teamId];
+    const gathering = team?.gatherings.find((item) => item.id === gatheringId);
+    if (!team || !gathering) {
+      mockLogger.response('GET', `/teams/${teamId}/gatherings/${gatheringId}`, 404);
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    const response: IGathering = {
+      ...gathering,
+      teamId: team.id,
+      teamName: team.title,
+      visible: 'PRIVATE',
+      content: `${team.title}에서 운영하는 행사입니다.`,
+      registerStartAt: gathering.startAt,
+      registerEndAt: gathering.endAt,
+    };
+    mockLogger.response('GET', `/teams/${teamId}/gatherings/${gatheringId}`, 200, response);
+    return HttpResponse.json(response);
+  }),
+
+  // 팀 행사 수정
+  http.patch(`${baseUrl}/teams/:teamId/gatherings/:gatheringId`, async ({ params, request }) => {
+    const teamId = params.teamId as string;
+    const gatheringId = params.gatheringId as string;
+    const body = (await request.json()) as Partial<IGathering>;
+    mockLogger.request('PATCH', `/teams/${teamId}/gatherings/${gatheringId}`, body);
+
+    await delay(mockConfig.delays.fast);
+
+    const team = mockTeamDetails[teamId];
+    const gathering = team?.gatherings.find((item) => item.id === gatheringId);
+    if (!team || !gathering) {
+      mockLogger.response('PATCH', `/teams/${teamId}/gatherings/${gatheringId}`, 404);
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    if (body.title !== undefined) gathering.title = body.title;
+    if (body.startAt !== undefined) gathering.startAt = body.startAt;
+    if (body.endAt !== undefined) gathering.endAt = body.endAt;
+    if (body.place !== undefined) gathering.place = body.place;
+
+    const response: IGathering = {
+      ...gathering,
+      ...body,
+      teamId: team.id,
+      teamName: team.title,
+      visible: body.visible ?? 'PRIVATE',
+      content: body.content ?? `${team.title}에서 운영하는 행사입니다.`,
+      registerStartAt: body.registerStartAt ?? gathering.startAt,
+      registerEndAt: body.registerEndAt ?? gathering.endAt,
+    };
+    mockLogger.response('PATCH', `/teams/${teamId}/gatherings/${gatheringId}`, 200, response);
+    return HttpResponse.json(response);
+  }),
+
   // 팀 상세 조회
   http.get(`${baseUrl}/teams/:teamId`, async ({ params }) => {
     const teamId = params.teamId as string;
